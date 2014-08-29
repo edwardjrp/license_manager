@@ -1,0 +1,83 @@
+/*Pricing Option 1*/
+.titleslide {
+    color: #FFD54A;
+    font-style: italic;
+    font-weight: bold;
+    /*text-decoration: none; */
+}
+.mainlogo {
+    margin-top: -11px;
+}
+.qty {
+    font-size: 47px;
+    color: #1189D9;
+    margin-top: 16px;
+}
+.qtysm {
+    font-size: 32px;
+    color: #1189D9;
+    margin-top: 16px;
+}
+
+.qtysm2 {
+    font-size: 32px;
+    color: #DBA800;
+    margin-top: 16px;
+}
+
+.packtitle {
+    color: #535353;
+    font-weight: normal;
+    font-style: italic;
+    font-size: 28px;
+    /*margin: 0 0 5px 0;*/
+    line-height: 25px;
+}
+
+.packtitlefit {
+    color: #535353;
+    font-weight: normal;
+    font-style: italic;
+    font-size: 28px;
+    margin: 0 0 5px 0;
+    line-height: 25px;
+}
+
+.packtitlesm {
+    color: #535353;
+    font-weight: normal;
+    font-style: italic;
+    font-size: 15px;
+    margin: 0 0 5px 0;
+    line-height: 25px;
+}
+
+.validuntil {
+    color: #9F9F9F;
+    display: block;
+    margin-bottom: 12px;
+    font-style: italic;
+    font-size: 13px;
+}
+
+/*Valid only for popup slideshow in maps */
+	.popme .slideshow .image {
+	    display: none;
+	}
+
+	.popme .slideshow .active {
+	    display: block;
+	}
+
+	.popme .cycle {
+	    height: 30px;
+	    margin-top: 5px;
+	    padding-top: 5px;
+	}
+
+	.popme .cycle a.prev {
+	    float: left;
+	}
+	.popme .cycle a.next {
+	    float: right;
+	}

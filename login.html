@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<!-- meta_head -->
+		{meta_head}
+	</head>
+	<body>
+		<!-- header -->
+		{header_login}
+
+		<div class="main-container" id="main-container">
+			<script type="text/javascript">
+				try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+			</script>
+
+			<div class="main-container-inner">
+				<a class="menu-toggler" id="menu-toggler" href="#">
+					<span class="menu-text"></span>
+				</a>
+
+				<!-- sidebar -->
+				{sidebar_login}
+
+				<div class="main-content">
+					<div class="page-content">
+						<div class="row">
+							<div class="col-xs-12">
+								<!-- PAGE CONTENT BEGINS -->
+								
+<!-- BEGIN Record Login -->
+<form id="login" method="post" action="{Action}" name="{HTMLFormName}">
+						<div class="login-container">
+							<a href="login.php">
+								<div class="center">
+									<!-- <h1><img class="img-responsive" src="assets/tap_logov2.png"/></h1> -->
+								</div>
+							</a>
+							<div class="position-relative login-layout">
+								<div id="login-box" class="login-box visible widget-box no-border">
+									<div class="widget-body">
+										<div class="widget-main">
+											<h4 class="header blue lighter bigger">
+												<i class="icon-desktop green"></i>
+												{res:logintitle}
+											</h4>
+
+											<div class="space-6"></div>
+
+												<fieldset>
+													<label class="block clearfix">
+														<span class="block input-icon input-icon-right">
+															<input type="text" class="form-control" placeholder="{res:username}" name="{login_Name}" value="{login}" maxlength="100" id="Loginlogin">
+															<i class="icon-user"></i>
+														</span>
+													</label>
+
+													<label class="block clearfix">
+														<span class="block input-icon input-icon-right">
+															<input type="password" class="form-control" placeholder="{res:password}" name="{password_Name}" value="{password}" maxlength="100" id="Loginpassword">
+															<i class="icon-lock"></i>
+														</span>
+													</label>
+
+													<div class="space"></div>
+
+													<div class="clearfix">
+														<!-- BEGIN Button Button_DoLogin --><button name="{Button_Name}" type="submit" class="width-35 pull-right btn btn-sm btn-success" value="{res:CCS_LoginBtn}" id="LoginButton_DoLogin"><i class="icon-key"></i> {res:CCS_Login}</button><!-- END Button Button_DoLogin -->
+													</div>
+
+													<div class="space-4"></div>
+												</fieldset>
+
+
+											<div class="social-or-login center">
+												<span class="bigger-110">{res:loginmessages}</span>
+											</div>
+										    <!-- BEGIN Error -->
+												<div class="social-login center">
+													<div class="alert alert-danger">
+														<button type="button" class="close" data-dismiss="alert">
+															<i class="icon-remove"></i>
+														</button>
+														{Error}
+													</div>
+												</div>
+										 	<!-- END Error -->
+
+										</div><!-- /widget-main -->
+
+										<div class="toolbar clearfix center">										
+											<h4>&copy; ADEXUS</h4>
+											<!-- will be implemented later
+											<div>
+												<a href="#" onclick="show_box('forgot-box'); return false;" class="forgot-password-link">
+													<i class="icon-arrow-left"></i>
+													I forgot my password
+												</a>
+											</div>
+
+											<div>
+												<a href="#" onclick="show_box('signup-box'); return false;" class="user-signup-link">
+													I want to register
+													<i class="icon-arrow-right"></i>
+												</a>
+											</div>
+											-->
+										</div>
+
+									</div><!-- /widget-body -->
+								</div><!-- /login-box -->
+							</div> <!-- position-relative -->
+						</div> <!-- login-container -->
+
+</form>
+<!-- END Record Login -->
+
+								<!-- PAGE CONTENT ENDS -->
+							</div><!-- /.col -->
+						</div><!-- /.row -->
+					</div><!-- /.page-content -->
+				</div><!-- /.main-content -->
+				
+				<!-- ace_settings -->
+				
+			</div><!-- /.main-container-inner -->
+
+		</div><!-- /.main-container -->
+
+		<!-- footer -->
+		{footer}
+
+		<script>
+			$(function(){
+				$("#Loginlogin").focus();				
+			});
+		</script>
+	</body>
+</html>

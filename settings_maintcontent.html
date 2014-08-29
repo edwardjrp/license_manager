@@ -1,0 +1,86 @@
+<div class="widget-box">
+	<div class="widget-header">
+		<h4>Add / Edit Setting</h4>
+ 
+	</div>
+ 
+	<div class="widget-body">
+		<div class="row widget-main">
+			<div class="col-md-2">
+			</div>
+ 
+			<div class="col-md-8">
+				<fieldset>
+				<div class="alert alert-block alert-warning">
+					<button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button>
+					<strong><li class="icon-remove"></li></strong>
+					<strong>Warning! </strong> Change this parameters if you really know what you are doing. 
+				</div>
+
+<!-- BEGIN Record options -->
+<form id="settings_maintcontentoptions" method="post" action="{Action}" name="{HTMLFormName}"> 
+	<table>
+		<!-- BEGIN Error -->
+		<tr>
+			<td colspan="2">
+				<div class="alert alert-block alert-danger">
+					<button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button>
+					<strong><li class="icon-remove"></li></strong>&nbsp;{Error}
+				</div>
+			</td>
+		</tr>
+		<!-- END Error -->
+		<tr>
+			<th class="blue">Parameter</th>
+			<td><input type="text" name="{variable_Name}" value="{variable}" maxlength="100" size="50" id="settings_maintvariable" data-validation="required" data-validation-error-msg="Invalid Parameter"></td>
+		</tr>
+		<tr>
+			<th class="blue">Value</th>
+			<td><input type="text" name="{value_Name}" value="{value}" size="50" id="settings_maintvalue" data-validation="required" data-validation-error-msg="Invalid Value"></td>
+		</tr>
+		<tr>
+			<th class="blue">Style</th>
+			<td><input type="text" name="{style_Name}" value="{style}" maxlength="100" size="50" id="settings_maintcontentoptionsstyle"></td>
+		</tr>
+		<tr>
+			<td></td>
+		</tr>
+	</table>
+
+	<!-- row -->
+	<div class="row widget-main">
+		<div class="col-md-12">
+			<div class="form-actions center">
+				<a href="settings.php{lbgoback}" id="goback" class="btn btn-sm btn-success {page:btn_disabled}" role="button"><li class="icon-arrow-left"></li>&nbsp;{res:buttongoback}</a>&nbsp;&nbsp; 
+
+
+				<!-- BEGIN Button Button_Insert --><button name="{Button_Name}" type="submit" value="SAVE" id="settings_maintcontentoptionsButton_Insert" class="btn btn-sm btn-success"><li class="icon-save"></li>&nbsp;{res:buttonsave}</button><!-- END Button Button_Insert -->
+				<!-- BEGIN Button Button_Update --><button name="{Button_Name}" type="submit" value="SAVE" id="settings_maintcontentoptionsButton_Update" class="btn btn-sm btn-success"><li class="icon-save"></li>&nbsp;{res:buttonsave}</button><!-- END Button Button_Update -->
+				
+				<input type="hidden" name="{hidguid_Name}" value="{hidguid}" id="settings_maintcontentoptionshidguid">
+				<input type="hidden" name="{modified_iduser_Name}" value="{modified_iduser}" id="settings_maintcontentoptionsmodified_iduser">
+				<input type="hidden" name="{created_iduser_Name}" value="{created_iduser}" id="settings_maintcontentoptionscreated_iduser">
+
+				<!-- form-actions  -->
+			</div>
+ 
+			<!-- col -->
+		</div>
+ 
+		<!-- row -->
+	</div>
+
+</form>
+<!-- END Record options --><br>
+				</fieldset> 
+				<!-- col -->
+			</div>
+ 
+			<!-- row -->
+		</div>
+ 
+		<!-- widget-body -->
+	</div>
+ 
+	<!-- widget-box -->
+</div>

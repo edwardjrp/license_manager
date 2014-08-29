@@ -1,0 +1,144 @@
+<div class="widget-box">
+	<div class="widget-header">
+		<h4>Add User Photos</h4>
+		<!-- widget-header -->
+	</div>
+ 
+	<div class="widget-body">
+		<div class="row widget-main">
+			<div class="col-md-6">
+				<fieldset>
+				<form action="users_photos.php" class="dropzone" name="dropzone">
+					<input type="hidden" id="user_guid" name="hidguid" value="{lbguid}" />
+					<div class="fallback">
+						<input type="file" id="photoupload" multiple />
+					</div>
+				</form>
+				</fieldset> <a href="users.php{lbgoback_links}" id="goback" class="btn btn-sm btn-success" role="button">
+				<li class="icon-arrow-left">&nbsp;GO BACK</li>
+				</a>&nbsp;&nbsp;<a href="users_photos.php{lbrefresh_links}" id="refresh" class="btn btn-sm btn-success" role="button">
+				<li class="icon-refresh">&nbsp;REFRESH</li>
+				</a>&nbsp;&nbsp;
+			</div>
+			<!-- col -->
+			<div class="col-md-6">
+				<label class="blue bigger-160">{lbuser_title} Photos</label>
+				<hr>
+				<ul class="ace-thumbnails">
+					<!-- BEGIN user_images -->
+					<li>
+						<a href="{user_photo}" class="cboxElement" title="{user_photo_title}"><img src="{user_photo}" style="width:150px;height:150px" class="img-rounded img-responsive" /></a>
+					</li>
+					<!-- END user_images -->
+				</ul>
+			</div>
+		</div>
+		<!-- row -->
+	</div>
+	<!-- widget-body -->
+</div>
+<!-- widget-box -->
+<link rel="stylesheet" href="assets/css/colorbox.css" />
+<link rel="stylesheet" href="assets/css/dropzone.css" />
+<!-- included here to not mess with too much js in the main page -->
+<script src="assets/js/jquery-2.0.3.min.js"></script>
+<script src="assets/js/json3.min.js"></script>
+<script src="assets/js/dropzone.min.js"></script>
+<script src="assets/js/jquery.colorbox-min.js"></script>
+<script>
+$(function(){
+	$("#title").focus();
+
+	//image gallery
+	var colorbox_params = {
+		rel:'cboxElement',
+		transition:"elastic",
+		reposition:true,
+		scalePhotos:true,
+		scrolling:false,
+		previous:'<i class="icon-arrow-left"></i>',
+		next:'<i class="icon-arrow-right"></i>',
+		close:'&times;',
+		maxWidth:'95%',
+		maxHeight:'95%',
+
+		onOpen:function(){
+			document.body.style.overflow = 'hidden';
+		},
+		onClosed:function(){
+			document.body.style.overflow = 'auto';
+		},
+		onComplete:function(){
+			$.colorbox.resize();
+		}
+	};
+
+	$(".cboxElement").colorbox(colorbox_params);
+	$("#cboxLoadingGraphic").append("<i class='icon-spinner orange'></i>");//let's add a custom loading icon
+
+	//image gallery
+
+
+//var dropzone = $("input[type=file][multiple]").ace_file_input({
+var dropzone = new $("#photoupload").ace_file_input({
+//var dropzone = new $("#photoupload").dropzone({
+
+   //style:'well',
+   //btn_choose:'Drop images here or click to choose',
+   //btn_change:null,/* we don't need it , no_icon:'icon-cloud-upload',
+   maxFilesize: 3, //in MB
+   droppable: true,
+   thumbnail: "large",
+   before_change:function(files, dropped) {
+     var file = files[0];
+     if(typeof file == "string") {
+       //file is just a file name here (in browsers that don't support FileReader API such as IE8)
+       if(! (/\.(jpe?g|png|gif)$/i).test(file) ) {
+        //not an image extension? alert user
+		alert("Not an image file.");
+        return false;
+       }
+     }
+     else {
+       var type = $.trim(file.type);
+       if(
+          ( type.length > 0 && ! (/^image\/(jpe?g|png|gif)$/i).test(type) )
+          || 
+          //for android's default browser!
+          ( type.length == 0 && ! (/\.(jpe?g|png|gif)$/i).test(file.name) )
+         )
+         {
+            //alert user
+			alert("Not an image file.");
+            return false;
+         }
+ 
+         //if( file.size > 1024*100 ) {
+            //is the file size larger than 100KB?
+            //alert user
+            //return false;
+         //}
+
+    }
+ 
+    return true;
+   },
+   before_remove:function() {
+     if(upload_in_progress) return false;//don't allow resetting the file input while upload in progress
+     return true;
+   },
+ 
+   preview_error : function(filename, error_code) {
+     //name of the file that failed
+     //error_code values
+     //1 = 'FILE_LOAD_FAILED',
+     //2 = 'IMAGE_LOAD_FAILED',//the loaded file is not an image
+     //3 = 'THUMBNAIL_FAILED'//somehow creating the thumbnail failed.
+     //notify user?!
+   }   
+	 
+});
+
+});
+
+</script>

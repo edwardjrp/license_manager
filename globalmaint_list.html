@@ -1,0 +1,81 @@
+<h3 class="row header smaller lighter blue"><span class="col-sm-4"><i class="icon-check bigger-160 blue"></i>&nbsp; {res:globalmaint_title} - {lbmodule}</span> 
+<div class="btn-group">
+	<button data-toggle="dropdown" class="btn btn-sm btn-success dropdown-toggle">
+	<li class="icon-check bigger-110"></li>
+	{res:options}<span class="icon-caret-down icon-only"></span></button>
+	<ul class="dropdown-menu dropdown-primary">
+		<li><a href="globalmaint_maint.php?m={module}" class="inline_form"><span class="icon-group blue bigger-120"></span> {res:addglobalmaint}</a></li>
+		<li class="divider"></li>
+		<li><a href="globalmaint.php?m={module}"><span class="icon-refresh green bigger 120"></span> {res:CCS_Clear} </a></li>
+	</ul>
+</div>
+</h3>
+
+
+<div class="row">
+
+	<div class="col-md-3 col-xs-3"></div>
+	<div class="col-md-9 col-xs-9 text-center">
+
+			<div class="table-responsive">
+				<table class="table table-striped table-bordered table-hover width-40">
+					<tr>
+						<th class="text-center"><li class="icon-cogs bigger-150 blue"></li></th>
+						<th class="blue">{res:title}</th>
+					</tr>
+					<!--  BEGIN grid -->
+					<tr>
+						<td class="text-center">
+							<div class="action-buttons inline">
+								<div id="edit" class="inline">
+									<a href="globalmaint_maint.php?m={module}&guid={guid}" class="green"><i class="icon-pencil bigger-180"></i>&nbsp;</a>
+								</div>
+								<div class="inline">
+									<a href="{lbdelete}" id="delcontact" class="delcontact"><span class="icon-trash bigger-150 red delcontact"></span>&nbsp;</a>
+								</div>
+							</div>
+						</td>
+						<td>{title}</td>
+					</tr>
+					<!--  END grid -->
+				</table>
+			</div>
+
+	</div><!-- col -->
+
+</div><!-- row -->
+
+<link rel="stylesheet" href="assets/css/datepicker.css" />
+<link rel="stylesheet" href="assets/css/colorbox.css" />
+
+<!-- included here to not mess with too much js in the main page -->
+<script src="assets/js/jquery-2.0.3.min.js"></script>
+<script src="assets/js/json3.min.js"></script>
+<script src="assets/js/form-validator/jquery.form-validator.min.js"></script>
+<script src="assets/js/jquery.colorbox-min.js"></script>
+<script src="assets/js/date-time/bootstrap-datepicker.min.js"></script>
+<script src="assets/js/bootbox.min.js"></script>
+<script src="assets/js/jquery-ui-1.10.3.custom.min.js"></script>
+<script src="assets/js/jquery.ui.touch-punch.min.js"></script>
+<script src="assets/js/jquery.colorbox-min.js"></script>
+
+<script>
+$(function(){
+
+	$(".delcontact").click(function(e) {
+	    var link = $(this).attr("href");
+	    e.preventDefault();    
+		bootbox.confirm("{res:confirmdelete}", function(result) {
+			//Bootbox pops twice when cance is click, so the combination cancel,ok returns undefined object
+	        if ( (result) && ( link != undefined ) ) {
+				window.location.replace(link);
+	        } else {
+				bootbox.hideAll();
+			} 
+		});
+
+	});
+
+});
+
+</script>

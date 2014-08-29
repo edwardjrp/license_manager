@@ -1,0 +1,431 @@
+<div class="widget-box">
+	<div class="widget-header">
+		<h4>{res:viewcustomer}</h4>
+	</div>
+	<div class="widget-body">
+		<!-- BEGIN Record alm_customers -->
+		<form id="alm_customers" method="post" name="{HTMLFormName}" action="{Action}">
+			<div class="row widget-main">
+				<!-- BEGIN Error -->
+				<div class="alert alert-block alert-danger">
+					<button class="close" data-dismiss="alert"><i class="icon-remove"></i></button><strong>
+					<li class="icon-remove"></strong>{Error} </li>
+				</div>
+				<!-- END Error -->
+				<div class="row">
+					<div class="col-xs-1">
+					</div>
+					<div class="col-md-10 col-xs-10">
+						<div class="alert alert-block alert-success {page:showalert}">
+							<button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button>
+							<p><strong><i class="icon-ok"></i>{res:saved}</strong>{res:savedmessage}</p>
+						</div>
+
+						<div class="alert alert-block alert-danger {page:showalert_contacterror}">
+							<p>
+								<strong><i class="icon-warning-sign"></i>{res:contacterror}</strong>
+								{res:contacterrormessage}
+							</p>
+						</div>
+
+					</div>
+				</div>
+				<!-- row -->
+				<div class="tabbable">
+					
+					<ul id="myTab" class="nav nav-tabs">
+						<li class="{tab1_active}"><a href="#customerdetails" data-toggle="tab">{res:tabcust_title}</a> 
+					</ul>
+					
+					<div class="tab-content col-md-12 col-xs-12">
+						<div id="customerdetails" class="tab-pane {tab1_active}">
+							<div class="row col-xs-12">
+								<div class="col-md-1 col-xs-0">
+								</div>
+								<div class="col-md-5 col-xs-12">
+									<label class="control-label blue" for="s_customer">{res:customer}</label><br>
+									<input type="text" id="s_customer" maxlength="250" value="{name}" name="{name_Name}" data-validation-error-msg="{res:invalidcustomer}" data-validation="required" disabled class="col-md-12 col-xs-12">
+								</div>
+								<!-- col -->
+								<div class="col-md-2 col-xs-12">
+									<label class="control-label blue" for="s_customer">{res:taxid}</label><br>
+									<input type="text" id="s_taxid" maxlength="20" value="{taxid}" name="{taxid_Name}" disabled class="col-md-12 col-xs-12">
+								</div>
+								<div class="col-md-2 col-xs-12">
+									<label class="control-label blue" for="s_type">{res:customertype}</label><br>
+									<select id="s_type" name="{customertype_id_Name}" disabled class="col-md-12 col-xs-12">
+										<option selected value="">{res:CCS_SelectValue}</option>
+										{customertype_id_Options}
+									</select>
+ 
+								</div>
+							</div>
+							<!-- row-->
+							<div class="row col-xs-12">
+								<div class="col-md-1 col-xs-0">
+								</div>
+								<div class="col-md-5 col-xs-12">
+									<label class="control-label blue" for="s_phone">{res:phone}</label><br>
+									<input type="text" id="s_phone" maxlength="200" value="{phone}" name="{phone_Name}" disabled class="col-md-12 col-xs-12">
+								</div>
+								<div class="col-md-5 col-xs-12">
+									<label class="control-label blue" for="s_website">{res:website}</label><br>
+									<input type="text" id="s_website" maxlength="250" value="{website}" name="{website_Name}" disabled class="col-md-12 col-xs-12">
+								</div>
+							</div>
+							<!-- row -->
+							<div class="row col-xs-12">
+								<div class="col-md-1 col-xs-0">
+								</div>
+								<div class="col-md-5 col-xs-12">
+									<label class="control-label blue" for="s_phone">{res:address}</label><br>
+									<textarea id="s_address" rows="3" cols="49" name="{address_Name}" disabled class="col-md-12 col-xs-12">{address}</textarea>
+								</div>
+								<div class="col-md-3 col-xs-12">
+									<label class="control-label blue" for="city">{res:city}</label><br>
+									<select name="{city_Name}" id="city" disabled class="col-md-12 col-xs-12">
+										{city_Options}
+									</select>
+								</div>
+								<div class="col-md-3 col-xs-12">
+									<label class="control-label blue" for="businesspartner">{res:businesspartners}</label><br>
+									<label>
+									<!-- BEGIN CheckBoxList businesspartner --><input id="businesspartner_{businesspartner:optionNumber}" type="checkbox" value="{Value}" name="{businesspartner_Name}" {Check} class="ace ace-checkbox-2" disabled><span class="lbl">&nbsp;&nbsp;{Description}</span><br><!-- END CheckBoxList businesspartner -->
+									</label>
+								</div>
+							</div>
+							<!-- row -->
+							<div class="row col-xs-12">
+								<div class="col-md-1 col-md-0">
+								</div>
+								<div class="col-md-10 col-xs-12">
+									<h3 class="header smaller lighter red"><span class="icon-phone bigger-130"></span>&nbsp;{res:contacts}</h3>
+									<div class="table-responsive">
+										<table class="table table-striped table-bordered table-hover">
+											<tr>
+												<th class="blue text-center"><span class="icon-cogs bigger-150"></span></th>
+												<th class="blue">{res:contact}</th>
+												<th class="blue">{res:contact_jobposition}</th>
+												<th class="blue">{res:phone}</th>
+												<th class="blue">{res:extension}</th>
+												<th class="blue">{res:mobile}</th>
+												<th class="blue">{res:workemail}</th>
+												<th class="blue">{res:personalemail}</th>
+												<th class="blue">{res:dateupdated}</th>
+											</tr>
+											<!-- BEGIN contact_list -->
+											<tr>
+												<td nowrap>
+													<div class="action-buttons">
+													</div>
+												</td>
+												<td><span class="icon-asterisk bigger-120 orange {lbmaincontact}"></span>&nbsp;{lbcontact}</td>
+												<td>{lbcontact_jobposition}</td>
+												<td>{lbcontact_phone}</td>
+												<td>{lbcontact_extension}</td>
+												<td>{lbcontact_mobile}</td>
+												<td>{lbcontact_workemail}</td>
+												<td>{lbcontact_personalemail}</td>
+												<td nowrap>{lbcontact_dateupdated}</td>
+											</tr>
+											<!-- END contact_list -->
+										</table>
+									</div>
+								</div>
+							</div>
+							<!-- row -->
+							<div class="row col-xs-12">
+								<h3 class="header smaller lighter red">&nbsp;{res:platforminfrastructure}</h3>
+								<div class="col-md-1 col-xs-0">
+								</div>
+								<div class="col-md-2 col-xs-12">
+									<label class="control-label blue" for="s_workstations">{res:os_workstations}</label><br>
+									<label>
+										<!-- BEGIN CheckBoxList os_workstations --><input id="os_workstations_{os_workstations:optionNumber}" type="checkbox" value="{Value}" name="{os_workstations_Name}" {Check} class="ace ace-checkbox-2" disabled><span class="lbl">&nbsp;&nbsp;{Description}</span><br><!-- END CheckBoxList os_workstations -->
+									</label>
+								</div>
+								<div class="col-md-2 col-xs-12">
+									<label class="control-label blue" for="s_workstations">{res:os_workstations_hw}</label><br>
+									<!-- BEGIN CheckBoxList os_workstations_hw --><input {Check} type="checkbox" name="{os_workstations_hw_Name}" value="{Value}" id="os_workstations_hw_{os_workstations_hw:optionNumber}" class="ace ace-checkbox-2" disabled><span class="lbl">&nbsp;&nbsp;{Description}</span><br><!-- END CheckBoxList os_workstations_hw -->
+								</div>
+								<div class="col-md-2 col-xs-12">
+									<label class="control-label blue" for="s_server">{res:os_servers}</label><br>
+									<!-- BEGIN CheckBoxList os_servers --><input id="os_servers_{os_servers:optionNumber}" type="checkbox" value="{Value}" name="{os_servers_Name}" {Check} class="ace ace-checkbox-2" disabled><span class="lbl">&nbsp;&nbsp;{Description}</span><br><!-- END CheckBoxList os_servers -->
+								</div>
+								<div class="col-md-2 col-xs-12">
+									<label class="control-label blue" for="s_server">{res:os_servers_hw}</label><br>
+									<!-- BEGIN CheckBoxList os_servers_hw --><input id="os_servers_hw_{os_servers_hw:optionNumber}" type="checkbox" value="{Value}" name="{os_servers_hw_Name}" {Check} class="ace ace-checkbox-2" disabled><span class="lbl">&nbsp;&nbsp;{Description}</span><br><!-- END CheckBoxList os_servers_hw -->
+								</div>
+							</div>
+							<!-- row -->
+							<div class="row col-xs-12">
+								<div class="col-md-1 col-xs-0">
+								</div>
+								<div class="col-md-2 col-xs-12">
+									<label class="control-label blue" for="s_workstationqty">{res:os_workstations_qty}</label><br>
+									<input type="text" id="s_workstationqty" maxlength="10" value="{os_workstations_qty}" name="{os_workstations_qty_Name}" disabled class="col-md-12 col-xs-12">
+								</div>
+								<div class="col-md-2 col-xs-12">
+									<label class="control-label blue" for="s_serversqty">
+{res:os_servers_qty}</label><br>
+									<input type="text" id="s_serversqty" maxlength="10" value="{os_servers_qty}" name="{os_servers_qty_Name}" disabled class="col-md-12 col-xs-12">
+								</div>
+							</div>
+							<!-- row -->
+							<div class="row col-xs-12">
+								<h3 class="header smaller lighter red">&nbsp;{res:serviceinfrastructure}</h3>
+								<div class="col-md-1 col-xs-0">
+								</div>
+								<div class="col-md-2 col-xs-12">
+									<label class="control-label blue" for="s_serverstype">{res:servers_type}</label><br>
+									<!-- BEGIN CheckBoxList servers_type --><input id="s_serverstype_{servers_type:optionNumber}" type="checkbox" value="{Value}" name="{servers_type_Name}" {Check} class="ace ace-checkbox-2" disabled><span class="lbl">&nbsp;&nbsp;{Description}</span><br><!-- END CheckBoxList servers_type -->
+								</div>
+								<div class="col-md-2 col-xs-12">
+									<label class="control-label blue" for="s_mailservers">{res:mailservers}</label><br>
+									<!-- BEGIN CheckBoxList mailservers --><input id="s_mailservers_{mailservers:optionNumber}" type="checkbox" value="{Value}" name="{mailservers_Name}" {Check} class="ace ace-checkbox-2" disabled><span class="lbl">&nbsp;&nbsp;{Description}</span><br><!-- END CheckBoxList mailservers -->
+								</div>
+								<div class="col-md-2 col-xs-12">
+									<label class="control-label blue" for="s_proxyserver">{res:proxyserver}</label><br>
+									<!-- BEGIN CheckBoxList proxyserver --><input id="s_proxyserver_{proxyserver:optionNumber}" type="checkbox" value="{Value}" name="{proxyserver_Name}" {Check} class="ace ace-checkbox-2" disabled><span class="lbl">&nbsp;&nbsp;{Description}</span><br><!-- END CheckBoxList proxyserver -->
+								</div>
+								<div class="col-md-2 col-xs-12">
+									<label class="control-label blue" for="virtualenvironment">{res:virtualenvironment}</label><br>
+									<!-- BEGIN CheckBoxList virtualization --><input id="virtualenvironment_{virtualization:optionNumber}" type="checkbox" value="{Value}" name="{virtualization_Name}" {Check} class="ace ace-checkbox-2" disabled><span class="lbl">&nbsp;&nbsp;{Description}</span><br><!-- END CheckBoxList virtualization -->
+								</div>
+							</div>
+							<!-- row -->
+							<div class="row col-xs-12">
+								<br>
+								<div class="col-md-1 col-xs-0">
+								</div>
+								<div class="col-md-2 col-xs-12">
+									<label class="control-label blue" for="s_backupsystem_{antivirus:optionNumber}">{res:backupsystem}</label><br>
+									<!-- BEGIN CheckBoxList backupsystem --><input id="s_backupsystem_{backupsystem:optionNumber}" type="checkbox" value="{Value}" name="{backupsystem_Name}" {Check} class="ace ace-checkbox-2" disabled><span class="lbl">&nbsp;&nbsp;{Description}</span><br><!-- END CheckBoxList backupsystem -->
+								</div>
+								<div class="col-md-2 col-xs-12">
+									<label class="control-label blue" for="network_monitor">{res:network_monitor}</label><br>
+									<!-- BEGIN CheckBoxList network_monitor --><input {Check} type="checkbox" name="{network_monitor_Name}" value="{Value}" id="network_monitor_{network_monitor:optionNumber}" class="ace ace-checkbox-2" disabled><span class="lbl">&nbsp;&nbsp;{Description}</span><br><!-- END CheckBoxList network_monitor -->
+								</div>
+
+							</div>
+							<!-- row -->
+							<div class="row col-xs-12">
+								<h3 class="header smaller lighter red">&nbsp;{res:communicationinfrastructure}</h3>
+								<div class="col-md-1 col-xs-0">
+								</div>
+								<div class="col-md-2 col-xs-12">
+									<label class="control-label blue" for="s_branchesbw">{res:branches_bandwith}</label><br>
+									<!-- BEGIN CheckBoxList branches_bandwidth --><input {Check} type="checkbox" name="{branches_bandwidth_Name}" value="{Value}" id="branches_bandwith_{branches_bandwidth:optionNumber}" class="ace ace-checkbox-2" disabled><span class="lbl">&nbsp;&nbsp;{Description}</span><br><!-- END CheckBoxList branches_bandwidth -->
+								</div>
+								<div class="col-md-2 col-xs-12">
+									<label class="control-label blue" for="s_branchescon">{res:branches_connectivity}</label><br>
+									<!-- BEGIN CheckBoxList branches_connectivity --><input {Check} type="checkbox" name="{branches_connectivity_Name}" value="{Value}" id="branches_connectivity_{branches_connectivity:optionNumber}" class="ace ace-checkbox-2" disabled><span class="lbl">&nbsp;&nbsp;{Description}</span><br><!-- END CheckBoxList branches_connectivity -->
+								</div>
+								<div class="col-md-2 col-xs-12">
+									<label class="control-label blue" for="s_isp_{isp:optionNumber}">{res:isp}</label><br>
+									<!-- BEGIN CheckBoxList isp --><input id="s_isp_{isp:optionNumber}" type="checkbox" value="{Value}" name="{isp_Name}" {Check} class="ace ace-checkbox-2" disabled><span class="lbl">&nbsp;&nbsp;{Description}</span><br><!-- END CheckBoxList isp -->
+								</div>
+
+								<div class="col-md-4 col-xs-12">
+									<div class="row">
+										<div class="col-md-4 col-xs-12">
+											<label class="control-label blue" for="s_serverstype">{res:branches_qty}</label><br>
+											<input type="text" id="s_branchesqty" maxlength="10" value="{branches_qty}" name="{branches_qty_Name}" disabled class="col-md-12 col-xs-12">
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-5 col-xs-12">
+											<label class="control-label blue" for="s_ispbw">{res:isp_bandwidth}</label><br>
+											<input type="text" id="s_ispbw" maxlength="100" value="{isp_bandwidth}" name="{isp_bandwidth_Name}" disabled class="col-md-12 col-xs-12">
+										</div>
+									</div>
+
+								</div>
+
+							</div>
+							<!-- row -->
+
+							<div class="row col-xs-12">
+								<h3 class="header smaller lighter red">&nbsp;{res:endpointsecurity}</h3>
+								<div class="col-md-1 col-xs-0">
+								</div>
+								<div class="col-md-2 col-xs-12">
+									<label class="control-label blue" for="s_antivirus_{antivirus:optionNumber}">{res:antivirus}</label><br>
+									<!-- BEGIN CheckBoxList antivirus --><input id="s_antivirus_{antivirus:optionNumber}" type="checkbox" value="{Value}" name="{antivirus_Name}" {Check} class="ace ace-checkbox-2" disabled><span class="lbl">&nbsp;&nbsp;{Description}</span><br>
+									<!-- END CheckBoxList antivirus -->
+								</div>
+								<div class="col-md-2 col-xs-12">
+									<label class="control-label blue" for="encryption_{antivirus:optionNumber}">{res:encryption}</label><br>
+									<!-- BEGIN CheckBoxList encryption --><input id="encryption_{encryption:optionNumber}" type="checkbox" value="{Value}" name="{encryption_Name}" {Check} class="ace ace-checkbox-2" disabled><span class="lbl">&nbsp;&nbsp;{Description}</span><br><!-- END CheckBoxList encryption -->
+								</div>
+								<div class="col-md-2 col-xs-12">
+									<label class="control-label blue" for="appcontrol_{antivirus:optionNumber}">{res:app_control}</label><br>
+									<!-- BEGIN CheckBoxList app_control --><input id="appcontrol_{app_control:optionNumber}" type="checkbox" value="{Value}" name="{app_control_Name}" {Check} class="ace ace-checkbox-2" disabled><span class="lbl">&nbsp;&nbsp;{Description}</span><br><!-- END CheckBoxList app_control -->
+								</div>
+								<div class="col-md-2 col-xs-12">
+									<label class="control-label blue" for="datalostprevention">{res:datalostprevention}</label><br>
+									<!-- BEGIN CheckBoxList datalostprevention --><input {Check} type="checkbox" name="{datalostprevention_Name}" value="{Value}" id="mobility_{datalostprevention:optionNumber}" class="ace ace-checkbox-2" disabled><span class="lbl">&nbsp;&nbsp;{Description}</span><br><!-- END CheckBoxList datalostprevention -->
+								</div>
+
+							</div>
+							<!-- row -->
+							<div class="row col-xs-12">
+								<br>
+								<div class="col-md-1 col-xs-0">
+								</div>
+								<div class="col-md-2 col-xs-12">
+									<label class="control-label blue" for="s_mobility">{res:mobility}</label><br>
+									<!-- BEGIN CheckBoxList mobility --><input {Check} type="checkbox" name="{mobility_Name}" value="{Value}" id="mobility_{mobility:optionNumber}" class="ace ace-checkbox-2" disabled><span class="lbl">&nbsp;&nbsp;{Description}</span><br><!-- END CheckBoxList mobility -->
+								</div>
+							</div>
+							<!-- row -->
+							<div class="row col-xs-12">
+								<h3 class="header smaller lighter red">&nbsp;{res:contentsecurity}</h3>
+								<div class="col-md-1 col-xs-0">
+								</div>
+								<div class="col-md-2 col-xs-12">
+									<label class="control-label blue" for="email_protection_{content_filter:optionNumber}">{res:emailprotection}</label><br>
+									<!-- BEGIN CheckBoxList email_protection --><input id="email_protection_{email_protection:optionNumber}" type="checkbox" value="{Value}" name="{email_protection_Name}" {Check} class="ace ace-checkbox-2" disabled><span class="lbl">&nbsp;&nbsp;{Description}</span><br><!-- END CheckBoxList email_protection -->
+								</div>
+								<div class="col-md-2 col-xs-12">
+									<label class="control-label blue" for="s_filter_{content_filter:optionNumber}">{res:contentfilter}</label><br>
+									<!-- BEGIN CheckBoxList content_filter --><input id="s_filter_{content_filter:optionNumber}" type="checkbox" value="{Value}" name="{content_filter_Name}" {Check} class="ace ace-checkbox-2" disabled><span class="lbl">&nbsp;&nbsp;{Description}</span><br><!-- END CheckBoxList content_filter -->
+								</div>
+								<div class="col-md-2 col-xs-12">
+									<label class="control-label blue" for="socialmedia_security_{content_filter:optionNumber}">{res:socialmedia_security}</label><br>
+									<!-- BEGIN CheckBoxList socialmedia_security --><input id="socialmedia_security_{socialmedia_security:optionNumber}" type="checkbox" value="{Value}" name="{socialmedia_security_Name}" {Check} class="ace ace-checkbox-2" disabled><span class="lbl">&nbsp;&nbsp;{Description}</span><br><!-- END CheckBoxList socialmedia_security -->
+								</div>
+							</div>
+							<!-- row -->
+							<div class="row col-xs-12">
+								<h3 class="header smaller lighter red">&nbsp;{res:networksecurity}</h3>
+								<div class="col-xs-1 col-xs-0">
+								</div>
+								<div class="col-md-2 col-xs-12">
+									<label class="control-label blue" for="networkips_{firewalls:optionNumber}">{res:networkips}</label><br>
+									<!-- BEGIN CheckBoxList networkips --><input id="networkips_{networkips:optionNumber}" type="checkbox" value="{Value}" name="{networkips_Name}" {Check} class="ace ace-checkbox-2" disabled><span class="lbl">&nbsp;&nbsp;{Description}</span><br><!-- END CheckBoxList networkips -->
+								</div>
+								<div class="col-md-2 col-xs-12">
+									<label class="control-label blue" for="s_firewalls_{firewalls:optionNumber}">{res:firewalls}</label><br>
+									<!-- BEGIN CheckBoxList firewalls --><input id="s_firewalls_{firewalls:optionNumber}" type="checkbox" value="{Value}" name="{firewalls_Name}" {Check} class="ace ace-checkbox-2" disabled><span class="lbl">&nbsp;&nbsp;{Description}</span><br><!-- END CheckBoxList firewalls -->
+								</div>
+								<div class="col-md-2 col-xs-12">
+									<label class="control-label blue" for="networkac_{firewalls:optionNumber}">{res:networkac}</label><br>
+									<!-- BEGIN CheckBoxList networkac --><input id="networkac_{networkac:optionNumber}" type="checkbox" value="{Value}" name="{networkac_Name}" {Check} class="ace ace-checkbox-2" disabled><span class="lbl">&nbsp;&nbsp;{Description}</span><br><!-- END CheckBoxList networkac -->
+								</div>
+								<div class="col-md-2 col-xs-12">
+									<label class="control-label blue" for="wireless_security_{firewalls:optionNumber}">{res:wireless_security}</label><br>
+									<!-- BEGIN CheckBoxList wireless_security --><input id="wireless_security_{wireless_security:optionNumber}" type="checkbox" value="{Value}" name="{wireless_security_Name}" {Check} class="ace ace-checkbox-2" disabled><span class="lbl">&nbsp;&nbsp;{Description}</span><br><!-- END CheckBoxList wireless_security -->
+								</div>
+							</div>
+							<!-- row -->
+							<div class="row col-xs-12">
+								<h3 class="header smaller lighter red">&nbsp;{res:riskcompliance}</h3>
+								<div class="col-md-1 col-xs-0">
+								</div>
+								<div class="col-md-2 col-xs-12">
+									<label class="control-label blue" for="database_security">{res:database_security}</label><br>
+									<!-- BEGIN CheckBoxList database_security --><input {Check} type="checkbox" name="{database_security_Name}" value="{Value}" id="database_security_{database_security:optionNumber}" class="ace ace-checkbox-2" disabled><span class="lbl">&nbsp;&nbsp;{Description}</span><br><!-- END CheckBoxList database_security -->
+								</div>
+								<div class="col-md-2 col-xs-12">
+									<label class="control-label blue" for="security_events">{res:security_events}</label><br>
+									<!-- BEGIN CheckBoxList security_events --><input {Check} type="checkbox" name="{security_events_Name}" value="{Value}" id="security_events_{security_events:optionNumber}" class="ace ace-checkbox-2" disabled><span class="lbl">&nbsp;&nbsp;{Description}</span><br><!-- END CheckBoxList security_events -->
+								</div>
+								<div class="col-md-2 col-xs-12">
+									<label class="control-label blue" for="security_events">{res:changecontrol}</label><br>
+									<!-- BEGIN CheckBoxList changecontrol --><input {Check} type="checkbox" name="{changecontrol_Name}" value="{Value}" id="changecontrol_{changecontrol:optionNumber}" class="ace ace-checkbox-2" disabled><span class="lbl">&nbsp;&nbsp;{Description}</span><br><!-- END CheckBoxList changecontrol -->
+								</div>
+								<div class="col-md-3 col-xs-12">
+									<label class="control-label blue" for="s_vurnerabilities">{res:vurnerabilities}</label><br>
+									<!-- BEGIN CheckBoxList vurnerabilities --><input {Check} type="checkbox" name="{vurnerabilities_Name}" value="{Value}" id="vurnerabilities_{vurnerabilities:optionNumber}" class="ace ace-checkbox-2" disabled><span class="lbl">&nbsp;&nbsp;{Description}</span><br><!-- END CheckBoxList vurnerabilities -->
+								</div>
+							</div>
+							<!-- row -->
+							<div class="row col-xs-12">
+								<h3 class="header smaller lighter red">&nbsp;{res:notes}</h3>
+								<div class="col-md-1 col-xs-0">
+								</div>
+								<div class="col-md-10 col-xs-12">
+									<label class="control-label blue" for="s_phone">{res:notes}</label><br>
+									<textarea id="notes" rows="4" cols="100%" name="{notes_Name}" disabled class="col-md-12 col-xs-12">{notes}</textarea>
+								</div>
+							</div>
+							<!-- row -->
+ 
+ 						</div> <!-- customerdetails tab -->
+						
+					</div>
+					<!-- tabcontent -->
+				</div>
+				<!-- tabbable -->
+			</div>
+			<!-- row -->
+			<div class="row">
+				<div class="col-md-12 col-xs-12">
+					<div class="form-actions center">
+						<a href="customers.php{lbgoback}" role="button" id="goback" class="btn btn-sm btn-success"><li class="icon-arrow-left"></li>&nbsp;{res:buttongoback}</a> &nbsp;&nbsp; 
+						
+						<input id="modified_iduser" type="hidden" value="{modified_iduser}" name="{modified_iduser_Name}">
+						<input id="created_iduser" type="hidden" value="{created_iduser}" name="{created_iduser_Name}">
+						<input id="hidguid" type="hidden" value="{hidguid}" name="{hidguid_Name}">
+						<input type="hidden" name="{hidtab_Name}" value="{hidtab}" id="hidtab">
+					</div>
+					<!-- form-actions  -->
+				</div>
+				<!-- col -->
+			</div>
+		</form>
+		<!-- END Record alm_customers --><br>
+		<!-- row -->
+	</div>
+	<!-- widget-body -->
+</div>
+<!-- widget-box -->
+<link rel="stylesheet" href="assets/css/datepicker.css" />
+<!-- included here to not mess with too much js in the main page -->
+<script src="assets/js/jquery-2.0.3.min.js"></script>
+<script src="assets/js/json3.min.js"></script>
+<script src="assets/js/form-validator/jquery.form-validator.min.js"></script>
+<script src="assets/js/jquery.colorbox-min.js"></script>
+<script src="assets/js/date-time/bootstrap-datepicker.min.js"></script>
+<script src="assets/js/bootbox.min.js"></script>
+<script src="assets/js/jquery-ui-1.10.3.custom.min.js"></script>
+<script src="assets/js/jquery.ui.touch-punch.min.js"></script>
+<script>
+$(function(){
+        
+        $("#s_customer").focus();
+        //validate coordinates
+        $.validate({
+                form : "#alm_customers"
+        });
+
+		$(".date-picker").datepicker({autoclose:true}).next().on(ace.click_event, function(){
+			$(this).prev().focus();
+		});
+
+		$("#myTab a").click(function (e) {
+		  e.preventDefault();
+		  $("#hidtab").val(e.target);
+		});
+
+		$(".delcontact").click(function(e) {
+            var link = $(this).attr("href");
+            e.preventDefault();    
+			bootbox.confirm("{res:confirmdelete}", function(result) {
+                if (result) {
+					window.location.replace(link);
+                } 
+			});
+
+		});
+
+		//Hides all unchecked checkboxes, not used for now
+		//$("input.ace").not(":checked").siblings("span").hide();
+
+});
+
+</script>
+<ul>
+</ul>
+</form>

@@ -1,0 +1,69 @@
+<h3 class="row header smaller lighter blue"><span class="col-sm-2"><i class="icon-gear bigger-160 red"></i>&nbsp; Settings</span> 
+<div class="btn-group">
+	<button data-toggle="dropdown" class="btn btn-sm btn-success dropdown-toggle">
+	<li class="icon-cogs bigger-110"></li>
+	Options<span class="icon-caret-down icon-only"></span></button>
+	<ul class="dropdown-menu dropdown-primary">
+		<li><a href="settings_maint.php"><span class="icon-road blue bigger-120"></span> Add Option</a></li>
+		<li class="divider"></li>
+		<li><a href="settings.php"><span class="icon-refresh green bigger 120"></span> Clear Search </a></li>
+	</ul>
+</div>
+</h3>
+
+<div class="col-sm-8">
+
+	<div class="tabbable">
+		<ul class="nav nav-tabs" id="tab_settings">
+
+			<!-- BEGIN tab_header -->
+			<li class="{tab_active}">
+				<a href="#{tab_id}" data-toggle="tab">
+					<i class="{tab_icon}"></i>
+					{tab_title}
+				</a>
+			</li>
+			<!-- END tab_header -->
+
+		</ul><!-- nav tabs -->
+
+		<div class="tab-content">
+
+			<!-- BEGIN tab_content -->
+			<div id="{tab_content_id}" class="tab-pane {tab_content_active}">
+				<p>
+
+					<div class="table-responsive">
+						<table class="table table-striped table-bordered table-hover">
+							<tr>
+								<th>OPTION</th>
+								<th>PARAMETER</th>
+								<th>VALUE</th>
+								<th>STYLE</th>
+							</tr>
+							<!-- BEGIN table_detail -->
+							<tr>
+								<td>
+									<div class="action-buttons">
+										<a href="settings_maint.php?guid={guid}" class="green"><i class="icon-pencil bigger-190"></i>&nbsp;</a>
+									</div>																							
+								</td>
+								<td>{variable}</td>
+								<td>{value}</td>
+								<td><i class="{style}"></i></td>
+							</tr>
+							<!-- END table_detail -->
+
+						</table>
+					</div><!-- div table -->
+				
+				</p>
+			</div>
+			<!-- END tab_content -->
+
+		</div><!-- tab content-->
+
+	</div><!-- tab -->
+
+
+</div><!-- col-sm -->

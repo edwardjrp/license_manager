@@ -1,0 +1,82 @@
+				<div class="sidebar" id="sidebar">
+					<script type="text/javascript">
+						try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
+					</script>
+
+					<div class="sidebar-shortcuts" id="sidebar-shortcuts">
+						<div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
+							<button class="btn btn-success">
+								<a href="#"><i class="icon-signal"></i></a>
+							</button>
+
+							<button class="btn btn-info">
+								<a href="#"><i class="icon-pencil"></i></a>
+							</button>
+						
+							<button class="btn btn-warning">
+								<a href="customers.php"><i class="icon-group"></i></a>
+							</button>							
+
+							<button class="btn btn-danger">
+								<a href="customers.php"><i class="icon-home white"></i></a>
+							</button>
+						</div>
+
+						<div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
+							<span class="btn btn-success"></span>
+
+							<span class="btn btn-info"></span>
+
+							<span class="btn btn-warning"></span>
+
+							<span class="btn btn-danger"></span>
+						</div>
+					</div><!-- #sidebar-shortcuts -->
+
+					<ul class="nav nav-list">
+
+						<li><a href="customers.php"><i class="icon-group bigger-160 blue"></i><span class="menu-text">{res:itassestment} </span></a></li>
+						<!-- BEGIN Panel pnsidebar -->
+						<li><a href="#"><i class="icon-dashboard bigger-160 red"></i><span class="menu-text">{res:dashboard} </span></a></li>
+						<li><a href="main.php"><i class="icon-home bigger-160 orange"></i><span class="menu-text">{res:home} </span></a></li>
+						<li><a href="#"><i class="icon-money bigger-160 green"></i><span class="menu-text">Sales </span></a></li>
+						<li><a href="#"><i class="icon-th bigger-160 orange"></i><span class="menu-text">Products </span></a></li>
+						<li><a href="#"><i class="icon-envelope bigger-160 blue"></i><span class="menu-text">Notifications </span></a></li>
+						<!-- END Panel pnsidebar -->
+
+						<li>
+							<a href="#" class="dropdown-toggle">
+								<i class="icon-desktop"></i>
+								<span class="menu-text"> {res:maintenance} </span>
+
+								<b class="arrow icon-angle-down"></b>
+							</a>
+
+							<ul class="submenu">
+
+								<!-- BEGIN Panel pnmaintenance -->
+								<li><a href="#"><i class="icon-th orange"></i> Products </a></li>
+								<li><a href="#"><i class="icon-double-angle-right"></i> Licences </a></li>
+								<li><a href="globalmaint.php?m=city"><i class="icon-double-angle-right"></i> {res:city} </a></li>
+								<li><a href="globalmaint.php?m=business_partners"><i class="icon-double-angle-right"></i> {res:business_partners} </a></li>
+								<li><a href="globalmaint.php?m=customers_type"><i class="icon-double-angle-right"></i> 
+{res:customers_type} </a></li>
+								<li><a href="globalmaint.php?m=jobposition"><i class="icon-double-angle-right"></i> {res:jobposition} </a></li>
+								<li><a href="customers_assessment.php"><i class="icon-double-angle-right"></i> {res:itassesment_maint} </a></li>
+								<li><a href="users_reassignuser.php" class="grenn"><i class="icon-exchange"></i>&nbsp;{res:reassignuser}</a></li>
+								<li><a href="users.php"><i class="icon-user"></i> {res:users} </a></li>
+								<li><a href="settings.php"><i class="icon-cogs"></i> {res:advancedsettings} </a></li>
+								<!-- END Panel pnmaintenance -->
+
+							</ul>
+						</li>
+					</ul><!-- /.nav-list -->
+
+					<div class="sidebar-collapse" id="sidebar-collapse">
+						<i class="icon-double-angle-left" data-icon1="icon-double-angle-left" data-icon2="icon-double-angle-right"></i>
+					</div>
+
+					<script type="text/javascript">
+						try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}
+					</script>
+				</div>

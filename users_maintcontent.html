@@ -1,0 +1,146 @@
+<div class="widget-box">
+  <div class="widget-header">
+    <h4>{res:addedituser}</h4>
+ 
+  </div>
+ 
+  <div class="widget-body">
+    <fieldset>
+    <div class="row widget-main">
+<!-- BEGIN Record alm_users -->
+	<div class="col-md-2">
+		<!-- <img src="{user_photo}" style="width:150px;height:150px" class="img-rounded img-responsive" /><br> -->
+	</div>
+ 
+<div class="col-md-5">
+
+<form id="users_maintcontentalm_users" method="post" action="{Action}" name="{HTMLFormName}"> 
+  <table>
+    <!-- BEGIN Error -->
+    <tr>
+      <td colspan="2">{Error}</td> 
+    </tr>
+ <!-- END Error -->
+    <tr>
+      <th class="blue">{res:usernameemail}</th>
+	  <td>
+	  	<input type="text" name="{email_Name}" value="{email}" maxlength="200" size="30" id="email" data-validation="email" data-validation="required" data-validation-error-msg="Invalid email">
+	  	<input type="hidden" name="{username_Name}" value="{username}" id="username">
+	  </td> 
+    </tr>
+ 
+    <tr>
+      <th class="blue">{res:password}</th>
+ 
+      <td><input type="password" name="{password_Name}" value="{password}" maxlength="100" size="30" id="password"></td> 
+    </tr>
+ 
+    <tr>
+      <th class="blue">{res:fullname}</th>
+ 
+      <td><input type="text" name="{fullname_Name}" value="{fullname}" maxlength="100" size="30" id="fullname" data-validation="required" data-validation-error-msg="Invalid fullname"></td> 
+    </tr>
+ 
+    <tr>
+      <th class="blue"></th>
+ 
+      <td></td> 
+    </tr>
+ 
+    <tr>
+      <th class="blue">{res:securitygroups}</th>
+ 
+      <td>
+        <select name="{group_id_Name}" id="groupid">
+ 			{group_id_Options} 
+        </select>
+ </td> 
+    </tr>
+ 
+    <tr>
+      <th class="blue">{res:jobposition}</th>
+ 
+      <td><input type="text" name="{jobposition_Name}" value="{jobposition}" maxlength="100" size="30" id="jobposition"></td> 
+    </tr>
+ 
+    <tr>
+      <th class="blue">{res:phone}</th>
+ 
+      <td><input type="text" name="{phone_Name}" value="{phone}" maxlength="20" size="20" id="phone"></td> 
+    </tr>
+
+	<tr>
+      <th class="blue">{res:personalid}</th>
+	  <td><input type="text" name="{personal_id_Name}" value="{personal_id}" id="personalid"></td>
+	</tr>
+ 
+    <tr>
+      <td colspan="2" align="right"></td> 
+    </tr>
+ 
+  </table>
+
+	</div><!-- col 6 -->
+
+  <div class="col-md-3"></div><!-- col -->
+
+ </div><!-- row -->
+ 
+    <!-- row -->
+    <div class="row widget-main">
+      <div class="col-md-12">
+        <div class="form-actions center">
+			<a href="users.php" id="goback" class="btn btn-sm btn-success {page:btn_disabled}" role="button"><li class="icon-arrow-left"></li>&nbsp;{res:buttongoback}</a>&nbsp;&nbsp;
+
+			<!-- BEGIN Button Button_Insert --><button name="{Button_Name}" type="submit" id="users_maintcontentalm_usersButton_Insert" class="btn btn-sm btn-success {page:btn_disabled}"><li class="icon-save"></li>&nbsp;{res:buttonsave}</button><!-- END Button Button_Insert -->
+			<!-- BEGIN Button Button_Update --><button name="{Button_Name}" type="submit" id="users_maintcontentalm_usersButton_Update" class="btn btn-sm btn-success {page:btn_disabled}"><li class="icon-save"></li>&nbsp;{res:buttonsave}</button><!-- END Button Button_Update -->
+
+			<input type="hidden" name="{created_userid_Name}" value="{created_userid}" id="users_maintcontentalm_userscreated_userid">
+			<input type="hidden" name="{modified_userid_Name}" value="{modified_userid}" id="users_maintcontentalm_usersmodified_userid">
+			<input type="hidden" name="{guid_Name}" value="{guid}" id="users_maintcontentalm_usersguid">
+			<input type="hidden" name="{password_Shadow_Name}" value="{password_Shadow}" id="users_maintcontentalm_userspassword_Shadow">
+
+        </div>
+      </div><!-- col 12-->
+ 
+    </div><!-- row -->
+</form>
+<!-- END Record alm_users --><br>
+
+  	
+	</fieldset>  
+
+  </div><!-- widget-body -->
+
+</div><!-- widget-box -->
+
+<link rel="stylesheet" href="assets/css/datepicker.css" />
+<link rel="stylesheet" href="assets/css/colorbox.css" />
+<link rel="stylesheet" href="assets/css/chosen.css" />
+
+<!-- included here to not mess with too much js in the main page -->
+<script src="assets/js/jquery-2.0.3.min.js"></script>
+<script src="assets/js/json3.min.js"></script>
+<script src="assets/js/form-validator/jquery.form-validator.min.js"></script>
+<script src="assets/js/jquery.colorbox-min.js"></script>
+<script src="assets/js/date-time/bootstrap-datepicker.min.js"></script>
+<script src="assets/js/bootbox.min.js"></script>
+<script src="assets/js/jquery-ui-1.10.3.custom.min.js"></script>
+<script src="assets/js/jquery.ui.touch-punch.min.js"></script>
+<script src="assets/js/jquery.colorbox-min.js"></script>
+<script src="assets/js/chosen.jquery.min.js"></script>
+
+
+<script>
+$(function(){
+        
+	$("#email").focus(); 
+
+	$.validate({
+		modules : "date",
+		form : "#users_maintcontentalm_users"
+	});
+
+});
+
+</script>

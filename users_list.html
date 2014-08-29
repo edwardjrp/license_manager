@@ -1,0 +1,140 @@
+<h3 class="row header smaller lighter blue">
+	<span class="col-sm-2"><i class="icon-group bigger-160"></i>&nbsp; {res:users}</span> 
+</h3>
+
+<div class="widget-box col-xs-12 col-md-12">
+<div class="widget-header widget-header-blue">
+	<h4 class="lighter">{res:search}</h4>
+</div>
+
+<div class="widget-body">
+<div class="widget-main">
+
+<!-- BEGIN Record alm_usersSearch -->
+<form id="users_listalm_usersSearch" method="post" action="{Action}" name="{HTMLFormName}">
+	<div class="row">
+		<div class="col-md-12 col-xs-12">
+			<div class="control-group padding">
+				<div class="input-group-md input-group-sm col-md-12 col-xs-12">
+				 <!-- BEGIN Error -->
+				      {Error}
+				 <!-- END Error -->
+					<div class="row">
+						<div class="col-md-4 col-xs-9">
+						  <input type="text" name="{s_search_Name}" value="{s_search}" maxlength="100" size="20" id="s_search" class="col-xs-12 col-md-12">
+						</div>
+						<div class="col-md-4 col-xs-9"> 	 
+					        <!-- BEGIN Button Button_DoSearch --><button class="btn btn-sm btn-success" name="{Button_Name}" type="submit" value="Search" id="users_listalm_usersSearchButton_DoSearch"><i class="icon-search nav-search-icon">{res:search}</i></button><!-- END Button Button_DoSearch -->
+							&nbsp;&nbsp;&nbsp;
+							<div class="btn-group">	
+								<button data-toggle="dropdown" class="btn btn-sm btn-success dropdown-toggle"><li class="icon-cogs bigger-110"></li>{res:options}
+									<span class="icon-caret-down icon-only"></span>
+								</button>
+								<ul class="dropdown-menu dropdown-primary">
+									<li><a href="users_maint.php"><span class="icon-plus purple bigger-120"></span> {res:adduser}</a></li>
+									<!-- <li><a href="#"><span class="icon-key green bigger-120"></span> {res:securitygroups}</a></li> -->
+									<li class="divider"></li>
+									<li><a href="users.php"><span class="icon-refresh green bigger 120"></span> &nbsp;{res:CCS_Clear}</a></li>
+								</ul>
+							</div>
+
+							</div>
+						</div>
+					</div>		
+				</div><br>
+				<!-- control group -->
+			</div>
+			<!-- control group -->
+		</div>
+		<!-- col -->
+	</div>
+	<!-- row -->
+
+	<div class="row">&nbsp;</div>
+ 
+	<div class="row">
+ 
+	</div>
+	<!-- row -->
+</form>
+<!-- END Record alm_usersSearch -->
+
+</div><!-- widget main -->
+</div><!-- widget body -->
+</div><!-- widget box -->
+<br><br>
+
+
+<div class="table-responsive">
+<!-- BEGIN Grid alm_users -->
+<table class="table table-striped table-bordered table-hover">
+  <tr>
+    <th class="text-center">
+    <!-- BEGIN Sorter Sorter_guid --><a href="{Sort_URL}" id="users_listalm_usersSorter_guid"><li class="icon-cogs bigger-150"></li></a> 
+    <!-- BEGIN Asc_On --><img border="0" src="Styles/None/Images/Asc.gif"><!-- END Asc_On -->
+    <!-- BEGIN Desc_On --><img border="0" src="Styles/None/Images/Desc.gif"><!-- END Desc_On --><!-- END Sorter Sorter_guid --></th>
+ 
+    <th>
+    <!-- BEGIN Sorter Sorter_username --><a href="{Sort_URL}" id="users_listalm_usersSorter_username">{res:username}</a> 
+    <!-- BEGIN Asc_On --><img border="0" src="Styles/None/Images/Asc.gif"><!-- END Asc_On -->
+    <!-- BEGIN Desc_On --><img border="0" src="Styles/None/Images/Desc.gif"><!-- END Desc_On --><!-- END Sorter Sorter_username --></th>
+ 
+    <th>
+    <!-- BEGIN Sorter Sorter_fullname --><a href="{Sort_URL}" id="users_listalm_usersSorter_fullname">{res:fullname}</a> 
+    <!-- BEGIN Asc_On --><img border="0" src="Styles/None/Images/Asc.gif"><!-- END Asc_On -->
+    <!-- BEGIN Desc_On --><img border="0" src="Styles/None/Images/Desc.gif"><!-- END Desc_On --><!-- END Sorter Sorter_fullname --></th>
+ 
+    <th>
+    <!-- BEGIN Sorter Sorter_group_id --><a href="{Sort_URL}" id="users_listalm_usersSorter_group_id">{res:securitygroupid}</a> 
+    <!-- BEGIN Asc_On --><img border="0" src="Styles/None/Images/Asc.gif"><!-- END Asc_On -->
+    <!-- BEGIN Desc_On --><img border="0" src="Styles/None/Images/Desc.gif"><!-- END Desc_On --><!-- END Sorter Sorter_group_id --></th>
+ 
+    <th>
+    <!-- BEGIN Sorter Sorter_partner_id --><a href="{Sort_URL}" id="users_listalm_usersSorter_partner_id">{res:personalid}</a> 
+    <!-- BEGIN Asc_On --><img border="0" src="Styles/None/Images/Asc.gif"><!-- END Asc_On -->
+    <!-- BEGIN Desc_On --><img border="0" src="Styles/None/Images/Desc.gif"><!-- END Desc_On --><!-- END Sorter Sorter_partner_id --></th>
+ 
+   	<th class="blue">{res:phone}</th>
+
+  </tr>
+ 
+  <!-- BEGIN Row -->
+  <tr {alm_users:rowStyle}>
+    <td class="text-center">
+		<div class="action-buttons">
+			<!-- <img src="{user_photo}" style="width:150px;height:150px" class="img-rounded img-responsive" /><br> -->
+			<a href="users_maint.php?guid={guid}" class="green"><i class="icon-pencil bigger-190"></i>&nbsp;</a>
+			<!-- <a href="users_photos.php?guid={guid}" class="green"><i class="icon-picture bigger-190"></i>&nbsp;</a>	-->		
+		</div>
+	</td> 
+    <td>{username}&nbsp;</td> 
+    <td>{fullname}&nbsp;</td> 
+    <td><span class="{group_style}"></span>&nbsp;{group_id}&nbsp;</td> 
+    <td class="text-center">{personal_id}&nbsp;</td> 
+	<td>{phone}</td>
+  </tr>
+ <!-- END Row -->
+  <!-- BEGIN NoRecords -->
+  <tr>
+    <td colspan="5">No records</td> 
+  </tr>
+ <!-- END NoRecords -->
+  <tr>
+    <td colspan="5">
+      <!-- BEGIN Navigator Navigator -->
+      <!-- BEGIN First_On --><a href="{First_URL}"><img border="0" src="Styles/None/Images/First.gif"></a> <!-- END First_On -->
+      <!-- BEGIN First_Off --><img border="0" src="Styles/None/Images/FirstOff.gif"><!-- END First_Off -->
+      <!-- BEGIN Prev_On --><a href="{Prev_URL}"><img border="0" src="Styles/None/Images/Prev.gif"></a> <!-- END Prev_On -->
+      <!-- BEGIN Prev_Off --><img border="0" src="Styles/None/Images/PrevOff.gif"><!-- END Prev_Off -->&nbsp; 
+      <!-- BEGIN Pages -->
+      <!-- BEGIN Page_On --><a href="{Page_URL}">{Page_Number}</a>&nbsp;<!-- END Page_On -->
+      <!-- BEGIN Page_Off -->{Page_Number}&nbsp;<!-- END Page_Off --><!-- END Pages -->of&nbsp;{Total_Pages}&nbsp; 
+      <!-- BEGIN Next_On --><a href="{Next_URL}"><img border="0" src="Styles/None/Images/Next.gif"></a> <!-- END Next_On -->
+      <!-- BEGIN Next_Off --><img border="0" src="Styles/None/Images/NextOff.gif"><!-- END Next_Off -->
+      <!-- BEGIN Last_On --><a href="{Last_URL}"><img border="0" src="Styles/None/Images/Last.gif"></a> <!-- END Last_On -->
+      <!-- BEGIN Last_Off --><img border="0" src="Styles/None/Images/LastOff.gif"><!-- END Last_Off --><!-- END Navigator Navigator -->&nbsp;</td> 
+  </tr>
+</table>
+<!-- END Grid alm_users -->
+</div>
+<br>

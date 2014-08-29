@@ -1,0 +1,72 @@
+<div class="widget-box">
+	<div class="widget-header">
+		<h4>{res:addeditassessment} {lbtype}</h4>
+	</div>
+	<div class="widget-body">
+		<div class="row">
+			<div class="col-md-1 col-xs-1"></div>			
+			<div class="col-md-9 col-xs-11">
+				<form name="options" id="options" method="post" action="customers_assessment_maint.php">
+					<div class="row">
+						<div class="col-xs-1">
+						</div>
+						<div class="col-md-10 col-xs-10">
+							<div class="alert alert-block alert-success {page:showalert}">
+								<button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button>
+								<p><strong><i class="icon-ok"></i>{res:saved}</strong>{res:savedmessage}</p>
+							</div>
+						</div>
+					</div>
+					<!-- row -->
+					<div class="row">
+						<div class="col-xs-1">
+						</div>
+						<div class="col-md-12 col-xs-12">
+							<br>
+							<label class="control-label blue" for="title">{res:title}</label><br>
+							<input type="text" name="{title_Name}" value="{title}" id="title" maxlength="250" size="65%" data-validation-error-msg="{res:invalidtitle}" data-validation="required">
+							<input type="hidden" name="{hidtype_id_Name}" value="{hidtype_id}" id="hidtype_id">
+							<input type="hidden" name="{hidguid_Name}" value="{hidguid}" id="hidguid">
+							<input type="hidden" name="{hidtab_Name}" value="{hidtab}" id="hidtab">
+							<input type="hidden" name="{o_Name}" value="{o}" id="o">
+						</div>
+					</div>
+					<!-- row -->
+					<div class="row">
+						<div class="col-md-12 col-xs-12 form-actions center">
+							<a href="customers_assessment.php{lbgoback}" role="button" id="goback" class="btn btn-sm btn-success"><li class="icon-arrow-left">&nbsp;{res:buttongoback}</li></a>&nbsp;&nbsp;
+							<button type="submit" name="submit" value="submit" class="btn btn-sm btn-success {page:enableelement}"><li class="icon-save">&nbsp; {res:buttonsave}</li></button>
+						</div>
+					</div>
+					<!-- row -->
+				</form>
+			</div>
+		</div><!-- row -->
+
+	</div>
+	<!-- widget-body -->
+</div>
+<!-- widget-box -->
+
+<!-- included here to not mess with too much js in the main page -->
+<script src="assets/js/jquery-2.0.3.min.js"></script>
+<script src="assets/js/json3.min.js"></script>
+<script src="assets/js/form-validator/jquery.form-validator.min.js"></script>
+<script src="assets/js/jquery.colorbox-min.js"></script>
+<script src="assets/js/date-time/bootstrap-datepicker.min.js"></script>
+<script src="assets/js/bootbox.min.js"></script>
+<script src="assets/js/jquery-ui-1.10.3.custom.min.js"></script>
+<script src="assets/js/jquery.ui.touch-punch.min.js"></script>
+
+<script>
+$(function(){
+        
+        $("#title").focus();
+		$("#title").select();
+        $.validate({
+                form : "#options"
+        });
+
+});
+
+</script>
