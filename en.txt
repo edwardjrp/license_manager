@@ -287,3 +287,5 @@ reseller_authorization=Reseller Authorization
 tier1_authorization=Tier 1 Authorization
 reorder=Reorder
 export_restriction=Export Restriction
+manufacturers=Manufacturers
+suites=Suites
