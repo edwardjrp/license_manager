@@ -1,0 +1,178 @@
+<h3 class="row header smaller lighter blue"><a href="products.php"><span class="col-sm-3"><i class="icon-th bigger-160 orange"></i>&nbsp; {res:products}</span></a> </h3>
+<div class="widget-box col-xs-12 col-md-12">
+	<div class="widget-header widget-header-blue"><h4 class="lighter">{res:search}</h4></div>
+	<div class="widget-body">
+		<div class="widget-main">
+			<!-- BEGIN Record search -->
+			<form id="products_listsearch" method="post" action="{Action}" name="{HTMLFormName}">
+				<div class="row">
+					<div class="col-md-12 col-xs-12">
+						<div class="control-group padding">
+							<div class="input-group-md input-group-sm col-md-12 col-xs-12">
+								<!-- BEGIN Error -->{Error}<!-- END Error -->
+								<div class="row">
+									<div class="col-md-4 col-xs-12">
+										<label class="blue" for"lbmanufacturer">{res:manufacturer}</label><br>
+										<select name="{lbmanufacturer_Name}" class="width-90 chosen-select" id="lbmanufacturer">
+												{lbmanufacturer_Options}
+										</select>
+									</div>
+
+									<div class="col-md-7 col-xs-12">
+										<label class="blue" for"lbsuite">{res:suite}</label><br>
+										<select name="{lbsuite_Name}" class="width-95 chosen-select" id="lbsuite">
+											{lbsuite_Options}
+										</select>
+									</div>
+									<div class="col-md-4 col-xs-12">
+										<label class="blue" for"lboffering">{res:offering}</label><br>
+										<select name="{lboffering_Name}" class="width-90 chosen-select" id="lboffering">
+											<option value="">{res:showall}</option>
+											{lboffering_Options}
+										</select>
+									</div>
+
+									<div class="col-md-4 col-xs-12">
+										<label class="blue" for"lbpricingtier">{res:pricingtier}</label><br>
+										<select name="{lbpricingtier_Name}" class="width-90 chosen-select" id="lbpricingtier">
+											<option value="">{res:showall}</option>
+											{lbpricingtier_Options}
+										</select>
+									</div>
+
+									<div class="col-md-4 col-xs-12">
+										<br>
+										<input type="text" name="{s_search_Name}" value="{s_search}" id="s_search" class="col-xs-12 col-md-12" placeholder="{res:searchproduct}">&nbsp;
+									</div>
+									<div class="col-md-4 col-xs-12">
+										<!-- BEGIN Button Button_Search --><button class="btn btn-sm btn-success" name="{Button_Name}" type="submit" value="{res:search}"><i class="icon-search nav-search-icon"></i> &nbsp;{res:search}</button><!-- END Button Button_Search -->&nbsp;&nbsp;&nbsp;
+										<a href="products.php" role="button" class="btn btn-sm btn-success"><span class="icon-asterisk white"></span> {res:clearsearch}</a>&nbsp;&nbsp;&nbsp;
+										<a href="#" role="button" class="btn btn-sm btn-success"><span class="icon-th white"></span> {res:addproduct}</a>
+									</div>
+								
+								</div>
+							</div>
+						</div>
+						<br>
+					</div><!-- control group -->
+				</div><!-- col -->
+			</div><!-- row -->
+			<div class="row">&nbsp;</div>
+			<div class="row"></div><!-- row -->
+		</form><!-- END Record search -->
+	</div><!-- widget main -->
+</div><!-- widget body -->
+</div><!-- widget box -->
+<br>
+<br>
+
+<div class="table-responsive">
+<!-- BEGIN Grid v_alm_products --> 
+<table class="table table-striped table-bordered table-hove">
+	<tr><td colspan="9">{res:recordscount}: {lbrecordscount}</td></tr>
+	<tr>
+		<th class="text-center">
+		<!-- BEGIN Sorter Sorter_guid --><a href="{Sort_URL}" id="guid"><li class="icon-cogs bigger-150"></li></a>
+		<!-- BEGIN Asc_On --><img border="0" src="Styles/None/Images/Asc.gif"><!-- END Asc_On -->
+		<!-- BEGIN Desc_On --><img border="0" src="Styles/None/Images/Desc.gif"><!-- END Desc_On --><!-- END Sorter Sorter_guid --></th>
+		<th>
+		<!-- BEGIN Sorter Sorter_suite_code --><a href="{Sort_URL}" id="suite_code">{res:suite_code}</a>
+		<!-- BEGIN Asc_On --><img border="0" src="Styles/None/Images/Asc.gif"><!-- END Asc_On -->
+		<!-- BEGIN Desc_On --><img border="0" src="Styles/None/Images/Desc.gif"><!-- END Desc_On --><!-- END Sorter Sorter_suite_code --></th>
+		<th>
+		<!-- BEGIN Sorter Sorter_offer_name --><a href="{Sort_URL}" id="offer_name">{res:offer_name}</a>
+		<!-- BEGIN Asc_On --><img border="0" src="Styles/None/Images/Asc.gif"><!-- END Asc_On -->
+		<!-- BEGIN Desc_On --><img border="0" src="Styles/None/Images/Desc.gif"><!-- END Desc_On --><!-- END Sorter Sorter_offer_name --></th>
+		<th>
+		<!-- BEGIN Sorter Sorter_pricingtier_name --><a href="{Sort_URL}" id="pricingtier_name">{res:pricingtier_name}</a>
+		<!-- BEGIN Asc_On --><img border="0" src="Styles/None/Images/Asc.gif"><!-- END Asc_On -->
+		<!-- BEGIN Desc_On --><img border="0" src="Styles/None/Images/Desc.gif"><!-- END Desc_On --><!-- END Sorter Sorter_pricingtier_name --></th>
+		<th>
+		<!-- BEGIN Sorter Sorter_short_description --><a href="{Sort_URL}" id="short_description">{res:short_description}</a>
+		<!-- BEGIN Asc_On --><img border="0" src="Styles/None/Images/Asc.gif"><!-- END Asc_On -->
+		<!-- BEGIN Desc_On --><img border="0" src="Styles/None/Images/Desc.gif"><!-- END Desc_On --><!-- END Sorter Sorter_short_description --></th>
+		<th>
+		<!-- BEGIN Sorter Sorter_range_min --><a href="{Sort_URL}" id="range_min">{res:range_min}</a>
+		<!-- BEGIN Asc_On --><img border="0" src="Styles/None/Images/Asc.gif"><!-- END Asc_On -->
+		<!-- BEGIN Desc_On --><img border="0" src="Styles/None/Images/Desc.gif"><!-- END Desc_On --><!-- END Sorter Sorter_range_min --></th>
+		<th>
+		<!-- BEGIN Sorter Sorter_range_max --><a href="{Sort_URL}" id="range_max">{res:range_max}</a>
+		<!-- BEGIN Asc_On --><img border="0" src="Styles/None/Images/Asc.gif"><!-- END Asc_On -->
+		<!-- BEGIN Desc_On --><img border="0" src="Styles/None/Images/Desc.gif"><!-- END Desc_On --><!-- END Sorter Sorter_range_max --></th>
+		<th>
+		<!-- BEGIN Sorter Sorter_channel_sku --><a href="{Sort_URL}" id="channel_sku">{res:channel_sku}</a>
+		<!-- BEGIN Asc_On --><img border="0" src="Styles/None/Images/Asc.gif"><!-- END Asc_On -->
+		<!-- BEGIN Desc_On --><img border="0" src="Styles/None/Images/Desc.gif"><!-- END Desc_On --><!-- END Sorter Sorter_channel_sku --></th>
+		<th>
+		<!-- BEGIN Sorter Sorter_msrp_price --><a href="{Sort_URL}" id="msrp_price">{res:msrp_price}</a>
+		<!-- BEGIN Asc_On --><img border="0" src="Styles/None/Images/Asc.gif"><!-- END Asc_On -->
+		<!-- BEGIN Desc_On --><img border="0" src="Styles/None/Images/Desc.gif"><!-- END Desc_On --><!-- END Sorter Sorter_msrp_price --></th>
+	</tr>
+	<!-- BEGIN Row -->
+	<tr {v_alm_products:rowStyle}>
+		<td>
+			<div class="action-buttons">
+				<a href="#?{guid}" class="green"><i class="icon-pencil bigger-180"></i>&nbsp;</a>&nbsp;&nbsp;
+				<a href="products_view.php?guid={guid}" class="blue"><i class="icon-eye-open bigger-180"></i>&nbsp;</a>
+			</div>		
+		</td>
+		<td>{suite_code}&nbsp;</td>
+		<td>{offer_name}&nbsp;</td>
+		<td>{pricingtier_name}&nbsp;</td>
+		<td>
+{short_description}&nbsp;</td>
+		<td style="text-align:right;">{range_min}&nbsp;</td>
+		<td style="text-align:right;">{range_max}&nbsp;</td>
+		<td>{channel_sku}&nbsp;</td>
+		<td style="text-align:right;">{msrp_price}&nbsp;</td>
+	</tr>
+	<!-- END Row -->
+	<!-- BEGIN NoRecords -->
+	<tr>
+		<td colspan="9">{res:CCS_NoRecords}</td>
+	</tr>
+	<!-- END NoRecords -->
+	<tr>
+		<td colspan="9">
+			<!-- BEGIN Navigator Navigator -->
+			<!-- BEGIN First_On --><a href="{First_URL}"><img border="0" src="Styles/None/Images/First.gif"></a> <!-- END First_On -->
+			<!-- BEGIN First_Off --><img border="0" src="Styles/None/Images/FirstOff.gif"><!-- END First_Off -->
+			<!-- BEGIN Prev_On --><a href="{Prev_URL}"><img border="0" src="Styles/None/Images/Prev.gif"></a> <!-- END Prev_On -->
+			<!-- BEGIN Prev_Off --><img border="0" src="Styles/None/Images/PrevOff.gif"><!-- END Prev_Off -->&nbsp;
+			<!-- BEGIN Pages -->
+			<!-- BEGIN Page_On --><a href="{Page_URL}">{Page_Number}</a>&nbsp;<!-- END Page_On -->
+			<!-- BEGIN Page_Off -->{Page_Number}&nbsp;<!-- END Page_Off --><!-- END Pages -->{res:CCS_Of}&nbsp;{Total_Pages}&nbsp; 
+			<!-- BEGIN Next_On --><a href="{Next_URL}"><img border="0" src="Styles/None/Images/Next.gif"></a> <!-- END Next_On -->
+			<!-- BEGIN Next_Off --><img border="0" src="Styles/None/Images/NextOff.gif"><!-- END Next_Off -->
+			<!-- BEGIN Last_On --><a href="{Last_URL}"><img border="0" src="Styles/None/Images/Last.gif"></a> <!-- END Last_On -->
+			<!-- BEGIN Last_Off --><img border="0" src="Styles/None/Images/LastOff.gif"><!-- END Last_Off --><!-- END Navigator Navigator -->&nbsp;</td>
+	</tr>
+</table>
+<!-- END Grid v_alm_products --><br>
+</div>
+
+
+<link rel="stylesheet" href="assets/css/datepicker.css" />
+<link rel="stylesheet" href="assets/css/colorbox.css" />
+<link rel="stylesheet" href="assets/css/chosen.css" />
+
+<!-- included here to not mess with too much js in the main page -->
+<script src="assets/js/jquery-2.0.3.min.js"></script>
+<script src="assets/js/json3.min.js"></script>
+<script src="assets/js/form-validator/jquery.form-validator.min.js"></script>
+<script src="assets/js/jquery.colorbox-min.js"></script>
+<script src="assets/js/date-time/bootstrap-datepicker.min.js"></script>
+<script src="assets/js/bootbox.min.js"></script>
+<script src="assets/js/jquery-ui-1.10.3.custom.min.js"></script>
+<script src="assets/js/jquery.ui.touch-punch.min.js"></script>
+<script src="assets/js/jquery.colorbox-min.js"></script>
+<script src="assets/js/chosen.jquery.min.js"></script>
+
+<script>
+$(function(){
+
+	$(".chosen-select").chosen(); 
+
+});
+
+</script>

@@ -1,0 +1,146 @@
+<div class="widget-box">
+	<div class="widget-header">
+		<h4>{res:viewproduct}</h4>
+	</div>
+	<div class="widget-body">
+		<!-- BEGIN Record v_alm_products -->
+		<form id="v_alm_products" method="post" action="{Action}" name="{HTMLFormName}">
+			<div class="row widget-main">
+			<!-- BEGIN Error -->
+			<!-- END Error -->
+			<div class="row col-md-12 col-xs-12">
+				<div class="row col-xs-12">
+					<div class="col-md-1 col-xs-0"></div>
+					<div class="col-md-5 col-xs-12">
+						<label class="control-label blue">{res:description}</label><br>
+						<input type="text" name="{description_Name}" value="{description}" disabled class="col-md-12 col-xs-12">
+					</div>
+					<div class="col-md-6 col-xs-12">
+						<label class="control-label blue">{res:detaileddescription}</label><br>
+						<input type="text" name="{detaileddescription_Name}" value="{detaileddescription}" disabled class="col-md-12 col-xs-12">
+					</div>
+				</div><!-- row -->
+
+				<div class="row col-xs-12">
+					<div class="col-md-1 col-xs-0"></div>
+					<div class="col-md-2 col-xs-12">
+						<label class="control-label blue">{res:manufacturer}</label><br>
+						<input type="text" name="{manufacturer_Name}" value="{manufacturer}" disabled class="col-md-12 col-xs-12">
+					</div>
+					<div class="col-md-1 col-xs-12">
+						<label class="control-label blue">{res:suitecode}</label><br>
+						<input type="text" name="{suitecode_Name}" value="{suitecode}" disabled class="col-md-12 col-xs-12">
+					</div>
+					<div class="col-md-3 col-xs-12">
+						<label class="control-label blue">{res:suitename}</label><br>
+						<input type="text" name="{suitename_Name}" value="{suitename}" disabled class="col-md-12 col-xs-12">
+					</div>
+					<div class="col-md-3 col-xs-12">
+						<label class="control-label blue">{res:offertype}</label><br>
+						<input type="text" name="{offer_name_Name}" value="{offer_name}" disabled class="col-md-12 col-xs-12">
+					</div>
+					<div class="col-md-2 col-xs-12">
+						<label class="control-label blue">{res:pricingtier}</label><br>
+						<input type="text" name="{pricingtier_name_Name}" value="{pricingtier_name}" disabled class="col-md-12 col-xs-12">
+					</div>
+				</div><!-- row -->
+
+				<div class="row col-xs-12">
+					<h3 class="header smaller lighter red">&nbsp;{res:productpriceinfo}</h3>
+					<div class="col-md-1 col-xs-0"></div>
+					<div class="col-md-1 col-xs-12">
+						<label class="control-label blue">{res:range_min}</label><br>
+						<input type="text" name="{range_min_Name}" value="{range_min}" disabled class="col-md-12 col-xs-12">
+					</div>
+					<div class="col-md-1 col-xs-12">
+						<label class="control-label blue">{res:range_max}</label><br>
+						<input type="text" name="{range_min1_Name}" value="{range_min1}" disabled class="col-md-12 col-xs-12">
+					</div>
+					<div class="col-md-2 col-xs-12">
+						<label class="control-label blue">{res:channel_sku}</label><br>
+						<input type="text" name="{channel_sku_Name}" value="{channel_sku}" disabled class="col-md-12 col-xs-12">
+					</div>
+					<div class="col-md-2 col-xs-12">
+						<label class="control-label blue">{res:msrp_price}</label><br>
+						<input type="text" name="{msrp_price_Name}" value="{msrp_price}" disabled class="col-md-12 col-xs-12">
+					</div>
+					<div class="col-md-2 col-xs-12">
+						<label class="control-label blue">{res:packaged_weight}</label><br>
+						<input type="text" name="{packaged_weight_Name}" value="{packaged_weight}" disabled class="col-md-12 col-xs-12">
+					</div>
+					<div class="col-md-2 col-xs-12">
+						<label class="control-label blue">{res:packaged_size}</label><br>
+						<input type="text" name="{packaged_size_Name}" value="{packaged_size}" disabled class="col-md-12 col-xs-12">
+					</div>
+				</div><!-- row -->
+
+				<div class="row col-xs-12">
+					<div class="col-md-1 col-xs-0"></div>
+					<div class="col-md-1 col-xs-12">
+						<label class="control-label blue">{res:assurance}</label><br>
+						<input type="checkbox" name="{assurance_Name}" value="1" {assurance} class="ace ace-checkbox-2" disabled>
+						<span class="lbl">&nbsp;&nbsp;</span>
+					</div>
+					<div class="col-md-1 col-xs-12">
+						<label class="control-label blue">{res:tiered_pric}</label><br>
+						<input type="checkbox" name="{tiered_pric_Name}" value="1" {tiered_pric} class="ace ace-checkbox-2" disabled><span class="lbl">&nbsp;&nbsp;</span>
+					</div>
+					<div class="col-md-2 col-xs-12">
+						<label class="control-label blue">{res:reseller_authorization}</label><br>
+						<input type="checkbox" name="{reseller_authorization_Name}" value="1" {reseller_authorization} class="ace ace-checkbox-2" disabled><span class="lbl">&nbsp;&nbsp;</span>
+					</div>
+					<div class="col-md-2 col-xs-12">
+						<label class="control-label blue">{res:tier1_authorization}</label><br>
+						<input type="checkbox" name="{tier1_authorization_Name}" value="1" {tier1_authorization} class="ace ace-checkbox-2" disabled><span class="lbl">&nbsp;&nbsp;</span>
+					</div>
+					<div class="col-md-2 col-xs-12">
+						<label class="control-label blue">{res:reorder}</label><br>
+						<input type="checkbox" name="{reorder_Name}" value="1" {reorder} class="ace ace-checkbox-2" disabled><span class="lbl">&nbsp;&nbsp;</span>
+					</div>
+					<div class="col-md-2 col-xs-12">
+						<label class="control-label blue">{res:export_restriction}</label><br>
+						<input type="checkbox" name="{export_restriction_Name}" value="1" {export_restriction} class="ace ace-checkbox-2" disabled><span class="lbl">&nbsp;&nbsp;</span>
+					</div>
+
+				</div><!-- row -->
+
+			</div><!-- main row -->
+
+			<div class="row">
+				<div class="col-md-12 col-xs-12">
+					<div class="form-actions center">
+						<a href="products.php{lbgoback}" role="button" id="goback" class="btn btn-sm btn-success"><li class="icon-arrow-left"></li>&nbsp;{res:buttongoback}</a> &nbsp;&nbsp;
+					</div><!-- form-actions  -->
+				</div>
+			</div>
+
+			</div><!-- box row -->
+		</form>
+		<!-- END Record v_alm_products -->			
+		</div>
+		<!-- widget-body -->
+	</div>
+	<!-- widget-box -->
+	<link rel="stylesheet" href="assets/css/datepicker.css" />
+	<!-- included here to not mess with too much js in the main page -->
+	<script src="assets/js/jquery-2.0.3.min.js"></script>
+	<script src="assets/js/json3.min.js"></script>
+	<script src="assets/js/form-validator/jquery.form-validator.min.js"></script>
+	<script src="assets/js/jquery.colorbox-min.js"></script>
+	<script src="assets/js/date-time/bootstrap-datepicker.min.js"></script>
+	<script src="assets/js/bootbox.min.js"></script>
+	<script src="assets/js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script src="assets/js/jquery.ui.touch-punch.min.js"></script>
+	<script>
+$(function(){
+        
+        //$("#s_customer").focus();
+        //validate coordinates
+        //$.validate({
+        //        form : "#alm_products"
+        //});
+
+
+});
+
+</script>
