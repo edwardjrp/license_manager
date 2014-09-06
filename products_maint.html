@@ -29,10 +29,10 @@
 						</script>
 						<ul class="breadcrumb">
 							<li>
-								<i class="icon-gear red bigger-150"></i>
-								<a href="settings.php">{res:settings}</a>
+								<i class="icon-th orange bigger-150"></i>
+								<a href="products.php">{res:products}</a>
 							</li>
-							<li class="active">{res:addeditsettings}</li>
+							<li class="active">{res:addeditproduct}</li>
 						</ul><!-- .breadcrumb -->
 
 					</div> <!-- breadcrumbs -->
@@ -41,7 +41,7 @@
 						<div class="row">
 							<div class="col-xs-12">
 								<!-- PAGE CONTENT BEGINS -->
-									{settings_maintcontent}
+									{products_maintcontent}									
 								<!-- PAGE CONTENT ENDS -->
 							</div><!-- /.col -->
 						</div><!-- /.row -->
@@ -57,18 +57,6 @@
 
 		<!-- footer -->
 		{footer}
-
-		<script src="assets/js/form-validator/jquery.form-validator.min.js"></script>
-		<script>
-		$(function(){
-	
-			$("#settings_maintvalue").focus();
-			$.validate({
-				form : "#settings_maintcontentoptions"
-			});
-
-		});
-		</script>
 
 	</body>
 </html>

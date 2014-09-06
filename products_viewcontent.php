@@ -36,7 +36,7 @@ class clsRecordproducts_viewcontentv_alm_products { //v_alm_products Class @5-F1
  // Class variables
 //End Variables
 
-//Class_Initialize Event @5-3942387E
+//Class_Initialize Event @5-AA78B3C0
  function clsRecordproducts_viewcontentv_alm_products($RelativePath, & $Parent)
  {
 
@@ -76,18 +76,6 @@ class clsRecordproducts_viewcontentv_alm_products { //v_alm_products Class @5-F1
    $this->msrp_price = new clsControl(ccsTextBox, "msrp_price", "msrp_price", ccsFloat, array(False, 2, Null, Null, False, "\$ ", "", 1, True, ""), CCGetRequestParam("msrp_price", $Method, NULL), $this);
    $this->packaged_weight = new clsControl(ccsTextBox, "packaged_weight", "packaged_weight", ccsText, "", CCGetRequestParam("packaged_weight", $Method, NULL), $this);
    $this->packaged_size = new clsControl(ccsTextBox, "packaged_size", "packaged_size", ccsText, "", CCGetRequestParam("packaged_size", $Method, NULL), $this);
-   $this->assurance = new clsControl(ccsCheckBox, "assurance", "assurance", ccsBoolean, $CCSLocales->GetFormatInfo("BooleanFormat"), CCGetRequestParam("assurance", $Method, NULL), $this);
-   $this->assurance->CheckedValue = true;
-   $this->assurance->UncheckedValue = false;
-   $this->tiered_pric = new clsControl(ccsCheckBox, "tiered_pric", "tiered_pric", ccsBoolean, $CCSLocales->GetFormatInfo("BooleanFormat"), CCGetRequestParam("tiered_pric", $Method, NULL), $this);
-   $this->tiered_pric->CheckedValue = true;
-   $this->tiered_pric->UncheckedValue = false;
-   $this->reseller_authorization = new clsControl(ccsCheckBox, "reseller_authorization", "reseller_authorization", ccsBoolean, $CCSLocales->GetFormatInfo("BooleanFormat"), CCGetRequestParam("reseller_authorization", $Method, NULL), $this);
-   $this->reseller_authorization->CheckedValue = true;
-   $this->reseller_authorization->UncheckedValue = false;
-   $this->tier1_authorization = new clsControl(ccsCheckBox, "tier1_authorization", "tier1_authorization", ccsBoolean, $CCSLocales->GetFormatInfo("BooleanFormat"), CCGetRequestParam("tier1_authorization", $Method, NULL), $this);
-   $this->tier1_authorization->CheckedValue = true;
-   $this->tier1_authorization->UncheckedValue = false;
    $this->reorder = new clsControl(ccsCheckBox, "reorder", "reorder", ccsBoolean, $CCSLocales->GetFormatInfo("BooleanFormat"), CCGetRequestParam("reorder", $Method, NULL), $this);
    $this->reorder->CheckedValue = true;
    $this->reorder->UncheckedValue = false;
@@ -95,15 +83,8 @@ class clsRecordproducts_viewcontentv_alm_products { //v_alm_products Class @5-F1
    $this->export_restriction->CheckedValue = true;
    $this->export_restriction->UncheckedValue = false;
    $this->lbgoback = new clsControl(ccsLabel, "lbgoback", "lbgoback", ccsText, "", CCGetRequestParam("lbgoback", $Method, NULL), $this);
+   $this->barcode_ean_upc = new clsControl(ccsTextBox, "barcode_ean_upc", $CCSLocales->GetText("barcode"), ccsText, "", CCGetRequestParam("barcode_ean_upc", $Method, NULL), $this);
    if(!$this->FormSubmitted) {
-    if(!is_array($this->assurance->Value) && !strlen($this->assurance->Value) && $this->assurance->Value !== false)
-     $this->assurance->SetValue(false);
-    if(!is_array($this->tiered_pric->Value) && !strlen($this->tiered_pric->Value) && $this->tiered_pric->Value !== false)
-     $this->tiered_pric->SetValue(false);
-    if(!is_array($this->reseller_authorization->Value) && !strlen($this->reseller_authorization->Value) && $this->reseller_authorization->Value !== false)
-     $this->reseller_authorization->SetValue(false);
-    if(!is_array($this->tier1_authorization->Value) && !strlen($this->tier1_authorization->Value) && $this->tier1_authorization->Value !== false)
-     $this->tier1_authorization->SetValue(false);
     if(!is_array($this->reorder->Value) && !strlen($this->reorder->Value) && $this->reorder->Value !== false)
      $this->reorder->SetValue(false);
     if(!is_array($this->export_restriction->Value) && !strlen($this->export_restriction->Value) && $this->export_restriction->Value !== false)
@@ -123,7 +104,7 @@ class clsRecordproducts_viewcontentv_alm_products { //v_alm_products Class @5-F1
  }
 //End Initialize Method
 
-//Validate Method @5-74F92742
+//Validate Method @5-7DCBAD8C
  function Validate()
  {
   global $CCSLocales;
@@ -142,12 +123,9 @@ class clsRecordproducts_viewcontentv_alm_products { //v_alm_products Class @5-F1
   $Validation = ($this->msrp_price->Validate() && $Validation);
   $Validation = ($this->packaged_weight->Validate() && $Validation);
   $Validation = ($this->packaged_size->Validate() && $Validation);
-  $Validation = ($this->assurance->Validate() && $Validation);
-  $Validation = ($this->tiered_pric->Validate() && $Validation);
-  $Validation = ($this->reseller_authorization->Validate() && $Validation);
-  $Validation = ($this->tier1_authorization->Validate() && $Validation);
   $Validation = ($this->reorder->Validate() && $Validation);
   $Validation = ($this->export_restriction->Validate() && $Validation);
+  $Validation = ($this->barcode_ean_upc->Validate() && $Validation);
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "OnValidate", $this);
   $Validation =  $Validation && ($this->description->Errors->Count() == 0);
   $Validation =  $Validation && ($this->detaileddescription->Errors->Count() == 0);
@@ -162,17 +140,14 @@ class clsRecordproducts_viewcontentv_alm_products { //v_alm_products Class @5-F1
   $Validation =  $Validation && ($this->msrp_price->Errors->Count() == 0);
   $Validation =  $Validation && ($this->packaged_weight->Errors->Count() == 0);
   $Validation =  $Validation && ($this->packaged_size->Errors->Count() == 0);
-  $Validation =  $Validation && ($this->assurance->Errors->Count() == 0);
-  $Validation =  $Validation && ($this->tiered_pric->Errors->Count() == 0);
-  $Validation =  $Validation && ($this->reseller_authorization->Errors->Count() == 0);
-  $Validation =  $Validation && ($this->tier1_authorization->Errors->Count() == 0);
   $Validation =  $Validation && ($this->reorder->Errors->Count() == 0);
   $Validation =  $Validation && ($this->export_restriction->Errors->Count() == 0);
+  $Validation =  $Validation && ($this->barcode_ean_upc->Errors->Count() == 0);
   return (($this->Errors->Count() == 0) && $Validation);
  }
 //End Validate Method
 
-//CheckErrors Method @5-EEC4B691
+//CheckErrors Method @5-CBB1F87D
  function CheckErrors()
  {
   $errors = false;
@@ -189,13 +164,10 @@ class clsRecordproducts_viewcontentv_alm_products { //v_alm_products Class @5-F1
   $errors = ($errors || $this->msrp_price->Errors->Count());
   $errors = ($errors || $this->packaged_weight->Errors->Count());
   $errors = ($errors || $this->packaged_size->Errors->Count());
-  $errors = ($errors || $this->assurance->Errors->Count());
-  $errors = ($errors || $this->tiered_pric->Errors->Count());
-  $errors = ($errors || $this->reseller_authorization->Errors->Count());
-  $errors = ($errors || $this->tier1_authorization->Errors->Count());
   $errors = ($errors || $this->reorder->Errors->Count());
   $errors = ($errors || $this->export_restriction->Errors->Count());
   $errors = ($errors || $this->lbgoback->Errors->Count());
+  $errors = ($errors || $this->barcode_ean_upc->Errors->Count());
   $errors = ($errors || $this->Errors->Count());
   $errors = ($errors || $this->DataSource->Errors->Count());
   return $errors;
@@ -238,7 +210,7 @@ function GetPrimaryKey($keyName)
  }
 //End Operation Method
 
-//Show Method @5-1E95E2A6
+//Show Method @5-2131498A
  function Show()
  {
   global $CCSUseAmp;
@@ -279,12 +251,9 @@ function GetPrimaryKey($keyName)
      $this->msrp_price->SetValue($this->DataSource->msrp_price->GetValue());
      $this->packaged_weight->SetValue($this->DataSource->packaged_weight->GetValue());
      $this->packaged_size->SetValue($this->DataSource->packaged_size->GetValue());
-     $this->assurance->SetValue($this->DataSource->assurance->GetValue());
-     $this->tiered_pric->SetValue($this->DataSource->tiered_pric->GetValue());
-     $this->reseller_authorization->SetValue($this->DataSource->reseller_authorization->GetValue());
-     $this->tier1_authorization->SetValue($this->DataSource->tier1_authorization->GetValue());
      $this->reorder->SetValue($this->DataSource->reorder->GetValue());
      $this->export_restriction->SetValue($this->DataSource->export_restriction->GetValue());
+     $this->barcode_ean_upc->SetValue($this->DataSource->barcode_ean_upc->GetValue());
     }
    } else {
     $this->EditMode = false;
@@ -306,13 +275,10 @@ function GetPrimaryKey($keyName)
    $Error = ComposeStrings($Error, $this->msrp_price->Errors->ToString());
    $Error = ComposeStrings($Error, $this->packaged_weight->Errors->ToString());
    $Error = ComposeStrings($Error, $this->packaged_size->Errors->ToString());
-   $Error = ComposeStrings($Error, $this->assurance->Errors->ToString());
-   $Error = ComposeStrings($Error, $this->tiered_pric->Errors->ToString());
-   $Error = ComposeStrings($Error, $this->reseller_authorization->Errors->ToString());
-   $Error = ComposeStrings($Error, $this->tier1_authorization->Errors->ToString());
    $Error = ComposeStrings($Error, $this->reorder->Errors->ToString());
    $Error = ComposeStrings($Error, $this->export_restriction->Errors->ToString());
    $Error = ComposeStrings($Error, $this->lbgoback->Errors->ToString());
+   $Error = ComposeStrings($Error, $this->barcode_ean_upc->Errors->ToString());
    $Error = ComposeStrings($Error, $this->Errors->ToString());
    $Error = ComposeStrings($Error, $this->DataSource->Errors->ToString());
    $Tpl->SetVar("Error", $Error);
@@ -344,13 +310,10 @@ function GetPrimaryKey($keyName)
   $this->msrp_price->Show();
   $this->packaged_weight->Show();
   $this->packaged_size->Show();
-  $this->assurance->Show();
-  $this->tiered_pric->Show();
-  $this->reseller_authorization->Show();
-  $this->tier1_authorization->Show();
   $this->reorder->Show();
   $this->export_restriction->Show();
   $this->lbgoback->Show();
+  $this->barcode_ean_upc->Show();
   $Tpl->parse();
   $Tpl->block_path = $ParentPath;
   $this->DataSource->close();
@@ -361,7 +324,7 @@ function GetPrimaryKey($keyName)
 
 class clsproducts_viewcontentv_alm_productsDataSource extends clsDBdbConnection {  //v_alm_productsDataSource Class @5-7D7A1DBF
 
-//DataSource Variables @5-80BC60A7
+//DataSource Variables @5-5E9D4359
  public $Parent = "";
  public $CCSEvents = "";
  public $CCSEventResult;
@@ -386,16 +349,13 @@ class clsproducts_viewcontentv_alm_productsDataSource extends clsDBdbConnection 
  public $msrp_price;
  public $packaged_weight;
  public $packaged_size;
- public $assurance;
- public $tiered_pric;
- public $reseller_authorization;
- public $tier1_authorization;
  public $reorder;
  public $export_restriction;
  public $lbgoback;
+ public $barcode_ean_upc;
 //End DataSource Variables
 
-//DataSourceClass_Initialize Event @5-ED88B066
+//DataSourceClass_Initialize Event @5-1DEBA481
  function clsproducts_viewcontentv_alm_productsDataSource(& $Parent)
  {
   $this->Parent = & $Parent;
@@ -427,19 +387,13 @@ class clsproducts_viewcontentv_alm_productsDataSource extends clsDBdbConnection 
   
   $this->packaged_size = new clsField("packaged_size", ccsText, "");
   
-  $this->assurance = new clsField("assurance", ccsBoolean, $this->BooleanFormat);
-  
-  $this->tiered_pric = new clsField("tiered_pric", ccsBoolean, $this->BooleanFormat);
-  
-  $this->reseller_authorization = new clsField("reseller_authorization", ccsBoolean, $this->BooleanFormat);
-  
-  $this->tier1_authorization = new clsField("tier1_authorization", ccsBoolean, $this->BooleanFormat);
-  
   $this->reorder = new clsField("reorder", ccsBoolean, $this->BooleanFormat);
   
   $this->export_restriction = new clsField("export_restriction", ccsBoolean, $this->BooleanFormat);
   
   $this->lbgoback = new clsField("lbgoback", ccsText, "");
+  
+  $this->barcode_ean_upc = new clsField("barcode_ean_upc", ccsText, "");
   
 
  }
@@ -466,7 +420,7 @@ class clsproducts_viewcontentv_alm_productsDataSource extends clsDBdbConnection 
  }
 //End Open Method
 
-//SetValues Method @5-1B239C0D
+//SetValues Method @5-B2E47420
  function SetValues()
  {
   $this->description->SetDBValue($this->f("short_description"));
@@ -482,12 +436,9 @@ class clsproducts_viewcontentv_alm_productsDataSource extends clsDBdbConnection 
   $this->msrp_price->SetDBValue(trim($this->f("msrp_price")));
   $this->packaged_weight->SetDBValue($this->f("packaged_weight"));
   $this->packaged_size->SetDBValue($this->f("packaged_size"));
-  $this->assurance->SetDBValue(trim($this->f("assurance")));
-  $this->tiered_pric->SetDBValue(trim($this->f("tiered_pric")));
-  $this->reseller_authorization->SetDBValue(trim($this->f("reseller_authorization")));
-  $this->tier1_authorization->SetDBValue(trim($this->f("tier1_authorization")));
   $this->reorder->SetDBValue(trim($this->f("reorder")));
   $this->export_restriction->SetDBValue(trim($this->f("export_restriction")));
+  $this->barcode_ean_upc->SetDBValue($this->f("barcode_ean_upc"));
  }
 //End SetValues Method
 

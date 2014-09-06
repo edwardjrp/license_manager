@@ -45,6 +45,26 @@ function Page_BeforeShow(& $sender)
 			$MainPage->lbmodule->setvalue($m_title);
 			$Tpl->setvar("module",$m);
 		break;
+		case "manufacturer" :
+			$m_title = $CCSLocales->GetText("manufacturer");
+			$MainPage->lbmodule->setvalue($m_title);
+			$Tpl->setvar("module",$m);
+		break;
+		case "offerings" :
+			$m_title = $CCSLocales->GetText("offer_name");
+			$MainPage->lbmodule->setvalue($m_title);
+			$Tpl->setvar("module",$m);
+		break;
+		case "pricingtier" :
+			$m_title = $CCSLocales->GetText("pricingtier");
+			$MainPage->lbmodule->setvalue($m_title);
+			$Tpl->setvar("module",$m);
+		break;
+		case "group" :
+			$m_title = $CCSLocales->GetText("group");
+			$MainPage->lbmodule->setvalue($m_title);
+			$Tpl->setvar("module",$m);
+		break;
 	}
 
 

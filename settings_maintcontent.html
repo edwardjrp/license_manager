@@ -14,7 +14,7 @@
 				<div class="alert alert-block alert-warning">
 					<button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button>
 					<strong><li class="icon-remove"></li></strong>
-					<strong>Warning! </strong> Change this parameters if you really know what you are doing. 
+					<strong>{res:warning} </strong> {res:warningmessage} 
 				</div>
 
 <!-- BEGIN Record options -->
@@ -31,16 +31,16 @@
 		</tr>
 		<!-- END Error -->
 		<tr>
-			<th class="blue">Parameter</th>
-			<td><input type="text" name="{variable_Name}" value="{variable}" maxlength="100" size="50" id="settings_maintvariable" data-validation="required" data-validation-error-msg="Invalid Parameter"></td>
+			<th class="blue">{res:parameter}</th>
+			<td><input type="text" name="{variable_Name}" value="{variable}" maxlength="100" size="50" id="settings_maintvariable" data-validation="required" data-validation-error-msg="{res:invalidparameter}"></td>
 		</tr>
 		<tr>
-			<th class="blue">Value</th>
-			<td><input type="text" name="{value_Name}" value="{value}" size="50" id="settings_maintvalue" data-validation="required" data-validation-error-msg="Invalid Value"></td>
+			<th class="blue">{res:value}</th>
+			<td><input type="text" name="{value_Name}" value="{value}" size="50" id="settings_maintvalue" data-validation="required" data-validation-error-msg="{res:invalidvalue}"></td>
 		</tr>
 		<tr>
-			<th class="blue">Style</th>
-			<td><input type="text" name="{style_Name}" value="{style}" maxlength="100" size="50" id="settings_maintcontentoptionsstyle"></td>
+			<th class="blue">{res:style}</th>
+			<td><input type="text" name="{style_Name}" value="{style}" maxlength="100" size="50" id="style"></td>
 		</tr>
 		<tr>
 			<td></td>

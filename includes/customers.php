@@ -510,6 +510,22 @@ class Customers {
 					$fields_array = array( "id", "guid", "jobposition as title" );
 					$table = "alm_jobpositions";
 				break;
+				case "manufacturer" :
+					$fields_array = array( "id", "guid", "manufacturer as title" );
+					$table = "alm_product_manufaturers";
+				break;
+				case "offerings" :
+					$fields_array = array( "id", "guid", "offer_name as title" );
+					$table = "alm_product_offerings";
+				break;
+				case "pricingtier" :
+					$fields_array = array( "id", "guid", "pricingtier_name as title" );
+					$table = "alm_product_pricing_tier";
+				break;
+				case "group" :
+					$fields_array = array( "id", "guid", "group_name as title" );
+					$table = "alm_product_groups";
+				break;
 				case "city" :
 				default :
 					$fields_array = array( "id", "guid", "city as title" );
@@ -570,6 +586,18 @@ class Customers {
 				case "jobposition" :
 					$table = "alm_jobpositions";
 				break;
+				case "manufacturer" :
+					$table = "alm_product_manufaturers";
+				break;
+				case "offerings" :
+					$table = "alm_product_offerings";
+				break;
+				case "pricingtier" :
+					$table = "alm_product_pricing_tier";
+				break;
+				case "group" :
+					$table = "alm_product_groups";
+				break;
 				case "city" :
 				default :
 					$table = "alm_city";
@@ -619,6 +647,22 @@ class Customers {
 				case "jobposition" :
 					$fields_array = array( "id", "guid", "jobposition as title" );
 					$table = "alm_jobpositions";
+				break;
+				case "manufacturer" :
+					$fields_array = array( "id", "guid", "manufacturer as title" );
+					$table = "alm_product_manufaturers";
+				break;
+				case "offerings" :
+					$fields_array = array( "id", "guid", "offer_name as title" );
+					$table = "alm_product_offerings";
+				break;
+				case "pricingtier" :
+					$fields_array = array( "id", "guid", "pricingtier_name as title" );
+					$table = "alm_product_pricing_tier";
+				break;
+				case "group" :
+					$fields_array = array( "id", "guid", "group_name as title" );
+					$table = "alm_product_groups";
 				break;
 				case "city" :
 				default :
@@ -682,6 +726,22 @@ class Customers {
 					$fields_array = array("guid", "jobposition", "created_iduser" );
 					$table = "alm_jobpositions";
 				break;
+				case "manufacturer" :
+					$fields_array = array( "guid", "manufacturer", "created_iduser" );
+					$table = "alm_product_manufaturers";
+				break;
+				case "offerings" :
+					$fields_array = array("guid", "offer_name", "created_iduser" );
+					$table = "alm_product_offerings";
+				break;
+				case "pricingtier" :
+					$fields_array = array( "guid", "pricingtier_name", "created_iduser" );
+					$table = "alm_product_pricing_tier";
+				break;
+				case "group" :
+					$fields_array = array( "guid", "group_name", "created_iduser" );
+					$table = "alm_product_groups";
+				break;
 				case "city" :
 				default :
 					$fields_array = array( "guid", "city", "created_iduser" );
@@ -741,6 +801,22 @@ class Customers {
 				case "jobposition" :
 					$fields_array = array( "jobposition = '$title' ", "modified_iduser = $userid" );
 					$table = "alm_jobpositions";
+				break;
+				case "manufacturer" :
+					$fields_array = array("manufacturer = '$title' ", "modified_iduser = $userid" );
+					$table = "alm_product_manufaturers";
+				break;
+				case "offerings" :
+					$fields_array = array( "offer_name = '$title' ", "modified_iduser = $userid" );
+					$table = "alm_product_offerings";
+				break;
+				case "pricingtier" :
+					$fields_array = array( "pricingtier_name = '$title' ", "modified_iduser = $userid" );
+					$table = "alm_product_pricing_tier";
+				break;
+				case "group" :
+					$fields_array = array( "group_name = '$title' ", "modified_iduser = $userid" );
+					$table = "alm_product_groups";
 				break;
 				case "city" :
 				default :

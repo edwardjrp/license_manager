@@ -14,6 +14,7 @@
 									<div class="col-md-4 col-xs-12">
 										<label class="blue" for"lbmanufacturer">{res:manufacturer}</label><br>
 										<select name="{lbmanufacturer_Name}" class="width-90 chosen-select" id="lbmanufacturer">
+											<option value="">{res:showall}</option>
 												{lbmanufacturer_Options}
 										</select>
 									</div>
@@ -21,6 +22,7 @@
 									<div class="col-md-7 col-xs-12">
 										<label class="blue" for"lbsuite">{res:suite}</label><br>
 										<select name="{lbsuite_Name}" class="width-95 chosen-select" id="lbsuite">
+										<option value="">{res:showall}</option>
 											{lbsuite_Options}
 										</select>
 									</div>
@@ -47,7 +49,7 @@
 									<div class="col-md-4 col-xs-12">
 										<!-- BEGIN Button Button_Search --><button class="btn btn-sm btn-success" name="{Button_Name}" type="submit" value="{res:search}"><i class="icon-search nav-search-icon"></i> &nbsp;{res:search}</button><!-- END Button Button_Search -->&nbsp;&nbsp;&nbsp;
 										<a href="products.php" role="button" class="btn btn-sm btn-success"><span class="icon-asterisk white"></span> {res:clearsearch}</a>&nbsp;&nbsp;&nbsp;
-										<a href="#" role="button" class="btn btn-sm btn-success"><span class="icon-th white"></span> {res:addproduct}</a>
+										<a href="products_maint.php" role="button" class="btn btn-sm btn-success"><span class="icon-th white"></span> {res:addproduct}</a>
 									</div>
 								
 								</div>
@@ -69,7 +71,7 @@
 <div class="table-responsive">
 <!-- BEGIN Grid v_alm_products --> 
 <table class="table table-striped table-bordered table-hove">
-	<tr><td colspan="9">{res:recordscount}: {lbrecordscount}</td></tr>
+	<tr><td colspan="10">{res:recordscount}: {lbrecordscount}</td></tr>
 	<tr>
 		<th class="text-center">
 		<!-- BEGIN Sorter Sorter_guid --><a href="{Sort_URL}" id="guid"><li class="icon-cogs bigger-150"></li></a>
@@ -104,7 +106,11 @@
 		<!-- BEGIN Asc_On --><img border="0" src="Styles/None/Images/Asc.gif"><!-- END Asc_On -->
 		<!-- BEGIN Desc_On --><img border="0" src="Styles/None/Images/Desc.gif"><!-- END Desc_On --><!-- END Sorter Sorter_channel_sku --></th>
 		<th>
-		<!-- BEGIN Sorter Sorter_msrp_price --><a href="{Sort_URL}" id="msrp_price">{res:msrp_price}</a>
+		<!-- BEGIN Sorter Sorter_barcode_ean_upc --><a href="{Sort_URL}" id="msrp_price">{res:barcode}</a>
+		<!-- BEGIN Asc_On --><img border="0" src="Styles/None/Images/Asc.gif"><!-- END Asc_On -->
+		<!-- BEGIN Desc_On --><img border="0" src="Styles/None/Images/Desc.gif"><!-- END Desc_On --><!-- END Sorter Sorter_barcode_ean_upc --></th>
+		<th>
+		<!-- BEGIN Sorter Sorter_msrp_price --><a href="{Sort_URL}" id="channel_sku">{res:msrp_price}</a>
 		<!-- BEGIN Asc_On --><img border="0" src="Styles/None/Images/Asc.gif"><!-- END Asc_On -->
 		<!-- BEGIN Desc_On --><img border="0" src="Styles/None/Images/Desc.gif"><!-- END Desc_On --><!-- END Sorter Sorter_msrp_price --></th>
 	</tr>
@@ -112,28 +118,28 @@
 	<tr {v_alm_products:rowStyle}>
 		<td>
 			<div class="action-buttons">
-				<a href="#?{guid}" class="green"><i class="icon-pencil bigger-180"></i>&nbsp;</a>&nbsp;&nbsp;
+				<a href="products_maint.php?guid={guid}" class="green"><i class="icon-pencil bigger-180"></i>&nbsp;</a>&nbsp;&nbsp;
 				<a href="products_view.php?guid={guid}" class="blue"><i class="icon-eye-open bigger-180"></i>&nbsp;</a>
-			</div>		
+			</div>
 		</td>
 		<td>{suite_code}&nbsp;</td>
 		<td>{offer_name}&nbsp;</td>
 		<td>{pricingtier_name}&nbsp;</td>
-		<td>
-{short_description}&nbsp;</td>
+		<td>{short_description}&nbsp;</td>
 		<td style="text-align:right;">{range_min}&nbsp;</td>
 		<td style="text-align:right;">{range_max}&nbsp;</td>
 		<td>{channel_sku}&nbsp;</td>
+		<td>{barcode_ean_upc}&nbsp;</td>
 		<td style="text-align:right;">{msrp_price}&nbsp;</td>
 	</tr>
 	<!-- END Row -->
 	<!-- BEGIN NoRecords -->
 	<tr>
-		<td colspan="9">{res:CCS_NoRecords}</td>
+		<td colspan="10">{res:CCS_NoRecords}</td>
 	</tr>
 	<!-- END NoRecords -->
 	<tr>
-		<td colspan="9">
+		<td colspan="10">
 			<!-- BEGIN Navigator Navigator -->
 			<!-- BEGIN First_On --><a href="{First_URL}"><img border="0" src="Styles/None/Images/First.gif"></a> <!-- END First_On -->
 			<!-- BEGIN First_Off --><img border="0" src="Styles/None/Images/FirstOff.gif"><!-- END First_Off -->

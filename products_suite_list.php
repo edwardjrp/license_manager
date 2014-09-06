@@ -1,8 +1,8 @@
 <?php
 
-class clsRecordproducts_listsearch { //search Class @3-7CC7BD48
+class clsRecordproducts_suite_listsearch { //search Class @2-E8762B42
 
-//Variables @3-9E315808
+//Variables @2-9E315808
 
  // Public variables
  public $ComponentType = "Record";
@@ -36,8 +36,8 @@ class clsRecordproducts_listsearch { //search Class @3-7CC7BD48
  // Class variables
 //End Variables
 
-//Class_Initialize Event @3-5FEEA20C
- function clsRecordproducts_listsearch($RelativePath, & $Parent)
+//Class_Initialize Event @2-A8DD569C
+ function clsRecordproducts_suite_listsearch($RelativePath, & $Parent)
  {
 
   global $FileName;
@@ -69,32 +69,18 @@ class clsRecordproducts_listsearch { //search Class @3-7CC7BD48
    $this->lbmanufacturer->DataSource->SQL = "SELECT * \n" .
 "FROM alm_product_manufaturers {SQL_Where} {SQL_OrderBy}";
    list($this->lbmanufacturer->BoundColumn, $this->lbmanufacturer->TextColumn, $this->lbmanufacturer->DBFormat) = array("id", "manufacturer", "");
-   $this->lbsuite = new clsControl(ccsListBox, "lbsuite", "Suite", ccsText, "", CCGetRequestParam("lbsuite", $Method, NULL), $this);
-   $this->lbsuite->DSType = dsTable;
-   $this->lbsuite->DataSource = new clsDBdbConnection();
-   $this->lbsuite->ds = & $this->lbsuite->DataSource;
-   $this->lbsuite->DataSource->SQL = "SELECT concat_ws(' - ',suite_code,suite_name,suite_description) AS fullsuite_name, id \n" .
-"FROM alm_product_suites {SQL_Where} {SQL_OrderBy}";
-   list($this->lbsuite->BoundColumn, $this->lbsuite->TextColumn, $this->lbsuite->DBFormat) = array("id", "fullsuite_name", "");
-   $this->lboffering = new clsControl(ccsListBox, "lboffering", "Offering", ccsText, "", CCGetRequestParam("lboffering", $Method, NULL), $this);
-   $this->lboffering->DSType = dsTable;
-   $this->lboffering->DataSource = new clsDBdbConnection();
-   $this->lboffering->ds = & $this->lboffering->DataSource;
-   $this->lboffering->DataSource->SQL = "SELECT * \n" .
-"FROM alm_product_offerings {SQL_Where} {SQL_OrderBy}";
-   list($this->lboffering->BoundColumn, $this->lboffering->TextColumn, $this->lboffering->DBFormat) = array("id", "offer_name", "");
-   $this->lbpricingtier = new clsControl(ccsListBox, "lbpricingtier", "Pricing Tier", ccsText, "", CCGetRequestParam("lbpricingtier", $Method, NULL), $this);
-   $this->lbpricingtier->DSType = dsTable;
-   $this->lbpricingtier->DataSource = new clsDBdbConnection();
-   $this->lbpricingtier->ds = & $this->lbpricingtier->DataSource;
-   $this->lbpricingtier->DataSource->SQL = "SELECT * \n" .
-"FROM alm_product_pricing_tier {SQL_Where} {SQL_OrderBy}";
-   list($this->lbpricingtier->BoundColumn, $this->lbpricingtier->TextColumn, $this->lbpricingtier->DBFormat) = array("id", "pricingtier_name", "");
+   $this->lbgroup = new clsControl(ccsListBox, "lbgroup", "Group", ccsText, "", CCGetRequestParam("lbgroup", $Method, NULL), $this);
+   $this->lbgroup->DSType = dsTable;
+   $this->lbgroup->DataSource = new clsDBdbConnection();
+   $this->lbgroup->ds = & $this->lbgroup->DataSource;
+   $this->lbgroup->DataSource->SQL = "SELECT * \n" .
+"FROM alm_product_groups {SQL_Where} {SQL_OrderBy}";
+   list($this->lbgroup->BoundColumn, $this->lbgroup->TextColumn, $this->lbgroup->DBFormat) = array("id", "group_name", "");
   }
  }
 //End Class_Initialize Event
 
-//Validate Method @3-6B6E35D7
+//Validate Method @2-7DBA326F
  function Validate()
  {
   global $CCSLocales;
@@ -102,34 +88,28 @@ class clsRecordproducts_listsearch { //search Class @3-7CC7BD48
   $Where = "";
   $Validation = ($this->s_search->Validate() && $Validation);
   $Validation = ($this->lbmanufacturer->Validate() && $Validation);
-  $Validation = ($this->lbsuite->Validate() && $Validation);
-  $Validation = ($this->lboffering->Validate() && $Validation);
-  $Validation = ($this->lbpricingtier->Validate() && $Validation);
+  $Validation = ($this->lbgroup->Validate() && $Validation);
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "OnValidate", $this);
   $Validation =  $Validation && ($this->s_search->Errors->Count() == 0);
   $Validation =  $Validation && ($this->lbmanufacturer->Errors->Count() == 0);
-  $Validation =  $Validation && ($this->lbsuite->Errors->Count() == 0);
-  $Validation =  $Validation && ($this->lboffering->Errors->Count() == 0);
-  $Validation =  $Validation && ($this->lbpricingtier->Errors->Count() == 0);
+  $Validation =  $Validation && ($this->lbgroup->Errors->Count() == 0);
   return (($this->Errors->Count() == 0) && $Validation);
  }
 //End Validate Method
 
-//CheckErrors Method @3-77B28AAA
+//CheckErrors Method @2-00B10338
  function CheckErrors()
  {
   $errors = false;
   $errors = ($errors || $this->s_search->Errors->Count());
   $errors = ($errors || $this->lbmanufacturer->Errors->Count());
-  $errors = ($errors || $this->lbsuite->Errors->Count());
-  $errors = ($errors || $this->lboffering->Errors->Count());
-  $errors = ($errors || $this->lbpricingtier->Errors->Count());
+  $errors = ($errors || $this->lbgroup->Errors->Count());
   $errors = ($errors || $this->Errors->Count());
   return $errors;
  }
 //End CheckErrors Method
 
-//MasterDetail @3-ED598703
+//MasterDetail @2-ED598703
 function SetPrimaryKeys($keyArray)
 {
  $this->PrimaryKeys = $keyArray;
@@ -144,7 +124,7 @@ function GetPrimaryKey($keyName)
 }
 //End MasterDetail
 
-//Operation Method @3-F91DE78C
+//Operation Method @2-4345754E
  function Operation()
  {
   if(!$this->Visible)
@@ -163,10 +143,10 @@ function GetPrimaryKey($keyName)
     $this->PressedButton = "Button_Search";
    }
   }
-  $Redirect = "products.php" . "?" . CCGetQueryString("QueryString", array("ccsForm", "v_alm_productsPage"));
+  $Redirect = "products_suite.php" . "?" . CCGetQueryString("QueryString", array("ccsForm", "v_alm_product_suitesPage"));
   if($this->Validate()) {
    if($this->PressedButton == "Button_Search") {
-    $Redirect = "products.php" . "?" . CCMergeQueryStrings(CCGetQueryString("Form", array("Button_Search", "Button_Search_x", "Button_Search_y", "v_alm_productsPage")), CCGetQueryString("QueryString", array("s_search", "lbmanufacturer", "lbsuite", "lboffering", "lbpricingtier", "ccsForm", "v_alm_productsPage")));
+    $Redirect = "products_suite.php" . "?" . CCMergeQueryStrings(CCGetQueryString("Form", array("Button_Search", "Button_Search_x", "Button_Search_y", "v_alm_product_suitesPage")), CCGetQueryString("QueryString", array("s_search", "lbmanufacturer", "lbgroup", "ccsForm", "v_alm_product_suitesPage")));
     if(!CCGetEvent($this->Button_Search->CCSEvents, "OnClick", $this->Button_Search)) {
      $Redirect = "";
     }
@@ -177,7 +157,7 @@ function GetPrimaryKey($keyName)
  }
 //End Operation Method
 
-//Show Method @3-F8001F77
+//Show Method @2-E00D6217
  function Show()
  {
   global $CCSUseAmp;
@@ -192,9 +172,7 @@ function GetPrimaryKey($keyName)
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeSelect", $this);
 
   $this->lbmanufacturer->Prepare();
-  $this->lbsuite->Prepare();
-  $this->lboffering->Prepare();
-  $this->lbpricingtier->Prepare();
+  $this->lbgroup->Prepare();
 
   $RecordBlock = "Record " . $this->ComponentName;
   $ParentPath = $Tpl->block_path;
@@ -207,9 +185,7 @@ function GetPrimaryKey($keyName)
    $Error = "";
    $Error = ComposeStrings($Error, $this->s_search->Errors->ToString());
    $Error = ComposeStrings($Error, $this->lbmanufacturer->Errors->ToString());
-   $Error = ComposeStrings($Error, $this->lbsuite->Errors->ToString());
-   $Error = ComposeStrings($Error, $this->lboffering->Errors->ToString());
-   $Error = ComposeStrings($Error, $this->lbpricingtier->Errors->ToString());
+   $Error = ComposeStrings($Error, $this->lbgroup->Errors->ToString());
    $Error = ComposeStrings($Error, $this->Errors->ToString());
    $Tpl->SetVar("Error", $Error);
    $Tpl->Parse("Error", false);
@@ -230,19 +206,17 @@ function GetPrimaryKey($keyName)
   $this->s_search->Show();
   $this->Button_Search->Show();
   $this->lbmanufacturer->Show();
-  $this->lbsuite->Show();
-  $this->lboffering->Show();
-  $this->lbpricingtier->Show();
+  $this->lbgroup->Show();
   $Tpl->parse();
   $Tpl->block_path = $ParentPath;
  }
 //End Show Method
 
-} //End search Class @3-FCB6E20C
+} //End search Class @2-FCB6E20C
 
-class clsGridproducts_listv_alm_products { //v_alm_products class @12-34EC6C64
+class clsGridproducts_suite_listv_alm_product_suites { //v_alm_product_suites class @11-F8980F8E
 
-//Variables @12-6CC238EB
+//Variables @11-E5AE81CB
 
  // Public variables
  public $ComponentType = "Grid";
@@ -272,31 +246,28 @@ class clsGridproducts_listv_alm_products { //v_alm_products class @12-34EC6C64
  public $StaticControls;
  public $RowControls;
  public $Sorter_guid;
+ public $Sorter_manufacturer;
+ public $Sorter_group_name;
  public $Sorter_suite_code;
- public $Sorter_offer_name;
- public $Sorter_pricingtier_name;
- public $Sorter_short_description;
- public $Sorter_range_min;
- public $Sorter_range_max;
- public $Sorter_channel_sku;
- public $Sorter_msrp_price;
- public $Sorter_barcode_ean_upc;
+ public $Sorter_suite_name;
+ public $Sorter_suite_description;
+ public $Sorter_dateupdated;
 //End Variables
 
-//Class_Initialize Event @12-757D4777
- function clsGridproducts_listv_alm_products($RelativePath, & $Parent)
+//Class_Initialize Event @11-4C4D83E7
+ function clsGridproducts_suite_listv_alm_product_suites($RelativePath, & $Parent)
  {
   global $FileName;
   global $CCSLocales;
   global $DefaultDateFormat;
-  $this->ComponentName = "v_alm_products";
+  $this->ComponentName = "v_alm_product_suites";
   $this->Visible = True;
   $this->Parent = & $Parent;
   $this->RelativePath = $RelativePath;
   $this->Errors = new clsErrors();
-  $this->ErrorBlock = "Grid v_alm_products";
+  $this->ErrorBlock = "Grid v_alm_product_suites";
   $this->Attributes = new clsAttributes($this->ComponentName . ":");
-  $this->DataSource = new clsproducts_listv_alm_productsDataSource($this);
+  $this->DataSource = new clsproducts_suite_listv_alm_product_suitesDataSource($this);
   $this->ds = & $this->DataSource;
   $this->PageSize = CCGetParam($this->ComponentName . "PageSize", "");
   if(!is_numeric($this->PageSize) || !strlen($this->PageSize))
@@ -309,36 +280,30 @@ class clsGridproducts_listv_alm_products { //v_alm_products class @12-34EC6C64
    $this->Errors->addError("<p>Form: Grid " . $this->ComponentName . "<br>Error: (CCS06) Invalid page size.</p>");
   $this->PageNumber = intval(CCGetParam($this->ComponentName . "Page", 1));
   if ($this->PageNumber <= 0) $this->PageNumber = 1;
-  $this->SorterName = CCGetParam("v_alm_productsOrder", "");
-  $this->SorterDirection = CCGetParam("v_alm_productsDir", "");
+  $this->SorterName = CCGetParam("v_alm_product_suitesOrder", "");
+  $this->SorterDirection = CCGetParam("v_alm_product_suitesDir", "");
 
   $this->guid = new clsControl(ccsLabel, "guid", "guid", ccsText, "", CCGetRequestParam("guid", ccsGet, NULL), $this);
+  $this->manufacturer = new clsControl(ccsLabel, "manufacturer", "manufacturer", ccsText, "", CCGetRequestParam("manufacturer", ccsGet, NULL), $this);
+  $this->group_name = new clsControl(ccsLabel, "group_name", "group_name", ccsText, "", CCGetRequestParam("group_name", ccsGet, NULL), $this);
   $this->suite_code = new clsControl(ccsLabel, "suite_code", "suite_code", ccsText, "", CCGetRequestParam("suite_code", ccsGet, NULL), $this);
-  $this->offer_name = new clsControl(ccsLabel, "offer_name", "offer_name", ccsText, "", CCGetRequestParam("offer_name", ccsGet, NULL), $this);
-  $this->pricingtier_name = new clsControl(ccsLabel, "pricingtier_name", "pricingtier_name", ccsText, "", CCGetRequestParam("pricingtier_name", ccsGet, NULL), $this);
-  $this->short_description = new clsControl(ccsLabel, "short_description", "short_description", ccsText, "", CCGetRequestParam("short_description", ccsGet, NULL), $this);
-  $this->range_min = new clsControl(ccsLabel, "range_min", "range_min", ccsInteger, "", CCGetRequestParam("range_min", ccsGet, NULL), $this);
-  $this->range_max = new clsControl(ccsLabel, "range_max", "range_max", ccsInteger, "", CCGetRequestParam("range_max", ccsGet, NULL), $this);
-  $this->channel_sku = new clsControl(ccsLabel, "channel_sku", "channel_sku", ccsText, "", CCGetRequestParam("channel_sku", ccsGet, NULL), $this);
-  $this->msrp_price = new clsControl(ccsLabel, "msrp_price", "msrp_price", ccsFloat, array(False, 2, Null, Null, False, "\$ ", "", 1, True, ""), CCGetRequestParam("msrp_price", ccsGet, NULL), $this);
-  $this->barcode_ean_upc = new clsControl(ccsLabel, "barcode_ean_upc", "barcode_ean_upc", ccsText, "", CCGetRequestParam("barcode_ean_upc", ccsGet, NULL), $this);
+  $this->suite_name = new clsControl(ccsLabel, "suite_name", "suite_name", ccsText, "", CCGetRequestParam("suite_name", ccsGet, NULL), $this);
+  $this->suite_description = new clsControl(ccsLabel, "suite_description", "suite_description", ccsText, "", CCGetRequestParam("suite_description", ccsGet, NULL), $this);
+  $this->dateupdated = new clsControl(ccsLabel, "dateupdated", "dateupdated", ccsDate, array("mm", "/", "dd", "/", "yyyy"), CCGetRequestParam("dateupdated", ccsGet, NULL), $this);
   $this->Sorter_guid = new clsSorter($this->ComponentName, "Sorter_guid", $FileName, $this);
+  $this->Sorter_manufacturer = new clsSorter($this->ComponentName, "Sorter_manufacturer", $FileName, $this);
+  $this->Sorter_group_name = new clsSorter($this->ComponentName, "Sorter_group_name", $FileName, $this);
   $this->Sorter_suite_code = new clsSorter($this->ComponentName, "Sorter_suite_code", $FileName, $this);
-  $this->Sorter_offer_name = new clsSorter($this->ComponentName, "Sorter_offer_name", $FileName, $this);
-  $this->Sorter_pricingtier_name = new clsSorter($this->ComponentName, "Sorter_pricingtier_name", $FileName, $this);
-  $this->Sorter_short_description = new clsSorter($this->ComponentName, "Sorter_short_description", $FileName, $this);
-  $this->Sorter_range_min = new clsSorter($this->ComponentName, "Sorter_range_min", $FileName, $this);
-  $this->Sorter_range_max = new clsSorter($this->ComponentName, "Sorter_range_max", $FileName, $this);
-  $this->Sorter_channel_sku = new clsSorter($this->ComponentName, "Sorter_channel_sku", $FileName, $this);
+  $this->Sorter_suite_name = new clsSorter($this->ComponentName, "Sorter_suite_name", $FileName, $this);
+  $this->Sorter_suite_description = new clsSorter($this->ComponentName, "Sorter_suite_description", $FileName, $this);
+  $this->Sorter_dateupdated = new clsSorter($this->ComponentName, "Sorter_dateupdated", $FileName, $this);
   $this->Navigator = new clsNavigator($this->ComponentName, "Navigator", $FileName, 10, tpCentered, $this);
   $this->Navigator->PageSizes = array("1", "5", "10", "25", "50");
-  $this->lbrecordscount = new clsControl(ccsLabel, "lbrecordscount", "lbrecordscount", ccsInteger, array(False, 0, Null, Null, False, "", "", 1, True, ""), CCGetRequestParam("lbrecordscount", ccsGet, NULL), $this);
-  $this->Sorter_msrp_price = new clsSorter($this->ComponentName, "Sorter_msrp_price", $FileName, $this);
-  $this->Sorter_barcode_ean_upc = new clsSorter($this->ComponentName, "Sorter_barcode_ean_upc", $FileName, $this);
+  $this->alm_customers_TotalRecords = new clsControl(ccsLabel, "alm_customers_TotalRecords", "alm_customers_TotalRecords", ccsInteger, array(False, 0, Null, " ", False, "", "", 1, True, ""), CCGetRequestParam("alm_customers_TotalRecords", ccsGet, NULL), $this);
  }
 //End Class_Initialize Event
 
-//Initialize Method @12-90E704C5
+//Initialize Method @11-90E704C5
  function Initialize()
  {
   if(!$this->Visible) return;
@@ -349,7 +314,7 @@ class clsGridproducts_listv_alm_products { //v_alm_products class @12-34EC6C64
  }
 //End Initialize Method
 
-//Show Method @12-1AE58A53
+//Show Method @11-D72B08FB
  function Show()
  {
   global $Tpl;
@@ -358,9 +323,8 @@ class clsGridproducts_listv_alm_products { //v_alm_products class @12-34EC6C64
 
   $this->RowNumber = 0;
 
-  $this->DataSource->Parameters["urllbsuite"] = CCGetFromGet("lbsuite", NULL);
-  $this->DataSource->Parameters["urllboffering"] = CCGetFromGet("lboffering", NULL);
-  $this->DataSource->Parameters["urllbpricingtier"] = CCGetFromGet("lbpricingtier", NULL);
+  $this->DataSource->Parameters["urllbmanufacturer"] = CCGetFromGet("lbmanufacturer", NULL);
+  $this->DataSource->Parameters["urllbgroup"] = CCGetFromGet("lbgroup", NULL);
   $this->DataSource->Parameters["urls_search"] = CCGetFromGet("s_search", NULL);
 
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeSelect", $this);
@@ -382,15 +346,12 @@ class clsGridproducts_listv_alm_products { //v_alm_products class @12-34EC6C64
 
   if (!$this->IsEmpty) {
    $this->ControlsVisible["guid"] = $this->guid->Visible;
+   $this->ControlsVisible["manufacturer"] = $this->manufacturer->Visible;
+   $this->ControlsVisible["group_name"] = $this->group_name->Visible;
    $this->ControlsVisible["suite_code"] = $this->suite_code->Visible;
-   $this->ControlsVisible["offer_name"] = $this->offer_name->Visible;
-   $this->ControlsVisible["pricingtier_name"] = $this->pricingtier_name->Visible;
-   $this->ControlsVisible["short_description"] = $this->short_description->Visible;
-   $this->ControlsVisible["range_min"] = $this->range_min->Visible;
-   $this->ControlsVisible["range_max"] = $this->range_max->Visible;
-   $this->ControlsVisible["channel_sku"] = $this->channel_sku->Visible;
-   $this->ControlsVisible["msrp_price"] = $this->msrp_price->Visible;
-   $this->ControlsVisible["barcode_ean_upc"] = $this->barcode_ean_upc->Visible;
+   $this->ControlsVisible["suite_name"] = $this->suite_name->Visible;
+   $this->ControlsVisible["suite_description"] = $this->suite_description->Visible;
+   $this->ControlsVisible["dateupdated"] = $this->dateupdated->Visible;
    while ($this->ForceIteration || (($this->RowNumber < $this->PageSize) &&  ($this->HasRecord = $this->DataSource->has_next_record()))) {
     $this->RowNumber++;
     if ($this->HasRecord) {
@@ -399,28 +360,22 @@ class clsGridproducts_listv_alm_products { //v_alm_products class @12-34EC6C64
     }
     $Tpl->block_path = $ParentPath . "/" . $GridBlock . "/Row";
     $this->guid->SetValue($this->DataSource->guid->GetValue());
+    $this->manufacturer->SetValue($this->DataSource->manufacturer->GetValue());
+    $this->group_name->SetValue($this->DataSource->group_name->GetValue());
     $this->suite_code->SetValue($this->DataSource->suite_code->GetValue());
-    $this->offer_name->SetValue($this->DataSource->offer_name->GetValue());
-    $this->pricingtier_name->SetValue($this->DataSource->pricingtier_name->GetValue());
-    $this->short_description->SetValue($this->DataSource->short_description->GetValue());
-    $this->range_min->SetValue($this->DataSource->range_min->GetValue());
-    $this->range_max->SetValue($this->DataSource->range_max->GetValue());
-    $this->channel_sku->SetValue($this->DataSource->channel_sku->GetValue());
-    $this->msrp_price->SetValue($this->DataSource->msrp_price->GetValue());
-    $this->barcode_ean_upc->SetValue($this->DataSource->barcode_ean_upc->GetValue());
+    $this->suite_name->SetValue($this->DataSource->suite_name->GetValue());
+    $this->suite_description->SetValue($this->DataSource->suite_description->GetValue());
+    $this->dateupdated->SetValue($this->DataSource->dateupdated->GetValue());
     $this->Attributes->SetValue("rowNumber", $this->RowNumber);
     $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeShowRow", $this);
     $this->Attributes->Show();
     $this->guid->Show();
+    $this->manufacturer->Show();
+    $this->group_name->Show();
     $this->suite_code->Show();
-    $this->offer_name->Show();
-    $this->pricingtier_name->Show();
-    $this->short_description->Show();
-    $this->range_min->Show();
-    $this->range_max->Show();
-    $this->channel_sku->Show();
-    $this->msrp_price->Show();
-    $this->barcode_ean_upc->Show();
+    $this->suite_name->Show();
+    $this->suite_description->Show();
+    $this->dateupdated->Show();
     $Tpl->block_path = $ParentPath . "/" . $GridBlock;
     $Tpl->parse("Row", true);
    }
@@ -447,48 +402,42 @@ class clsGridproducts_listv_alm_products { //v_alm_products class @12-34EC6C64
    $this->Navigator->Visible = false;
   }
   $this->Sorter_guid->Show();
+  $this->Sorter_manufacturer->Show();
+  $this->Sorter_group_name->Show();
   $this->Sorter_suite_code->Show();
-  $this->Sorter_offer_name->Show();
-  $this->Sorter_pricingtier_name->Show();
-  $this->Sorter_short_description->Show();
-  $this->Sorter_range_min->Show();
-  $this->Sorter_range_max->Show();
-  $this->Sorter_channel_sku->Show();
+  $this->Sorter_suite_name->Show();
+  $this->Sorter_suite_description->Show();
+  $this->Sorter_dateupdated->Show();
   $this->Navigator->Show();
-  $this->lbrecordscount->Show();
-  $this->Sorter_msrp_price->Show();
-  $this->Sorter_barcode_ean_upc->Show();
+  $this->alm_customers_TotalRecords->Show();
   $Tpl->parse();
   $Tpl->block_path = $ParentPath;
   $this->DataSource->close();
  }
 //End Show Method
 
-//GetErrors Method @12-6E0C6AF5
+//GetErrors Method @11-E7BBAC1C
  function GetErrors()
  {
   $errors = "";
   $errors = ComposeStrings($errors, $this->guid->Errors->ToString());
+  $errors = ComposeStrings($errors, $this->manufacturer->Errors->ToString());
+  $errors = ComposeStrings($errors, $this->group_name->Errors->ToString());
   $errors = ComposeStrings($errors, $this->suite_code->Errors->ToString());
-  $errors = ComposeStrings($errors, $this->offer_name->Errors->ToString());
-  $errors = ComposeStrings($errors, $this->pricingtier_name->Errors->ToString());
-  $errors = ComposeStrings($errors, $this->short_description->Errors->ToString());
-  $errors = ComposeStrings($errors, $this->range_min->Errors->ToString());
-  $errors = ComposeStrings($errors, $this->range_max->Errors->ToString());
-  $errors = ComposeStrings($errors, $this->channel_sku->Errors->ToString());
-  $errors = ComposeStrings($errors, $this->msrp_price->Errors->ToString());
-  $errors = ComposeStrings($errors, $this->barcode_ean_upc->Errors->ToString());
+  $errors = ComposeStrings($errors, $this->suite_name->Errors->ToString());
+  $errors = ComposeStrings($errors, $this->suite_description->Errors->ToString());
+  $errors = ComposeStrings($errors, $this->dateupdated->Errors->ToString());
   $errors = ComposeStrings($errors, $this->Errors->ToString());
   $errors = ComposeStrings($errors, $this->DataSource->Errors->ToString());
   return $errors;
  }
 //End GetErrors Method
 
-} //End v_alm_products Class @12-FCB6E20C
+} //End v_alm_product_suites Class @11-FCB6E20C
 
-class clsproducts_listv_alm_productsDataSource extends clsDBdbConnection {  //v_alm_productsDataSource Class @12-FDE3D33F
+class clsproducts_suite_listv_alm_product_suitesDataSource extends clsDBdbConnection {  //v_alm_product_suitesDataSource Class @11-418ACC01
 
-//DataSource Variables @12-658B86F2
+//DataSource Variables @11-0FFF20F6
  public $Parent = "";
  public $CCSEvents = "";
  public $CCSEventResult;
@@ -501,114 +450,94 @@ class clsproducts_listv_alm_productsDataSource extends clsDBdbConnection {  //v_
 
  // Datasource fields
  public $guid;
+ public $manufacturer;
+ public $group_name;
  public $suite_code;
- public $offer_name;
- public $pricingtier_name;
- public $short_description;
- public $range_min;
- public $range_max;
- public $channel_sku;
- public $msrp_price;
- public $barcode_ean_upc;
+ public $suite_name;
+ public $suite_description;
+ public $dateupdated;
 //End DataSource Variables
 
-//DataSourceClass_Initialize Event @12-DC85550F
- function clsproducts_listv_alm_productsDataSource(& $Parent)
+//DataSourceClass_Initialize Event @11-6B91FE7D
+ function clsproducts_suite_listv_alm_product_suitesDataSource(& $Parent)
  {
   $this->Parent = & $Parent;
-  $this->ErrorBlock = "Grid v_alm_products";
+  $this->ErrorBlock = "Grid v_alm_product_suites";
   $this->Initialize();
   $this->guid = new clsField("guid", ccsText, "");
   
+  $this->manufacturer = new clsField("manufacturer", ccsText, "");
+  
+  $this->group_name = new clsField("group_name", ccsText, "");
+  
   $this->suite_code = new clsField("suite_code", ccsText, "");
   
-  $this->offer_name = new clsField("offer_name", ccsText, "");
+  $this->suite_name = new clsField("suite_name", ccsText, "");
   
-  $this->pricingtier_name = new clsField("pricingtier_name", ccsText, "");
+  $this->suite_description = new clsField("suite_description", ccsText, "");
   
-  $this->short_description = new clsField("short_description", ccsText, "");
-  
-  $this->range_min = new clsField("range_min", ccsInteger, "");
-  
-  $this->range_max = new clsField("range_max", ccsInteger, "");
-  
-  $this->channel_sku = new clsField("channel_sku", ccsText, "");
-  
-  $this->msrp_price = new clsField("msrp_price", ccsFloat, "");
-  
-  $this->barcode_ean_upc = new clsField("barcode_ean_upc", ccsText, "");
+  $this->dateupdated = new clsField("dateupdated", ccsDate, array("yyyy", "-", "mm", "-", "dd", " ", "HH", ":", "nn", ":", "ss"));
   
 
  }
 //End DataSourceClass_Initialize Event
 
-//SetOrder Method @12-8C068D77
+//SetOrder Method @11-EF83417A
  function SetOrder($SorterName, $SorterDirection)
  {
   $this->Order = "";
   $this->Order = CCGetOrder($this->Order, $SorterName, $SorterDirection, 
    array("Sorter_guid" => array("guid", ""), 
+   "Sorter_manufacturer" => array("manufacturer", ""), 
+   "Sorter_group_name" => array("group_name", ""), 
    "Sorter_suite_code" => array("suite_code", ""), 
-   "Sorter_offer_name" => array("offer_name", ""), 
-   "Sorter_pricingtier_name" => array("pricingtier_name", ""), 
-   "Sorter_short_description" => array("short_description", ""), 
-   "Sorter_range_min" => array("range_min", ""), 
-   "Sorter_range_max" => array("range_max", ""), 
-   "Sorter_channel_sku" => array("channel_sku", ""), 
-   "Sorter_msrp_price" => array("msrp_price", ""), 
-   "Sorter_barcode_ean_upc" => array("barcode_ean_upc", "")));
+   "Sorter_suite_name" => array("suite_name", ""), 
+   "Sorter_suite_description" => array("suite_description", ""), 
+   "Sorter_dateupdated" => array("dateupdated", "")));
  }
 //End SetOrder Method
 
-//Prepare Method @12-7D922192
+//Prepare Method @11-420CEC54
  function Prepare()
  {
   global $CCSLocales;
   global $DefaultDateFormat;
   $this->wp = new clsSQLParameters($this->ErrorBlock);
-  $this->wp->AddParameter("1", "urllbsuite", ccsInteger, "", "", $this->Parameters["urllbsuite"], "", false);
-  $this->wp->AddParameter("2", "urllboffering", ccsInteger, "", "", $this->Parameters["urllboffering"], "", false);
-  $this->wp->AddParameter("3", "urllbpricingtier", ccsInteger, "", "", $this->Parameters["urllbpricingtier"], "", false);
+  $this->wp->AddParameter("1", "urllbmanufacturer", ccsInteger, "", "", $this->Parameters["urllbmanufacturer"], "", false);
+  $this->wp->AddParameter("2", "urllbgroup", ccsInteger, "", "", $this->Parameters["urllbgroup"], "", false);
+  $this->wp->AddParameter("3", "urls_search", ccsText, "", "", $this->Parameters["urls_search"], "", false);
   $this->wp->AddParameter("4", "urls_search", ccsText, "", "", $this->Parameters["urls_search"], "", false);
   $this->wp->AddParameter("5", "urls_search", ccsText, "", "", $this->Parameters["urls_search"], "", false);
-  $this->wp->AddParameter("6", "urls_search", ccsText, "", "", $this->Parameters["urls_search"], "", false);
-  $this->wp->AddParameter("7", "urls_search", ccsText, "", "", $this->Parameters["urls_search"], "", false);
-  $this->wp->AddParameter("8", "urls_search", ccsText, "", "", $this->Parameters["urls_search"], "", false);
-  $this->wp->Criterion[1] = $this->wp->Operation(opEqual, "id_suite", $this->wp->GetDBValue("1"), $this->ToSQL($this->wp->GetDBValue("1"), ccsInteger),false);
-  $this->wp->Criterion[2] = $this->wp->Operation(opEqual, "id_offering", $this->wp->GetDBValue("2"), $this->ToSQL($this->wp->GetDBValue("2"), ccsInteger),false);
-  $this->wp->Criterion[3] = $this->wp->Operation(opEqual, "id_pricing_tier", $this->wp->GetDBValue("3"), $this->ToSQL($this->wp->GetDBValue("3"), ccsInteger),false);
-  $this->wp->Criterion[4] = $this->wp->Operation(opContains, "suite_name", $this->wp->GetDBValue("4"), $this->ToSQL($this->wp->GetDBValue("4"), ccsText),false);
-  $this->wp->Criterion[5] = $this->wp->Operation(opContains, "description", $this->wp->GetDBValue("5"), $this->ToSQL($this->wp->GetDBValue("5"), ccsText),false);
-  $this->wp->Criterion[6] = $this->wp->Operation(opContains, "short_description", $this->wp->GetDBValue("6"), $this->ToSQL($this->wp->GetDBValue("6"), ccsText),false);
-  $this->wp->Criterion[7] = $this->wp->Operation(opContains, "channel_sku", $this->wp->GetDBValue("7"), $this->ToSQL($this->wp->GetDBValue("7"), ccsText),false);
-  $this->wp->Criterion[8] = $this->wp->Operation(opContains, "barcode_ean_upc", $this->wp->GetDBValue("8"), $this->ToSQL($this->wp->GetDBValue("8"), ccsText),false);
+  $this->wp->AddParameter("6", "urls_search", ccsMemo, "", "", $this->Parameters["urls_search"], "", false);
+  $this->wp->Criterion[1] = $this->wp->Operation(opEqual, "id_manufacturer", $this->wp->GetDBValue("1"), $this->ToSQL($this->wp->GetDBValue("1"), ccsInteger),false);
+  $this->wp->Criterion[2] = $this->wp->Operation(opEqual, "id_group", $this->wp->GetDBValue("2"), $this->ToSQL($this->wp->GetDBValue("2"), ccsInteger),false);
+  $this->wp->Criterion[3] = $this->wp->Operation(opContains, "suite_name", $this->wp->GetDBValue("3"), $this->ToSQL($this->wp->GetDBValue("3"), ccsText),false);
+  $this->wp->Criterion[4] = $this->wp->Operation(opContains, "suite_code", $this->wp->GetDBValue("4"), $this->ToSQL($this->wp->GetDBValue("4"), ccsText),false);
+  $this->wp->Criterion[5] = $this->wp->Operation(opContains, "suite_description", $this->wp->GetDBValue("5"), $this->ToSQL($this->wp->GetDBValue("5"), ccsText),false);
+  $this->wp->Criterion[6] = $this->wp->Operation(opContains, "suite_long_description", $this->wp->GetDBValue("6"), $this->ToSQL($this->wp->GetDBValue("6"), ccsMemo),false);
   $this->Where = $this->wp->opAND(
     false, $this->wp->opAND(
-    true, $this->wp->opAND(
-    false, 
+    true, 
     $this->wp->Criterion[1], 
-    $this->wp->Criterion[2]), 
-    $this->wp->Criterion[3]), $this->wp->opOR(
+    $this->wp->Criterion[2]), $this->wp->opOR(
     true, $this->wp->opOR(
     false, $this->wp->opOR(
-    false, $this->wp->opOR(
     false, 
-    $this->wp->Criterion[4], 
+    $this->wp->Criterion[3], 
+    $this->wp->Criterion[4]), 
     $this->wp->Criterion[5]), 
-    $this->wp->Criterion[6]), 
-    $this->wp->Criterion[7]), 
-    $this->wp->Criterion[8]));
+    $this->wp->Criterion[6]));
  }
 //End Prepare Method
 
-//Open Method @12-31C05484
+//Open Method @11-94A6E935
  function Open()
  {
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeBuildSelect", $this->Parent);
   $this->CountSQL = "SELECT COUNT(*)\n\n" .
-  "FROM v_alm_products";
+  "FROM v_alm_product_suites";
   $this->SQL = "SELECT * \n\n" .
-  "FROM v_alm_products {SQL_Where} {SQL_OrderBy}";
+  "FROM v_alm_product_suites {SQL_Where} {SQL_OrderBy}";
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeExecuteSelect", $this->Parent);
   if ($this->CountSQL) 
    $this->RecordsCount = CCGetDBValue(CCBuildSQL($this->CountSQL, $this->Where, ""), $this);
@@ -619,25 +548,22 @@ class clsproducts_listv_alm_productsDataSource extends clsDBdbConnection {  //v_
  }
 //End Open Method
 
-//SetValues Method @12-464A2078
+//SetValues Method @11-8D8E68B8
  function SetValues()
  {
   $this->guid->SetDBValue($this->f("guid"));
+  $this->manufacturer->SetDBValue($this->f("manufacturer"));
+  $this->group_name->SetDBValue($this->f("group_name"));
   $this->suite_code->SetDBValue($this->f("suite_code"));
-  $this->offer_name->SetDBValue($this->f("offer_name"));
-  $this->pricingtier_name->SetDBValue($this->f("pricingtier_name"));
-  $this->short_description->SetDBValue($this->f("short_description"));
-  $this->range_min->SetDBValue(trim($this->f("range_min")));
-  $this->range_max->SetDBValue(trim($this->f("range_max")));
-  $this->channel_sku->SetDBValue($this->f("channel_sku"));
-  $this->msrp_price->SetDBValue(trim($this->f("msrp_price")));
-  $this->barcode_ean_upc->SetDBValue($this->f("barcode_ean_upc"));
+  $this->suite_name->SetDBValue($this->f("suite_name"));
+  $this->suite_description->SetDBValue($this->f("suite_description"));
+  $this->dateupdated->SetDBValue(trim($this->f("dateupdated")));
  }
 //End SetValues Method
 
-} //End v_alm_productsDataSource Class @12-FCB6E20C
+} //End v_alm_product_suitesDataSource Class @11-FCB6E20C
 
-class clsproducts_list { //products_list class @1-AB951F3E
+class clsproducts_suite_list { //products_suite_list class @1-01254085
 
 //Variables @1-51D7F06F
  public $ComponentType = "IncludablePage";
@@ -658,8 +584,8 @@ class clsproducts_list { //products_list class @1-AB951F3E
  public $Parent;
 //End Variables
 
-//Class_Initialize Event @1-E13ABFDC
- function clsproducts_list($RelativePath, $ComponentName, & $Parent)
+//Class_Initialize Event @1-86B362FB
+ function clsproducts_suite_list($RelativePath, $ComponentName, & $Parent)
  {
   global $CCSLocales;
   global $DefaultDateFormat;
@@ -667,31 +593,30 @@ class clsproducts_list { //products_list class @1-AB951F3E
   $this->RelativePath = $RelativePath;
   $this->Visible = true;
   $this->Parent = & $Parent;
-  $this->FileName = "products_list.php";
+  $this->Visible = (CCSecurityAccessCheck("2;3;4") == "success");
+  $this->FileName = "products_suite_list.php";
   $this->Redirect = "";
-  $this->TemplateFileName = "products_list.html";
+  $this->TemplateFileName = "products_suite_list.html";
   $this->BlockToParse = "main";
   $this->TemplateEncoding = "UTF-8";
   $this->ContentType = "text/html";
  }
 //End Class_Initialize Event
 
-//Class_Terminate Event @1-00C84895
+//Class_Terminate Event @1-A7F994C8
  function Class_Terminate()
  {
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeUnload", $this);
   unset($this->search);
-  unset($this->v_alm_products);
+  unset($this->v_alm_product_suites);
  }
 //End Class_Terminate Event
 
-//BindEvents Method @1-54E490D3
+//BindEvents Method @1-7EA9F671
  function BindEvents()
  {
-  $this->v_alm_products->range_max->CCSEvents["BeforeShow"] = "products_list_v_alm_products_range_max_BeforeShow";
-  $this->v_alm_products->CCSEvents["BeforeShowRow"] = "products_list_v_alm_products_BeforeShowRow";
-  $this->v_alm_products->CCSEvents["BeforeShow"] = "products_list_v_alm_products_BeforeShow";
-  $this->CCSEvents["BeforeShow"] = "products_list_BeforeShow";
+  $this->v_alm_product_suites->alm_customers_TotalRecords->CCSEvents["BeforeShow"] = "products_suite_list_v_alm_product_suites_alm_customers_TotalRecords_BeforeShow";
+  $this->v_alm_product_suites->CCSEvents["BeforeShowRow"] = "products_suite_list_v_alm_product_suites_BeforeShowRow";
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "AfterInitialize", $this);
  }
 //End BindEvents Method
@@ -706,7 +631,7 @@ class clsproducts_list { //products_list class @1-AB951F3E
  }
 //End Operations Method
 
-//Initialize Method @1-87CFC063
+//Initialize Method @1-C3BF6FF8
  function Initialize()
  {
   global $FileName;
@@ -720,15 +645,15 @@ class clsproducts_list { //products_list class @1-AB951F3E
   $this->Attributes = & $this->Parent->Attributes;
 
   // Create Components
-  $this->search = new clsRecordproducts_listsearch($this->RelativePath, $this);
-  $this->v_alm_products = new clsGridproducts_listv_alm_products($this->RelativePath, $this);
-  $this->v_alm_products->Initialize();
+  $this->search = new clsRecordproducts_suite_listsearch($this->RelativePath, $this);
+  $this->v_alm_product_suites = new clsGridproducts_suite_listv_alm_product_suites($this->RelativePath, $this);
+  $this->v_alm_product_suites->Initialize();
   $this->BindEvents();
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "OnInitializeView", $this);
  }
 //End Initialize Method
 
-//Show Method @1-7131454F
+//Show Method @1-FAC70169
  function Show()
  {
   global $Tpl;
@@ -744,7 +669,7 @@ class clsproducts_list { //products_list class @1-AB951F3E
   }
   $this->Attributes->Show();
   $this->search->Show();
-  $this->v_alm_products->Show();
+  $this->v_alm_product_suites->Show();
   $Tpl->Parse();
   $Tpl->block_path = $block_path;
    $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeOutput", $this);
@@ -752,12 +677,10 @@ class clsproducts_list { //products_list class @1-AB951F3E
  }
 //End Show Method
 
-} //End products_list Class @1-FCB6E20C
+} //End products_suite_list Class @1-FCB6E20C
 
-include_once("includes/products.php");
-
-//Include Event File @1-A9685ADB
-include_once(RelativePath . "/products_list_events.php");
+//Include Event File @1-C48999DB
+include_once(RelativePath . "/products_suite_list_events.php");
 //End Include Event File
 
 

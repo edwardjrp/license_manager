@@ -23,25 +23,11 @@
 				{sidebar}
 
 				<div class="main-content">
-					<div class="breadcrumbs" id="breadcrumbs">
-						<script type="text/javascript">
-							try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
-						</script>
-						<ul class="breadcrumb">
-							<li>
-								<i class="icon-gear red bigger-150"></i>
-								<a href="settings.php">{res:settings}</a>
-							</li>
-							<li class="active">{res:addeditsettings}</li>
-						</ul><!-- .breadcrumb -->
-
-					</div> <!-- breadcrumbs -->
-
 					<div class="page-content">
 						<div class="row">
 							<div class="col-xs-12">
 								<!-- PAGE CONTENT BEGINS -->
-									{settings_maintcontent}
+									{products_suite_list}
 								<!-- PAGE CONTENT ENDS -->
 							</div><!-- /.col -->
 						</div><!-- /.row -->
@@ -57,18 +43,6 @@
 
 		<!-- footer -->
 		{footer}
-
-		<script src="assets/js/form-validator/jquery.form-validator.min.js"></script>
-		<script>
-		$(function(){
-	
-			$("#settings_maintvalue").focus();
-			$.validate({
-				form : "#settings_maintcontentoptions"
-			});
-
-		});
-		</script>
 
 	</body>
 </html>

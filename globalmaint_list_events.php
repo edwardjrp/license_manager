@@ -55,6 +55,26 @@ function globalmaint_list_BeforeShow(& $sender)
 			$globalmaint_list->lbmodule->setvalue($m_title);
 			$Tpl->setvar("module",$m);
 		break;
+		case "manufacturer" :
+			$m_title = $CCSLocales->GetText("manufacturer");
+			$globalmaint_list->lbmodule->setvalue($m_title);
+			$Tpl->setvar("module",$m);
+		break;
+		case "offerings" :
+			$m_title = $CCSLocales->GetText("offer_name");
+			$globalmaint_list->lbmodule->setvalue($m_title);
+			$Tpl->setvar("module",$m);
+		break;
+		case "pricingtier" :
+			$m_title = $CCSLocales->GetText("pricingtier");
+			$globalmaint_list->lbmodule->setvalue($m_title);
+			$Tpl->setvar("module",$m);
+		break;		
+		case "group" :
+			$m_title = $CCSLocales->GetText("group");
+			$globalmaint_list->lbmodule->setvalue($m_title);
+			$Tpl->setvar("module",$m);
+		break;		
 	}
 
 	switch($m) {
@@ -62,6 +82,10 @@ function globalmaint_list_BeforeShow(& $sender)
 		case "business_partners" :
 		case "customers_type" :
 		case "jobposition" :
+		case "manufacturer" :
+		case "offerings" :
+		case "pricingtier" :
+		case "group" :
 			$params["m"] = $m;
 			$moduleContent = $customers->getAllByModule($params);
 			$moduleContent = $moduleContent["maint"];

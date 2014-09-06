@@ -98,6 +98,23 @@ function globalmaint_maintcontent_lbmodule_BeforeShow(& $sender)
 			$m_title = $CCSLocales->GetText("city");
 			$globalmaint_maintcontent->lbmodule->setvalue($m_title);
 		break;
+		case "manufacturer" :
+			$m_title = $CCSLocales->GetText("manufacturer");
+			$globalmaint_maintcontent->lbmodule->setvalue($m_title);
+		break;
+		case "offerings" :
+			$m_title = $CCSLocales->GetText("offer_name");
+			$globalmaint_maintcontent->lbmodule->setvalue($m_title);
+		break;
+		case "pricingtier" :
+			$m_title = $CCSLocales->GetText("pricingtier");
+			$globalmaint_maintcontent->lbmodule->setvalue($m_title);
+		break;
+		case "group" :
+			$m_title = $CCSLocales->GetText("group");
+			$globalmaint_maintcontent->lbmodule->setvalue($m_title);
+		break;
+
 	}
 
 // -------------------------
@@ -163,6 +180,10 @@ function globalmaint_maintcontent_BeforeShow(& $sender)
 			case "business_partners" :
 			case "customers_type" :
 			case "jobposition" :
+			case "manufacturer" :
+			case "offerings" :
+			case "pricingtier" :
+			case "group" :
 				$moduleContent = $customers->getAllModuleByGuid($params);
 				$moduleContent = $moduleContent["details"];
 
