@@ -1,0 +1,104 @@
+<div class="widget-box">
+	<div class="widget-header">
+		<h4>{res:viewproductsuite}</h4>
+	</div>
+	<div class="widget-body">
+		<!-- BEGIN Record alm_product_suites -->
+		<form id="alm_product_suites" method="post" action="{Action}" name="{HTMLFormName}">
+			<div class="row widget-main">
+				<!-- BEGIN Error -->
+				<div class="alert alert-block alert-danger">
+					<button class="close" data-dismiss="alert"><i class="icon-remove"></i></button><strong>
+					<li class="icon-remove"></strong>{Error}</li>
+				</div>
+				<!-- END Error -->
+				<div class="row col-md-12 col-xs-12">
+					<div class="row col-xs-12">
+						<div class="col-md-1 col-xs-0">
+						</div>
+						<div class="col-md-2 col-xs-12">
+							<label class="control-label blue">{res:manufacturer}</label><br>
+							<select name="{manufacturer_Name}" id="manufacturer" class="width-90 chosen-select" disabled>
+								{manufacturer_Options}
+							</select>
+						</div>
+						<div class="col-md-3 col-xs-12">
+							<label class="control-label blue">{res:group}</label><br>
+							<select name="{lbgroup_Name}" id="suite_name" class="width-90 chosen-select" data-validation="required" data-validation-error-msg="{res:invalidsuite}" disabled>
+								{lbgroup_Options}
+							</select>
+						</div>
+						<div class="col-md-1 col-xs-12">
+							<label class="control-label blue">{res:suite_code}</label><br>
+							<input type="text" name="{suite_code_Name}" value="{suite_code}" id="suite_code" class="col-md-12 col-xs-12" disabled>
+						</div>
+						<div class="col-md-5 col-xs-12">
+							<label class="control-label blue">{res:suite}</label><br>
+							<input type="text" name="{suite_name_Name}" value="{suite_name}" id="suite_code" class="col-md-12 col-xs-12" data-validation="required" data-validation-error-msg="{res:invalidsuite}" disabled>
+						</div>
+					</div>
+					<!-- row -->
+					<div class="row col-xs-12">
+						<div class="col-md-1 col-xs-0">
+						</div>
+						<div class="col-md-6 col-xs-12">
+							<label class="control-label blue">{res:suite_description}</label><br>
+							<input type="text" name="{suite_description_Name}" value="{suite_description}" id="suite_code" class="col-md-12 col-xs-12" data-validation="required" data-validation-error-msg="{res:invaliddescription}" disabled>
+						</div>
+						<div class="col-md-5 col-xs-12">
+							<label class="control-label blue">{res:suite_details}</label><br>
+							<textarea name="{suite_long_description_Name}" cols="10" rows="5" id="suite_details" class="col-md-12 col-xs-12" disabled>{suite_long_description}</textarea>
+						</div>
+					</div>
+					<!-- row -->
+				</div>
+				<!-- main row -->
+				<div class="row">
+					<div class="col-md-12 col-xs-12">
+						<div class="form-actions center">
+							<a href="products_suite.php{lbgoback}" role="button" id="goback" class="btn btn-sm btn-success"><li class="icon-arrow-left"></li>&nbsp;{res:buttongoback}</a>&nbsp;&nbsp;
+							
+							<input id="modified_iduser" type="hidden" value="{modified_iduser}" name="{modified_iduser_Name}">
+							<input id="created_iduser" type="hidden" value="{created_iduser}" name="{created_iduser_Name}">
+							<input id="hidguid" type="hidden" value="{hidguid}" name="{hidguid_Name}">
+						</div>
+						<!-- form-actions  -->
+					</div>
+				</div>
+			</div>
+			<!-- row box -->
+		</form>
+		<!-- END Record alm_product_suites -->
+	</div>
+	<!-- widget-body -->
+</div>
+<!-- widget-box -->
+<link rel="stylesheet" href="assets/css/datepicker.css" />
+<link rel="stylesheet" href="assets/css/colorbox.css" />
+<link rel="stylesheet" href="assets/css/chosen.css" />
+<!-- included here to not mess with too much js in the main page -->
+<script src="assets/js/jquery-2.0.3.min.js"></script>
+<script src="assets/js/json3.min.js"></script>
+<script src="assets/js/form-validator/jquery.form-validator.min.js"></script>
+<script src="assets/js/jquery.colorbox-min.js"></script>
+<script src="assets/js/date-time/bootstrap-datepicker.min.js"></script>
+<script src="assets/js/bootbox.min.js"></script>
+<script src="assets/js/jquery-ui-1.10.3.custom.min.js"></script>
+<script src="assets/js/jquery.ui.touch-punch.min.js"></script>
+<script src="assets/js/jquery.colorbox-min.js"></script>
+<script src="assets/js/chosen.jquery.min.js"></script>
+<script>
+$(function(){
+        
+        //$("#description").focus();
+        //validate coordinates
+        $.validate({
+                form : "#alm_products"
+        });
+
+	$(".chosen-select").chosen(); 
+
+
+});
+
+</script>
