@@ -17,7 +17,65 @@ use Monolog\Handler\StreamHandler;
 
 
 class Products {
+	public function getSuiteByManufacturerID($params = array()) {
+		$result = array("status" => false, "message" => "","suite" => array());
 
+		$id = (int)$params["manufacturer_id"];
+
+		$suite = array();
+		if ($id > 0) {
+			$db = new \clsDBdbConnection();
+			$sql = "select id,suite_code from alm_product_suites where id_manufacturer = $id";
+			$db->query($sql);
+			while ($db->next_record()) {
+				$row = array();
+				$row["id"] = $db->f("id");
+				$row["suite_code"] = $db->f("suite_code");
+				$suite[] = $row;
+			}
+
+			$result["status"] = true;
+			$result["suite"] = $suite;
+			$result["message"] = "Command executed successfully";
+
+			$db->close();
+
+			return $result;
+
+		} else {
+			$result["status"] = false;
+			$result["message"] = "Invalid ID";
+
+			return $result;
+		}
+
+	}
+
+	public function getSuiteByID($params = array()) {
+		$result = array("status" => false, "message" => "","suite_description" => "");
+
+		$id = (int)$params["suite_id"];
+
+		if ($id > 0) {
+			$db = new \clsDBdbConnection();
+			$description = CCDLookUp("suite_description","alm_product_suites","id = $id",$db);
+
+			$result["status"] = true;
+			$result["suite_description"] = $description;
+			$result["message"] = "Command executed successfully";
+
+			$db->close();
+
+			return $result;
+
+		} else {
+			$result["status"] = false;
+			$result["message"] = "Invalid ID";
+
+			return $result;
+		}
+
+	}
 
 	public static function setProducts($params = array()) {
 		$result = array("status" => false, "message" => "");

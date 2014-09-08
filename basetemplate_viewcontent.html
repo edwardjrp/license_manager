@@ -1,0 +1,41 @@
+<div class="widget-box">
+	<div class="widget-header">
+		<h4>{res:viewcustomer}</h4>
+	</div>
+	<div class="widget-body">
+
+	</div><!-- widget-body -->
+</div><!-- widget-box -->
+
+<link rel="stylesheet" href="assets/css/datepicker.css" />
+<link rel="stylesheet" href="assets/css/colorbox.css" />
+<link rel="stylesheet" href="assets/css/chosen.css" />
+
+<!-- included here to not mess with too much js in the main page -->
+<script src="assets/js/jquery-2.0.3.min.js"></script>
+<script src="assets/js/json3.min.js"></script>
+<script src="assets/js/form-validator/jquery.form-validator.min.js"></script>
+<script src="assets/js/jquery.colorbox-min.js"></script>
+<script src="assets/js/date-time/bootstrap-datepicker.min.js"></script>
+<script src="assets/js/bootbox.min.js"></script>
+<script src="assets/js/jquery-ui-1.10.3.custom.min.js"></script>
+<script src="assets/js/jquery.ui.touch-punch.min.js"></script>
+<script src="assets/js/jquery.colorbox-min.js"></script>
+<script src="assets/js/chosen.jquery.min.js"></script>
+
+
+<script>
+$(function(){
+        
+        //$("#description").focus();
+        //validate coordinates
+        $.validate({
+                form : "#alm_products"
+        });
+
+	$(".chosen-select").chosen(); 
+
+
+});
+
+</script>

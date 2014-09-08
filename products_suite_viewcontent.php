@@ -36,7 +36,7 @@ class clsRecordproducts_suite_viewcontentalm_product_suites { //alm_product_suit
  // Class variables
 //End Variables
 
-//Class_Initialize Event @2-5E230CAE
+//Class_Initialize Event @2-AEEDFA61
  function clsRecordproducts_suite_viewcontentalm_product_suites($RelativePath, & $Parent)
  {
 
@@ -74,17 +74,9 @@ class clsRecordproducts_suite_viewcontentalm_product_suites { //alm_product_suit
    $this->manufacturer->DataSource->SQL = "SELECT * \n" .
 "FROM alm_product_manufaturers {SQL_Where} {SQL_OrderBy}";
    list($this->manufacturer->BoundColumn, $this->manufacturer->TextColumn, $this->manufacturer->DBFormat) = array("id", "manufacturer", "");
-   $this->lbgroup = new clsControl(ccsListBox, "lbgroup", $CCSLocales->GetText("group"), ccsText, "", CCGetRequestParam("lbgroup", $Method, NULL), $this);
-   $this->lbgroup->DSType = dsTable;
-   $this->lbgroup->DataSource = new clsDBdbConnection();
-   $this->lbgroup->ds = & $this->lbgroup->DataSource;
-   $this->lbgroup->DataSource->SQL = "SELECT * \n" .
-"FROM alm_product_groups {SQL_Where} {SQL_OrderBy}";
-   list($this->lbgroup->BoundColumn, $this->lbgroup->TextColumn, $this->lbgroup->DBFormat) = array("id", "group_name", "");
    $this->suite_code = new clsControl(ccsTextBox, "suite_code", $CCSLocales->GetText("suite"), ccsText, "", CCGetRequestParam("suite_code", $Method, NULL), $this);
-   $this->suite_name = new clsControl(ccsTextBox, "suite_name", $CCSLocales->GetText("suite"), ccsText, "", CCGetRequestParam("suite_name", $Method, NULL), $this);
-   $this->suite_description = new clsControl(ccsTextBox, "suite_description", $CCSLocales->GetText("suite_description"), ccsText, "", CCGetRequestParam("suite_description", $Method, NULL), $this);
    $this->suite_long_description = new clsControl(ccsTextArea, "suite_long_description", $CCSLocales->GetText("suite_details"), ccsText, "", CCGetRequestParam("suite_long_description", $Method, NULL), $this);
+   $this->suite_description = new clsControl(ccsTextBox, "suite_description", $CCSLocales->GetText("suite_description"), ccsText, "", CCGetRequestParam("suite_description", $Method, NULL), $this);
   }
  }
 //End Class_Initialize Event
@@ -100,7 +92,7 @@ class clsRecordproducts_suite_viewcontentalm_product_suites { //alm_product_suit
  }
 //End Initialize Method
 
-//Validate Method @2-93C21C33
+//Validate Method @2-5A7BEBAB
  function Validate()
  {
   global $CCSLocales;
@@ -110,26 +102,22 @@ class clsRecordproducts_suite_viewcontentalm_product_suites { //alm_product_suit
   $Validation = ($this->modified_iduser->Validate() && $Validation);
   $Validation = ($this->created_iduser->Validate() && $Validation);
   $Validation = ($this->manufacturer->Validate() && $Validation);
-  $Validation = ($this->lbgroup->Validate() && $Validation);
   $Validation = ($this->suite_code->Validate() && $Validation);
-  $Validation = ($this->suite_name->Validate() && $Validation);
-  $Validation = ($this->suite_description->Validate() && $Validation);
   $Validation = ($this->suite_long_description->Validate() && $Validation);
+  $Validation = ($this->suite_description->Validate() && $Validation);
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "OnValidate", $this);
   $Validation =  $Validation && ($this->hidguid->Errors->Count() == 0);
   $Validation =  $Validation && ($this->modified_iduser->Errors->Count() == 0);
   $Validation =  $Validation && ($this->created_iduser->Errors->Count() == 0);
   $Validation =  $Validation && ($this->manufacturer->Errors->Count() == 0);
-  $Validation =  $Validation && ($this->lbgroup->Errors->Count() == 0);
   $Validation =  $Validation && ($this->suite_code->Errors->Count() == 0);
-  $Validation =  $Validation && ($this->suite_name->Errors->Count() == 0);
-  $Validation =  $Validation && ($this->suite_description->Errors->Count() == 0);
   $Validation =  $Validation && ($this->suite_long_description->Errors->Count() == 0);
+  $Validation =  $Validation && ($this->suite_description->Errors->Count() == 0);
   return (($this->Errors->Count() == 0) && $Validation);
  }
 //End Validate Method
 
-//CheckErrors Method @2-00DA96E3
+//CheckErrors Method @2-DFCAC2C5
  function CheckErrors()
  {
   $errors = false;
@@ -138,11 +126,9 @@ class clsRecordproducts_suite_viewcontentalm_product_suites { //alm_product_suit
   $errors = ($errors || $this->modified_iduser->Errors->Count());
   $errors = ($errors || $this->created_iduser->Errors->Count());
   $errors = ($errors || $this->manufacturer->Errors->Count());
-  $errors = ($errors || $this->lbgroup->Errors->Count());
   $errors = ($errors || $this->suite_code->Errors->Count());
-  $errors = ($errors || $this->suite_name->Errors->Count());
-  $errors = ($errors || $this->suite_description->Errors->Count());
   $errors = ($errors || $this->suite_long_description->Errors->Count());
+  $errors = ($errors || $this->suite_description->Errors->Count());
   $errors = ($errors || $this->Errors->Count());
   $errors = ($errors || $this->DataSource->Errors->Count());
   return $errors;
@@ -185,7 +171,7 @@ function GetPrimaryKey($keyName)
  }
 //End Operation Method
 
-//Show Method @2-2A8A1F48
+//Show Method @2-681A5DA8
  function Show()
  {
   global $CCSUseAmp;
@@ -200,7 +186,6 @@ function GetPrimaryKey($keyName)
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeSelect", $this);
 
   $this->manufacturer->Prepare();
-  $this->lbgroup->Prepare();
 
   $RecordBlock = "Record " . $this->ComponentName;
   $ParentPath = $Tpl->block_path;
@@ -219,11 +204,9 @@ function GetPrimaryKey($keyName)
      $this->modified_iduser->SetValue($this->DataSource->modified_iduser->GetValue());
      $this->created_iduser->SetValue($this->DataSource->created_iduser->GetValue());
      $this->manufacturer->SetValue($this->DataSource->manufacturer->GetValue());
-     $this->lbgroup->SetValue($this->DataSource->lbgroup->GetValue());
      $this->suite_code->SetValue($this->DataSource->suite_code->GetValue());
-     $this->suite_name->SetValue($this->DataSource->suite_name->GetValue());
-     $this->suite_description->SetValue($this->DataSource->suite_description->GetValue());
      $this->suite_long_description->SetValue($this->DataSource->suite_long_description->GetValue());
+     $this->suite_description->SetValue($this->DataSource->suite_description->GetValue());
     }
    } else {
     $this->EditMode = false;
@@ -237,11 +220,9 @@ function GetPrimaryKey($keyName)
    $Error = ComposeStrings($Error, $this->modified_iduser->Errors->ToString());
    $Error = ComposeStrings($Error, $this->created_iduser->Errors->ToString());
    $Error = ComposeStrings($Error, $this->manufacturer->Errors->ToString());
-   $Error = ComposeStrings($Error, $this->lbgroup->Errors->ToString());
    $Error = ComposeStrings($Error, $this->suite_code->Errors->ToString());
-   $Error = ComposeStrings($Error, $this->suite_name->Errors->ToString());
-   $Error = ComposeStrings($Error, $this->suite_description->Errors->ToString());
    $Error = ComposeStrings($Error, $this->suite_long_description->Errors->ToString());
+   $Error = ComposeStrings($Error, $this->suite_description->Errors->ToString());
    $Error = ComposeStrings($Error, $this->Errors->ToString());
    $Error = ComposeStrings($Error, $this->DataSource->Errors->ToString());
    $Tpl->SetVar("Error", $Error);
@@ -265,11 +246,9 @@ function GetPrimaryKey($keyName)
   $this->modified_iduser->Show();
   $this->created_iduser->Show();
   $this->manufacturer->Show();
-  $this->lbgroup->Show();
   $this->suite_code->Show();
-  $this->suite_name->Show();
-  $this->suite_description->Show();
   $this->suite_long_description->Show();
+  $this->suite_description->Show();
   $Tpl->parse();
   $Tpl->block_path = $ParentPath;
   $this->DataSource->close();
@@ -280,7 +259,7 @@ function GetPrimaryKey($keyName)
 
 class clsproducts_suite_viewcontentalm_product_suitesDataSource extends clsDBdbConnection {  //alm_product_suitesDataSource Class @2-A397B97A
 
-//DataSource Variables @2-CFC3C5D2
+//DataSource Variables @2-0DB64C4C
  public $Parent = "";
  public $CCSEvents = "";
  public $CCSEventResult;
@@ -297,14 +276,12 @@ class clsproducts_suite_viewcontentalm_product_suitesDataSource extends clsDBdbC
  public $modified_iduser;
  public $created_iduser;
  public $manufacturer;
- public $lbgroup;
  public $suite_code;
- public $suite_name;
- public $suite_description;
  public $suite_long_description;
+ public $suite_description;
 //End DataSource Variables
 
-//DataSourceClass_Initialize Event @2-1B6C72F2
+//DataSourceClass_Initialize Event @2-FCF2F78F
  function clsproducts_suite_viewcontentalm_product_suitesDataSource(& $Parent)
  {
   $this->Parent = & $Parent;
@@ -320,15 +297,11 @@ class clsproducts_suite_viewcontentalm_product_suitesDataSource extends clsDBdbC
   
   $this->manufacturer = new clsField("manufacturer", ccsText, "");
   
-  $this->lbgroup = new clsField("lbgroup", ccsText, "");
-  
   $this->suite_code = new clsField("suite_code", ccsText, "");
   
-  $this->suite_name = new clsField("suite_name", ccsText, "");
+  $this->suite_long_description = new clsField("suite_long_description", ccsText, "");
   
   $this->suite_description = new clsField("suite_description", ccsText, "");
-  
-  $this->suite_long_description = new clsField("suite_long_description", ccsText, "");
   
 
  }
@@ -361,18 +334,16 @@ class clsproducts_suite_viewcontentalm_product_suitesDataSource extends clsDBdbC
  }
 //End Open Method
 
-//SetValues Method @2-B1965268
+//SetValues Method @2-98EB70C1
  function SetValues()
  {
   $this->hidguid->SetDBValue($this->f("guid"));
   $this->modified_iduser->SetDBValue(trim($this->f("modified_iduser")));
   $this->created_iduser->SetDBValue(trim($this->f("created_iduser")));
   $this->manufacturer->SetDBValue($this->f("id_manufacturer"));
-  $this->lbgroup->SetDBValue($this->f("id_group"));
   $this->suite_code->SetDBValue($this->f("suite_code"));
-  $this->suite_name->SetDBValue($this->f("suite_name"));
-  $this->suite_description->SetDBValue($this->f("suite_description"));
   $this->suite_long_description->SetDBValue($this->f("suite_long_description"));
+  $this->suite_description->SetDBValue($this->f("suite_description"));
  }
 //End SetValues Method
 

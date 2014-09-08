@@ -11,37 +11,21 @@
 							<div class="input-group-md input-group-sm col-md-12 col-xs-12">
 								<!-- BEGIN Error -->{Error}<!-- END Error -->
 								<div class="row">
-									<div class="col-md-4 col-xs-12">
+									<div class="col-md-3 col-xs-12">
 										<label class="blue" for"lbmanufacturer">{res:manufacturer}</label><br>
-										<select name="{lbmanufacturer_Name}" class="width-90 chosen-select" id="lbmanufacturer">
+										<select name="{lbmanufacturer_Name}" class="width-80 chosen-select" id="manufacturer">
 											<option value="">{res:showall}</option>
 												{lbmanufacturer_Options}
 										</select>
 									</div>
 
-									<div class="col-md-7 col-xs-12">
+									<div class="col-md-3 col-xs-12">
 										<label class="blue" for"lbsuite">{res:suite}</label><br>
-										<select name="{lbsuite_Name}" class="width-95 chosen-select" id="lbsuite">
+										<select name="{lbsuite_Name}" class="width-80 chosen-select" id="suite">
 										<option value="">{res:showall}</option>
 											{lbsuite_Options}
 										</select>
 									</div>
-									<div class="col-md-4 col-xs-12">
-										<label class="blue" for"lboffering">{res:offering}</label><br>
-										<select name="{lboffering_Name}" class="width-90 chosen-select" id="lboffering">
-											<option value="">{res:showall}</option>
-											{lboffering_Options}
-										</select>
-									</div>
-
-									<div class="col-md-4 col-xs-12">
-										<label class="blue" for"lbpricingtier">{res:pricingtier}</label><br>
-										<select name="{lbpricingtier_Name}" class="width-90 chosen-select" id="lbpricingtier">
-											<option value="">{res:showall}</option>
-											{lbpricingtier_Options}
-										</select>
-									</div>
-
 									<div class="col-md-4 col-xs-12">
 										<br>
 										<input type="text" name="{s_search_Name}" value="{s_search}" id="s_search" class="col-xs-12 col-md-12" placeholder="{res:searchproduct}">&nbsp;
@@ -82,17 +66,9 @@
 		<!-- BEGIN Asc_On --><img border="0" src="Styles/None/Images/Asc.gif"><!-- END Asc_On -->
 		<!-- BEGIN Desc_On --><img border="0" src="Styles/None/Images/Desc.gif"><!-- END Desc_On --><!-- END Sorter Sorter_suite_code --></th>
 		<th>
-		<!-- BEGIN Sorter Sorter_offer_name --><a href="{Sort_URL}" id="offer_name">{res:offer_name}</a>
+		<!-- BEGIN Sorter Sorter_description --><a href="{Sort_URL}" id="short_description">{res:description}</a>
 		<!-- BEGIN Asc_On --><img border="0" src="Styles/None/Images/Asc.gif"><!-- END Asc_On -->
-		<!-- BEGIN Desc_On --><img border="0" src="Styles/None/Images/Desc.gif"><!-- END Desc_On --><!-- END Sorter Sorter_offer_name --></th>
-		<th>
-		<!-- BEGIN Sorter Sorter_pricingtier_name --><a href="{Sort_URL}" id="pricingtier_name">{res:pricingtier_name}</a>
-		<!-- BEGIN Asc_On --><img border="0" src="Styles/None/Images/Asc.gif"><!-- END Asc_On -->
-		<!-- BEGIN Desc_On --><img border="0" src="Styles/None/Images/Desc.gif"><!-- END Desc_On --><!-- END Sorter Sorter_pricingtier_name --></th>
-		<th>
-		<!-- BEGIN Sorter Sorter_short_description --><a href="{Sort_URL}" id="short_description">{res:short_description}</a>
-		<!-- BEGIN Asc_On --><img border="0" src="Styles/None/Images/Asc.gif"><!-- END Asc_On -->
-		<!-- BEGIN Desc_On --><img border="0" src="Styles/None/Images/Desc.gif"><!-- END Desc_On --><!-- END Sorter Sorter_short_description --></th>
+		<!-- BEGIN Desc_On --><img border="0" src="Styles/None/Images/Desc.gif"><!-- END Desc_On --><!-- END Sorter Sorter_description --></th>
 		<th>
 		<!-- BEGIN Sorter Sorter_range_min --><a href="{Sort_URL}" id="range_min">{res:range_min}</a>
 		<!-- BEGIN Asc_On --><img border="0" src="Styles/None/Images/Asc.gif"><!-- END Asc_On -->
@@ -106,11 +82,7 @@
 		<!-- BEGIN Asc_On --><img border="0" src="Styles/None/Images/Asc.gif"><!-- END Asc_On -->
 		<!-- BEGIN Desc_On --><img border="0" src="Styles/None/Images/Desc.gif"><!-- END Desc_On --><!-- END Sorter Sorter_channel_sku --></th>
 		<th>
-		<!-- BEGIN Sorter Sorter_barcode_ean_upc --><a href="{Sort_URL}" id="msrp_price">{res:barcode}</a>
-		<!-- BEGIN Asc_On --><img border="0" src="Styles/None/Images/Asc.gif"><!-- END Asc_On -->
-		<!-- BEGIN Desc_On --><img border="0" src="Styles/None/Images/Desc.gif"><!-- END Desc_On --><!-- END Sorter Sorter_barcode_ean_upc --></th>
-		<th>
-		<!-- BEGIN Sorter Sorter_msrp_price --><a href="{Sort_URL}" id="channel_sku">{res:msrp_price}</a>
+		<!-- BEGIN Sorter Sorter_msrp_price --><a href="{Sort_URL}" id="msrp_price">{res:msrp_price}</a>
 		<!-- BEGIN Asc_On --><img border="0" src="Styles/None/Images/Asc.gif"><!-- END Asc_On -->
 		<!-- BEGIN Desc_On --><img border="0" src="Styles/None/Images/Desc.gif"><!-- END Desc_On --><!-- END Sorter Sorter_msrp_price --></th>
 	</tr>
@@ -123,13 +95,10 @@
 			</div>
 		</td>
 		<td>{suite_code}&nbsp;</td>
-		<td>{offer_name}&nbsp;</td>
-		<td>{pricingtier_name}&nbsp;</td>
-		<td>{short_description}&nbsp;</td>
+		<td>{description}&nbsp;</td>
 		<td style="text-align:right;">{range_min}&nbsp;</td>
 		<td style="text-align:right;">{range_max}&nbsp;</td>
 		<td>{channel_sku}&nbsp;</td>
-		<td>{barcode_ean_upc}&nbsp;</td>
 		<td style="text-align:right;">{msrp_price}&nbsp;</td>
 	</tr>
 	<!-- END Row -->
@@ -178,6 +147,28 @@
 $(function(){
 
 	$(".chosen-select").chosen(); 
+
+
+	$("#manufacturer").chosen().change(function() {
+		var manufacturer_id = $(this).val();
+		var params = {m: "suite_manufacturer",id: manufacturer_id};
+		$.ajax({
+			url: "ajaxget.php",
+			type: "get",
+			data: params
+		}).done(function(msg) {
+			var suite = $("#suite");
+			suite.empty();
+			suite.trigger("chosen:updated");
+			//Assgining show all option
+			suite.append($("<option/>").val("").text("{res:showall}"));
+			$.each(msg.suite, function() {
+				suite.append($("<option/>").val(this.id).text(this.suite_code));
+			});
+			suite.trigger("chosen:updated");
+
+		});
+	});
 
 });
 

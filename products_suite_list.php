@@ -36,7 +36,7 @@ class clsRecordproducts_suite_listsearch { //search Class @2-E8762B42
  // Class variables
 //End Variables
 
-//Class_Initialize Event @2-A8DD569C
+//Class_Initialize Event @2-FD4A53E5
  function clsRecordproducts_suite_listsearch($RelativePath, & $Parent)
  {
 
@@ -69,18 +69,11 @@ class clsRecordproducts_suite_listsearch { //search Class @2-E8762B42
    $this->lbmanufacturer->DataSource->SQL = "SELECT * \n" .
 "FROM alm_product_manufaturers {SQL_Where} {SQL_OrderBy}";
    list($this->lbmanufacturer->BoundColumn, $this->lbmanufacturer->TextColumn, $this->lbmanufacturer->DBFormat) = array("id", "manufacturer", "");
-   $this->lbgroup = new clsControl(ccsListBox, "lbgroup", "Group", ccsText, "", CCGetRequestParam("lbgroup", $Method, NULL), $this);
-   $this->lbgroup->DSType = dsTable;
-   $this->lbgroup->DataSource = new clsDBdbConnection();
-   $this->lbgroup->ds = & $this->lbgroup->DataSource;
-   $this->lbgroup->DataSource->SQL = "SELECT * \n" .
-"FROM alm_product_groups {SQL_Where} {SQL_OrderBy}";
-   list($this->lbgroup->BoundColumn, $this->lbgroup->TextColumn, $this->lbgroup->DBFormat) = array("id", "group_name", "");
   }
  }
 //End Class_Initialize Event
 
-//Validate Method @2-7DBA326F
+//Validate Method @2-1DBC13EF
  function Validate()
  {
   global $CCSLocales;
@@ -88,22 +81,19 @@ class clsRecordproducts_suite_listsearch { //search Class @2-E8762B42
   $Where = "";
   $Validation = ($this->s_search->Validate() && $Validation);
   $Validation = ($this->lbmanufacturer->Validate() && $Validation);
-  $Validation = ($this->lbgroup->Validate() && $Validation);
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "OnValidate", $this);
   $Validation =  $Validation && ($this->s_search->Errors->Count() == 0);
   $Validation =  $Validation && ($this->lbmanufacturer->Errors->Count() == 0);
-  $Validation =  $Validation && ($this->lbgroup->Errors->Count() == 0);
   return (($this->Errors->Count() == 0) && $Validation);
  }
 //End Validate Method
 
-//CheckErrors Method @2-00B10338
+//CheckErrors Method @2-F4B71C93
  function CheckErrors()
  {
   $errors = false;
   $errors = ($errors || $this->s_search->Errors->Count());
   $errors = ($errors || $this->lbmanufacturer->Errors->Count());
-  $errors = ($errors || $this->lbgroup->Errors->Count());
   $errors = ($errors || $this->Errors->Count());
   return $errors;
  }
@@ -124,7 +114,7 @@ function GetPrimaryKey($keyName)
 }
 //End MasterDetail
 
-//Operation Method @2-4345754E
+//Operation Method @2-4D909A9E
  function Operation()
  {
   if(!$this->Visible)
@@ -146,7 +136,7 @@ function GetPrimaryKey($keyName)
   $Redirect = "products_suite.php" . "?" . CCGetQueryString("QueryString", array("ccsForm", "v_alm_product_suitesPage"));
   if($this->Validate()) {
    if($this->PressedButton == "Button_Search") {
-    $Redirect = "products_suite.php" . "?" . CCMergeQueryStrings(CCGetQueryString("Form", array("Button_Search", "Button_Search_x", "Button_Search_y", "v_alm_product_suitesPage")), CCGetQueryString("QueryString", array("s_search", "lbmanufacturer", "lbgroup", "ccsForm", "v_alm_product_suitesPage")));
+    $Redirect = "products_suite.php" . "?" . CCMergeQueryStrings(CCGetQueryString("Form", array("Button_Search", "Button_Search_x", "Button_Search_y", "v_alm_product_suitesPage")), CCGetQueryString("QueryString", array("s_search", "lbmanufacturer", "ccsForm", "v_alm_product_suitesPage")));
     if(!CCGetEvent($this->Button_Search->CCSEvents, "OnClick", $this->Button_Search)) {
      $Redirect = "";
     }
@@ -157,7 +147,7 @@ function GetPrimaryKey($keyName)
  }
 //End Operation Method
 
-//Show Method @2-E00D6217
+//Show Method @2-B5689F9C
  function Show()
  {
   global $CCSUseAmp;
@@ -172,7 +162,6 @@ function GetPrimaryKey($keyName)
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeSelect", $this);
 
   $this->lbmanufacturer->Prepare();
-  $this->lbgroup->Prepare();
 
   $RecordBlock = "Record " . $this->ComponentName;
   $ParentPath = $Tpl->block_path;
@@ -185,7 +174,6 @@ function GetPrimaryKey($keyName)
    $Error = "";
    $Error = ComposeStrings($Error, $this->s_search->Errors->ToString());
    $Error = ComposeStrings($Error, $this->lbmanufacturer->Errors->ToString());
-   $Error = ComposeStrings($Error, $this->lbgroup->Errors->ToString());
    $Error = ComposeStrings($Error, $this->Errors->ToString());
    $Tpl->SetVar("Error", $Error);
    $Tpl->Parse("Error", false);
@@ -206,7 +194,6 @@ function GetPrimaryKey($keyName)
   $this->s_search->Show();
   $this->Button_Search->Show();
   $this->lbmanufacturer->Show();
-  $this->lbgroup->Show();
   $Tpl->parse();
   $Tpl->block_path = $ParentPath;
  }
@@ -216,7 +203,7 @@ function GetPrimaryKey($keyName)
 
 class clsGridproducts_suite_listv_alm_product_suites { //v_alm_product_suites class @11-F8980F8E
 
-//Variables @11-E5AE81CB
+//Variables @11-537E0DFE
 
  // Public variables
  public $ComponentType = "Grid";
@@ -247,14 +234,12 @@ class clsGridproducts_suite_listv_alm_product_suites { //v_alm_product_suites cl
  public $RowControls;
  public $Sorter_guid;
  public $Sorter_manufacturer;
- public $Sorter_group_name;
  public $Sorter_suite_code;
- public $Sorter_suite_name;
  public $Sorter_suite_description;
  public $Sorter_dateupdated;
 //End Variables
 
-//Class_Initialize Event @11-4C4D83E7
+//Class_Initialize Event @11-D4BC2BBE
  function clsGridproducts_suite_listv_alm_product_suites($RelativePath, & $Parent)
  {
   global $FileName;
@@ -285,16 +270,12 @@ class clsGridproducts_suite_listv_alm_product_suites { //v_alm_product_suites cl
 
   $this->guid = new clsControl(ccsLabel, "guid", "guid", ccsText, "", CCGetRequestParam("guid", ccsGet, NULL), $this);
   $this->manufacturer = new clsControl(ccsLabel, "manufacturer", "manufacturer", ccsText, "", CCGetRequestParam("manufacturer", ccsGet, NULL), $this);
-  $this->group_name = new clsControl(ccsLabel, "group_name", "group_name", ccsText, "", CCGetRequestParam("group_name", ccsGet, NULL), $this);
   $this->suite_code = new clsControl(ccsLabel, "suite_code", "suite_code", ccsText, "", CCGetRequestParam("suite_code", ccsGet, NULL), $this);
-  $this->suite_name = new clsControl(ccsLabel, "suite_name", "suite_name", ccsText, "", CCGetRequestParam("suite_name", ccsGet, NULL), $this);
   $this->suite_description = new clsControl(ccsLabel, "suite_description", "suite_description", ccsText, "", CCGetRequestParam("suite_description", ccsGet, NULL), $this);
   $this->dateupdated = new clsControl(ccsLabel, "dateupdated", "dateupdated", ccsDate, array("mm", "/", "dd", "/", "yyyy"), CCGetRequestParam("dateupdated", ccsGet, NULL), $this);
   $this->Sorter_guid = new clsSorter($this->ComponentName, "Sorter_guid", $FileName, $this);
   $this->Sorter_manufacturer = new clsSorter($this->ComponentName, "Sorter_manufacturer", $FileName, $this);
-  $this->Sorter_group_name = new clsSorter($this->ComponentName, "Sorter_group_name", $FileName, $this);
   $this->Sorter_suite_code = new clsSorter($this->ComponentName, "Sorter_suite_code", $FileName, $this);
-  $this->Sorter_suite_name = new clsSorter($this->ComponentName, "Sorter_suite_name", $FileName, $this);
   $this->Sorter_suite_description = new clsSorter($this->ComponentName, "Sorter_suite_description", $FileName, $this);
   $this->Sorter_dateupdated = new clsSorter($this->ComponentName, "Sorter_dateupdated", $FileName, $this);
   $this->Navigator = new clsNavigator($this->ComponentName, "Navigator", $FileName, 10, tpCentered, $this);
@@ -314,7 +295,7 @@ class clsGridproducts_suite_listv_alm_product_suites { //v_alm_product_suites cl
  }
 //End Initialize Method
 
-//Show Method @11-D72B08FB
+//Show Method @11-BB0B9EAA
  function Show()
  {
   global $Tpl;
@@ -324,7 +305,6 @@ class clsGridproducts_suite_listv_alm_product_suites { //v_alm_product_suites cl
   $this->RowNumber = 0;
 
   $this->DataSource->Parameters["urllbmanufacturer"] = CCGetFromGet("lbmanufacturer", NULL);
-  $this->DataSource->Parameters["urllbgroup"] = CCGetFromGet("lbgroup", NULL);
   $this->DataSource->Parameters["urls_search"] = CCGetFromGet("s_search", NULL);
 
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeSelect", $this);
@@ -347,9 +327,7 @@ class clsGridproducts_suite_listv_alm_product_suites { //v_alm_product_suites cl
   if (!$this->IsEmpty) {
    $this->ControlsVisible["guid"] = $this->guid->Visible;
    $this->ControlsVisible["manufacturer"] = $this->manufacturer->Visible;
-   $this->ControlsVisible["group_name"] = $this->group_name->Visible;
    $this->ControlsVisible["suite_code"] = $this->suite_code->Visible;
-   $this->ControlsVisible["suite_name"] = $this->suite_name->Visible;
    $this->ControlsVisible["suite_description"] = $this->suite_description->Visible;
    $this->ControlsVisible["dateupdated"] = $this->dateupdated->Visible;
    while ($this->ForceIteration || (($this->RowNumber < $this->PageSize) &&  ($this->HasRecord = $this->DataSource->has_next_record()))) {
@@ -361,9 +339,7 @@ class clsGridproducts_suite_listv_alm_product_suites { //v_alm_product_suites cl
     $Tpl->block_path = $ParentPath . "/" . $GridBlock . "/Row";
     $this->guid->SetValue($this->DataSource->guid->GetValue());
     $this->manufacturer->SetValue($this->DataSource->manufacturer->GetValue());
-    $this->group_name->SetValue($this->DataSource->group_name->GetValue());
     $this->suite_code->SetValue($this->DataSource->suite_code->GetValue());
-    $this->suite_name->SetValue($this->DataSource->suite_name->GetValue());
     $this->suite_description->SetValue($this->DataSource->suite_description->GetValue());
     $this->dateupdated->SetValue($this->DataSource->dateupdated->GetValue());
     $this->Attributes->SetValue("rowNumber", $this->RowNumber);
@@ -371,9 +347,7 @@ class clsGridproducts_suite_listv_alm_product_suites { //v_alm_product_suites cl
     $this->Attributes->Show();
     $this->guid->Show();
     $this->manufacturer->Show();
-    $this->group_name->Show();
     $this->suite_code->Show();
-    $this->suite_name->Show();
     $this->suite_description->Show();
     $this->dateupdated->Show();
     $Tpl->block_path = $ParentPath . "/" . $GridBlock;
@@ -403,9 +377,7 @@ class clsGridproducts_suite_listv_alm_product_suites { //v_alm_product_suites cl
   }
   $this->Sorter_guid->Show();
   $this->Sorter_manufacturer->Show();
-  $this->Sorter_group_name->Show();
   $this->Sorter_suite_code->Show();
-  $this->Sorter_suite_name->Show();
   $this->Sorter_suite_description->Show();
   $this->Sorter_dateupdated->Show();
   $this->Navigator->Show();
@@ -416,15 +388,13 @@ class clsGridproducts_suite_listv_alm_product_suites { //v_alm_product_suites cl
  }
 //End Show Method
 
-//GetErrors Method @11-E7BBAC1C
+//GetErrors Method @11-4FEAF3EA
  function GetErrors()
  {
   $errors = "";
   $errors = ComposeStrings($errors, $this->guid->Errors->ToString());
   $errors = ComposeStrings($errors, $this->manufacturer->Errors->ToString());
-  $errors = ComposeStrings($errors, $this->group_name->Errors->ToString());
   $errors = ComposeStrings($errors, $this->suite_code->Errors->ToString());
-  $errors = ComposeStrings($errors, $this->suite_name->Errors->ToString());
   $errors = ComposeStrings($errors, $this->suite_description->Errors->ToString());
   $errors = ComposeStrings($errors, $this->dateupdated->Errors->ToString());
   $errors = ComposeStrings($errors, $this->Errors->ToString());
@@ -437,7 +407,7 @@ class clsGridproducts_suite_listv_alm_product_suites { //v_alm_product_suites cl
 
 class clsproducts_suite_listv_alm_product_suitesDataSource extends clsDBdbConnection {  //v_alm_product_suitesDataSource Class @11-418ACC01
 
-//DataSource Variables @11-0FFF20F6
+//DataSource Variables @11-F3E11578
  public $Parent = "";
  public $CCSEvents = "";
  public $CCSEventResult;
@@ -451,14 +421,12 @@ class clsproducts_suite_listv_alm_product_suitesDataSource extends clsDBdbConnec
  // Datasource fields
  public $guid;
  public $manufacturer;
- public $group_name;
  public $suite_code;
- public $suite_name;
  public $suite_description;
  public $dateupdated;
 //End DataSource Variables
 
-//DataSourceClass_Initialize Event @11-6B91FE7D
+//DataSourceClass_Initialize Event @11-AF640C69
  function clsproducts_suite_listv_alm_product_suitesDataSource(& $Parent)
  {
   $this->Parent = & $Parent;
@@ -468,11 +436,7 @@ class clsproducts_suite_listv_alm_product_suitesDataSource extends clsDBdbConnec
   
   $this->manufacturer = new clsField("manufacturer", ccsText, "");
   
-  $this->group_name = new clsField("group_name", ccsText, "");
-  
   $this->suite_code = new clsField("suite_code", ccsText, "");
-  
-  $this->suite_name = new clsField("suite_name", ccsText, "");
   
   $this->suite_description = new clsField("suite_description", ccsText, "");
   
@@ -482,51 +446,41 @@ class clsproducts_suite_listv_alm_product_suitesDataSource extends clsDBdbConnec
  }
 //End DataSourceClass_Initialize Event
 
-//SetOrder Method @11-EF83417A
+//SetOrder Method @11-87FAC2F8
  function SetOrder($SorterName, $SorterDirection)
  {
   $this->Order = "";
   $this->Order = CCGetOrder($this->Order, $SorterName, $SorterDirection, 
    array("Sorter_guid" => array("guid", ""), 
    "Sorter_manufacturer" => array("manufacturer", ""), 
-   "Sorter_group_name" => array("group_name", ""), 
    "Sorter_suite_code" => array("suite_code", ""), 
-   "Sorter_suite_name" => array("suite_name", ""), 
    "Sorter_suite_description" => array("suite_description", ""), 
    "Sorter_dateupdated" => array("dateupdated", "")));
  }
 //End SetOrder Method
 
-//Prepare Method @11-420CEC54
+//Prepare Method @11-BAFDED8B
  function Prepare()
  {
   global $CCSLocales;
   global $DefaultDateFormat;
   $this->wp = new clsSQLParameters($this->ErrorBlock);
   $this->wp->AddParameter("1", "urllbmanufacturer", ccsInteger, "", "", $this->Parameters["urllbmanufacturer"], "", false);
-  $this->wp->AddParameter("2", "urllbgroup", ccsInteger, "", "", $this->Parameters["urllbgroup"], "", false);
+  $this->wp->AddParameter("2", "urls_search", ccsText, "", "", $this->Parameters["urls_search"], "", false);
   $this->wp->AddParameter("3", "urls_search", ccsText, "", "", $this->Parameters["urls_search"], "", false);
-  $this->wp->AddParameter("4", "urls_search", ccsText, "", "", $this->Parameters["urls_search"], "", false);
-  $this->wp->AddParameter("5", "urls_search", ccsText, "", "", $this->Parameters["urls_search"], "", false);
-  $this->wp->AddParameter("6", "urls_search", ccsMemo, "", "", $this->Parameters["urls_search"], "", false);
+  $this->wp->AddParameter("4", "urls_search", ccsMemo, "", "", $this->Parameters["urls_search"], "", false);
   $this->wp->Criterion[1] = $this->wp->Operation(opEqual, "id_manufacturer", $this->wp->GetDBValue("1"), $this->ToSQL($this->wp->GetDBValue("1"), ccsInteger),false);
-  $this->wp->Criterion[2] = $this->wp->Operation(opEqual, "id_group", $this->wp->GetDBValue("2"), $this->ToSQL($this->wp->GetDBValue("2"), ccsInteger),false);
-  $this->wp->Criterion[3] = $this->wp->Operation(opContains, "suite_name", $this->wp->GetDBValue("3"), $this->ToSQL($this->wp->GetDBValue("3"), ccsText),false);
-  $this->wp->Criterion[4] = $this->wp->Operation(opContains, "suite_code", $this->wp->GetDBValue("4"), $this->ToSQL($this->wp->GetDBValue("4"), ccsText),false);
-  $this->wp->Criterion[5] = $this->wp->Operation(opContains, "suite_description", $this->wp->GetDBValue("5"), $this->ToSQL($this->wp->GetDBValue("5"), ccsText),false);
-  $this->wp->Criterion[6] = $this->wp->Operation(opContains, "suite_long_description", $this->wp->GetDBValue("6"), $this->ToSQL($this->wp->GetDBValue("6"), ccsMemo),false);
+  $this->wp->Criterion[2] = $this->wp->Operation(opContains, "suite_code", $this->wp->GetDBValue("2"), $this->ToSQL($this->wp->GetDBValue("2"), ccsText),false);
+  $this->wp->Criterion[3] = $this->wp->Operation(opContains, "suite_description", $this->wp->GetDBValue("3"), $this->ToSQL($this->wp->GetDBValue("3"), ccsText),false);
+  $this->wp->Criterion[4] = $this->wp->Operation(opContains, "suite_long_description", $this->wp->GetDBValue("4"), $this->ToSQL($this->wp->GetDBValue("4"), ccsMemo),false);
   $this->Where = $this->wp->opAND(
-    false, $this->wp->opAND(
-    true, 
-    $this->wp->Criterion[1], 
-    $this->wp->Criterion[2]), $this->wp->opOR(
-    true, $this->wp->opOR(
-    false, $this->wp->opOR(
     false, 
-    $this->wp->Criterion[3], 
-    $this->wp->Criterion[4]), 
-    $this->wp->Criterion[5]), 
-    $this->wp->Criterion[6]));
+    $this->wp->Criterion[1], $this->wp->opOR(
+    true, $this->wp->opOR(
+    false, 
+    $this->wp->Criterion[2], 
+    $this->wp->Criterion[3]), 
+    $this->wp->Criterion[4]));
  }
 //End Prepare Method
 
@@ -548,14 +502,12 @@ class clsproducts_suite_listv_alm_product_suitesDataSource extends clsDBdbConnec
  }
 //End Open Method
 
-//SetValues Method @11-8D8E68B8
+//SetValues Method @11-BDC3FAE4
  function SetValues()
  {
   $this->guid->SetDBValue($this->f("guid"));
   $this->manufacturer->SetDBValue($this->f("manufacturer"));
-  $this->group_name->SetDBValue($this->f("group_name"));
   $this->suite_code->SetDBValue($this->f("suite_code"));
-  $this->suite_name->SetDBValue($this->f("suite_name"));
   $this->suite_description->SetDBValue($this->f("suite_description"));
   $this->dateupdated->SetDBValue(trim($this->f("dateupdated")));
  }

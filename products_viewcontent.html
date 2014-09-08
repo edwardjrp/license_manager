@@ -9,20 +9,10 @@
 			<!-- BEGIN Error -->
 			<!-- END Error -->
 			<div class="row col-md-12 col-xs-12">
-				<div class="row col-xs-12">
-					<div class="col-md-1 col-xs-0"></div>
-					<div class="col-md-5 col-xs-12">
-						<label class="control-label blue">{res:description}</label><br>
-						<input type="text" name="{description_Name}" value="{description}" disabled class="col-md-12 col-xs-12">
-					</div>
-					<div class="col-md-6 col-xs-12">
-						<label class="control-label blue">{res:detaileddescription}</label><br>
-						<input type="text" name="{detaileddescription_Name}" value="{detaileddescription}" disabled class="col-md-12 col-xs-12">
-					</div>
-				</div><!-- row -->
 
 				<div class="row col-xs-12">
-					<div class="col-md-1 col-xs-0"></div>
+					<div class="col-md-1 col-xs-0">
+					</div>
 					<div class="col-md-2 col-xs-12">
 						<label class="control-label blue">{res:manufacturer}</label><br>
 						<input type="text" name="{manufacturer_Name}" value="{manufacturer}" disabled class="col-md-12 col-xs-12">
@@ -31,30 +21,13 @@
 						<label class="control-label blue">{res:suitecode}</label><br>
 						<input type="text" name="{suitecode_Name}" value="{suitecode}" disabled class="col-md-12 col-xs-12">
 					</div>
-					<div class="col-md-3 col-xs-12">
-						<label class="control-label blue">{res:suitename}</label><br>
-						<input type="text" name="{suitename_Name}" value="{suitename}" disabled class="col-md-12 col-xs-12">
-					</div>
-					<div class="col-md-3 col-xs-12">
-						<label class="control-label blue">{res:offertype}</label><br>
-						<input type="text" name="{offer_name_Name}" value="{offer_name}" disabled class="col-md-12 col-xs-12">
-					</div>
-					<div class="col-md-2 col-xs-12">
-						<label class="control-label blue">{res:pricingtier}</label><br>
-						<input type="text" name="{pricingtier_name_Name}" value="{pricingtier_name}" disabled class="col-md-12 col-xs-12">
-					</div>
-				</div><!-- row -->
 
-				<div class="row col-xs-12">
-					<h3 class="header smaller lighter red">&nbsp;{res:productpriceinfo}</h3>
-					<div class="col-md-1 col-xs-0"></div>
-					<div class="col-md-1 col-xs-12">
-						<label class="control-label blue">{res:range_min}</label><br>
-						<input type="text" name="{range_min_Name}" value="{range_min}" disabled class="col-md-12 col-xs-12">
-					</div>
-					<div class="col-md-1 col-xs-12">
-						<label class="control-label blue">{res:range_max}</label><br>
-						<input type="text" name="{range_min1_Name}" value="{range_min1}" disabled class="col-md-12 col-xs-12">
+					<div class="col-md-2 col-xs-12">
+						<div class="row col-xs-12">
+							<label class="control-label blue">{res:numberofnodes}</label><br>
+							<input type="text" name="{range_min_Name}" value="{range_min}" disabled class="col-md-5 col-xs-12">&nbsp;&nbsp;&nbsp;
+							<input type="text" name="{range_min1_Name}" value="{range_min1}" disabled class="col-md-5 col-xs-12">
+						</div> 
 					</div>
 					<div class="col-md-2 col-xs-12">
 						<label class="control-label blue">{res:channel_sku}</label><br>
@@ -64,32 +37,23 @@
 						<label class="control-label blue">{res:msrp_price}</label><br>
 						<input type="text" name="{msrp_price_Name}" value="{msrp_price}" disabled class="col-md-12 col-xs-12">
 					</div>
-					<div class="col-md-2 col-xs-12">
-						<label class="control-label blue">{res:packaged_weight}</label><br>
-						<input type="text" name="{packaged_weight_Name}" value="{packaged_weight}" disabled class="col-md-12 col-xs-12">
-					</div>
-					<div class="col-md-2 col-xs-12">
-						<label class="control-label blue">{res:packaged_size}</label><br>
-						<input type="text" name="{packaged_size_Name}" value="{packaged_size}" disabled class="col-md-12 col-xs-12">
-					</div>
+
 				</div><!-- row -->
 
+				<div class="row col-xs-12 space"></div>
+				
 				<div class="row col-xs-12">
 					<div class="col-md-1 col-xs-0"></div>
-					<div class="col-md-3 col-xs-12">
-						<label class="control-label blue">{res:barcode}</label><br>
-						<input type="text" name="{barcode_ean_upc_Name}" value="{barcode_ean_upc}" class="col-md-12 col-xs-12" disabled>
+					<div class="col-md-5 col-xs-12">
+						<label class="control-label blue">{res:description}</label><br>
+						<input type="text" name="{description_Name}" value="{description}" disabled class="col-md-12 col-xs-12">
 					</div>
-					<div class="col-md-1 col-xs-12">
-						<label class="control-label blue">{res:reorder}</label><br>
-						<input type="checkbox" name="{reorder_Name}" value="1" {reorder} class="ace ace-checkbox-2" disabled><span class="lbl">&nbsp;&nbsp;</span>
+					<div class="col-md-5 col-xs-12">
+						<label class="control-label blue">{res:detaileddescription}</label><br>
+						<input type="text" name="{detaileddescription_Name}" value="{detaileddescription}" disabled class="col-md-12 col-xs-12">
 					</div>
-					<div class="col-md-2 col-xs-12">
-						<label class="control-label blue">{res:export_restriction}</label><br>
-						<input type="checkbox" name="{export_restriction_Name}" value="1" {export_restriction} class="ace ace-checkbox-2" disabled><span class="lbl">&nbsp;&nbsp;</span>
-					</div>
-
 				</div><!-- row -->
+
 
 			</div><!-- main row -->
 

@@ -21,17 +21,11 @@
 										</select>
 									</div>
 									<div class="col-md-4 col-xs-12">
-										<label class="blue" for"lbsuite">{res:group}</label><br>
-										<select name="{lbgroup_Name}" class="width-90 chosen-select" id="lbgroup">
-											<option value="">{res:showall}</option>
-											{lbgroup_Options}
-										</select>
-									</div>
-									<div class="col-md-4 col-xs-12">
 										<br>
 										<input type="text" name="{s_search_Name}" value="{s_search}" id="s_search" class="col-xs-12 col-md-12" placeholder="{res:searchsuite}">&nbsp;
 									</div>
 									<div class="col-md-4 col-xs-12">
+										<br>
 										<!-- BEGIN Button Button_Search --><button class="btn btn-sm btn-success" name="{Button_Name}" type="submit" value="{res:search}"><i class="icon-search nav-search-icon"></i> &nbsp;{res:search}</button><!-- END Button Button_Search -->&nbsp;&nbsp;&nbsp;
 										<a href="products_suite.php" role="button" class="btn btn-sm btn-success"><span class="icon-asterisk white"></span> {res:clearsearch}</a>&nbsp;&nbsp;&nbsp;
 										<a href="products_suite_maint.php" role="button" class="btn btn-sm btn-success"><span class="icon-th white"></span> {res:addsuite}</a>
@@ -71,31 +65,23 @@
 	</tr>
 	<tr>
 		<th>
-		<!-- BEGIN Sorter Sorter_guid --><a href="{Sort_URL}" id="products_suite_listv_alm_product_suitesSorter_guid"><li class="icon-cogs bigger-150"></li></a>
+		<!-- BEGIN Sorter Sorter_guid --><a href="{Sort_URL}" id="Sorter_guid"><li class="icon-cogs bigger-150"></li></a>
 		<!-- BEGIN Asc_On --><img border="0" src="Styles/None/Images/Asc.gif"><!-- END Asc_On -->
 		<!-- BEGIN Desc_On --><img border="0" src="Styles/None/Images/Desc.gif"><!-- END Desc_On --><!-- END Sorter Sorter_guid --></th>
 		<th>
-		<!-- BEGIN Sorter Sorter_manufacturer --><a href="{Sort_URL}" id="products_suite_listv_alm_product_suitesSorter_manufacturer">{res:manufacturer}</a>
+		<!-- BEGIN Sorter Sorter_manufacturer --><a href="{Sort_URL}" id="Sorter_manufacturer">{res:manufacturer}</a>
 		<!-- BEGIN Asc_On --><img border="0" src="Styles/None/Images/Asc.gif"><!-- END Asc_On -->
 		<!-- BEGIN Desc_On --><img border="0" src="Styles/None/Images/Desc.gif"><!-- END Desc_On --><!-- END Sorter Sorter_manufacturer --></th>
 		<th>
-		<!-- BEGIN Sorter Sorter_group_name --><a href="{Sort_URL}" id="products_suite_listv_alm_product_suitesSorter_group_name">{res:group}</a>
-		<!-- BEGIN Asc_On --><img border="0" src="Styles/None/Images/Asc.gif"><!-- END Asc_On -->
-		<!-- BEGIN Desc_On --><img border="0" src="Styles/None/Images/Desc.gif"><!-- END Desc_On --><!-- END Sorter Sorter_group_name --></th>
-		<th>
-		<!-- BEGIN Sorter Sorter_suite_code --><a href="{Sort_URL}" id="products_suite_listv_alm_product_suitesSorter_suite_code">{res:suite_code}</a>
+		<!-- BEGIN Sorter Sorter_suite_code --><a href="{Sort_URL}" id="Sorter_suite_code">{res:suite_code}</a>
 		<!-- BEGIN Asc_On --><img border="0" src="Styles/None/Images/Asc.gif"><!-- END Asc_On -->
 		<!-- BEGIN Desc_On --><img border="0" src="Styles/None/Images/Desc.gif"><!-- END Desc_On --><!-- END Sorter Sorter_suite_code --></th>
 		<th>
-		<!-- BEGIN Sorter Sorter_suite_name --><a href="{Sort_URL}" id="products_suite_listv_alm_product_suitesSorter_suite_name">{res:suite}</a>
-		<!-- BEGIN Asc_On --><img border="0" src="Styles/None/Images/Asc.gif"><!-- END Asc_On -->
-		<!-- BEGIN Desc_On --><img border="0" src="Styles/None/Images/Desc.gif"><!-- END Desc_On --><!-- END Sorter Sorter_suite_name --></th>
-		<th>
-		<!-- BEGIN Sorter Sorter_suite_description --><a href="{Sort_URL}" id="products_suite_listv_alm_product_suitesSorter_suite_description">{res:suite_description}</a>
+		<!-- BEGIN Sorter Sorter_suite_description --><a href="{Sort_URL}" id="Sorter_suite_description">{res:suite}</a>
 		<!-- BEGIN Asc_On --><img border="0" src="Styles/None/Images/Asc.gif"><!-- END Asc_On -->
 		<!-- BEGIN Desc_On --><img border="0" src="Styles/None/Images/Desc.gif"><!-- END Desc_On --><!-- END Sorter Sorter_suite_description --></th>
 		<th>
-		<!-- BEGIN Sorter Sorter_dateupdated --><a href="{Sort_URL}" id="products_suite_listv_alm_product_suitesSorter_dateupdated">{res:dateupdated}</a>
+		<!-- BEGIN Sorter Sorter_dateupdated --><a href="{Sort_URL}" id="Sorter_dateupdated">{res:dateupdated}</a>
 		<!-- BEGIN Asc_On --><img border="0" src="Styles/None/Images/Asc.gif"><!-- END Asc_On -->
 		<!-- BEGIN Desc_On --><img border="0" src="Styles/None/Images/Desc.gif"><!-- END Desc_On --><!-- END Sorter Sorter_dateupdated --></th>
 	</tr>
@@ -109,11 +95,10 @@
 			</div>
 		</td>
 		<td>{manufacturer}&nbsp;</td>
-		<td>{group_name}&nbsp;</td>
 		<td>{suite_code}&nbsp;</td>
-		<td>{suite_name}&nbsp;</td>
-		<td class="width-25">{suite_description}&nbsp;</td>
-		<td>{dateupdated}&nbsp;</td>
+		<td>{suite_description}&nbsp;</td>
+		<td>
+{dateupdated}&nbsp;</td>
 	</tr>
 	<!-- END Row -->
 	<!-- BEGIN NoRecords -->

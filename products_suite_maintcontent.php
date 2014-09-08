@@ -36,7 +36,7 @@ class clsRecordproducts_suite_maintcontentalm_product_suites { //alm_product_sui
  // Class variables
 //End Variables
 
-//Class_Initialize Event @2-E35A02BB
+//Class_Initialize Event @2-0B38B79B
  function clsRecordproducts_suite_maintcontentalm_product_suites($RelativePath, & $Parent)
  {
 
@@ -78,17 +78,9 @@ class clsRecordproducts_suite_maintcontentalm_product_suites { //alm_product_sui
    $this->manufacturer->DataSource->SQL = "SELECT * \n" .
 "FROM alm_product_manufaturers {SQL_Where} {SQL_OrderBy}";
    list($this->manufacturer->BoundColumn, $this->manufacturer->TextColumn, $this->manufacturer->DBFormat) = array("id", "manufacturer", "");
-   $this->lbgroup = new clsControl(ccsListBox, "lbgroup", $CCSLocales->GetText("group"), ccsText, "", CCGetRequestParam("lbgroup", $Method, NULL), $this);
-   $this->lbgroup->DSType = dsTable;
-   $this->lbgroup->DataSource = new clsDBdbConnection();
-   $this->lbgroup->ds = & $this->lbgroup->DataSource;
-   $this->lbgroup->DataSource->SQL = "SELECT * \n" .
-"FROM alm_product_groups {SQL_Where} {SQL_OrderBy}";
-   list($this->lbgroup->BoundColumn, $this->lbgroup->TextColumn, $this->lbgroup->DBFormat) = array("id", "group_name", "");
    $this->suite_code = new clsControl(ccsTextBox, "suite_code", $CCSLocales->GetText("suite"), ccsText, "", CCGetRequestParam("suite_code", $Method, NULL), $this);
-   $this->suite_name = new clsControl(ccsTextBox, "suite_name", $CCSLocales->GetText("suite"), ccsText, "", CCGetRequestParam("suite_name", $Method, NULL), $this);
-   $this->suite_description = new clsControl(ccsTextBox, "suite_description", $CCSLocales->GetText("suite_description"), ccsText, "", CCGetRequestParam("suite_description", $Method, NULL), $this);
-   $this->suite_long_description = new clsControl(ccsTextArea, "suite_long_description", $CCSLocales->GetText("suite_details"), ccsText, "", CCGetRequestParam("suite_long_description", $Method, NULL), $this);
+   $this->suite_long_description = new clsControl(ccsTextArea, "suite_long_description", $CCSLocales->GetText("details"), ccsText, "", CCGetRequestParam("suite_long_description", $Method, NULL), $this);
+   $this->suite_description = new clsControl(ccsTextBox, "suite_description", $CCSLocales->GetText("description"), ccsText, "", CCGetRequestParam("suite_description", $Method, NULL), $this);
   }
  }
 //End Class_Initialize Event
@@ -104,7 +96,7 @@ class clsRecordproducts_suite_maintcontentalm_product_suites { //alm_product_sui
  }
 //End Initialize Method
 
-//Validate Method @2-93C21C33
+//Validate Method @2-5A7BEBAB
  function Validate()
  {
   global $CCSLocales;
@@ -114,26 +106,22 @@ class clsRecordproducts_suite_maintcontentalm_product_suites { //alm_product_sui
   $Validation = ($this->modified_iduser->Validate() && $Validation);
   $Validation = ($this->created_iduser->Validate() && $Validation);
   $Validation = ($this->manufacturer->Validate() && $Validation);
-  $Validation = ($this->lbgroup->Validate() && $Validation);
   $Validation = ($this->suite_code->Validate() && $Validation);
-  $Validation = ($this->suite_name->Validate() && $Validation);
-  $Validation = ($this->suite_description->Validate() && $Validation);
   $Validation = ($this->suite_long_description->Validate() && $Validation);
+  $Validation = ($this->suite_description->Validate() && $Validation);
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "OnValidate", $this);
   $Validation =  $Validation && ($this->hidguid->Errors->Count() == 0);
   $Validation =  $Validation && ($this->modified_iduser->Errors->Count() == 0);
   $Validation =  $Validation && ($this->created_iduser->Errors->Count() == 0);
   $Validation =  $Validation && ($this->manufacturer->Errors->Count() == 0);
-  $Validation =  $Validation && ($this->lbgroup->Errors->Count() == 0);
   $Validation =  $Validation && ($this->suite_code->Errors->Count() == 0);
-  $Validation =  $Validation && ($this->suite_name->Errors->Count() == 0);
-  $Validation =  $Validation && ($this->suite_description->Errors->Count() == 0);
   $Validation =  $Validation && ($this->suite_long_description->Errors->Count() == 0);
+  $Validation =  $Validation && ($this->suite_description->Errors->Count() == 0);
   return (($this->Errors->Count() == 0) && $Validation);
  }
 //End Validate Method
 
-//CheckErrors Method @2-00DA96E3
+//CheckErrors Method @2-DFCAC2C5
  function CheckErrors()
  {
   $errors = false;
@@ -142,11 +130,9 @@ class clsRecordproducts_suite_maintcontentalm_product_suites { //alm_product_sui
   $errors = ($errors || $this->modified_iduser->Errors->Count());
   $errors = ($errors || $this->created_iduser->Errors->Count());
   $errors = ($errors || $this->manufacturer->Errors->Count());
-  $errors = ($errors || $this->lbgroup->Errors->Count());
   $errors = ($errors || $this->suite_code->Errors->Count());
-  $errors = ($errors || $this->suite_name->Errors->Count());
-  $errors = ($errors || $this->suite_description->Errors->Count());
   $errors = ($errors || $this->suite_long_description->Errors->Count());
+  $errors = ($errors || $this->suite_description->Errors->Count());
   $errors = ($errors || $this->Errors->Count());
   $errors = ($errors || $this->DataSource->Errors->Count());
   return $errors;
@@ -210,7 +196,7 @@ function GetPrimaryKey($keyName)
  }
 //End Operation Method
 
-//InsertRow Method @2-CA528F3A
+//InsertRow Method @2-C801F87C
  function InsertRow()
  {
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeInsert", $this);
@@ -220,18 +206,16 @@ function GetPrimaryKey($keyName)
   $this->DataSource->modified_iduser->SetValue($this->modified_iduser->GetValue(true));
   $this->DataSource->created_iduser->SetValue($this->created_iduser->GetValue(true));
   $this->DataSource->manufacturer->SetValue($this->manufacturer->GetValue(true));
-  $this->DataSource->lbgroup->SetValue($this->lbgroup->GetValue(true));
   $this->DataSource->suite_code->SetValue($this->suite_code->GetValue(true));
-  $this->DataSource->suite_name->SetValue($this->suite_name->GetValue(true));
-  $this->DataSource->suite_description->SetValue($this->suite_description->GetValue(true));
   $this->DataSource->suite_long_description->SetValue($this->suite_long_description->GetValue(true));
+  $this->DataSource->suite_description->SetValue($this->suite_description->GetValue(true));
   $this->DataSource->Insert();
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "AfterInsert", $this);
   return (!$this->CheckErrors());
  }
 //End InsertRow Method
 
-//UpdateRow Method @2-17164C7A
+//UpdateRow Method @2-A97BDAE0
  function UpdateRow()
  {
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeUpdate", $this);
@@ -241,18 +225,16 @@ function GetPrimaryKey($keyName)
   $this->DataSource->modified_iduser->SetValue($this->modified_iduser->GetValue(true));
   $this->DataSource->created_iduser->SetValue($this->created_iduser->GetValue(true));
   $this->DataSource->manufacturer->SetValue($this->manufacturer->GetValue(true));
-  $this->DataSource->lbgroup->SetValue($this->lbgroup->GetValue(true));
   $this->DataSource->suite_code->SetValue($this->suite_code->GetValue(true));
-  $this->DataSource->suite_name->SetValue($this->suite_name->GetValue(true));
-  $this->DataSource->suite_description->SetValue($this->suite_description->GetValue(true));
   $this->DataSource->suite_long_description->SetValue($this->suite_long_description->GetValue(true));
+  $this->DataSource->suite_description->SetValue($this->suite_description->GetValue(true));
   $this->DataSource->Update();
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "AfterUpdate", $this);
   return (!$this->CheckErrors());
  }
 //End UpdateRow Method
 
-//Show Method @2-522FA17E
+//Show Method @2-AAB269B3
  function Show()
  {
   global $CCSUseAmp;
@@ -267,7 +249,6 @@ function GetPrimaryKey($keyName)
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeSelect", $this);
 
   $this->manufacturer->Prepare();
-  $this->lbgroup->Prepare();
 
   $RecordBlock = "Record " . $this->ComponentName;
   $ParentPath = $Tpl->block_path;
@@ -286,11 +267,9 @@ function GetPrimaryKey($keyName)
      $this->modified_iduser->SetValue($this->DataSource->modified_iduser->GetValue());
      $this->created_iduser->SetValue($this->DataSource->created_iduser->GetValue());
      $this->manufacturer->SetValue($this->DataSource->manufacturer->GetValue());
-     $this->lbgroup->SetValue($this->DataSource->lbgroup->GetValue());
      $this->suite_code->SetValue($this->DataSource->suite_code->GetValue());
-     $this->suite_name->SetValue($this->DataSource->suite_name->GetValue());
-     $this->suite_description->SetValue($this->DataSource->suite_description->GetValue());
      $this->suite_long_description->SetValue($this->DataSource->suite_long_description->GetValue());
+     $this->suite_description->SetValue($this->DataSource->suite_description->GetValue());
     }
    } else {
     $this->EditMode = false;
@@ -304,11 +283,9 @@ function GetPrimaryKey($keyName)
    $Error = ComposeStrings($Error, $this->modified_iduser->Errors->ToString());
    $Error = ComposeStrings($Error, $this->created_iduser->Errors->ToString());
    $Error = ComposeStrings($Error, $this->manufacturer->Errors->ToString());
-   $Error = ComposeStrings($Error, $this->lbgroup->Errors->ToString());
    $Error = ComposeStrings($Error, $this->suite_code->Errors->ToString());
-   $Error = ComposeStrings($Error, $this->suite_name->Errors->ToString());
-   $Error = ComposeStrings($Error, $this->suite_description->Errors->ToString());
    $Error = ComposeStrings($Error, $this->suite_long_description->Errors->ToString());
+   $Error = ComposeStrings($Error, $this->suite_description->Errors->ToString());
    $Error = ComposeStrings($Error, $this->Errors->ToString());
    $Error = ComposeStrings($Error, $this->DataSource->Errors->ToString());
    $Tpl->SetVar("Error", $Error);
@@ -336,11 +313,9 @@ function GetPrimaryKey($keyName)
   $this->modified_iduser->Show();
   $this->created_iduser->Show();
   $this->manufacturer->Show();
-  $this->lbgroup->Show();
   $this->suite_code->Show();
-  $this->suite_name->Show();
-  $this->suite_description->Show();
   $this->suite_long_description->Show();
+  $this->suite_description->Show();
   $Tpl->parse();
   $Tpl->block_path = $ParentPath;
   $this->DataSource->close();
@@ -351,7 +326,7 @@ function GetPrimaryKey($keyName)
 
 class clsproducts_suite_maintcontentalm_product_suitesDataSource extends clsDBdbConnection {  //alm_product_suitesDataSource Class @2-FA67FB1F
 
-//DataSource Variables @2-D4816FC1
+//DataSource Variables @2-28F6DEAD
  public $Parent = "";
  public $CCSEvents = "";
  public $CCSEventResult;
@@ -372,14 +347,12 @@ class clsproducts_suite_maintcontentalm_product_suitesDataSource extends clsDBdb
  public $modified_iduser;
  public $created_iduser;
  public $manufacturer;
- public $lbgroup;
  public $suite_code;
- public $suite_name;
- public $suite_description;
  public $suite_long_description;
+ public $suite_description;
 //End DataSource Variables
 
-//DataSourceClass_Initialize Event @2-DD9CB01B
+//DataSourceClass_Initialize Event @2-433A6EEC
  function clsproducts_suite_maintcontentalm_product_suitesDataSource(& $Parent)
  {
   $this->Parent = & $Parent;
@@ -395,35 +368,27 @@ class clsproducts_suite_maintcontentalm_product_suitesDataSource extends clsDBdb
   
   $this->manufacturer = new clsField("manufacturer", ccsText, "");
   
-  $this->lbgroup = new clsField("lbgroup", ccsText, "");
-  
   $this->suite_code = new clsField("suite_code", ccsText, "");
   
-  $this->suite_name = new clsField("suite_name", ccsText, "");
+  $this->suite_long_description = new clsField("suite_long_description", ccsText, "");
   
   $this->suite_description = new clsField("suite_description", ccsText, "");
-  
-  $this->suite_long_description = new clsField("suite_long_description", ccsText, "");
   
 
   $this->InsertFields["guid"] = array("Name" => "guid", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->InsertFields["modified_iduser"] = array("Name" => "modified_iduser", "Value" => "", "DataType" => ccsInteger, "OmitIfEmpty" => 1);
   $this->InsertFields["created_iduser"] = array("Name" => "created_iduser", "Value" => "", "DataType" => ccsInteger, "OmitIfEmpty" => 1);
   $this->InsertFields["id_manufacturer"] = array("Name" => "id_manufacturer", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
-  $this->InsertFields["id_group"] = array("Name" => "id_group", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->InsertFields["suite_code"] = array("Name" => "suite_code", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
-  $this->InsertFields["suite_name"] = array("Name" => "suite_name", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
-  $this->InsertFields["suite_description"] = array("Name" => "suite_description", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->InsertFields["suite_long_description"] = array("Name" => "suite_long_description", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
+  $this->InsertFields["suite_description"] = array("Name" => "suite_description", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->UpdateFields["guid"] = array("Name" => "guid", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->UpdateFields["modified_iduser"] = array("Name" => "modified_iduser", "Value" => "", "DataType" => ccsInteger, "OmitIfEmpty" => 1);
   $this->UpdateFields["created_iduser"] = array("Name" => "created_iduser", "Value" => "", "DataType" => ccsInteger, "OmitIfEmpty" => 1);
   $this->UpdateFields["id_manufacturer"] = array("Name" => "id_manufacturer", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
-  $this->UpdateFields["id_group"] = array("Name" => "id_group", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->UpdateFields["suite_code"] = array("Name" => "suite_code", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
-  $this->UpdateFields["suite_name"] = array("Name" => "suite_name", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
-  $this->UpdateFields["suite_description"] = array("Name" => "suite_description", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->UpdateFields["suite_long_description"] = array("Name" => "suite_long_description", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
+  $this->UpdateFields["suite_description"] = array("Name" => "suite_description", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
  }
 //End DataSourceClass_Initialize Event
 
@@ -454,22 +419,20 @@ class clsproducts_suite_maintcontentalm_product_suitesDataSource extends clsDBdb
  }
 //End Open Method
 
-//SetValues Method @2-B1965268
+//SetValues Method @2-98EB70C1
  function SetValues()
  {
   $this->hidguid->SetDBValue($this->f("guid"));
   $this->modified_iduser->SetDBValue(trim($this->f("modified_iduser")));
   $this->created_iduser->SetDBValue(trim($this->f("created_iduser")));
   $this->manufacturer->SetDBValue($this->f("id_manufacturer"));
-  $this->lbgroup->SetDBValue($this->f("id_group"));
   $this->suite_code->SetDBValue($this->f("suite_code"));
-  $this->suite_name->SetDBValue($this->f("suite_name"));
-  $this->suite_description->SetDBValue($this->f("suite_description"));
   $this->suite_long_description->SetDBValue($this->f("suite_long_description"));
+  $this->suite_description->SetDBValue($this->f("suite_description"));
  }
 //End SetValues Method
 
-//Insert Method @2-B2A3A5D0
+//Insert Method @2-A931161B
  function Insert()
  {
   global $CCSLocales;
@@ -480,11 +443,9 @@ class clsproducts_suite_maintcontentalm_product_suitesDataSource extends clsDBdb
   $this->InsertFields["modified_iduser"]["Value"] = $this->modified_iduser->GetDBValue(true);
   $this->InsertFields["created_iduser"]["Value"] = $this->created_iduser->GetDBValue(true);
   $this->InsertFields["id_manufacturer"]["Value"] = $this->manufacturer->GetDBValue(true);
-  $this->InsertFields["id_group"]["Value"] = $this->lbgroup->GetDBValue(true);
   $this->InsertFields["suite_code"]["Value"] = $this->suite_code->GetDBValue(true);
-  $this->InsertFields["suite_name"]["Value"] = $this->suite_name->GetDBValue(true);
-  $this->InsertFields["suite_description"]["Value"] = $this->suite_description->GetDBValue(true);
   $this->InsertFields["suite_long_description"]["Value"] = $this->suite_long_description->GetDBValue(true);
+  $this->InsertFields["suite_description"]["Value"] = $this->suite_description->GetDBValue(true);
   $this->SQL = CCBuildInsert("alm_product_suites", $this->InsertFields, $this);
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeExecuteInsert", $this->Parent);
   if($this->Errors->Count() == 0 && $this->CmdExecution) {
@@ -494,7 +455,7 @@ class clsproducts_suite_maintcontentalm_product_suitesDataSource extends clsDBdb
  }
 //End Insert Method
 
-//Update Method @2-2A2C030F
+//Update Method @2-C847E125
  function Update()
  {
   global $CCSLocales;
@@ -505,11 +466,9 @@ class clsproducts_suite_maintcontentalm_product_suitesDataSource extends clsDBdb
   $this->UpdateFields["modified_iduser"]["Value"] = $this->modified_iduser->GetDBValue(true);
   $this->UpdateFields["created_iduser"]["Value"] = $this->created_iduser->GetDBValue(true);
   $this->UpdateFields["id_manufacturer"]["Value"] = $this->manufacturer->GetDBValue(true);
-  $this->UpdateFields["id_group"]["Value"] = $this->lbgroup->GetDBValue(true);
   $this->UpdateFields["suite_code"]["Value"] = $this->suite_code->GetDBValue(true);
-  $this->UpdateFields["suite_name"]["Value"] = $this->suite_name->GetDBValue(true);
-  $this->UpdateFields["suite_description"]["Value"] = $this->suite_description->GetDBValue(true);
   $this->UpdateFields["suite_long_description"]["Value"] = $this->suite_long_description->GetDBValue(true);
+  $this->UpdateFields["suite_description"]["Value"] = $this->suite_description->GetDBValue(true);
   $this->SQL = CCBuildUpdate("alm_product_suites", $this->UpdateFields, $this);
   $this->SQL .= strlen($this->Where) ? " WHERE " . $this->Where : $this->Where;
   if (!strlen($this->Where) && $this->Errors->Count() == 0) 

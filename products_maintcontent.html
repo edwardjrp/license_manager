@@ -9,62 +9,42 @@
 				<!-- BEGIN Error --><!-- END Error -->
 				<div class="row col-md-12 col-xs-12">
 					<div class="row col-xs-12">
-						<div class="col-md-1 col-xs-0">
+						<div class="col-md-1 col-xs-0"></div>
+						<div class="col-md-10 col-xs-12">
+							<div class="alert alert-block alert-success {page:showalert}">
+								<button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button>
+								<p>
+									<strong><i class="icon-ok"></i>{res:saved}</strong>
+									{res:savedmessage}
+								</p>
+							</div>
 						</div>
-						<div class="col-md-5 col-xs-12">
-							<label class="control-label blue">{res:description}</label><br>
-							<input type="text" name="{description_Name}" value="{description}" data-validation="required" data-validation-error-msg="{res:invaliddescription}" class="col-md-12 col-xs-12" id="description">
-						</div>
-						<div class="col-md-6 col-xs-12">
-							<label class="control-label blue">{res:detaileddescription}</label><br>
-							<input type="text" name="{detaileddescription_Name}" value="{detaileddescription}" class="col-md-12 col-xs-12">
-						</div>
-					</div>
-					<!-- row -->
+					</div><!-- row -->
+
 					<div class="row col-xs-12">
 						<div class="col-md-1 col-xs-0">
 						</div>
 						<div class="col-md-2 col-xs-12">
 							<label class="control-label blue">{res:manufacturer}</label><br>
 							<select name="{manufacturer_Name}" id="manufacturer" class="width-90 chosen-select">
+								<option value="">{res:selectoption}</option>
 								{manufacturer_Options}
 							</select>
 
 						</div>
-						<div class="col-md-3 col-xs-12">
-							<label class="control-label blue">{res:suitename}</label><br>
-							<select name="{suitename_Name}" id="suite_name" class="width-90 chosen-select" data-validation="required" data-validation-error-msg="{res:invalidsuite}">
-								{suitename_Options}
+						<div class="col-md-2 col-xs-12">
+							<label class="control-label blue">{res:suite}</label><br>
+							<select name="{suite_code_Name}" id="suite" class="width-90 chosen-select" data-validation="required" data-validation-error-msg="{res:invalidsuite}">
+								<option value="">{res:selectoption}</option>
+								{suite_code_Options}
 							</select>
-
-						</div>
-						<div class="col-md-3 col-xs-12">
-							<label class="control-label blue">{res:offertype}</label><br>
-							<select name="{offer_name_Name}" id="offertype" class="width-90 chosen-select">
-								{offer_name_Options}
-							</select>
-
 						</div>
 						<div class="col-md-2 col-xs-12">
-							<label class="control-label blue">{res:pricingtier}</label><br>
-							<select name="{pricingtier_name_Name}" id="pricingtier" class="width-90 chosen-select">
-								{pricingtier_name_Options}
-							</select>
-
-						</div>
-					</div>
-					<!-- row -->
-					<div class="row col-xs-12">
-						<h3 class="header smaller lighter red">&nbsp;{res:productpriceinfo}</h3>
-						<div class="col-md-1 col-xs-0">
-						</div>
-						<div class="col-md-1 col-xs-12">
-							<label class="control-label blue">{res:range_min}</label><br>
-							<input type="text" name="{range_min_Name}" value="{range_min}" data-validation-regexp="^([0-9]+)$" data-validation-optional="true" data-validation-error-msg="{res:invalidmin}" class="col-md-12 col-xs-12">
-						</div>
-						<div class="col-md-1 col-xs-12">
-							<label class="control-label blue">{res:range_max}</label><br>
-							<input type="text" name="{range_max_Name}" value="{range_max}" data-validation-regexp="^([0-9]+)$" data-validation-optional="true" data-validation-error-msg="{res:invalidmax}" class="col-md-12 col-xs-12">
+							<div class="row col-xs-12">
+								<label class="control-label blue">{res:numberofnodes}</label><br>
+								<input type="text" name="{range_min_Name}" value="{range_min}" data-validation="number" data-validation-optional="true" data-validation-error-msg="{res:invalidmin}" class="col-md-5 col-xs-12" placeholder="{res:min}">&nbsp;&nbsp;&nbsp;
+								<input type="text" name="{range_max_Name}" value="{range_max}" data-validation="number" data-validation-optional="true" data-validation-error-msg="{res:invalidmax}" class="col-md-5 col-xs-12" placeholder="{res:max}">
+							</div>
 						</div>
 						<div class="col-md-2 col-xs-12">
 							<label class="control-label blue">{res:channel_sku}</label><br>
@@ -74,25 +54,23 @@
 							<label class="control-label blue">{res:msrp_price}</label><br>
 							<input type="text" name="{msrp_price_Name}" value="{msrp_price}" class="col-md-12 col-xs-12">
 						</div>
-						<div class="col-md-5 col-xs-12">
-							<label class="control-label blue">{res:barcode}</label><br>
-							<input type="text" name="{barcode_ean_upc_Name}" value="{barcode_ean_upc}" class="col-md-12 col-xs-12">
-						</div>
-					</div>
-					<!-- row -->
+					</div><!-- row -->
+					
+					<div class="row col-xs-12 space"></div>
+										
 					<div class="row col-xs-12">
 						<div class="col-md-1 col-xs-0">
 						</div>
-						<div class="col-md-1 col-xs-12">
-							<label class="control-label blue">{res:reorder}</label><br>
-							<input type="checkbox" name="{reorder_Name}" value="1" {reorder} class="ace ace-checkbox-2"><span class="lbl">&nbsp;&nbsp;</span>
+						<div class="col-md-5 col-xs-12">
+							<label class="control-label blue">{res:description}</label><br>
+							<input type="text" name="{description_Name}" value="{description}" class="col-md-12 col-xs-12" id="description" disabled>
 						</div>
-						<div class="col-md-2 col-xs-12">
-							<label class="control-label blue">{res:export_restriction}</label><br>
-							<input type="checkbox" name="{export_restriction_Name}" value="1" {export_restriction} class="ace ace-checkbox-2"><span class="lbl">&nbsp;&nbsp;</span>
+						<div class="col-md-5 col-xs-12">
+							<label class="control-label blue">{res:detaileddescription}</label><br>
+							<input type="text" name="{detaileddescription_Name}" value="{detaileddescription}" class="col-md-12 col-xs-12" id="detaildescription" data-validation="required" data-validation-error-msg="{res:invaliddescription}">
 						</div>
-					</div>
-					<!-- row -->
+					</div><!-- row -->
+
 				</div>
 				<!-- main row -->
 				<div class="row">
@@ -138,13 +116,43 @@
 <script>
 $(function(){
         
-        //$("#description").focus();
-        //validate coordinates
-        $.validate({
-                form : "#alm_products"
-        });
+    $("#detaildescription").focus();
+    $.validate({
+            form : "#alm_products"
+    });
 
 	$(".chosen-select").chosen(); 
+
+	$("#suite").change(function() {
+		var suite_id = $(this).val();
+		var params = {m: "suite_description",id: suite_id};
+		$.ajax({
+			url: "ajaxget.php",
+			type: "get",
+			data: params
+		}).done(function(msg) {
+			$("#description").val(msg.suite_description);
+		});
+	});
+
+	$("#manufacturer").chosen().change(function() {
+		var manufacturer_id = $(this).val();
+		var params = {m: "suite_manufacturer",id: manufacturer_id};
+		$.ajax({
+			url: "ajaxget.php",
+			type: "get",
+			data: params
+		}).done(function(msg) {
+			var suite = $("#suite");
+			suite.empty();
+			suite.trigger("chosen:updated");
+			$.each(msg.suite, function() {
+				suite.append($("<option/>").val(this.id).text(this.suite_code));
+			});
+			suite.trigger("chosen:updated");
+
+		});
+	});
 
 
 });

@@ -36,7 +36,7 @@ class clsRecordproducts_viewcontentv_alm_products { //v_alm_products Class @5-F1
  // Class variables
 //End Variables
 
-//Class_Initialize Event @5-AA78B3C0
+//Class_Initialize Event @5-4663E49C
  function clsRecordproducts_viewcontentv_alm_products($RelativePath, & $Parent)
  {
 
@@ -65,46 +65,29 @@ class clsRecordproducts_viewcontentv_alm_products { //v_alm_products Class @5-F1
    $Method = $this->FormSubmitted ? ccsPost : ccsGet;
    $this->description = new clsControl(ccsTextBox, "description", "Description", ccsText, "", CCGetRequestParam("description", $Method, NULL), $this);
    $this->detaileddescription = new clsControl(ccsTextBox, "detaileddescription", "Detailed Description", ccsText, "", CCGetRequestParam("detaileddescription", $Method, NULL), $this);
+   $this->lbgoback = new clsControl(ccsLabel, "lbgoback", "lbgoback", ccsText, "", CCGetRequestParam("lbgoback", $Method, NULL), $this);
    $this->manufacturer = new clsControl(ccsTextBox, "manufacturer", "manufacturer", ccsText, "", CCGetRequestParam("manufacturer", $Method, NULL), $this);
    $this->suitecode = new clsControl(ccsTextBox, "suitecode", "suitecode", ccsText, "", CCGetRequestParam("suitecode", $Method, NULL), $this);
-   $this->suitename = new clsControl(ccsTextBox, "suitename", "suitename", ccsText, "", CCGetRequestParam("suitename", $Method, NULL), $this);
-   $this->offer_name = new clsControl(ccsTextBox, "offer_name", "offer_name", ccsText, "", CCGetRequestParam("offer_name", $Method, NULL), $this);
-   $this->pricingtier_name = new clsControl(ccsTextBox, "pricingtier_name", "pricingtier_name", ccsText, "", CCGetRequestParam("pricingtier_name", $Method, NULL), $this);
-   $this->range_min = new clsControl(ccsTextBox, "range_min", "range_min", ccsText, "", CCGetRequestParam("range_min", $Method, NULL), $this);
-   $this->range_min1 = new clsControl(ccsTextBox, "range_min1", "range_min1", ccsText, "", CCGetRequestParam("range_min1", $Method, NULL), $this);
    $this->channel_sku = new clsControl(ccsTextBox, "channel_sku", "channel_sku", ccsText, "", CCGetRequestParam("channel_sku", $Method, NULL), $this);
    $this->msrp_price = new clsControl(ccsTextBox, "msrp_price", "msrp_price", ccsFloat, array(False, 2, Null, Null, False, "\$ ", "", 1, True, ""), CCGetRequestParam("msrp_price", $Method, NULL), $this);
-   $this->packaged_weight = new clsControl(ccsTextBox, "packaged_weight", "packaged_weight", ccsText, "", CCGetRequestParam("packaged_weight", $Method, NULL), $this);
-   $this->packaged_size = new clsControl(ccsTextBox, "packaged_size", "packaged_size", ccsText, "", CCGetRequestParam("packaged_size", $Method, NULL), $this);
-   $this->reorder = new clsControl(ccsCheckBox, "reorder", "reorder", ccsBoolean, $CCSLocales->GetFormatInfo("BooleanFormat"), CCGetRequestParam("reorder", $Method, NULL), $this);
-   $this->reorder->CheckedValue = true;
-   $this->reorder->UncheckedValue = false;
-   $this->export_restriction = new clsControl(ccsCheckBox, "export_restriction", "export_restriction", ccsBoolean, $CCSLocales->GetFormatInfo("BooleanFormat"), CCGetRequestParam("export_restriction", $Method, NULL), $this);
-   $this->export_restriction->CheckedValue = true;
-   $this->export_restriction->UncheckedValue = false;
-   $this->lbgoback = new clsControl(ccsLabel, "lbgoback", "lbgoback", ccsText, "", CCGetRequestParam("lbgoback", $Method, NULL), $this);
-   $this->barcode_ean_upc = new clsControl(ccsTextBox, "barcode_ean_upc", $CCSLocales->GetText("barcode"), ccsText, "", CCGetRequestParam("barcode_ean_upc", $Method, NULL), $this);
-   if(!$this->FormSubmitted) {
-    if(!is_array($this->reorder->Value) && !strlen($this->reorder->Value) && $this->reorder->Value !== false)
-     $this->reorder->SetValue(false);
-    if(!is_array($this->export_restriction->Value) && !strlen($this->export_restriction->Value) && $this->export_restriction->Value !== false)
-     $this->export_restriction->SetValue(false);
-   }
+   $this->range_min = new clsControl(ccsTextBox, "range_min", "range_min", ccsText, "", CCGetRequestParam("range_min", $Method, NULL), $this);
+   $this->range_min1 = new clsControl(ccsTextBox, "range_min1", "range_min1", ccsText, "", CCGetRequestParam("range_min1", $Method, NULL), $this);
   }
  }
 //End Class_Initialize Event
 
-//Initialize Method @5-5D060BAC
+//Initialize Method @5-39F12A1B
  function Initialize()
  {
 
   if(!$this->Visible)
    return;
 
+  $this->DataSource->Parameters["urlguid"] = CCGetFromGet("guid", NULL);
  }
 //End Initialize Method
 
-//Validate Method @5-7DCBAD8C
+//Validate Method @5-952B45F3
  function Validate()
  {
   global $CCSLocales;
@@ -114,60 +97,36 @@ class clsRecordproducts_viewcontentv_alm_products { //v_alm_products Class @5-F1
   $Validation = ($this->detaileddescription->Validate() && $Validation);
   $Validation = ($this->manufacturer->Validate() && $Validation);
   $Validation = ($this->suitecode->Validate() && $Validation);
-  $Validation = ($this->suitename->Validate() && $Validation);
-  $Validation = ($this->offer_name->Validate() && $Validation);
-  $Validation = ($this->pricingtier_name->Validate() && $Validation);
-  $Validation = ($this->range_min->Validate() && $Validation);
-  $Validation = ($this->range_min1->Validate() && $Validation);
   $Validation = ($this->channel_sku->Validate() && $Validation);
   $Validation = ($this->msrp_price->Validate() && $Validation);
-  $Validation = ($this->packaged_weight->Validate() && $Validation);
-  $Validation = ($this->packaged_size->Validate() && $Validation);
-  $Validation = ($this->reorder->Validate() && $Validation);
-  $Validation = ($this->export_restriction->Validate() && $Validation);
-  $Validation = ($this->barcode_ean_upc->Validate() && $Validation);
+  $Validation = ($this->range_min->Validate() && $Validation);
+  $Validation = ($this->range_min1->Validate() && $Validation);
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "OnValidate", $this);
   $Validation =  $Validation && ($this->description->Errors->Count() == 0);
   $Validation =  $Validation && ($this->detaileddescription->Errors->Count() == 0);
   $Validation =  $Validation && ($this->manufacturer->Errors->Count() == 0);
   $Validation =  $Validation && ($this->suitecode->Errors->Count() == 0);
-  $Validation =  $Validation && ($this->suitename->Errors->Count() == 0);
-  $Validation =  $Validation && ($this->offer_name->Errors->Count() == 0);
-  $Validation =  $Validation && ($this->pricingtier_name->Errors->Count() == 0);
-  $Validation =  $Validation && ($this->range_min->Errors->Count() == 0);
-  $Validation =  $Validation && ($this->range_min1->Errors->Count() == 0);
   $Validation =  $Validation && ($this->channel_sku->Errors->Count() == 0);
   $Validation =  $Validation && ($this->msrp_price->Errors->Count() == 0);
-  $Validation =  $Validation && ($this->packaged_weight->Errors->Count() == 0);
-  $Validation =  $Validation && ($this->packaged_size->Errors->Count() == 0);
-  $Validation =  $Validation && ($this->reorder->Errors->Count() == 0);
-  $Validation =  $Validation && ($this->export_restriction->Errors->Count() == 0);
-  $Validation =  $Validation && ($this->barcode_ean_upc->Errors->Count() == 0);
+  $Validation =  $Validation && ($this->range_min->Errors->Count() == 0);
+  $Validation =  $Validation && ($this->range_min1->Errors->Count() == 0);
   return (($this->Errors->Count() == 0) && $Validation);
  }
 //End Validate Method
 
-//CheckErrors Method @5-CBB1F87D
+//CheckErrors Method @5-F288F402
  function CheckErrors()
  {
   $errors = false;
   $errors = ($errors || $this->description->Errors->Count());
   $errors = ($errors || $this->detaileddescription->Errors->Count());
+  $errors = ($errors || $this->lbgoback->Errors->Count());
   $errors = ($errors || $this->manufacturer->Errors->Count());
   $errors = ($errors || $this->suitecode->Errors->Count());
-  $errors = ($errors || $this->suitename->Errors->Count());
-  $errors = ($errors || $this->offer_name->Errors->Count());
-  $errors = ($errors || $this->pricingtier_name->Errors->Count());
-  $errors = ($errors || $this->range_min->Errors->Count());
-  $errors = ($errors || $this->range_min1->Errors->Count());
   $errors = ($errors || $this->channel_sku->Errors->Count());
   $errors = ($errors || $this->msrp_price->Errors->Count());
-  $errors = ($errors || $this->packaged_weight->Errors->Count());
-  $errors = ($errors || $this->packaged_size->Errors->Count());
-  $errors = ($errors || $this->reorder->Errors->Count());
-  $errors = ($errors || $this->export_restriction->Errors->Count());
-  $errors = ($errors || $this->lbgoback->Errors->Count());
-  $errors = ($errors || $this->barcode_ean_upc->Errors->Count());
+  $errors = ($errors || $this->range_min->Errors->Count());
+  $errors = ($errors || $this->range_min1->Errors->Count());
   $errors = ($errors || $this->Errors->Count());
   $errors = ($errors || $this->DataSource->Errors->Count());
   return $errors;
@@ -189,7 +148,7 @@ function GetPrimaryKey($keyName)
 }
 //End MasterDetail
 
-//Operation Method @5-E33CFFF8
+//Operation Method @5-17DC9883
  function Operation()
  {
   if(!$this->Visible)
@@ -200,7 +159,7 @@ function GetPrimaryKey($keyName)
 
   $this->DataSource->Prepare();
   if(!$this->FormSubmitted) {
-   $this->EditMode = true;
+   $this->EditMode = $this->DataSource->AllParametersSet;
    return;
   }
 
@@ -210,7 +169,7 @@ function GetPrimaryKey($keyName)
  }
 //End Operation Method
 
-//Show Method @5-2131498A
+//Show Method @5-200E568B
  function Show()
  {
   global $CCSUseAmp;
@@ -242,18 +201,10 @@ function GetPrimaryKey($keyName)
      $this->detaileddescription->SetValue($this->DataSource->detaileddescription->GetValue());
      $this->manufacturer->SetValue($this->DataSource->manufacturer->GetValue());
      $this->suitecode->SetValue($this->DataSource->suitecode->GetValue());
-     $this->suitename->SetValue($this->DataSource->suitename->GetValue());
-     $this->offer_name->SetValue($this->DataSource->offer_name->GetValue());
-     $this->pricingtier_name->SetValue($this->DataSource->pricingtier_name->GetValue());
-     $this->range_min->SetValue($this->DataSource->range_min->GetValue());
-     $this->range_min1->SetValue($this->DataSource->range_min1->GetValue());
      $this->channel_sku->SetValue($this->DataSource->channel_sku->GetValue());
      $this->msrp_price->SetValue($this->DataSource->msrp_price->GetValue());
-     $this->packaged_weight->SetValue($this->DataSource->packaged_weight->GetValue());
-     $this->packaged_size->SetValue($this->DataSource->packaged_size->GetValue());
-     $this->reorder->SetValue($this->DataSource->reorder->GetValue());
-     $this->export_restriction->SetValue($this->DataSource->export_restriction->GetValue());
-     $this->barcode_ean_upc->SetValue($this->DataSource->barcode_ean_upc->GetValue());
+     $this->range_min->SetValue($this->DataSource->range_min->GetValue());
+     $this->range_min1->SetValue($this->DataSource->range_min1->GetValue());
     }
    } else {
     $this->EditMode = false;
@@ -264,21 +215,13 @@ function GetPrimaryKey($keyName)
    $Error = "";
    $Error = ComposeStrings($Error, $this->description->Errors->ToString());
    $Error = ComposeStrings($Error, $this->detaileddescription->Errors->ToString());
+   $Error = ComposeStrings($Error, $this->lbgoback->Errors->ToString());
    $Error = ComposeStrings($Error, $this->manufacturer->Errors->ToString());
    $Error = ComposeStrings($Error, $this->suitecode->Errors->ToString());
-   $Error = ComposeStrings($Error, $this->suitename->Errors->ToString());
-   $Error = ComposeStrings($Error, $this->offer_name->Errors->ToString());
-   $Error = ComposeStrings($Error, $this->pricingtier_name->Errors->ToString());
-   $Error = ComposeStrings($Error, $this->range_min->Errors->ToString());
-   $Error = ComposeStrings($Error, $this->range_min1->Errors->ToString());
    $Error = ComposeStrings($Error, $this->channel_sku->Errors->ToString());
    $Error = ComposeStrings($Error, $this->msrp_price->Errors->ToString());
-   $Error = ComposeStrings($Error, $this->packaged_weight->Errors->ToString());
-   $Error = ComposeStrings($Error, $this->packaged_size->Errors->ToString());
-   $Error = ComposeStrings($Error, $this->reorder->Errors->ToString());
-   $Error = ComposeStrings($Error, $this->export_restriction->Errors->ToString());
-   $Error = ComposeStrings($Error, $this->lbgoback->Errors->ToString());
-   $Error = ComposeStrings($Error, $this->barcode_ean_upc->Errors->ToString());
+   $Error = ComposeStrings($Error, $this->range_min->Errors->ToString());
+   $Error = ComposeStrings($Error, $this->range_min1->Errors->ToString());
    $Error = ComposeStrings($Error, $this->Errors->ToString());
    $Error = ComposeStrings($Error, $this->DataSource->Errors->ToString());
    $Tpl->SetVar("Error", $Error);
@@ -299,21 +242,13 @@ function GetPrimaryKey($keyName)
 
   $this->description->Show();
   $this->detaileddescription->Show();
+  $this->lbgoback->Show();
   $this->manufacturer->Show();
   $this->suitecode->Show();
-  $this->suitename->Show();
-  $this->offer_name->Show();
-  $this->pricingtier_name->Show();
-  $this->range_min->Show();
-  $this->range_min1->Show();
   $this->channel_sku->Show();
   $this->msrp_price->Show();
-  $this->packaged_weight->Show();
-  $this->packaged_size->Show();
-  $this->reorder->Show();
-  $this->export_restriction->Show();
-  $this->lbgoback->Show();
-  $this->barcode_ean_upc->Show();
+  $this->range_min->Show();
+  $this->range_min1->Show();
   $Tpl->parse();
   $Tpl->block_path = $ParentPath;
   $this->DataSource->close();
@@ -324,7 +259,7 @@ function GetPrimaryKey($keyName)
 
 class clsproducts_viewcontentv_alm_productsDataSource extends clsDBdbConnection {  //v_alm_productsDataSource Class @5-7D7A1DBF
 
-//DataSource Variables @5-5E9D4359
+//DataSource Variables @5-8905D536
  public $Parent = "";
  public $CCSEvents = "";
  public $CCSEventResult;
@@ -338,24 +273,16 @@ class clsproducts_viewcontentv_alm_productsDataSource extends clsDBdbConnection 
  // Datasource fields
  public $description;
  public $detaileddescription;
+ public $lbgoback;
  public $manufacturer;
  public $suitecode;
- public $suitename;
- public $offer_name;
- public $pricingtier_name;
- public $range_min;
- public $range_min1;
  public $channel_sku;
  public $msrp_price;
- public $packaged_weight;
- public $packaged_size;
- public $reorder;
- public $export_restriction;
- public $lbgoback;
- public $barcode_ean_upc;
+ public $range_min;
+ public $range_min1;
 //End DataSource Variables
 
-//DataSourceClass_Initialize Event @5-1DEBA481
+//DataSourceClass_Initialize Event @5-A87B0B64
  function clsproducts_viewcontentv_alm_productsDataSource(& $Parent)
  {
   $this->Parent = & $Parent;
@@ -365,45 +292,35 @@ class clsproducts_viewcontentv_alm_productsDataSource extends clsDBdbConnection 
   
   $this->detaileddescription = new clsField("detaileddescription", ccsText, "");
   
+  $this->lbgoback = new clsField("lbgoback", ccsText, "");
+  
   $this->manufacturer = new clsField("manufacturer", ccsText, "");
   
   $this->suitecode = new clsField("suitecode", ccsText, "");
-  
-  $this->suitename = new clsField("suitename", ccsText, "");
-  
-  $this->offer_name = new clsField("offer_name", ccsText, "");
-  
-  $this->pricingtier_name = new clsField("pricingtier_name", ccsText, "");
-  
-  $this->range_min = new clsField("range_min", ccsText, "");
-  
-  $this->range_min1 = new clsField("range_min1", ccsText, "");
   
   $this->channel_sku = new clsField("channel_sku", ccsText, "");
   
   $this->msrp_price = new clsField("msrp_price", ccsFloat, "");
   
-  $this->packaged_weight = new clsField("packaged_weight", ccsText, "");
+  $this->range_min = new clsField("range_min", ccsText, "");
   
-  $this->packaged_size = new clsField("packaged_size", ccsText, "");
-  
-  $this->reorder = new clsField("reorder", ccsBoolean, $this->BooleanFormat);
-  
-  $this->export_restriction = new clsField("export_restriction", ccsBoolean, $this->BooleanFormat);
-  
-  $this->lbgoback = new clsField("lbgoback", ccsText, "");
-  
-  $this->barcode_ean_upc = new clsField("barcode_ean_upc", ccsText, "");
+  $this->range_min1 = new clsField("range_min1", ccsText, "");
   
 
  }
 //End DataSourceClass_Initialize Event
 
-//Prepare Method @5-14D6CD9D
+//Prepare Method @5-156822A3
  function Prepare()
  {
   global $CCSLocales;
   global $DefaultDateFormat;
+  $this->wp = new clsSQLParameters($this->ErrorBlock);
+  $this->wp->AddParameter("1", "urlguid", ccsText, "", "", $this->Parameters["urlguid"], "", false);
+  $this->AllParametersSet = $this->wp->AllParamsSet();
+  $this->wp->Criterion[1] = $this->wp->Operation(opEqual, "guid", $this->wp->GetDBValue("1"), $this->ToSQL($this->wp->GetDBValue("1"), ccsText),false);
+  $this->Where = 
+    $this->wp->Criterion[1];
  }
 //End Prepare Method
 
@@ -420,25 +337,17 @@ class clsproducts_viewcontentv_alm_productsDataSource extends clsDBdbConnection 
  }
 //End Open Method
 
-//SetValues Method @5-B2E47420
+//SetValues Method @5-6D36018E
  function SetValues()
  {
-  $this->description->SetDBValue($this->f("short_description"));
+  $this->description->SetDBValue($this->f("suite_description"));
   $this->detaileddescription->SetDBValue($this->f("description"));
   $this->manufacturer->SetDBValue($this->f("manufacturer"));
   $this->suitecode->SetDBValue($this->f("suite_code"));
-  $this->suitename->SetDBValue($this->f("suite_name"));
-  $this->offer_name->SetDBValue($this->f("offer_name"));
-  $this->pricingtier_name->SetDBValue($this->f("pricingtier_name"));
-  $this->range_min->SetDBValue($this->f("range_min"));
-  $this->range_min1->SetDBValue($this->f("range_max"));
   $this->channel_sku->SetDBValue($this->f("channel_sku"));
   $this->msrp_price->SetDBValue(trim($this->f("msrp_price")));
-  $this->packaged_weight->SetDBValue($this->f("packaged_weight"));
-  $this->packaged_size->SetDBValue($this->f("packaged_size"));
-  $this->reorder->SetDBValue(trim($this->f("reorder")));
-  $this->export_restriction->SetDBValue(trim($this->f("export_restriction")));
-  $this->barcode_ean_upc->SetDBValue($this->f("barcode_ean_upc"));
+  $this->range_min->SetDBValue($this->f("range_min"));
+  $this->range_min1->SetDBValue($this->f("range_max"));
  }
 //End SetValues Method
 
