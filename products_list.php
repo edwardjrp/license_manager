@@ -515,7 +515,7 @@ class clsproducts_listv_alm_productsDataSource extends clsDBdbConnection {  //v_
  }
 //End SetOrder Method
 
-//Prepare Method @12-5F0723B8
+//Prepare Method @12-845B4E23
  function Prepare()
  {
   global $CCSLocales;
@@ -527,12 +527,14 @@ class clsproducts_listv_alm_productsDataSource extends clsDBdbConnection {  //v_
   $this->wp->AddParameter("4", "urls_search", ccsText, "", "", $this->Parameters["urls_search"], "", false);
   $this->wp->AddParameter("5", "urls_search", ccsText, "", "", $this->Parameters["urls_search"], "", false);
   $this->wp->AddParameter("6", "urls_search", ccsText, "", "", $this->Parameters["urls_search"], "", false);
+  $this->wp->AddParameter("7", "urls_search", ccsText, "", "", $this->Parameters["urls_search"], "", false);
   $this->wp->Criterion[1] = $this->wp->Operation(opEqual, "id_suite", $this->wp->GetDBValue("1"), $this->ToSQL($this->wp->GetDBValue("1"), ccsInteger),false);
   $this->wp->Criterion[2] = $this->wp->Operation(opEqual, "id_manufacturer", $this->wp->GetDBValue("2"), $this->ToSQL($this->wp->GetDBValue("2"), ccsInteger),false);
   $this->wp->Criterion[3] = $this->wp->Operation(opContains, "suite_code", $this->wp->GetDBValue("3"), $this->ToSQL($this->wp->GetDBValue("3"), ccsText),false);
-  $this->wp->Criterion[4] = $this->wp->Operation(opContains, "description", $this->wp->GetDBValue("4"), $this->ToSQL($this->wp->GetDBValue("4"), ccsText),false);
-  $this->wp->Criterion[5] = $this->wp->Operation(opContains, "short_description", $this->wp->GetDBValue("5"), $this->ToSQL($this->wp->GetDBValue("5"), ccsText),false);
-  $this->wp->Criterion[6] = $this->wp->Operation(opContains, "channel_sku", $this->wp->GetDBValue("6"), $this->ToSQL($this->wp->GetDBValue("6"), ccsText),false);
+  $this->wp->Criterion[4] = $this->wp->Operation(opContains, "suite_description", $this->wp->GetDBValue("4"), $this->ToSQL($this->wp->GetDBValue("4"), ccsText),false);
+  $this->wp->Criterion[5] = $this->wp->Operation(opContains, "description", $this->wp->GetDBValue("5"), $this->ToSQL($this->wp->GetDBValue("5"), ccsText),false);
+  $this->wp->Criterion[6] = $this->wp->Operation(opContains, "short_description", $this->wp->GetDBValue("6"), $this->ToSQL($this->wp->GetDBValue("6"), ccsText),false);
+  $this->wp->Criterion[7] = $this->wp->Operation(opContains, "channel_sku", $this->wp->GetDBValue("7"), $this->ToSQL($this->wp->GetDBValue("7"), ccsText),false);
   $this->Where = $this->wp->opAND(
     false, $this->wp->opAND(
     true, 
@@ -540,11 +542,13 @@ class clsproducts_listv_alm_productsDataSource extends clsDBdbConnection {  //v_
     $this->wp->Criterion[2]), $this->wp->opOR(
     true, $this->wp->opOR(
     false, $this->wp->opOR(
+    false, $this->wp->opOR(
     false, 
     $this->wp->Criterion[3], 
     $this->wp->Criterion[4]), 
     $this->wp->Criterion[5]), 
-    $this->wp->Criterion[6]));
+    $this->wp->Criterion[6]), 
+    $this->wp->Criterion[7]));
  }
 //End Prepare Method
 
