@@ -17,8 +17,8 @@
 						<label class="control-label blue">{res:manufacturer}</label><br>
 						<input type="text" name="{manufacturer_Name}" value="{manufacturer}" disabled class="col-md-12 col-xs-12">
 					</div>
-					<div class="col-md-1 col-xs-12">
-						<label class="control-label blue">{res:suitecode}</label><br>
+					<div class="col-md-2 col-xs-12">
+						<label class="control-label blue">{res:suite_code}</label><br>
 						<input type="text" name="{suitecode_Name}" value="{suitecode}" disabled class="col-md-12 col-xs-12">
 					</div>
 
@@ -44,23 +44,39 @@
 				
 				<div class="row col-xs-12">
 					<div class="col-md-1 col-xs-0"></div>
-					<div class="col-md-5 col-xs-12">
-						<label class="control-label blue">{res:description}</label><br>
+					<div class="col-md-6 col-xs-12">
+						<label class="control-label blue">{res:suite}</label><br>
 						<input type="text" name="{description_Name}" value="{description}" disabled class="col-md-12 col-xs-12">
 					</div>
-					<div class="col-md-5 col-xs-12">
-						<label class="control-label blue">{res:detaileddescription}</label><br>
+					<div class="col-md-4 col-xs-12">
+						<label class="control-label blue">{res:product_type}</label><br>
+						<!-- BEGIN RadioButton id_product_type --><input {Check} type="radio" name="{id_product_type_Name}" value="{Value}" id="id_product_type_{id_product_type:optionNumber}" class="ace" disabled><span class="lbl">&nbsp;&nbsp;{Description}&nbsp;&nbsp;&nbsp;</span><!-- END RadioButton id_product_type -->
+					</div>
+				</div><!-- row -->
+
+				<div class="row col-xs-12">
+					<div class="col-md-1 col-xs-0"></div>
+					<div class="col-md-10 col-xs-12">
+						<label class="control-label blue">{res:description}</label><br>
 						<input type="text" name="{detaileddescription_Name}" value="{detaileddescription}" disabled class="col-md-12 col-xs-12">
 					</div>
 				</div><!-- row -->
 
+				<div class="row col-xs-12">
+					<div class="col-md-1 col-xs-0"></div>
+					<div class="col-md-10 col-xs-12">
+						<label class="control-label blue">{res:product_content}</label><br>
+						<textarea name="{product_content_Name}" cols="10" rows="5" id="product_content" class="col-md-12 col-xs-12" disabled>{product_content}</textarea>
+					</div>
+				</div><!-- row -->
 
 			</div><!-- main row -->
 
 			<div class="row">
 				<div class="col-md-12 col-xs-12">
 					<div class="form-actions center">
-						<a href="products.php{lbgoback}" role="button" id="goback" class="btn btn-sm btn-success"><li class="icon-arrow-left"></li>&nbsp;{res:buttongoback}</a> &nbsp;&nbsp;
+						<a href="products.php{lbgoback}" role="button" id="goback" class="btn btn-sm btn-success"><li class="icon-arrow-left"></li>&nbsp;{res:buttongoback}</a> 
+&nbsp;&nbsp;
 					</div><!-- form-actions  -->
 				</div>
 			</div>

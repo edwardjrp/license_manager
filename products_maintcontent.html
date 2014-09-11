@@ -33,7 +33,7 @@
 
 						</div>
 						<div class="col-md-2 col-xs-12">
-							<label class="control-label blue">{res:suite}</label><br>
+							<label class="control-label blue">{res:suite_code}</label><br>
 							<select name="{suite_code_Name}" id="suite" class="width-90 chosen-select" data-validation="required" data-validation-error-msg="{res:invalidsuite}">
 								<option value="">{res:selectoption}</option>
 								{suite_code_Options}
@@ -61,13 +61,30 @@
 					<div class="row col-xs-12">
 						<div class="col-md-1 col-xs-0">
 						</div>
-						<div class="col-md-5 col-xs-12">
-							<label class="control-label blue">{res:description}</label><br>
+						<div class="col-md-6 col-xs-12">
+							<label class="control-label blue">{res:suite}</label><br>
 							<input type="text" name="{description_Name}" value="{description}" class="col-md-12 col-xs-12" id="description" disabled>
 						</div>
-						<div class="col-md-5 col-xs-12">
-							<label class="control-label blue">{res:detaileddescription}</label><br>
+						<div class="col-md-4 col-xs-12">
+							<label class="control-label blue">{res:product_type}</label><br>
+							<!-- BEGIN RadioButton id_product_type --><input {Check} type="radio" name="{id_product_type_Name}" value="{Value}" id="id_product_type_{id_product_type:optionNumber}" class="ace"><span class="lbl">
+&nbsp;&nbsp;{Description}&nbsp;&nbsp;&nbsp;</span><!-- END RadioButton id_product_type -->
+						</div>
+					</div><!-- row -->
+
+					<div class="row col-xs-12">
+						<div class="col-md-1 col-xs-0"></div>
+						<div class="col-md-10 col-xs-12">
+							<label class="control-label blue">{res:description}</label><br>
 							<input type="text" name="{detaileddescription_Name}" value="{detaileddescription}" class="col-md-12 col-xs-12" id="detaildescription" data-validation="required" data-validation-error-msg="{res:invaliddescription}">
+						</div>
+					</div><!-- row -->
+
+					<div class="row col-xs-12">
+						<div class="col-md-1 col-xs-0"></div>
+						<div class="col-md-10 col-xs-12">
+							<label class="control-label blue">{res:product_content}</label><br>
+							<textarea name="{product_content_Name}" cols="10" rows="5" id="product_content" class="col-md-12 col-xs-12">{product_content}</textarea>
 						</div>
 					</div><!-- row -->
 

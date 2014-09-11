@@ -36,7 +36,7 @@ class clsRecordproducts_listsearch { //search Class @3-7CC7BD48
  // Class variables
 //End Variables
 
-//Class_Initialize Event @3-F987B918
+//Class_Initialize Event @3-51BE8438
  function clsRecordproducts_listsearch($RelativePath, & $Parent)
  {
 
@@ -78,8 +78,8 @@ class clsRecordproducts_listsearch { //search Class @3-7CC7BD48
    list($this->lbsuite->BoundColumn, $this->lbsuite->TextColumn, $this->lbsuite->DBFormat) = array("id", "suite_code", "");
    $this->lbsuite->DataSource->Parameters["urllbmanufacturer"] = CCGetFromGet("lbmanufacturer", NULL);
    $this->lbsuite->DataSource->wp = new clsSQLParameters();
-   $this->lbsuite->DataSource->wp->AddParameter("1", "urllbmanufacturer", ccsInteger, "", "", $this->lbsuite->DataSource->Parameters["urllbmanufacturer"], "", true);
-   $this->lbsuite->DataSource->wp->Criterion[1] = $this->lbsuite->DataSource->wp->Operation(opEqual, "id_manufacturer", $this->lbsuite->DataSource->wp->GetDBValue("1"), $this->lbsuite->DataSource->ToSQL($this->lbsuite->DataSource->wp->GetDBValue("1"), ccsInteger),true);
+   $this->lbsuite->DataSource->wp->AddParameter("1", "urllbmanufacturer", ccsInteger, "", "", $this->lbsuite->DataSource->Parameters["urllbmanufacturer"], "", false);
+   $this->lbsuite->DataSource->wp->Criterion[1] = $this->lbsuite->DataSource->wp->Operation(opEqual, "id_manufacturer", $this->lbsuite->DataSource->wp->GetDBValue("1"), $this->lbsuite->DataSource->ToSQL($this->lbsuite->DataSource->wp->GetDBValue("1"), ccsInteger),false);
    $this->lbsuite->DataSource->Where = 
      $this->lbsuite->DataSource->wp->Criterion[1];
   }
@@ -222,7 +222,7 @@ function GetPrimaryKey($keyName)
 
 class clsGridproducts_listv_alm_products { //v_alm_products class @12-34EC6C64
 
-//Variables @12-4AB2C27B
+//Variables @12-DD9FA56F
 
  // Public variables
  public $ComponentType = "Grid";
@@ -258,9 +258,10 @@ class clsGridproducts_listv_alm_products { //v_alm_products class @12-34EC6C64
  public $Sorter_range_max;
  public $Sorter_channel_sku;
  public $Sorter_msrp_price;
+ public $Sorter_suite_description;
 //End Variables
 
-//Class_Initialize Event @12-B27CE6D6
+//Class_Initialize Event @12-E84E99A3
  function clsGridproducts_listv_alm_products($RelativePath, & $Parent)
  {
   global $FileName;
@@ -296,6 +297,7 @@ class clsGridproducts_listv_alm_products { //v_alm_products class @12-34EC6C64
   $this->range_max = new clsControl(ccsLabel, "range_max", "range_max", ccsInteger, "", CCGetRequestParam("range_max", ccsGet, NULL), $this);
   $this->channel_sku = new clsControl(ccsLabel, "channel_sku", "channel_sku", ccsText, "", CCGetRequestParam("channel_sku", ccsGet, NULL), $this);
   $this->msrp_price = new clsControl(ccsLabel, "msrp_price", "msrp_price", ccsFloat, array(False, 2, Null, Null, False, "\$ ", "", 1, True, ""), CCGetRequestParam("msrp_price", ccsGet, NULL), $this);
+  $this->suite_description = new clsControl(ccsLabel, "suite_description", "suite_description", ccsText, "", CCGetRequestParam("suite_description", ccsGet, NULL), $this);
   $this->Sorter_guid = new clsSorter($this->ComponentName, "Sorter_guid", $FileName, $this);
   $this->Sorter_suite_code = new clsSorter($this->ComponentName, "Sorter_suite_code", $FileName, $this);
   $this->Sorter_description = new clsSorter($this->ComponentName, "Sorter_description", $FileName, $this);
@@ -306,6 +308,7 @@ class clsGridproducts_listv_alm_products { //v_alm_products class @12-34EC6C64
   $this->Navigator->PageSizes = array("1", "5", "10", "25", "50");
   $this->lbrecordscount = new clsControl(ccsLabel, "lbrecordscount", "lbrecordscount", ccsInteger, array(False, 0, Null, Null, False, "", "", 1, True, ""), CCGetRequestParam("lbrecordscount", ccsGet, NULL), $this);
   $this->Sorter_msrp_price = new clsSorter($this->ComponentName, "Sorter_msrp_price", $FileName, $this);
+  $this->Sorter_suite_description = new clsSorter($this->ComponentName, "Sorter_suite_description", $FileName, $this);
  }
 //End Class_Initialize Event
 
@@ -320,7 +323,7 @@ class clsGridproducts_listv_alm_products { //v_alm_products class @12-34EC6C64
  }
 //End Initialize Method
 
-//Show Method @12-1FCD35B7
+//Show Method @12-29FDCC92
  function Show()
  {
   global $Tpl;
@@ -358,6 +361,7 @@ class clsGridproducts_listv_alm_products { //v_alm_products class @12-34EC6C64
    $this->ControlsVisible["range_max"] = $this->range_max->Visible;
    $this->ControlsVisible["channel_sku"] = $this->channel_sku->Visible;
    $this->ControlsVisible["msrp_price"] = $this->msrp_price->Visible;
+   $this->ControlsVisible["suite_description"] = $this->suite_description->Visible;
    while ($this->ForceIteration || (($this->RowNumber < $this->PageSize) &&  ($this->HasRecord = $this->DataSource->has_next_record()))) {
     $this->RowNumber++;
     if ($this->HasRecord) {
@@ -372,6 +376,7 @@ class clsGridproducts_listv_alm_products { //v_alm_products class @12-34EC6C64
     $this->range_max->SetValue($this->DataSource->range_max->GetValue());
     $this->channel_sku->SetValue($this->DataSource->channel_sku->GetValue());
     $this->msrp_price->SetValue($this->DataSource->msrp_price->GetValue());
+    $this->suite_description->SetValue($this->DataSource->suite_description->GetValue());
     $this->Attributes->SetValue("rowNumber", $this->RowNumber);
     $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeShowRow", $this);
     $this->Attributes->Show();
@@ -382,6 +387,7 @@ class clsGridproducts_listv_alm_products { //v_alm_products class @12-34EC6C64
     $this->range_max->Show();
     $this->channel_sku->Show();
     $this->msrp_price->Show();
+    $this->suite_description->Show();
     $Tpl->block_path = $ParentPath . "/" . $GridBlock;
     $Tpl->parse("Row", true);
    }
@@ -416,13 +422,14 @@ class clsGridproducts_listv_alm_products { //v_alm_products class @12-34EC6C64
   $this->Navigator->Show();
   $this->lbrecordscount->Show();
   $this->Sorter_msrp_price->Show();
+  $this->Sorter_suite_description->Show();
   $Tpl->parse();
   $Tpl->block_path = $ParentPath;
   $this->DataSource->close();
  }
 //End Show Method
 
-//GetErrors Method @12-80DC0B6B
+//GetErrors Method @12-2F9C0355
  function GetErrors()
  {
   $errors = "";
@@ -433,6 +440,7 @@ class clsGridproducts_listv_alm_products { //v_alm_products class @12-34EC6C64
   $errors = ComposeStrings($errors, $this->range_max->Errors->ToString());
   $errors = ComposeStrings($errors, $this->channel_sku->Errors->ToString());
   $errors = ComposeStrings($errors, $this->msrp_price->Errors->ToString());
+  $errors = ComposeStrings($errors, $this->suite_description->Errors->ToString());
   $errors = ComposeStrings($errors, $this->Errors->ToString());
   $errors = ComposeStrings($errors, $this->DataSource->Errors->ToString());
   return $errors;
@@ -443,7 +451,7 @@ class clsGridproducts_listv_alm_products { //v_alm_products class @12-34EC6C64
 
 class clsproducts_listv_alm_productsDataSource extends clsDBdbConnection {  //v_alm_productsDataSource Class @12-FDE3D33F
 
-//DataSource Variables @12-727A1953
+//DataSource Variables @12-CD15725D
  public $Parent = "";
  public $CCSEvents = "";
  public $CCSEventResult;
@@ -462,9 +470,10 @@ class clsproducts_listv_alm_productsDataSource extends clsDBdbConnection {  //v_
  public $range_max;
  public $channel_sku;
  public $msrp_price;
+ public $suite_description;
 //End DataSource Variables
 
-//DataSourceClass_Initialize Event @12-32252A6D
+//DataSourceClass_Initialize Event @12-09A4F726
  function clsproducts_listv_alm_productsDataSource(& $Parent)
  {
   $this->Parent = & $Parent;
@@ -484,11 +493,13 @@ class clsproducts_listv_alm_productsDataSource extends clsDBdbConnection {  //v_
   
   $this->msrp_price = new clsField("msrp_price", ccsFloat, "");
   
+  $this->suite_description = new clsField("suite_description", ccsText, "");
+  
 
  }
 //End DataSourceClass_Initialize Event
 
-//SetOrder Method @12-CC6B0823
+//SetOrder Method @12-140F1FF0
  function SetOrder($SorterName, $SorterDirection)
  {
   $this->Order = "";
@@ -499,7 +510,8 @@ class clsproducts_listv_alm_productsDataSource extends clsDBdbConnection {  //v_
    "Sorter_range_min" => array("range_min", ""), 
    "Sorter_range_max" => array("range_max", ""), 
    "Sorter_channel_sku" => array("channel_sku", ""), 
-   "Sorter_msrp_price" => array("msrp_price", "")));
+   "Sorter_msrp_price" => array("msrp_price", ""), 
+   "Sorter_suite_description" => array("suite_description", "")));
  }
 //End SetOrder Method
 
@@ -554,7 +566,7 @@ class clsproducts_listv_alm_productsDataSource extends clsDBdbConnection {  //v_
  }
 //End Open Method
 
-//SetValues Method @12-F0D36BED
+//SetValues Method @12-F6659835
  function SetValues()
  {
   $this->guid->SetDBValue($this->f("guid"));
@@ -564,6 +576,7 @@ class clsproducts_listv_alm_productsDataSource extends clsDBdbConnection {  //v_
   $this->range_max->SetDBValue(trim($this->f("range_max")));
   $this->channel_sku->SetDBValue($this->f("channel_sku"));
   $this->msrp_price->SetDBValue(trim($this->f("msrp_price")));
+  $this->suite_description->SetDBValue($this->f("suite_description"));
  }
 //End SetValues Method
 

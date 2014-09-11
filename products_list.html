@@ -66,6 +66,10 @@
 		<!-- BEGIN Asc_On --><img border="0" src="Styles/None/Images/Asc.gif"><!-- END Asc_On -->
 		<!-- BEGIN Desc_On --><img border="0" src="Styles/None/Images/Desc.gif"><!-- END Desc_On --><!-- END Sorter Sorter_suite_code --></th>
 		<th>
+		<!-- BEGIN Sorter Sorter_suite_description --><a href="{Sort_URL}" id="suite_code">{res:suite}</a>
+		<!-- BEGIN Asc_On --><img border="0" src="Styles/None/Images/Asc.gif"><!-- END Asc_On -->
+		<!-- BEGIN Desc_On --><img border="0" src="Styles/None/Images/Desc.gif"><!-- END Desc_On --><!-- END Sorter Sorter_suite_description --></th>
+		<th>
 		<!-- BEGIN Sorter Sorter_description --><a href="{Sort_URL}" id="short_description">{res:description}</a>
 		<!-- BEGIN Asc_On --><img border="0" src="Styles/None/Images/Asc.gif"><!-- END Asc_On -->
 		<!-- BEGIN Desc_On --><img border="0" src="Styles/None/Images/Desc.gif"><!-- END Desc_On --><!-- END Sorter Sorter_description --></th>
@@ -88,17 +92,18 @@
 	</tr>
 	<!-- BEGIN Row -->
 	<tr {v_alm_products:rowStyle}>
-		<td>
+		<td nowrap>
 			<div class="action-buttons">
 				<a href="products_maint.php?guid={guid}" class="green"><i class="icon-pencil bigger-180"></i>&nbsp;</a>&nbsp;&nbsp;
 				<a href="products_view.php?guid={guid}" class="blue"><i class="icon-eye-open bigger-180"></i>&nbsp;</a>
 			</div>
 		</td>
-		<td>{suite_code}&nbsp;</td>
-		<td>{description}&nbsp;</td>
+		<td>{suite_code}</td>
+		<td>{suite_description}</td>
+		<td>{description}</td>
 		<td style="text-align:right;">{range_min}&nbsp;</td>
 		<td style="text-align:right;">{range_max}&nbsp;</td>
-		<td>{channel_sku}&nbsp;</td>
+		<td nowrap>{channel_sku}&nbsp;</td>
 		<td style="text-align:right;">{msrp_price}&nbsp;</td>
 	</tr>
 	<!-- END Row -->
