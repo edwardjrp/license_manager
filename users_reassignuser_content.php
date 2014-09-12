@@ -403,7 +403,7 @@ class clsusers_reassignuser_content { //users_reassignuser_content class @1-F9B4
  }
 //End Operations Method
 
-//Initialize Method @1-1F21F221
+//Initialize Method @1-364A0932
  function Initialize()
  {
   global $FileName;
@@ -421,7 +421,7 @@ class clsusers_reassignuser_content { //users_reassignuser_content class @1-F9B4
   $this->lbsourceuser->DSType = dsTable;
   $this->lbsourceuser->DataSource = new clsDBdbConnection();
   $this->lbsourceuser->ds = & $this->lbsourceuser->DataSource;
-  $this->lbsourceuser->DataSource->SQL = "SELECT id, concat_ws(' - ',username,fullname) AS fullusername \n" .
+  $this->lbsourceuser->DataSource->SQL = "SELECT id, fullname AS fullusername \n" .
 "FROM alm_users {SQL_Where} {SQL_OrderBy}";
   list($this->lbsourceuser->BoundColumn, $this->lbsourceuser->TextColumn, $this->lbsourceuser->DBFormat) = array("id", "fullusername", "");
   $this->lbsourceuser->DataSource->Parameters["expr6"] = 0;
@@ -434,7 +434,7 @@ class clsusers_reassignuser_content { //users_reassignuser_content class @1-F9B4
   $this->lbtargetuser->DSType = dsTable;
   $this->lbtargetuser->DataSource = new clsDBdbConnection();
   $this->lbtargetuser->ds = & $this->lbtargetuser->DataSource;
-  $this->lbtargetuser->DataSource->SQL = "SELECT id, concat_ws(' - ',username,fullname) AS fullusername \n" .
+  $this->lbtargetuser->DataSource->SQL = "SELECT id, fullname AS fullusername \n" .
 "FROM alm_users {SQL_Where} {SQL_OrderBy}";
   list($this->lbtargetuser->BoundColumn, $this->lbtargetuser->TextColumn, $this->lbtargetuser->DBFormat) = array("id", "fullusername", "");
   $this->lbtargetuser->DataSource->Parameters["expr8"] = 0;

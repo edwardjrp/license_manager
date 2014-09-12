@@ -36,7 +36,7 @@ class clsRecordproducts_maintcontentalm_products { //alm_products Class @2-92A03
  // Class variables
 //End Variables
 
-//Class_Initialize Event @2-5A1637B2
+//Class_Initialize Event @2-569D1AF3
  function clsRecordproducts_maintcontentalm_products($RelativePath, & $Parent)
  {
 
@@ -89,7 +89,7 @@ class clsRecordproducts_maintcontentalm_products { //alm_products Class @2-92A03
    $this->range_min = new clsControl(ccsTextBox, "range_min", $CCSLocales->GetText("range_min"), ccsInteger, "", CCGetRequestParam("range_min", $Method, NULL), $this);
    $this->range_max = new clsControl(ccsTextBox, "range_max", $CCSLocales->GetText("range_max"), ccsInteger, "", CCGetRequestParam("range_max", $Method, NULL), $this);
    $this->channel_sku = new clsControl(ccsTextBox, "channel_sku", "channel_sku", ccsText, "", CCGetRequestParam("channel_sku", $Method, NULL), $this);
-   $this->msrp_price = new clsControl(ccsTextBox, "msrp_price", $CCSLocales->GetText("msrp_price"), ccsFloat, array(False, 2, Null, Null, False, "", "", 1, True, ""), CCGetRequestParam("msrp_price", $Method, NULL), $this);
+   $this->msrp_price = new clsControl(ccsTextBox, "msrp_price", $CCSLocales->GetText("msrp_price"), ccsFloat, array(False, 2, Null, Null, False, "\$ ", "", 1, True, ""), CCGetRequestParam("msrp_price", $Method, NULL), $this);
    $this->product_content = new clsControl(ccsTextArea, "product_content", "product_content", ccsText, "", CCGetRequestParam("product_content", $Method, NULL), $this);
    $this->detaileddescription = new clsControl(ccsTextBox, "detaileddescription", "Detailed Description", ccsText, "", CCGetRequestParam("detaileddescription", $Method, NULL), $this);
    $this->id_product_type = new clsControl(ccsRadioButton, "id_product_type", "id_product_type", ccsText, "", CCGetRequestParam("id_product_type", $Method, NULL), $this);

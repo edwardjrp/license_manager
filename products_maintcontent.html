@@ -149,6 +149,7 @@ $(function(){
 			data: params
 		}).done(function(msg) {
 			$("#description").val(msg.suite_description);
+			$("#product_content").val(msg.suite_long_description);			
 		});
 	});
 

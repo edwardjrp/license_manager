@@ -66,9 +66,9 @@
 		<!-- BEGIN Asc_On --><img border="0" src="Styles/None/Images/Asc.gif"><!-- END Asc_On -->
 		<!-- BEGIN Desc_On --><img border="0" src="Styles/None/Images/Desc.gif"><!-- END Desc_On --><!-- END Sorter Sorter_suite_code --></th>
 		<th>
-		<!-- BEGIN Sorter Sorter_suite_description --><a href="{Sort_URL}" id="suite_code">{res:suite}</a>
+		<!-- BEGIN Sorter Sorter_id_product_type --><a href="{Sort_URL}" id="product_type">{res:product_type}</a>
 		<!-- BEGIN Asc_On --><img border="0" src="Styles/None/Images/Asc.gif"><!-- END Asc_On -->
-		<!-- BEGIN Desc_On --><img border="0" src="Styles/None/Images/Desc.gif"><!-- END Desc_On --><!-- END Sorter Sorter_suite_description --></th>
+		<!-- BEGIN Desc_On --><img border="0" src="Styles/None/Images/Desc.gif"><!-- END Desc_On --><!-- END Sorter Sorter_id_product_type --></th>
 		<th>
 		<!-- BEGIN Sorter Sorter_description --><a href="{Sort_URL}" id="short_description">{res:description}</a>
 		<!-- BEGIN Asc_On --><img border="0" src="Styles/None/Images/Asc.gif"><!-- END Asc_On -->
@@ -98,9 +98,9 @@
 				<a href="products_view.php?guid={guid}" class="blue"><i class="icon-eye-open bigger-180"></i>&nbsp;</a>
 			</div>
 		</td>
-		<td>{suite_code}</td>
-		<td>{suite_description}</td>
-		<td>{description}</td>
+		<td nowrap>{suite_code}</td>
+		<td class="text-center"><img src="assets/{product_type_icon_name}" /></td>
+		<td><span class="orange">{suite_description}</span> <br> {description}</td>
 		<td style="text-align:right;">{range_min}&nbsp;</td>
 		<td style="text-align:right;">{range_max}&nbsp;</td>
 		<td nowrap>{channel_sku}&nbsp;</td>

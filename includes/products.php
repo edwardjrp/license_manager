@@ -58,10 +58,16 @@ class Products {
 
 		if ($id > 0) {
 			$db = new \clsDBdbConnection();
-			$description = CCDLookUp("suite_description","alm_product_suites","id = $id",$db);
+			$sql = "select suite_description,suite_long_description from alm_product_suites where id = $id ";
+			$db->query($sql);
+			$db->next_record();
+			$description = $db->f("suite_description");
+			$description_long = $db->f("suite_long_description");
 
 			$result["status"] = true;
 			$result["suite_description"] = $description;
+			$result["suite_long_description"] = $description_long;
+			
 			$result["message"] = "Command executed successfully";
 
 			$db->close();
