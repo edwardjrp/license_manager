@@ -65,6 +65,16 @@ function Page_BeforeShow(& $sender)
 			$MainPage->lbmodule->setvalue($m_title);
 			$Tpl->setvar("module",$m);
 		break;
+		case "producttypes" :
+			$m_title = $CCSLocales->GetText("producttypes");
+			$MainPage->lbmodule->setvalue($m_title);
+			$Tpl->setvar("module",$m);
+		break;
+		case "licensetypes" :
+			$m_title = $CCSLocales->GetText("licensetypes");
+			$MainPage->lbmodule->setvalue($m_title);
+			$Tpl->setvar("module",$m);
+		break;
 	}
 
 

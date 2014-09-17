@@ -239,7 +239,7 @@ class clsGridproducts_suite_listv_alm_product_suites { //v_alm_product_suites cl
  public $Sorter_dateupdated;
 //End Variables
 
-//Class_Initialize Event @11-D4BC2BBE
+//Class_Initialize Event @11-33064650
  function clsGridproducts_suite_listv_alm_product_suites($RelativePath, & $Parent)
  {
   global $FileName;
@@ -273,6 +273,9 @@ class clsGridproducts_suite_listv_alm_product_suites { //v_alm_product_suites cl
   $this->suite_code = new clsControl(ccsLabel, "suite_code", "suite_code", ccsText, "", CCGetRequestParam("suite_code", ccsGet, NULL), $this);
   $this->suite_description = new clsControl(ccsLabel, "suite_description", "suite_description", ccsText, "", CCGetRequestParam("suite_description", ccsGet, NULL), $this);
   $this->dateupdated = new clsControl(ccsLabel, "dateupdated", "dateupdated", ccsDate, array("mm", "/", "dd", "/", "yyyy"), CCGetRequestParam("dateupdated", ccsGet, NULL), $this);
+  $this->params = new clsControl(ccsLabel, "params", "params", ccsText, "", CCGetRequestParam("params", ccsGet, NULL), $this);
+  $this->pndeletebutton = new clsPanel("pndeletebutton", $this);
+  $this->lbdelete = new clsControl(ccsLabel, "lbdelete", "lbdelete", ccsText, "", CCGetRequestParam("lbdelete", ccsGet, NULL), $this);
   $this->Sorter_guid = new clsSorter($this->ComponentName, "Sorter_guid", $FileName, $this);
   $this->Sorter_manufacturer = new clsSorter($this->ComponentName, "Sorter_manufacturer", $FileName, $this);
   $this->Sorter_suite_code = new clsSorter($this->ComponentName, "Sorter_suite_code", $FileName, $this);
@@ -281,6 +284,8 @@ class clsGridproducts_suite_listv_alm_product_suites { //v_alm_product_suites cl
   $this->Navigator = new clsNavigator($this->ComponentName, "Navigator", $FileName, 10, tpCentered, $this);
   $this->Navigator->PageSizes = array("1", "5", "10", "25", "50");
   $this->alm_customers_TotalRecords = new clsControl(ccsLabel, "alm_customers_TotalRecords", "alm_customers_TotalRecords", ccsInteger, array(False, 0, Null, " ", False, "", "", 1, True, ""), CCGetRequestParam("alm_customers_TotalRecords", ccsGet, NULL), $this);
+  $this->pndeletebutton->Visible = false;
+  $this->pndeletebutton->AddComponent("lbdelete", $this->lbdelete);
  }
 //End Class_Initialize Event
 
@@ -295,7 +300,7 @@ class clsGridproducts_suite_listv_alm_product_suites { //v_alm_product_suites cl
  }
 //End Initialize Method
 
-//Show Method @11-BB0B9EAA
+//Show Method @11-98360BD9
  function Show()
  {
   global $Tpl;
@@ -330,6 +335,9 @@ class clsGridproducts_suite_listv_alm_product_suites { //v_alm_product_suites cl
    $this->ControlsVisible["suite_code"] = $this->suite_code->Visible;
    $this->ControlsVisible["suite_description"] = $this->suite_description->Visible;
    $this->ControlsVisible["dateupdated"] = $this->dateupdated->Visible;
+   $this->ControlsVisible["params"] = $this->params->Visible;
+   $this->ControlsVisible["pndeletebutton"] = $this->pndeletebutton->Visible;
+   $this->ControlsVisible["lbdelete"] = $this->lbdelete->Visible;
    while ($this->ForceIteration || (($this->RowNumber < $this->PageSize) &&  ($this->HasRecord = $this->DataSource->has_next_record()))) {
     $this->RowNumber++;
     if ($this->HasRecord) {
@@ -350,6 +358,8 @@ class clsGridproducts_suite_listv_alm_product_suites { //v_alm_product_suites cl
     $this->suite_code->Show();
     $this->suite_description->Show();
     $this->dateupdated->Show();
+    $this->params->Show();
+    $this->pndeletebutton->Show();
     $Tpl->block_path = $ParentPath . "/" . $GridBlock;
     $Tpl->parse("Row", true);
    }
@@ -388,7 +398,7 @@ class clsGridproducts_suite_listv_alm_product_suites { //v_alm_product_suites cl
  }
 //End Show Method
 
-//GetErrors Method @11-4FEAF3EA
+//GetErrors Method @11-F9CB3AAF
  function GetErrors()
  {
   $errors = "";
@@ -397,6 +407,8 @@ class clsGridproducts_suite_listv_alm_product_suites { //v_alm_product_suites cl
   $errors = ComposeStrings($errors, $this->suite_code->Errors->ToString());
   $errors = ComposeStrings($errors, $this->suite_description->Errors->ToString());
   $errors = ComposeStrings($errors, $this->dateupdated->Errors->ToString());
+  $errors = ComposeStrings($errors, $this->params->Errors->ToString());
+  $errors = ComposeStrings($errors, $this->lbdelete->Errors->ToString());
   $errors = ComposeStrings($errors, $this->Errors->ToString());
   $errors = ComposeStrings($errors, $this->DataSource->Errors->ToString());
   return $errors;
@@ -564,11 +576,14 @@ class clsproducts_suite_list { //products_suite_list class @1-01254085
  }
 //End Class_Terminate Event
 
-//BindEvents Method @1-7EA9F671
+//BindEvents Method @1-27B31FF5
  function BindEvents()
  {
   $this->v_alm_product_suites->alm_customers_TotalRecords->CCSEvents["BeforeShow"] = "products_suite_list_v_alm_product_suites_alm_customers_TotalRecords_BeforeShow";
+  $this->v_alm_product_suites->params->CCSEvents["BeforeShow"] = "products_suite_list_v_alm_product_suites_params_BeforeShow";
+  $this->v_alm_product_suites->pndeletebutton->CCSEvents["BeforeShow"] = "products_suite_list_v_alm_product_suites_pndeletebutton_BeforeShow";
   $this->v_alm_product_suites->CCSEvents["BeforeShowRow"] = "products_suite_list_v_alm_product_suites_BeforeShowRow";
+  $this->CCSEvents["BeforeShow"] = "products_suite_list_BeforeShow";
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "AfterInitialize", $this);
  }
 //End BindEvents Method
@@ -630,6 +645,8 @@ class clsproducts_suite_list { //products_suite_list class @1-01254085
 //End Show Method
 
 } //End products_suite_list Class @1-FCB6E20C
+
+include_once("includes/products.php");
 
 //Include Event File @1-C48999DB
 include_once(RelativePath . "/products_suite_list_events.php");

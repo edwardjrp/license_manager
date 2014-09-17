@@ -82,6 +82,56 @@ function products_maintcontent_alm_products_lbgoback_BeforeShow(& $sender)
 }
 //End Close products_maintcontent_alm_products_lbgoback_BeforeShow
 
+//products_maintcontent_alm_products_params_BeforeShow @49-B93CABBC
+function products_maintcontent_alm_products_params_BeforeShow(& $sender)
+{
+ $products_maintcontent_alm_products_params_BeforeShow = true;
+ $Component = & $sender;
+ $Container = & CCGetParentContainer($sender);
+ global $products_maintcontent; //Compatibility
+//End products_maintcontent_alm_products_params_BeforeShow
+
+//Custom Code @50-2A29BDB7
+// -------------------------
+ // Write your own code here.
+ 	$guid = trim(CCGetFromGet("guid",""));
+ 	$querystring = CCGetQueryString("QueryString",array("guid"));
+	if (strlen($querystring) > 0)
+		$querystring = "&$querystring";
+	$sender->SetValue("&dguid=$guid$querystring");
+// -------------------------
+//End Custom Code
+
+//Close products_maintcontent_alm_products_params_BeforeShow @49-D699AEE8
+ return $products_maintcontent_alm_products_params_BeforeShow;
+}
+//End Close products_maintcontent_alm_products_params_BeforeShow
+
+//products_maintcontent_alm_products_pnduplicate_BeforeShow @51-09FE90D4
+function products_maintcontent_alm_products_pnduplicate_BeforeShow(& $sender)
+{
+ $products_maintcontent_alm_products_pnduplicate_BeforeShow = true;
+ $Component = & $sender;
+ $Container = & CCGetParentContainer($sender);
+ global $products_maintcontent; //Compatibility
+//End products_maintcontent_alm_products_pnduplicate_BeforeShow
+
+//Custom Code @52-2A29BDB7
+// -------------------------
+ // Write your own code here.
+ 	$guid = trim(CCGetFromGet("guid",""));
+	if (strlen($guid) > 0)
+		$products_maintcontent->alm_products->pnduplicate->Visible = true;
+	else
+		$products_maintcontent->alm_products->pnduplicate->Visible = false;
+// -------------------------
+//End Custom Code
+
+//Close products_maintcontent_alm_products_pnduplicate_BeforeShow @51-5343273A
+ return $products_maintcontent_alm_products_pnduplicate_BeforeShow;
+}
+//End Close products_maintcontent_alm_products_pnduplicate_BeforeShow
+
 //Used because the last_user_id query on afterinsert was not working
 $lastguid = "";
 
@@ -149,7 +199,26 @@ function products_maintcontent_alm_products_AfterInsert(& $sender)
 	global $lastguid;	
 	global $FileName;
 	global $Redirect;
-	$Redirect = $FileName."?guid=$lastguid";
+
+	//Checking if there was a duplicity error
+	$errors = (Array)$sender->DataSource->Errors;
+	$errorcount = (int)$errors["ErrorsCount"];
+	$error = $errors["Errors"][0];
+	if ($errorcount >= 1) {
+		$position = strpos($error,"Duplicate entry");
+		if ( !($position === false)) {
+			global $CCSLocales;
+			//Duplicate entry error
+			$sender->DataSource->Errors->clear();
+			$sender->DataSource->Errors->addError($CCSLocales->GetText("duplicate_record"));
+			//Not showuing the saving popup
+			CCSetSession("showalert","hide");
+		}
+	} 
+
+	//Getting querystring parameter to include in redirect when a duplicate operation takes place
+	$querystring = CCGetFromPost("querystring","");
+	$Redirect = $FileName."?guid=$lastguid&$querystring";
 
 // -------------------------
 //End Custom Code
@@ -174,6 +243,22 @@ function products_maintcontent_alm_products_AfterUpdate(& $sender)
 	//Show message alert after saving information
 	CCSetSession("showalert","show");
 
+	//Checking if there was a duplicity error
+	$errors = (Array)$sender->DataSource->Errors;
+	$errorcount = (int)$errors["ErrorsCount"];
+	$error = $errors["Errors"][0];
+	if ($errorcount >= 1) {
+		$position = strpos($error,"Duplicate entry");
+		if ( !($position === false)) {
+			global $CCSLocales;
+			//Duplicate entry error
+			$sender->DataSource->Errors->clear();
+			$sender->DataSource->Errors->addError($CCSLocales->GetText("duplicate_record"));
+			//Not showuing the saving popup
+			CCSetSession("showalert","hide");
+		}
+	} 
+
 // -------------------------
 //End Custom Code
 
@@ -181,6 +266,50 @@ function products_maintcontent_alm_products_AfterUpdate(& $sender)
  return $products_maintcontent_alm_products_AfterUpdate;
 }
 //End Close products_maintcontent_alm_products_AfterUpdate
+
+//products_maintcontent_alm_products_BeforeShow @2-F31FA185
+function products_maintcontent_alm_products_BeforeShow(& $sender)
+{
+ $products_maintcontent_alm_products_BeforeShow = true;
+ $Component = & $sender;
+ $Container = & CCGetParentContainer($sender);
+ global $products_maintcontent; //Compatibility
+//End products_maintcontent_alm_products_BeforeShow
+
+//Custom Code @53-2A29BDB7
+// -------------------------
+ // Write your own code here.	
+	$o = trim(CCGetFromGet("o",""));
+	$dguid = trim(CCGetFromGet("dguid",""));
+	$querystring = CCGetQueryString("QueryString",array("o","dguid"));
+	if ($o == "duplicate"){
+		$params = array();
+		$params["guid"] = $dguid;
+		$products = new Alm\Products();
+		$product = $products->getProductByGuid($params);
+		$product = $product["product"];
+		if (count($product) >= 1) {
+			$products_maintcontent->alm_products->suite_code->SetValue($product["id_suite"]);
+			$products_maintcontent->alm_products->id_product_type->SetValue($product["id_product_type"]);
+			$products_maintcontent->alm_products->range_min->SetValue($product["range_min"]);
+			$products_maintcontent->alm_products->range_max->SetValue($product["range_max"]);
+			$products_maintcontent->alm_products->msrp_price->SetValue($product["msrp_price"]);
+			$products_maintcontent->alm_products->product_content->SetValue($product["product_content"]);
+			$products_maintcontent->alm_products->detaileddescription->SetValue($product["description"]);
+		}
+		$products_maintcontent->alm_products->querystring->SetValue($querystring);
+		
+	} else {
+		global $Redirect;
+		$Redirect = "products_maint.php";
+	}
+// -------------------------
+//End Custom Code
+
+//Close products_maintcontent_alm_products_BeforeShow @2-F6F8DF25
+ return $products_maintcontent_alm_products_BeforeShow;
+}
+//End Close products_maintcontent_alm_products_BeforeShow
 
 //products_maintcontent_BeforeShow @1-51251C4E
 function products_maintcontent_BeforeShow(& $sender)

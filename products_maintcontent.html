@@ -6,8 +6,19 @@
 		<!-- BEGIN Record alm_products -->
 		<form id="alm_products" method="post" action="{Action}" name="{HTMLFormName}">
 			<div class="row widget-main">
-				<!-- BEGIN Error --><!-- END Error -->
 				<div class="row col-md-12 col-xs-12">
+					<!-- BEGIN Error -->
+						<div class="row col-xs-12">
+							<div class="col-md-1 col-xs-0"></div>
+							<div class="col-md-10 col-xs-12">
+								<div class="alert alert-block alert-danger">
+									<button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button>
+									<p><strong><i class="icon-remove"></i>&nbsp;{res:error}</strong>&nbsp;{Error}</p>
+								</div>
+							</div>
+						</div><!-- row -->
+					<!-- END Error -->
+
 					<div class="row col-xs-12">
 						<div class="col-md-1 col-xs-0"></div>
 						<div class="col-md-10 col-xs-12">
@@ -61,16 +72,28 @@
 					<div class="row col-xs-12">
 						<div class="col-md-1 col-xs-0">
 						</div>
-						<div class="col-md-6 col-xs-12">
+						<div class="col-md-10 col-xs-12">
 							<label class="control-label blue">{res:suite}</label><br>
 							<input type="text" name="{description_Name}" value="{description}" class="col-md-12 col-xs-12" id="description" disabled>
 						</div>
+					</div><!-- row -->
+
+					<div class="row col-xs-12 space"></div>
+
+					<div class="row col-xs-12">
+						<div class="col-md-1 col-xs-0"></div>
 						<div class="col-md-4 col-xs-12">
 							<label class="control-label blue">{res:product_type}</label><br>
-							<!-- BEGIN RadioButton id_product_type --><input {Check} type="radio" name="{id_product_type_Name}" value="{Value}" id="id_product_type_{id_product_type:optionNumber}" class="ace"><span class="lbl">
-&nbsp;&nbsp;{Description}&nbsp;&nbsp;&nbsp;</span><!-- END RadioButton id_product_type -->
+							<!-- BEGIN RadioButton id_product_type --><input {Check} type="radio" name="{id_product_type_Name}" value="{Value}" id="id_product_type_{id_product_type:optionNumber}" class="ace"><span class="lbl">&nbsp;&nbsp;{Description}&nbsp;&nbsp;&nbsp;</span><!-- END RadioButton id_product_type -->
 						</div>
+						<div class="col-md-5 col-xs-12">
+							<label class="control-label blue">{res:licensetype}</label><br>
+							<!-- BEGIN RadioButton id_license_type --><input {Check} type="radio" name="{id_license_type_Name}" value="{Value}" id="id_license_type_{id_license_type:optionNumber}" class="ace"><span class="lbl">&nbsp;&nbsp;{Description}&nbsp;&nbsp;&nbsp;</span><!-- END RadioButton id_license_type -->
+						</div>
+
 					</div><!-- row -->
+
+					<div class="row col-xs-12 space"></div>
 
 					<div class="row col-xs-12">
 						<div class="col-md-1 col-xs-0"></div>
@@ -97,10 +120,11 @@
 							
 							<!-- BEGIN Button Button_Update --><button name="{Button_Name}" type="submit" value="{res:buttonsave}" id="Button_Update" class="btn btn-sm btn-success"><li class="icon-save"></li>&nbsp; {res:buttonsave}</button><!-- END Button Button_Update -->
 							<!-- BEGIN Button Button_Insert --><button name="{Button_Name}" type="submit" value="{res:buttonsave}" id="Button_Insert" class="btn btn-sm btn-success"><li class="icon-save"></li>&nbsp; {res:buttonsave}</button><!-- END Button Button_Insert -->
-
+							&nbsp;&nbsp;<!-- BEGIN Panel pnduplicate --><a href="products_maint.php?o=duplicate{params}" role="button" id="duplicate" class="btn btn-sm btn-success"><li class="icon-copy"></li>&nbsp;{res:duplicate}</a><!-- END Panel pnduplicate -->
 							<input id="modified_iduser" type="hidden" value="{modified_iduser}" name="{modified_iduser_Name}">
 							<input id="created_iduser" type="hidden" value="{created_iduser}" name="{created_iduser_Name}">
 							<input id="hidguid" type="hidden" value="{hidguid}" name="{hidguid_Name}">
+							<input type="hidden" name="{querystring_Name}" value="{querystring}" id="querystring">
 						</div>
 						<!-- form-actions  -->
 					</div>
@@ -164,6 +188,7 @@ $(function(){
 			var suite = $("#suite");
 			suite.empty();
 			suite.trigger("chosen:updated");
+			suite.append($("<option/>").val("").text("{res:selectoption}"));
 			$.each(msg.suite, function() {
 				suite.append($("<option/>").val(this.id).text(this.suite_code));
 			});

@@ -526,6 +526,14 @@ class Customers {
 					$fields_array = array( "id", "guid", "group_name as title" );
 					$table = "alm_product_groups";
 				break;
+				case "producttypes" :
+					$fields_array = array( "id", "guid", "type_name as title" );
+					$table = "alm_product_types";
+				break;
+				case "licensetypes" :
+					$fields_array = array( "id", "guid", "license_name as title" );
+					$table = "alm_license_types";
+				break;
 				case "city" :
 				default :
 					$fields_array = array( "id", "guid", "city as title" );
@@ -598,6 +606,12 @@ class Customers {
 				case "group" :
 					$table = "alm_product_groups";
 				break;
+				case "producttypes" :
+					$table = "alm_product_types";
+				break;
+				case "licensetypes" :
+					$table = "alm_license_types";
+				break;
 				case "city" :
 				default :
 					$table = "alm_city";
@@ -663,6 +677,14 @@ class Customers {
 				case "group" :
 					$fields_array = array( "id", "guid", "group_name as title" );
 					$table = "alm_product_groups";
+				break;
+				case "producttypes" :
+					$fields_array = array( "id", "guid", "type_name as title" );
+					$table = "alm_product_types";
+				break;
+				case "licensetypes" :
+					$fields_array = array( "id", "guid", "license_name as title" );
+					$table = "alm_license_types";
 				break;
 				case "city" :
 				default :
@@ -742,6 +764,14 @@ class Customers {
 					$fields_array = array( "guid", "group_name", "created_iduser" );
 					$table = "alm_product_groups";
 				break;
+				case "producttypes" :
+					$fields_array = array( "guid", "type_name", "created_iduser" );
+					$table = "alm_product_types";
+				break;
+				case "licensetypes" :
+					$fields_array = array( "guid", "license_name", "created_iduser" );
+					$table = "alm_license_types";
+				break;
 				case "city" :
 				default :
 					$fields_array = array( "guid", "city", "created_iduser" );
@@ -779,7 +809,7 @@ class Customers {
 
 
 	public function updateMaintByModule($params = array()) {
-		$result = array("status" => false, "message" => "","details" => array());
+		$result = array("status" => false, "message" => "","details" => array(),"errors" => array());
 
 		$title = $params["title"];
 		$m = $params["m"];
@@ -818,6 +848,14 @@ class Customers {
 					$fields_array = array( "group_name = '$title' ", "modified_iduser = $userid" );
 					$table = "alm_product_groups";
 				break;
+				case "producttypes" :
+					$fields_array = array( "type_name = '$title' ", "modified_iduser = $userid" );
+					$table = "alm_product_types";
+				break;
+				case "licensetypes" :
+					$fields_array = array( "license_name = '$title' ", "modified_iduser = $userid" );
+					$table = "alm_license_types";
+				break;
 				case "city" :
 				default :
 					$fields_array = array( "city = '$title' ", "modified_iduser = $userid" );
@@ -828,11 +866,12 @@ class Customers {
 			$fields = implode(",",$fields_array);
 			$sql = "update $table set $fields where guid = '$guid' ";
 			$db->query($sql);
-			$db->next_record();
+			$errors = $db->Errors;
 
 			$db->close();
 
 			$result["status"] = true;
+			$result["errors"] = $errors;
 			$result["message"] = "Command executed successfully.";
 
 			return $result;

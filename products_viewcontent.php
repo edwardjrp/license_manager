@@ -36,7 +36,7 @@ class clsRecordproducts_viewcontentv_alm_products { //v_alm_products Class @5-F1
  // Class variables
 //End Variables
 
-//Class_Initialize Event @5-B4EE49A1
+//Class_Initialize Event @5-6AC30BD0
  function clsRecordproducts_viewcontentv_alm_products($RelativePath, & $Parent)
  {
 
@@ -81,6 +81,18 @@ class clsRecordproducts_viewcontentv_alm_products { //v_alm_products Class @5-F1
 "FROM alm_product_types {SQL_Where} {SQL_OrderBy}";
    list($this->id_product_type->BoundColumn, $this->id_product_type->TextColumn, $this->id_product_type->DBFormat) = array("id", "type_name", "");
    $this->id_product_type->HTML = true;
+   $this->id_license_type = new clsControl(ccsRadioButton, "id_license_type", "id_license_type", ccsText, "", CCGetRequestParam("id_license_type", $Method, NULL), $this);
+   $this->id_license_type->DSType = dsTable;
+   $this->id_license_type->DataSource = new clsDBdbConnection();
+   $this->id_license_type->ds = & $this->id_license_type->DataSource;
+   $this->id_license_type->DataSource->SQL = "SELECT * \n" .
+"FROM alm_license_types {SQL_Where} {SQL_OrderBy}";
+   list($this->id_license_type->BoundColumn, $this->id_license_type->TextColumn, $this->id_license_type->DBFormat) = array("id", "license_name", "");
+   $this->id_license_type->HTML = true;
+   if(!$this->FormSubmitted) {
+    if(!is_array($this->id_license_type->Value) && !strlen($this->id_license_type->Value) && $this->id_license_type->Value !== false)
+     $this->id_license_type->SetText(1);
+   }
   }
  }
 //End Class_Initialize Event
@@ -96,7 +108,7 @@ class clsRecordproducts_viewcontentv_alm_products { //v_alm_products Class @5-F1
  }
 //End Initialize Method
 
-//Validate Method @5-7343FE91
+//Validate Method @5-3DDD6E19
  function Validate()
  {
   global $CCSLocales;
@@ -112,6 +124,7 @@ class clsRecordproducts_viewcontentv_alm_products { //v_alm_products Class @5-F1
   $Validation = ($this->product_content->Validate() && $Validation);
   $Validation = ($this->detaileddescription->Validate() && $Validation);
   $Validation = ($this->id_product_type->Validate() && $Validation);
+  $Validation = ($this->id_license_type->Validate() && $Validation);
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "OnValidate", $this);
   $Validation =  $Validation && ($this->description->Errors->Count() == 0);
   $Validation =  $Validation && ($this->manufacturer->Errors->Count() == 0);
@@ -123,11 +136,12 @@ class clsRecordproducts_viewcontentv_alm_products { //v_alm_products Class @5-F1
   $Validation =  $Validation && ($this->product_content->Errors->Count() == 0);
   $Validation =  $Validation && ($this->detaileddescription->Errors->Count() == 0);
   $Validation =  $Validation && ($this->id_product_type->Errors->Count() == 0);
+  $Validation =  $Validation && ($this->id_license_type->Errors->Count() == 0);
   return (($this->Errors->Count() == 0) && $Validation);
  }
 //End Validate Method
 
-//CheckErrors Method @5-AE0C5B4B
+//CheckErrors Method @5-EC8711C7
  function CheckErrors()
  {
   $errors = false;
@@ -142,6 +156,7 @@ class clsRecordproducts_viewcontentv_alm_products { //v_alm_products Class @5-F1
   $errors = ($errors || $this->product_content->Errors->Count());
   $errors = ($errors || $this->detaileddescription->Errors->Count());
   $errors = ($errors || $this->id_product_type->Errors->Count());
+  $errors = ($errors || $this->id_license_type->Errors->Count());
   $errors = ($errors || $this->Errors->Count());
   $errors = ($errors || $this->DataSource->Errors->Count());
   return $errors;
@@ -184,7 +199,7 @@ function GetPrimaryKey($keyName)
  }
 //End Operation Method
 
-//Show Method @5-33EF0BE1
+//Show Method @5-7E33170B
  function Show()
  {
   global $CCSUseAmp;
@@ -199,6 +214,7 @@ function GetPrimaryKey($keyName)
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeSelect", $this);
 
   $this->id_product_type->Prepare();
+  $this->id_license_type->Prepare();
 
   $RecordBlock = "Record " . $this->ComponentName;
   $ParentPath = $Tpl->block_path;
@@ -223,6 +239,7 @@ function GetPrimaryKey($keyName)
      $this->product_content->SetValue($this->DataSource->product_content->GetValue());
      $this->detaileddescription->SetValue($this->DataSource->detaileddescription->GetValue());
      $this->id_product_type->SetValue($this->DataSource->id_product_type->GetValue());
+     $this->id_license_type->SetValue($this->DataSource->id_license_type->GetValue());
     }
    } else {
     $this->EditMode = false;
@@ -242,6 +259,7 @@ function GetPrimaryKey($keyName)
    $Error = ComposeStrings($Error, $this->product_content->Errors->ToString());
    $Error = ComposeStrings($Error, $this->detaileddescription->Errors->ToString());
    $Error = ComposeStrings($Error, $this->id_product_type->Errors->ToString());
+   $Error = ComposeStrings($Error, $this->id_license_type->Errors->ToString());
    $Error = ComposeStrings($Error, $this->Errors->ToString());
    $Error = ComposeStrings($Error, $this->DataSource->Errors->ToString());
    $Tpl->SetVar("Error", $Error);
@@ -271,6 +289,7 @@ function GetPrimaryKey($keyName)
   $this->product_content->Show();
   $this->detaileddescription->Show();
   $this->id_product_type->Show();
+  $this->id_license_type->Show();
   $Tpl->parse();
   $Tpl->block_path = $ParentPath;
   $this->DataSource->close();
@@ -281,7 +300,7 @@ function GetPrimaryKey($keyName)
 
 class clsproducts_viewcontentv_alm_productsDataSource extends clsDBdbConnection {  //v_alm_productsDataSource Class @5-7D7A1DBF
 
-//DataSource Variables @5-6E5BDA8B
+//DataSource Variables @5-ACAE8C08
  public $Parent = "";
  public $CCSEvents = "";
  public $CCSEventResult;
@@ -304,9 +323,10 @@ class clsproducts_viewcontentv_alm_productsDataSource extends clsDBdbConnection 
  public $product_content;
  public $detaileddescription;
  public $id_product_type;
+ public $id_license_type;
 //End DataSource Variables
 
-//DataSourceClass_Initialize Event @5-EA47B4FB
+//DataSourceClass_Initialize Event @5-C26D9C8F
  function clsproducts_viewcontentv_alm_productsDataSource(& $Parent)
  {
   $this->Parent = & $Parent;
@@ -333,6 +353,8 @@ class clsproducts_viewcontentv_alm_productsDataSource extends clsDBdbConnection 
   $this->detaileddescription = new clsField("detaileddescription", ccsText, "");
   
   $this->id_product_type = new clsField("id_product_type", ccsText, "");
+  
+  $this->id_license_type = new clsField("id_license_type", ccsText, "");
   
 
  }
@@ -365,7 +387,7 @@ class clsproducts_viewcontentv_alm_productsDataSource extends clsDBdbConnection 
  }
 //End Open Method
 
-//SetValues Method @5-F7DB16E0
+//SetValues Method @5-8AC90B1D
  function SetValues()
  {
   $this->description->SetDBValue($this->f("suite_description"));
@@ -378,6 +400,7 @@ class clsproducts_viewcontentv_alm_productsDataSource extends clsDBdbConnection 
   $this->product_content->SetDBValue($this->f("product_content"));
   $this->detaileddescription->SetDBValue($this->f("description"));
   $this->id_product_type->SetDBValue($this->f("id_product_type"));
+  $this->id_license_type->SetDBValue($this->f("id_license_type"));
  }
 //End SetValues Method
 

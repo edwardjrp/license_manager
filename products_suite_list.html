@@ -88,15 +88,26 @@
 	<!-- BEGIN Row -->
 	<tr {v_alm_product_suites:rowStyle}>
 		<td class="text-center">
-			<div class="action-buttons">
-				<a href="products_suite_maint.php?guid={guid}" class="green"><i class="icon-pencil bigger-180"></i>&nbsp;</a>
-					&nbsp;&nbsp;
-				<a href="products_suite_view.php?guid={guid}" class="blue"><i class="icon-eye-open bigger-180"></i>&nbsp;</a>
+			<div class="action-buttons inline">
+				<div id="edit" class="inline">
+					<a href="products_suite_maint.php?guid={guid}{params}" class="green"><i class="icon-pencil bigger-180"></i>&nbsp;</a>
+				</div>
+				<div id="view" class="inline">
+					<a href="products_suite_view.php?guid={guid}{params}" class="blue"><i class="icon-eye-open bigger-180"></i>&nbsp;</a>
+				</div>
+
+				<!-- BEGIN Panel pndeletebutton -->
+					<div id="delete" class="inline">
+						<a href="{lbdelete}" id="delrecord" class="delrecord"><span class="icon-trash bigger-150 red delcontact"></span>&nbsp;</a>
+					</div>
+				<!-- END Panel pndeletebutton -->
+
 			</div>
 		</td>
 		<td>{manufacturer}&nbsp;</td>
 		<td>{suite_code}&nbsp;</td>
-		<td>{suite_description}&nbsp;</td>
+		<td>
+{suite_description}&nbsp;</td>
 		<td>{dateupdated}&nbsp;</td>
 	</tr>
 	<!-- END Row -->
@@ -145,6 +156,21 @@
 $(function(){
 
 	$(".chosen-select").chosen(); 
+
+	$(".delrecord").click(function(e) {
+	    var link = $(this).attr("href");
+	    e.preventDefault();    
+		bootbox.confirm("{res:confirmdelete}", function(result) {
+			//Bootbox pops twice when cance is click, so the combination cancel,ok returns undefined object
+	        if ( (result) && ( link != undefined ) ) {
+				window.location.replace(link);
+	        } else {
+				bootbox.hideAll();
+			} 
+		});
+
+	});
+
 
 });
 

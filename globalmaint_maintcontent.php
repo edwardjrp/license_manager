@@ -66,7 +66,7 @@ class clsglobalmaint_maintcontent { //globalmaint_maintcontent class @1-8FDF4CE9
  }
 //End Operations Method
 
-//Initialize Method @1-3EAC5AB5
+//Initialize Method @1-A514C4BD
  function Initialize()
  {
   global $FileName;
@@ -85,6 +85,7 @@ class clsglobalmaint_maintcontent { //globalmaint_maintcontent class @1-8FDF4CE9
   $this->hidm = new clsControl(ccsHidden, "hidm", "hidm", ccsText, "", CCGetRequestParam("hidm", ccsGet, NULL), $this);
   $this->o = new clsControl(ccsHidden, "o", "o", ccsText, "", CCGetRequestParam("o", ccsGet, NULL), $this);
   $this->lbmodule = new clsControl(ccsLabel, "lbmodule", "lbmodule", ccsText, "", CCGetRequestParam("lbmodule", ccsGet, NULL), $this);
+  $this->lberror = new clsControl(ccsLabel, "lberror", "lberror", ccsText, "", CCGetRequestParam("lberror", ccsGet, NULL), $this);
   if(!is_array($this->o->Value) && !strlen($this->o->Value) && $this->o->Value !== false)
    $this->o->SetText("insert");
   $this->BindEvents();
@@ -92,7 +93,7 @@ class clsglobalmaint_maintcontent { //globalmaint_maintcontent class @1-8FDF4CE9
  }
 //End Initialize Method
 
-//Show Method @1-9BF49E4F
+//Show Method @1-727291D9
  function Show()
  {
   global $Tpl;
@@ -113,6 +114,7 @@ class clsglobalmaint_maintcontent { //globalmaint_maintcontent class @1-8FDF4CE9
   $this->hidm->Show();
   $this->o->Show();
   $this->lbmodule->Show();
+  $this->lberror->Show();
   $Tpl->Parse();
   $Tpl->block_path = $block_path;
    $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeOutput", $this);

@@ -114,7 +114,14 @@ function globalmaint_maintcontent_lbmodule_BeforeShow(& $sender)
 			$m_title = $CCSLocales->GetText("group");
 			$globalmaint_maintcontent->lbmodule->setvalue($m_title);
 		break;
-
+		case "producttypes" :
+			$m_title = $CCSLocales->GetText("producttypes");
+			$globalmaint_maintcontent->lbmodule->setvalue($m_title);
+		break;
+		case "licensetypes" :
+			$m_title = $CCSLocales->GetText("licensetypes");
+			$globalmaint_maintcontent->lbmodule->setvalue($m_title);
+		break;
 	}
 
 // -------------------------
@@ -140,6 +147,7 @@ function globalmaint_maintcontent_BeforeShow(& $sender)
 	global $Tpl;
 	global $MainPage;
 	global $FileName;
+	global $CCSLocales;
 
 	$m = trim(CCGetFromGet("m","city"));
 	$o = trim(CCGetFromPost("o",""));
@@ -168,8 +176,23 @@ function globalmaint_maintcontent_BeforeShow(& $sender)
 			$params["title"] = $title;
 			$params["m"] = $m;
 			$params["guid"] = $guid;
-			$customers->updateMaintByModule($params);
-			header("Location: globalmaint.php?m=$m");
+			$updateCustomer = $customers->updateMaintByModule($params);
+
+			//Checking if there was a duplicity error
+			$errors = (Array)$updateCustomer["errors"];
+			$errorcount = (int)$errors["ErrorsCount"];
+			$error = $errors["Errors"][0];
+			if ($errorcount >= 1) {
+				$position = strpos($error,"Duplicate entry");
+				if ( !($position === false)) {
+					CCSetSession("showerror","show");
+					CCSetSession("showalert","hide");
+					header("Location: globalmaint_maint.php?m=$m&guid=$guid");
+					exit;//There is a bug without it, the session values dont get set when thereis a forced header redirect
+				}
+			} else { 
+				header("Location: globalmaint.php?m=$m");
+			}
 		break;
 	}
 
@@ -184,6 +207,9 @@ function globalmaint_maintcontent_BeforeShow(& $sender)
 			case "offerings" :
 			case "pricingtier" :
 			case "group" :
+			case "producttypes" :
+			case "licensetypes" :
+
 				$moduleContent = $customers->getAllModuleByGuid($params);
 				$moduleContent = $moduleContent["details"];
 
@@ -206,6 +232,14 @@ function globalmaint_maintcontent_BeforeShow(& $sender)
 	$MainPage->Attributes->SetValue("showalert",$showalert);
 	if ($showalert == "show")
 		CCSetSession("showalert","hide");
+
+	$showerror = CCGetSession("showerror","hide");
+	$MainPage->Attributes->SetValue("showerror",$showerror);
+	if ($showerror == "show") {
+		CCSetSession("showerror","hide");
+		//Duplicate entry error
+		$globalmaint_maintcontent->lberror->SetValue($CCSLocales->GetText("duplicate_record"));
+	}
 
 // -------------------------
 //End Custom Code

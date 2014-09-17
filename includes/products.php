@@ -17,6 +17,96 @@ use Monolog\Handler\StreamHandler;
 
 
 class Products {
+
+	public function deleteProductByGuid($params = array()) {
+		$result = array("status" => false, "message" => "");
+
+		$guid = $params["del_guid"];
+		if (strlen($guid) > 0) {
+			$db = new \clsDBdbConnection();
+			$sql = "delete from alm_products where guid = '$guid' ";
+			$db->query($sql);
+			$db->close();
+
+			$result["status"] = true;
+			$result["message"] = "Command executed successfully.";
+
+			return $result;
+
+		} else {
+
+			$result["status"] = false;
+			$result["message"] = "Invalid GUID.";
+
+			return $result;
+
+		}
+
+    }
+
+	public function deleteProductSuiteByGuid($params = array()) {
+		$result = array("status" => false, "message" => "");
+
+		$guid = $params["del_guid"];
+		if (strlen($guid) > 0) {
+			$db = new \clsDBdbConnection();
+			$sql = "delete from alm_product_suites where guid = '$guid' ";
+			$db->query($sql);
+			$db->close();
+
+			$result["status"] = true;
+			$result["message"] = "Command executed successfully.";
+
+			return $result;
+
+		} else {
+
+			$result["status"] = false;
+			$result["message"] = "Invalid GUID.";
+
+			return $result;
+
+		}
+
+    }
+
+
+	public function getProductByGuid($params = array()) {
+		$result = array("status" => false, "message" => "","product" => array());
+
+		$guid = $params["guid"];
+		if (strlen($guid) > 0) {
+			$db = new \clsDBdbConnection();
+			$fields_array = array("id_suite","id_product_type","range_min","range_max","msrp_price","product_content","description");
+			$fields = implode(",",$fields_array);
+			$sql = "select $fields from alm_products where guid = '$guid' ";
+			$db->query($sql);
+			$db->next_record();
+
+			$product = array();
+			foreach($fields_array as $field) {
+				$product[$field] = $db->f($field);
+			}
+
+			$db->close();
+
+			$result["status"] = true;
+			$result["product"] = $product;
+			$result["message"] = "Command executed successfully.";
+
+			return $result;
+
+		} else {
+
+			$result["status"] = false;
+			$result["message"] = "Invalid GUID.";
+
+			return $result;
+
+		}
+
+    }
+
 	public function getSuiteByManufacturerID($params = array()) {
 		$result = array("status" => false, "message" => "","suite" => array());
 
@@ -67,7 +157,7 @@ class Products {
 			$result["status"] = true;
 			$result["suite_description"] = $description;
 			$result["suite_long_description"] = $description_long;
-			
+
 			$result["message"] = "Command executed successfully";
 
 			$db->close();
