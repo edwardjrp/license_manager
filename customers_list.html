@@ -90,10 +90,20 @@
 	<!-- BEGIN Row -->
 	<tr {alm_customers:rowStyle}>
 		<td class="text-center">
-			<div class="action-buttons">
-				<a href="customers_maint.php?guid={guid}" class="green"><i class="icon-pencil bigger-180"></i>&nbsp;</a>
-				&nbsp;&nbsp;
-				<a href="customers_view.php?guid={guid}" class="blue"><i class="icon-eye-open bigger-180"></i>&nbsp;</a>
+			<div class="action-buttons inline">
+				<div id="edit" class="inline">
+					<a href="customers_maint.php?guid={guid}" class="green"><i class="icon-pencil bigger-180"></i>&nbsp;</a>
+				</div>
+				<div id="delete" class="inline">
+					<a href="customers_view.php?guid={guid}" class="blue"><i class="icon-eye-open bigger-180"></i>&nbsp;</a>
+				</div>
+
+				<!-- BEGIN Panel pndeletebutton -->
+				<div id="delete" class="inline">
+				<a href="{lbdelete}" id="delrecord" class="delrecord"><span class="icon-trash bigger-150 red delcontact"></span>&nbsp;</a>
+				</div>
+				<!-- END Panel pndeletebutton -->
+
 			</div>
 		</td>
 		<td>{name}&nbsp;</td>
@@ -128,3 +138,39 @@
 <!-- END Grid alm_customers --><br>
 </div>
 
+<link rel="stylesheet" href="assets/css/datepicker.css" />
+<link rel="stylesheet" href="assets/css/colorbox.css" />
+<link rel="stylesheet" href="assets/css/chosen.css" />
+
+<!-- included here to not mess with too much js in the main page -->
+<script src="assets/js/jquery-2.0.3.min.js"></script>
+<script src="assets/js/json3.min.js"></script>
+<script src="assets/js/form-validator/jquery.form-validator.min.js"></script>
+<script src="assets/js/jquery.colorbox-min.js"></script>
+<script src="assets/js/date-time/bootstrap-datepicker.min.js"></script>
+<script src="assets/js/bootbox.min.js"></script>
+<script src="assets/js/jquery-ui-1.10.3.custom.min.js"></script>
+<script src="assets/js/jquery.ui.touch-punch.min.js"></script>
+<script src="assets/js/jquery.colorbox-min.js"></script>
+<script src="assets/js/chosen.jquery.min.js"></script>
+
+<script>
+$(function(){
+
+	$(".delrecord").click(function(e) {
+	    var link = $(this).attr("href");
+	    e.preventDefault();    
+		bootbox.confirm("{res:confirmdelete}", function(result) {
+			//Bootbox pops twice when cance is click, so the combination cancel,ok returns undefined object
+	        if ( (result) && ( link != undefined ) ) {
+				window.location.replace(link);
+	        } else {
+				bootbox.hideAll();
+			} 
+		});
+
+	});
+
+});
+
+</script>

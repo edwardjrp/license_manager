@@ -22,6 +22,37 @@ use Monolog\Handler\StreamHandler;
 
 class Customers {
 
+	public function deleteCustomer($params = array()) {
+		$result = array("status" => false, "message" => "");
+	    $guid = $params["guid"];
+		if (strlen($guid) > 0) {
+			//This operation will also delete contacts associated to the customer
+			$db = new clsDBdbConnection();
+			$guid = $db->esc($guid);
+			$customer_id = (int)CCDLookUp("id","alm_customers","guid = '$guid' ",$db);
+			if ($customer_id > 0) {
+				//Deleting contacts
+				$sql = "delete from alm_customers_contacts where customer_id = $customer_id";
+				$db->query($sql);
+			}
+			//Deleting customer
+			$sql = "delete from alm_customers where guid = '$guid' ";
+			$db->query($sql);
+			$db->close();
+
+		     $result["status"] = true;
+		     $result["message"] = "Command executed successfully.";
+
+		     return $result;
+
+		 } else {
+		     $result["status"] = false;
+		     $result["message"] = "Invalid GUID";
+		     return $result;
+		 }
+
+	}
+
     public function addContact($params = array()) {
         $result = array("status" => false, "message" => "");
         $customer_guid = $params["customer_guid"];

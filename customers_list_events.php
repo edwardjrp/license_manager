@@ -82,6 +82,36 @@ function customers_list_alm_customers_city_BeforeShow(& $sender)
 }
 //End Close customers_list_alm_customers_city_BeforeShow
 
+//customers_list_alm_customers_pndeletebutton_BeforeShow @70-FE89A32D
+function customers_list_alm_customers_pndeletebutton_BeforeShow(& $sender)
+{
+ $customers_list_alm_customers_pndeletebutton_BeforeShow = true;
+ $Component = & $sender;
+ $Container = & CCGetParentContainer($sender);
+ global $customers_list; //Compatibility
+//End customers_list_alm_customers_pndeletebutton_BeforeShow
+
+//Custom Code @71-2A29BDB7
+// -------------------------
+ // Write your own code here.
+ switch (CCGetGroupID()) {
+ 	case 3:
+	case 4:
+		$customers_list->alm_customers->pndeletebutton->Visible = true;
+	break;
+	default:
+		$customers_list->alm_customers->pndeletebutton->Visible = false;
+	break;
+ }
+
+// -------------------------
+//End Custom Code
+
+//Close customers_list_alm_customers_pndeletebutton_BeforeShow @70-480D1C81
+ return $customers_list_alm_customers_pndeletebutton_BeforeShow;
+}
+//End Close customers_list_alm_customers_pndeletebutton_BeforeShow
+
 //customers_list_alm_customers_BeforeShowRow @10-6B731D1F
 function customers_list_alm_customers_BeforeShowRow(& $sender)
 {
@@ -100,6 +130,18 @@ function customers_list_alm_customers_BeforeShowRow(& $sender)
   $Component->Attributes->SetValue("rowStyle", $Style);
  }
 //End Set Row Style
+
+//Custom Code @68-2A29BDB7
+// -------------------------
+ // Write your own code here.
+ 	global $FileName;
+ 	$querystring = CCGetQueryString("QueryString",array());
+	$guid = $customers_list->alm_customers->guid->GetValue();
+	$deleteurl = $FileName."?$querystring&del_guid=$guid&o=delrecord";
+	$customers_list->alm_customers->lbdelete->SetValue($deleteurl);
+
+// -------------------------
+//End Custom Code
 
 //Close customers_list_alm_customers_BeforeShowRow @10-13AF2814
  return $customers_list_alm_customers_BeforeShowRow;
@@ -164,6 +206,40 @@ function customers_list_alm_customers_ds_BeforeExecuteSelect(& $sender)
  return $customers_list_alm_customers_ds_BeforeExecuteSelect;
 }
 //End Close customers_list_alm_customers_ds_BeforeExecuteSelect
+
+//customers_list_BeforeShow @1-F25F0FAB
+function customers_list_BeforeShow(& $sender)
+{
+ $customers_list_BeforeShow = true;
+ $Component = & $sender;
+ $Container = & CCGetParentContainer($sender);
+ global $customers_list; //Compatibility
+//End customers_list_BeforeShow
+
+//Custom Code @69-2A29BDB7
+// -------------------------
+ // Write your own code here.
+	//Delete record operation
+	$del_guid = CCGetFromGet("del_guid","");
+	$o = CCGetFromGet("o","");
+
+	if ( ($o == "delrecord") && (strlen($del_guid) > 0) )  {
+		global $FileName;
+		$params["guid"] = $del_guid;
+		$customers = new Customers();
+		$customers->deleteCustomer($params);
+		$querystring = CCGetQueryString("QueryString",array("o","del_guid"));
+		//Forcing redirect
+		header("Location: $FileName?$querystring");
+	}
+
+// -------------------------
+//End Custom Code
+
+//Close customers_list_BeforeShow @1-EE568BA4
+ return $customers_list_BeforeShow;
+}
+//End Close customers_list_BeforeShow
 
 
 ?>
