@@ -82,13 +82,23 @@
 
 					<div class="row col-xs-12">
 						<div class="col-md-1 col-xs-0"></div>
-						<div class="col-md-4 col-xs-12">
+						<div class="col-md-3 col-xs-12">
 							<label class="control-label blue">{res:product_type}</label><br>
 							<!-- BEGIN RadioButton id_product_type --><input {Check} type="radio" name="{id_product_type_Name}" value="{Value}" id="id_product_type_{id_product_type:optionNumber}" class="ace"><span class="lbl">&nbsp;&nbsp;{Description}&nbsp;&nbsp;&nbsp;</span><!-- END RadioButton id_product_type -->
 						</div>
-						<div class="col-md-5 col-xs-12">
+						<div class="col-md-3 col-xs-12">
+							<label class="control-label blue">{res:product_tag}</label><br>
+							<select name="{id_product_tag_Name}" id="id_product_tag" class="width-90 chosen-select">
+								<option value="">{res:selectoption}</option>
+								{id_product_tag_Options}
+							</select>
+						</div>
+						<div class="col-md-3 col-xs-12">
 							<label class="control-label blue">{res:licensetype}</label><br>
-							<!-- BEGIN RadioButton id_license_type --><input {Check} type="radio" name="{id_license_type_Name}" value="{Value}" id="id_license_type_{id_license_type:optionNumber}" class="ace"><span class="lbl">&nbsp;&nbsp;{Description}&nbsp;&nbsp;&nbsp;</span><!-- END RadioButton id_license_type -->
+							<select name="{id_license_type_Name}" id="id_license_type" class="width-90 chosen-select">
+								<option value="">{res:selectoption}</option>
+								{id_license_type_Options}
+							</select>
 						</div>
 
 					</div><!-- row -->

@@ -75,6 +75,11 @@ function Page_BeforeShow(& $sender)
 			$MainPage->lbmodule->setvalue($m_title);
 			$Tpl->setvar("module",$m);
 		break;
+		case "producttags" :
+			$m_title = $CCSLocales->GetText("producttags");
+			$MainPage->lbmodule->setvalue($m_title);
+			$Tpl->setvar("module",$m);
+		break;
 	}
 
 

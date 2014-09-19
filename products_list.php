@@ -261,7 +261,7 @@ class clsGridproducts_listv_alm_products { //v_alm_products class @12-34EC6C64
  public $Sorter_id_product_type;
 //End Variables
 
-//Class_Initialize Event @12-FD030005
+//Class_Initialize Event @12-FCFE87F8
  function clsGridproducts_listv_alm_products($RelativePath, & $Parent)
  {
   global $FileName;
@@ -302,6 +302,8 @@ class clsGridproducts_listv_alm_products { //v_alm_products class @12-34EC6C64
   $this->params = new clsControl(ccsLabel, "params", "params", ccsText, "", CCGetRequestParam("params", ccsGet, NULL), $this);
   $this->pndeletebutton = new clsPanel("pndeletebutton", $this);
   $this->lbdelete = new clsControl(ccsLabel, "lbdelete", "lbdelete", ccsText, "", CCGetRequestParam("lbdelete", ccsGet, NULL), $this);
+  $this->tag_name = new clsControl(ccsLabel, "tag_name", "tag_name", ccsText, "", CCGetRequestParam("tag_name", ccsGet, NULL), $this);
+  $this->license_name = new clsControl(ccsLabel, "license_name", "license_name", ccsText, "", CCGetRequestParam("license_name", ccsGet, NULL), $this);
   $this->Sorter_guid = new clsSorter($this->ComponentName, "Sorter_guid", $FileName, $this);
   $this->Sorter_suite_code = new clsSorter($this->ComponentName, "Sorter_suite_code", $FileName, $this);
   $this->Sorter_range_min = new clsSorter($this->ComponentName, "Sorter_range_min", $FileName, $this);
@@ -329,7 +331,7 @@ class clsGridproducts_listv_alm_products { //v_alm_products class @12-34EC6C64
  }
 //End Initialize Method
 
-//Show Method @12-61015E27
+//Show Method @12-F0EF08C0
  function Show()
  {
   global $Tpl;
@@ -372,6 +374,8 @@ class clsGridproducts_listv_alm_products { //v_alm_products class @12-34EC6C64
    $this->ControlsVisible["params"] = $this->params->Visible;
    $this->ControlsVisible["pndeletebutton"] = $this->pndeletebutton->Visible;
    $this->ControlsVisible["lbdelete"] = $this->lbdelete->Visible;
+   $this->ControlsVisible["tag_name"] = $this->tag_name->Visible;
+   $this->ControlsVisible["license_name"] = $this->license_name->Visible;
    while ($this->ForceIteration || (($this->RowNumber < $this->PageSize) &&  ($this->HasRecord = $this->DataSource->has_next_record()))) {
     $this->RowNumber++;
     if ($this->HasRecord) {
@@ -388,6 +392,8 @@ class clsGridproducts_listv_alm_products { //v_alm_products class @12-34EC6C64
     $this->msrp_price->SetValue($this->DataSource->msrp_price->GetValue());
     $this->suite_description->SetValue($this->DataSource->suite_description->GetValue());
     $this->product_type_icon_name->SetValue($this->DataSource->product_type_icon_name->GetValue());
+    $this->tag_name->SetValue($this->DataSource->tag_name->GetValue());
+    $this->license_name->SetValue($this->DataSource->license_name->GetValue());
     $this->Attributes->SetValue("rowNumber", $this->RowNumber);
     $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeShowRow", $this);
     $this->Attributes->Show();
@@ -402,6 +408,8 @@ class clsGridproducts_listv_alm_products { //v_alm_products class @12-34EC6C64
     $this->product_type_icon_name->Show();
     $this->params->Show();
     $this->pndeletebutton->Show();
+    $this->tag_name->Show();
+    $this->license_name->Show();
     $Tpl->block_path = $ParentPath . "/" . $GridBlock;
     $Tpl->parse("Row", true);
    }
@@ -443,7 +451,7 @@ class clsGridproducts_listv_alm_products { //v_alm_products class @12-34EC6C64
  }
 //End Show Method
 
-//GetErrors Method @12-36C16806
+//GetErrors Method @12-7DB72958
  function GetErrors()
  {
   $errors = "";
@@ -458,6 +466,8 @@ class clsGridproducts_listv_alm_products { //v_alm_products class @12-34EC6C64
   $errors = ComposeStrings($errors, $this->product_type_icon_name->Errors->ToString());
   $errors = ComposeStrings($errors, $this->params->Errors->ToString());
   $errors = ComposeStrings($errors, $this->lbdelete->Errors->ToString());
+  $errors = ComposeStrings($errors, $this->tag_name->Errors->ToString());
+  $errors = ComposeStrings($errors, $this->license_name->Errors->ToString());
   $errors = ComposeStrings($errors, $this->Errors->ToString());
   $errors = ComposeStrings($errors, $this->DataSource->Errors->ToString());
   return $errors;
@@ -468,7 +478,7 @@ class clsGridproducts_listv_alm_products { //v_alm_products class @12-34EC6C64
 
 class clsproducts_listv_alm_productsDataSource extends clsDBdbConnection {  //v_alm_productsDataSource Class @12-FDE3D33F
 
-//DataSource Variables @12-2BDDFF0F
+//DataSource Variables @12-67A34344
  public $Parent = "";
  public $CCSEvents = "";
  public $CCSEventResult;
@@ -489,9 +499,11 @@ class clsproducts_listv_alm_productsDataSource extends clsDBdbConnection {  //v_
  public $msrp_price;
  public $suite_description;
  public $product_type_icon_name;
+ public $tag_name;
+ public $license_name;
 //End DataSource Variables
 
-//DataSourceClass_Initialize Event @12-1E96DCC5
+//DataSourceClass_Initialize Event @12-C4BA4FBB
  function clsproducts_listv_alm_productsDataSource(& $Parent)
  {
   $this->Parent = & $Parent;
@@ -514,6 +526,10 @@ class clsproducts_listv_alm_productsDataSource extends clsDBdbConnection {  //v_
   $this->suite_description = new clsField("suite_description", ccsText, "");
   
   $this->product_type_icon_name = new clsField("product_type_icon_name", ccsText, "");
+  
+  $this->tag_name = new clsField("tag_name", ccsText, "");
+  
+  $this->license_name = new clsField("license_name", ccsText, "");
   
 
  }
@@ -590,7 +606,7 @@ class clsproducts_listv_alm_productsDataSource extends clsDBdbConnection {  //v_
  }
 //End Open Method
 
-//SetValues Method @12-ABA9E098
+//SetValues Method @12-9993631C
  function SetValues()
  {
   $this->guid->SetDBValue($this->f("guid"));
@@ -602,6 +618,8 @@ class clsproducts_listv_alm_productsDataSource extends clsDBdbConnection {  //v_
   $this->msrp_price->SetDBValue(trim($this->f("msrp_price")));
   $this->suite_description->SetDBValue($this->f("suite_description"));
   $this->product_type_icon_name->SetDBValue($this->f("product_type_icon_name"));
+  $this->tag_name->SetDBValue($this->f("tag_name"));
+  $this->license_name->SetDBValue($this->f("license_name"));
  }
 //End SetValues Method
 

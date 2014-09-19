@@ -36,7 +36,7 @@ class clsRecordproducts_maintcontentalm_products { //alm_products Class @2-92A03
  // Class variables
 //End Variables
 
-//Class_Initialize Event @2-6898551E
+//Class_Initialize Event @2-BF0B7891
  function clsRecordproducts_maintcontentalm_products($RelativePath, & $Parent)
  {
 
@@ -103,7 +103,7 @@ class clsRecordproducts_maintcontentalm_products { //alm_products Class @2-92A03
    $this->pnduplicate = new clsPanel("pnduplicate", $this);
    $this->params = new clsControl(ccsLabel, "params", "params", ccsText, "", CCGetRequestParam("params", $Method, NULL), $this);
    $this->querystring = new clsControl(ccsHidden, "querystring", "querystring", ccsText, "", CCGetRequestParam("querystring", $Method, NULL), $this);
-   $this->id_license_type = new clsControl(ccsRadioButton, "id_license_type", "id_license_type", ccsText, "", CCGetRequestParam("id_license_type", $Method, NULL), $this);
+   $this->id_license_type = new clsControl(ccsListBox, "id_license_type", "id_license_type", ccsText, "", CCGetRequestParam("id_license_type", $Method, NULL), $this);
    $this->id_license_type->DSType = dsTable;
    $this->id_license_type->DataSource = new clsDBdbConnection();
    $this->id_license_type->ds = & $this->id_license_type->DataSource;
@@ -111,6 +111,14 @@ class clsRecordproducts_maintcontentalm_products { //alm_products Class @2-92A03
 "FROM alm_license_types {SQL_Where} {SQL_OrderBy}";
    list($this->id_license_type->BoundColumn, $this->id_license_type->TextColumn, $this->id_license_type->DBFormat) = array("id", "license_name", "");
    $this->id_license_type->HTML = true;
+   $this->id_product_tag = new clsControl(ccsListBox, "id_product_tag", "id_product_tag", ccsText, "", CCGetRequestParam("id_product_tag", $Method, NULL), $this);
+   $this->id_product_tag->DSType = dsTable;
+   $this->id_product_tag->DataSource = new clsDBdbConnection();
+   $this->id_product_tag->ds = & $this->id_product_tag->DataSource;
+   $this->id_product_tag->DataSource->SQL = "SELECT * \n" .
+"FROM alm_product_tags {SQL_Where} {SQL_OrderBy}";
+   list($this->id_product_tag->BoundColumn, $this->id_product_tag->TextColumn, $this->id_product_tag->DBFormat) = array("id", "tag_name", "");
+   $this->id_product_tag->HTML = true;
    $this->pnduplicate->Visible = false;
    $this->pnduplicate->AddComponent("params", $this->params);
    if(!$this->FormSubmitted) {
@@ -124,6 +132,8 @@ class clsRecordproducts_maintcontentalm_products { //alm_products Class @2-92A03
      $this->id_product_type->SetText(1);
     if(!is_array($this->id_license_type->Value) && !strlen($this->id_license_type->Value) && $this->id_license_type->Value !== false)
      $this->id_license_type->SetText(1);
+    if(!is_array($this->id_product_tag->Value) && !strlen($this->id_product_tag->Value) && $this->id_product_tag->Value !== false)
+     $this->id_product_tag->SetText(1);
    }
   }
  }
@@ -140,7 +150,7 @@ class clsRecordproducts_maintcontentalm_products { //alm_products Class @2-92A03
  }
 //End Initialize Method
 
-//Validate Method @2-D97DF50F
+//Validate Method @2-CFC12FD9
  function Validate()
  {
   global $CCSLocales;
@@ -161,6 +171,7 @@ class clsRecordproducts_maintcontentalm_products { //alm_products Class @2-92A03
   $Validation = ($this->id_product_type->Validate() && $Validation);
   $Validation = ($this->querystring->Validate() && $Validation);
   $Validation = ($this->id_license_type->Validate() && $Validation);
+  $Validation = ($this->id_product_tag->Validate() && $Validation);
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "OnValidate", $this);
   $Validation =  $Validation && ($this->manufacturer->Errors->Count() == 0);
   $Validation =  $Validation && ($this->suite_code->Errors->Count() == 0);
@@ -177,11 +188,12 @@ class clsRecordproducts_maintcontentalm_products { //alm_products Class @2-92A03
   $Validation =  $Validation && ($this->id_product_type->Errors->Count() == 0);
   $Validation =  $Validation && ($this->querystring->Errors->Count() == 0);
   $Validation =  $Validation && ($this->id_license_type->Errors->Count() == 0);
+  $Validation =  $Validation && ($this->id_product_tag->Errors->Count() == 0);
   return (($this->Errors->Count() == 0) && $Validation);
  }
 //End Validate Method
 
-//CheckErrors Method @2-81D1A397
+//CheckErrors Method @2-4D53DA34
  function CheckErrors()
  {
   $errors = false;
@@ -202,6 +214,7 @@ class clsRecordproducts_maintcontentalm_products { //alm_products Class @2-92A03
   $errors = ($errors || $this->params->Errors->Count());
   $errors = ($errors || $this->querystring->Errors->Count());
   $errors = ($errors || $this->id_license_type->Errors->Count());
+  $errors = ($errors || $this->id_product_tag->Errors->Count());
   $errors = ($errors || $this->Errors->Count());
   $errors = ($errors || $this->DataSource->Errors->Count());
   return $errors;
@@ -265,7 +278,7 @@ function GetPrimaryKey($keyName)
  }
 //End Operation Method
 
-//InsertRow Method @2-EFCE0013
+//InsertRow Method @2-E30748A3
  function InsertRow()
  {
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeInsert", $this);
@@ -287,13 +300,14 @@ function GetPrimaryKey($keyName)
   $this->DataSource->params->SetValue($this->params->GetValue(true));
   $this->DataSource->querystring->SetValue($this->querystring->GetValue(true));
   $this->DataSource->id_license_type->SetValue($this->id_license_type->GetValue(true));
+  $this->DataSource->id_product_tag->SetValue($this->id_product_tag->GetValue(true));
   $this->DataSource->Insert();
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "AfterInsert", $this);
   return (!$this->CheckErrors());
  }
 //End InsertRow Method
 
-//UpdateRow Method @2-86088456
+//UpdateRow Method @2-BC1DC55C
  function UpdateRow()
  {
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeUpdate", $this);
@@ -315,13 +329,14 @@ function GetPrimaryKey($keyName)
   $this->DataSource->params->SetValue($this->params->GetValue(true));
   $this->DataSource->querystring->SetValue($this->querystring->GetValue(true));
   $this->DataSource->id_license_type->SetValue($this->id_license_type->GetValue(true));
+  $this->DataSource->id_product_tag->SetValue($this->id_product_tag->GetValue(true));
   $this->DataSource->Update();
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "AfterUpdate", $this);
   return (!$this->CheckErrors());
  }
 //End UpdateRow Method
 
-//Show Method @2-B1BBF0EF
+//Show Method @2-40BFB952
  function Show()
  {
   global $CCSUseAmp;
@@ -339,6 +354,7 @@ function GetPrimaryKey($keyName)
   $this->suite_code->Prepare();
   $this->id_product_type->Prepare();
   $this->id_license_type->Prepare();
+  $this->id_product_tag->Prepare();
 
   $RecordBlock = "Record " . $this->ComponentName;
   $ParentPath = $Tpl->block_path;
@@ -365,6 +381,7 @@ function GetPrimaryKey($keyName)
      $this->detaileddescription->SetValue($this->DataSource->detaileddescription->GetValue());
      $this->id_product_type->SetValue($this->DataSource->id_product_type->GetValue());
      $this->id_license_type->SetValue($this->DataSource->id_license_type->GetValue());
+     $this->id_product_tag->SetValue($this->DataSource->id_product_tag->GetValue());
     }
    } else {
     $this->EditMode = false;
@@ -392,6 +409,7 @@ function GetPrimaryKey($keyName)
    $Error = ComposeStrings($Error, $this->params->Errors->ToString());
    $Error = ComposeStrings($Error, $this->querystring->Errors->ToString());
    $Error = ComposeStrings($Error, $this->id_license_type->Errors->ToString());
+   $Error = ComposeStrings($Error, $this->id_product_tag->Errors->ToString());
    $Error = ComposeStrings($Error, $this->Errors->ToString());
    $Error = ComposeStrings($Error, $this->DataSource->Errors->ToString());
    $Tpl->SetVar("Error", $Error);
@@ -431,6 +449,7 @@ function GetPrimaryKey($keyName)
   $this->pnduplicate->Show();
   $this->querystring->Show();
   $this->id_license_type->Show();
+  $this->id_product_tag->Show();
   $Tpl->parse();
   $Tpl->block_path = $ParentPath;
   $this->DataSource->close();
@@ -441,7 +460,7 @@ function GetPrimaryKey($keyName)
 
 class clsproducts_maintcontentalm_productsDataSource extends clsDBdbConnection {  //alm_productsDataSource Class @2-ACAEDE7D
 
-//DataSource Variables @2-8A957BA5
+//DataSource Variables @2-A7F5745C
  public $Parent = "";
  public $CCSEvents = "";
  public $CCSEventResult;
@@ -474,9 +493,10 @@ class clsproducts_maintcontentalm_productsDataSource extends clsDBdbConnection {
  public $params;
  public $querystring;
  public $id_license_type;
+ public $id_product_tag;
 //End DataSource Variables
 
-//DataSourceClass_Initialize Event @2-C01ED78B
+//DataSourceClass_Initialize Event @2-D5AF7A54
  function clsproducts_maintcontentalm_productsDataSource(& $Parent)
  {
   $this->Parent = & $Parent;
@@ -516,6 +536,8 @@ class clsproducts_maintcontentalm_productsDataSource extends clsDBdbConnection {
   
   $this->id_license_type = new clsField("id_license_type", ccsText, "");
   
+  $this->id_product_tag = new clsField("id_product_tag", ccsText, "");
+  
 
   $this->InsertFields["id_suite"] = array("Name" => "id_suite", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->InsertFields["guid"] = array("Name" => "guid", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
@@ -529,6 +551,7 @@ class clsproducts_maintcontentalm_productsDataSource extends clsDBdbConnection {
   $this->InsertFields["description"] = array("Name" => "description", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->InsertFields["id_product_type"] = array("Name" => "id_product_type", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->InsertFields["id_license_type"] = array("Name" => "id_license_type", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
+  $this->InsertFields["id_product_tag"] = array("Name" => "id_product_tag", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->UpdateFields["id_suite"] = array("Name" => "id_suite", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->UpdateFields["guid"] = array("Name" => "guid", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->UpdateFields["modified_iduser"] = array("Name" => "modified_iduser", "Value" => "", "DataType" => ccsInteger, "OmitIfEmpty" => 1);
@@ -541,6 +564,7 @@ class clsproducts_maintcontentalm_productsDataSource extends clsDBdbConnection {
   $this->UpdateFields["description"] = array("Name" => "description", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->UpdateFields["id_product_type"] = array("Name" => "id_product_type", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->UpdateFields["id_license_type"] = array("Name" => "id_license_type", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
+  $this->UpdateFields["id_product_tag"] = array("Name" => "id_product_tag", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
  }
 //End DataSourceClass_Initialize Event
 
@@ -571,7 +595,7 @@ class clsproducts_maintcontentalm_productsDataSource extends clsDBdbConnection {
  }
 //End Open Method
 
-//SetValues Method @2-2F4DD591
+//SetValues Method @2-DADB9E9E
  function SetValues()
  {
   $this->suite_code->SetDBValue($this->f("id_suite"));
@@ -586,10 +610,11 @@ class clsproducts_maintcontentalm_productsDataSource extends clsDBdbConnection {
   $this->detaileddescription->SetDBValue($this->f("description"));
   $this->id_product_type->SetDBValue($this->f("id_product_type"));
   $this->id_license_type->SetDBValue($this->f("id_license_type"));
+  $this->id_product_tag->SetDBValue($this->f("id_product_tag"));
  }
 //End SetValues Method
 
-//Insert Method @2-B632899C
+//Insert Method @2-7BBB1CE4
  function Insert()
  {
   global $CCSLocales;
@@ -608,6 +633,7 @@ class clsproducts_maintcontentalm_productsDataSource extends clsDBdbConnection {
   $this->InsertFields["description"]["Value"] = $this->detaileddescription->GetDBValue(true);
   $this->InsertFields["id_product_type"]["Value"] = $this->id_product_type->GetDBValue(true);
   $this->InsertFields["id_license_type"]["Value"] = $this->id_license_type->GetDBValue(true);
+  $this->InsertFields["id_product_tag"]["Value"] = $this->id_product_tag->GetDBValue(true);
   $this->SQL = CCBuildInsert("alm_products", $this->InsertFields, $this);
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeExecuteInsert", $this->Parent);
   if($this->Errors->Count() == 0 && $this->CmdExecution) {
@@ -617,7 +643,7 @@ class clsproducts_maintcontentalm_productsDataSource extends clsDBdbConnection {
  }
 //End Insert Method
 
-//Update Method @2-93D8FAA2
+//Update Method @2-47338E2B
  function Update()
  {
   global $CCSLocales;
@@ -636,6 +662,7 @@ class clsproducts_maintcontentalm_productsDataSource extends clsDBdbConnection {
   $this->UpdateFields["description"]["Value"] = $this->detaileddescription->GetDBValue(true);
   $this->UpdateFields["id_product_type"]["Value"] = $this->id_product_type->GetDBValue(true);
   $this->UpdateFields["id_license_type"]["Value"] = $this->id_license_type->GetDBValue(true);
+  $this->UpdateFields["id_product_tag"]["Value"] = $this->id_product_tag->GetDBValue(true);
   $this->SQL = CCBuildUpdate("alm_products", $this->UpdateFields, $this);
   $this->SQL .= strlen($this->Where) ? " WHERE " . $this->Where : $this->Where;
   if (!strlen($this->Where) && $this->Errors->Count() == 0) 

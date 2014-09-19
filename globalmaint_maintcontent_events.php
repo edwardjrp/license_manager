@@ -122,6 +122,10 @@ function globalmaint_maintcontent_lbmodule_BeforeShow(& $sender)
 			$m_title = $CCSLocales->GetText("licensetypes");
 			$globalmaint_maintcontent->lbmodule->setvalue($m_title);
 		break;
+		case "producttags" :
+			$m_title = $CCSLocales->GetText("producttags");
+			$globalmaint_maintcontent->lbmodule->setvalue($m_title);
+		break;
 	}
 
 // -------------------------
@@ -209,6 +213,7 @@ function globalmaint_maintcontent_BeforeShow(& $sender)
 			case "group" :
 			case "producttypes" :
 			case "licensetypes" :
+			case "producttags" :
 
 				$moduleContent = $customers->getAllModuleByGuid($params);
 				$moduleContent = $moduleContent["details"];

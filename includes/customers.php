@@ -565,6 +565,10 @@ class Customers {
 					$fields_array = array( "id", "guid", "license_name as title" );
 					$table = "alm_license_types";
 				break;
+				case "producttags" :
+					$fields_array = array( "id", "guid", "tag_name as title" );
+					$table = "alm_product_tags";
+				break;
 				case "city" :
 				default :
 					$fields_array = array( "id", "guid", "city as title" );
@@ -643,6 +647,9 @@ class Customers {
 				case "licensetypes" :
 					$table = "alm_license_types";
 				break;
+				case "producttags" :
+					$table = "alm_product_tags";
+				break;
 				case "city" :
 				default :
 					$table = "alm_city";
@@ -716,6 +723,10 @@ class Customers {
 				case "licensetypes" :
 					$fields_array = array( "id", "guid", "license_name as title" );
 					$table = "alm_license_types";
+				break;
+				case "producttags" :
+					$fields_array = array( "id", "guid", "tag_name as title" );
+					$table = "alm_product_tags";
 				break;
 				case "city" :
 				default :
@@ -803,6 +814,10 @@ class Customers {
 					$fields_array = array( "guid", "license_name", "created_iduser" );
 					$table = "alm_license_types";
 				break;
+				case "producttags" :
+					$fields_array = array( "guid", "tag_name", "created_iduser" );
+					$table = "alm_product_tags";
+				break;
 				case "city" :
 				default :
 					$fields_array = array( "guid", "city", "created_iduser" );
@@ -886,6 +901,10 @@ class Customers {
 				case "licensetypes" :
 					$fields_array = array( "license_name = '$title' ", "modified_iduser = $userid" );
 					$table = "alm_license_types";
+				break;
+				case "producttags" :
+					$fields_array = array( "tag_name = '$title' ", "modified_iduser = $userid" );
+					$table = "alm_product_tags";
 				break;
 				case "city" :
 				default :
