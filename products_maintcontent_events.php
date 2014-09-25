@@ -65,7 +65,7 @@ function products_maintcontent_alm_products_lbgoback_BeforeShow(& $sender)
 //Custom Code @23-2A29BDB7
 // -------------------------
     // Write your own code here.
-	$remove = array("guid","tab");
+	$remove = array("guid","tab","o","dguid");
 	$querystring = CCGetQueryString("QueryString",$remove);
 	if (strlen($querystring) > 0)
 		$newlink = "?".$querystring;
@@ -279,6 +279,8 @@ function products_maintcontent_alm_products_BeforeShow(& $sender)
 //Custom Code @53-2A29BDB7
 // -------------------------
  // Write your own code here.	
+	global $MainPage;
+
 	$o = trim(CCGetFromGet("o",""));
 	$dguid = trim(CCGetFromGet("dguid",""));
 	$querystring = CCGetQueryString("QueryString",array("o","dguid"));
@@ -290,18 +292,30 @@ function products_maintcontent_alm_products_BeforeShow(& $sender)
 		$product = $product["product"];
 		if (count($product) >= 1) {
 			$products_maintcontent->alm_products->suite_code->SetValue($product["id_suite"]);
+			$products_maintcontent->alm_products->id_licensed_by->SetValue($product["id_licensed_by"]);
+			$products_maintcontent->alm_products->licensed_amount->SetValue($product["licensed_amount"]);
+			$products_maintcontent->alm_products->id_license_sector->SetValue($product["id_license_sector"]);
+			$products_maintcontent->alm_products->id_product_tag->SetValue($product["id_product_tag"]);
+			$products_maintcontent->alm_products->id_license_type->SetValue($product["id_license_type"]);
 			$products_maintcontent->alm_products->id_product_type->SetValue($product["id_product_type"]);
 			$products_maintcontent->alm_products->range_min->SetValue($product["range_min"]);
 			$products_maintcontent->alm_products->range_max->SetValue($product["range_max"]);
 			$products_maintcontent->alm_products->msrp_price->SetValue($product["msrp_price"]);
 			$products_maintcontent->alm_products->product_content->SetValue($product["product_content"]);
 			$products_maintcontent->alm_products->detaileddescription->SetValue($product["description"]);
+
+			//Show general alert with duplication info taking place
+			global $CCSLocales;
+			CCSetSession("showglobal_alert","show");
+			$products_maintcontent->alm_products->showglobal_alert->SetValue("show");
+			$products_maintcontent->alm_products->lbtitle->SetValue($CCSLocales->GetText("duplicate_product"));
+			$products_maintcontent->alm_products->lbmessage->SetValue($CCSLocales->GetText("duplicate_message"));
+
 		}
 		$products_maintcontent->alm_products->querystring->SetValue($querystring);
 		
 	} else {
-		global $Redirect;
-		$Redirect = "products_maint.php";
+		CCSetSession("showglobal_alert","hide");
 	}
 // -------------------------
 //End Custom Code
@@ -329,6 +343,21 @@ function products_maintcontent_BeforeShow(& $sender)
 	$MainPage->Attributes->SetValue("showalert",$showalert);
 	if ($showalert == "show")
 		CCSetSession("showalert","hide");
+
+
+	//There is some code duplication regarding show duplicate message info, session storage is read after some events
+	//has being fired and therefore not read.
+	$o = trim(CCGetFromGet("o",""));
+	if ($o == "duplicate") {
+		$showglobal_alert = CCGetSession("showglobal_alert","hide");
+		//$MainPage->Attributes->SetValue("showglobal_alert",$showglobal_alert);
+		$products_maintcontent->alm_products->showglobal_alert->SetValue($showglobal_alert);
+		if ($showglobal_alert == "show")
+			CCSetSession("showglobal_alert","hide");
+	} else {
+		$products_maintcontent->alm_products->showglobal_alert->SetValue("hide");
+		CCSetSession("showglobal_alert","hide");	
+	}
 
 // -------------------------
 //End Custom Code

@@ -36,7 +36,7 @@ class clsRecordproducts_maintcontentalm_products { //alm_products Class @2-92A03
  // Class variables
 //End Variables
 
-//Class_Initialize Event @2-BF0B7891
+//Class_Initialize Event @2-3BCB888D
  function clsRecordproducts_maintcontentalm_products($RelativePath, & $Parent)
  {
 
@@ -86,8 +86,6 @@ class clsRecordproducts_maintcontentalm_products { //alm_products Class @2-92A03
    $this->Button_Update = new clsButton("Button_Update", $Method, $this);
    $this->Button_Insert = new clsButton("Button_Insert", $Method, $this);
    $this->description = new clsControl(ccsTextBox, "description", "Description", ccsText, "", CCGetRequestParam("description", $Method, NULL), $this);
-   $this->range_min = new clsControl(ccsTextBox, "range_min", $CCSLocales->GetText("range_min"), ccsInteger, "", CCGetRequestParam("range_min", $Method, NULL), $this);
-   $this->range_max = new clsControl(ccsTextBox, "range_max", $CCSLocales->GetText("range_max"), ccsInteger, "", CCGetRequestParam("range_max", $Method, NULL), $this);
    $this->channel_sku = new clsControl(ccsTextBox, "channel_sku", "channel_sku", ccsText, "", CCGetRequestParam("channel_sku", $Method, NULL), $this);
    $this->msrp_price = new clsControl(ccsTextBox, "msrp_price", $CCSLocales->GetText("msrp_price"), ccsFloat, array(False, 2, Null, Null, False, "\$", "", 1, True, ""), CCGetRequestParam("msrp_price", $Method, NULL), $this);
    $this->product_content = new clsControl(ccsTextArea, "product_content", "product_content", ccsText, "", CCGetRequestParam("product_content", $Method, NULL), $this);
@@ -119,13 +117,30 @@ class clsRecordproducts_maintcontentalm_products { //alm_products Class @2-92A03
 "FROM alm_product_tags {SQL_Where} {SQL_OrderBy}";
    list($this->id_product_tag->BoundColumn, $this->id_product_tag->TextColumn, $this->id_product_tag->DBFormat) = array("id", "tag_name", "");
    $this->id_product_tag->HTML = true;
+   $this->id_licensed_by = new clsControl(ccsRadioButton, "id_licensed_by", "id_licensed_by", ccsText, "", CCGetRequestParam("id_licensed_by", $Method, NULL), $this);
+   $this->id_licensed_by->DSType = dsTable;
+   $this->id_licensed_by->DataSource = new clsDBdbConnection();
+   $this->id_licensed_by->ds = & $this->id_licensed_by->DataSource;
+   $this->id_licensed_by->DataSource->SQL = "SELECT * \n" .
+"FROM alm_licensed_by {SQL_Where} {SQL_OrderBy}";
+   list($this->id_licensed_by->BoundColumn, $this->id_licensed_by->TextColumn, $this->id_licensed_by->DBFormat) = array("id", "licensedby_name", "");
+   $this->licensed_amount = new clsControl(ccsTextBox, "licensed_amount", $CCSLocales->GetText("licensed_amount"), ccsInteger, array(False, 0, Null, " ", False, "", "", 1, True, ""), CCGetRequestParam("licensed_amount", $Method, NULL), $this);
+   $this->range_min = new clsControl(ccsTextBox, "range_min", $CCSLocales->GetText("range_min"), ccsInteger, "", CCGetRequestParam("range_min", $Method, NULL), $this);
+   $this->range_max = new clsControl(ccsTextBox, "range_max", $CCSLocales->GetText("range_max"), ccsInteger, "", CCGetRequestParam("range_max", $Method, NULL), $this);
+   $this->lbtitle = new clsControl(ccsLabel, "lbtitle", "lbtitle", ccsText, "", CCGetRequestParam("lbtitle", $Method, NULL), $this);
+   $this->lbmessage = new clsControl(ccsLabel, "lbmessage", "lbmessage", ccsText, "", CCGetRequestParam("lbmessage", $Method, NULL), $this);
+   $this->showglobal_alert = new clsControl(ccsLabel, "showglobal_alert", "showglobal_alert", ccsText, "", CCGetRequestParam("showglobal_alert", $Method, NULL), $this);
+   $this->id_license_sector = new clsControl(ccsListBox, "id_license_sector", "id_license_sector", ccsText, "", CCGetRequestParam("id_license_sector", $Method, NULL), $this);
+   $this->id_license_sector->DSType = dsTable;
+   $this->id_license_sector->DataSource = new clsDBdbConnection();
+   $this->id_license_sector->ds = & $this->id_license_sector->DataSource;
+   $this->id_license_sector->DataSource->SQL = "SELECT * \n" .
+"FROM alm_customers_type {SQL_Where} {SQL_OrderBy}";
+   list($this->id_license_sector->BoundColumn, $this->id_license_sector->TextColumn, $this->id_license_sector->DBFormat) = array("id", "customer_type", "");
+   $this->id_license_sector->HTML = true;
    $this->pnduplicate->Visible = false;
    $this->pnduplicate->AddComponent("params", $this->params);
    if(!$this->FormSubmitted) {
-    if(!is_array($this->range_min->Value) && !strlen($this->range_min->Value) && $this->range_min->Value !== false)
-     $this->range_min->SetText(1);
-    if(!is_array($this->range_max->Value) && !strlen($this->range_max->Value) && $this->range_max->Value !== false)
-     $this->range_max->SetText(0);
     if(!is_array($this->msrp_price->Value) && !strlen($this->msrp_price->Value) && $this->msrp_price->Value !== false)
      $this->msrp_price->SetText(0);
     if(!is_array($this->id_product_type->Value) && !strlen($this->id_product_type->Value) && $this->id_product_type->Value !== false)
@@ -134,7 +149,19 @@ class clsRecordproducts_maintcontentalm_products { //alm_products Class @2-92A03
      $this->id_license_type->SetText(1);
     if(!is_array($this->id_product_tag->Value) && !strlen($this->id_product_tag->Value) && $this->id_product_tag->Value !== false)
      $this->id_product_tag->SetText(1);
+    if(!is_array($this->id_licensed_by->Value) && !strlen($this->id_licensed_by->Value) && $this->id_licensed_by->Value !== false)
+     $this->id_licensed_by->SetText(1);
+    if(!is_array($this->licensed_amount->Value) && !strlen($this->licensed_amount->Value) && $this->licensed_amount->Value !== false)
+     $this->licensed_amount->SetText(0);
+    if(!is_array($this->range_min->Value) && !strlen($this->range_min->Value) && $this->range_min->Value !== false)
+     $this->range_min->SetText(1);
+    if(!is_array($this->range_max->Value) && !strlen($this->range_max->Value) && $this->range_max->Value !== false)
+     $this->range_max->SetText(0);
+    if(!is_array($this->id_license_sector->Value) && !strlen($this->id_license_sector->Value) && $this->id_license_sector->Value !== false)
+     $this->id_license_sector->SetText(1);
    }
+   if(!is_array($this->showglobal_alert->Value) && !strlen($this->showglobal_alert->Value) && $this->showglobal_alert->Value !== false)
+    $this->showglobal_alert->SetText("hide");
   }
  }
 //End Class_Initialize Event
@@ -150,7 +177,7 @@ class clsRecordproducts_maintcontentalm_products { //alm_products Class @2-92A03
  }
 //End Initialize Method
 
-//Validate Method @2-CFC12FD9
+//Validate Method @2-8564C3B0
  function Validate()
  {
   global $CCSLocales;
@@ -162,8 +189,6 @@ class clsRecordproducts_maintcontentalm_products { //alm_products Class @2-92A03
   $Validation = ($this->modified_iduser->Validate() && $Validation);
   $Validation = ($this->created_iduser->Validate() && $Validation);
   $Validation = ($this->description->Validate() && $Validation);
-  $Validation = ($this->range_min->Validate() && $Validation);
-  $Validation = ($this->range_max->Validate() && $Validation);
   $Validation = ($this->channel_sku->Validate() && $Validation);
   $Validation = ($this->msrp_price->Validate() && $Validation);
   $Validation = ($this->product_content->Validate() && $Validation);
@@ -172,6 +197,11 @@ class clsRecordproducts_maintcontentalm_products { //alm_products Class @2-92A03
   $Validation = ($this->querystring->Validate() && $Validation);
   $Validation = ($this->id_license_type->Validate() && $Validation);
   $Validation = ($this->id_product_tag->Validate() && $Validation);
+  $Validation = ($this->id_licensed_by->Validate() && $Validation);
+  $Validation = ($this->licensed_amount->Validate() && $Validation);
+  $Validation = ($this->range_min->Validate() && $Validation);
+  $Validation = ($this->range_max->Validate() && $Validation);
+  $Validation = ($this->id_license_sector->Validate() && $Validation);
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "OnValidate", $this);
   $Validation =  $Validation && ($this->manufacturer->Errors->Count() == 0);
   $Validation =  $Validation && ($this->suite_code->Errors->Count() == 0);
@@ -179,8 +209,6 @@ class clsRecordproducts_maintcontentalm_products { //alm_products Class @2-92A03
   $Validation =  $Validation && ($this->modified_iduser->Errors->Count() == 0);
   $Validation =  $Validation && ($this->created_iduser->Errors->Count() == 0);
   $Validation =  $Validation && ($this->description->Errors->Count() == 0);
-  $Validation =  $Validation && ($this->range_min->Errors->Count() == 0);
-  $Validation =  $Validation && ($this->range_max->Errors->Count() == 0);
   $Validation =  $Validation && ($this->channel_sku->Errors->Count() == 0);
   $Validation =  $Validation && ($this->msrp_price->Errors->Count() == 0);
   $Validation =  $Validation && ($this->product_content->Errors->Count() == 0);
@@ -189,11 +217,16 @@ class clsRecordproducts_maintcontentalm_products { //alm_products Class @2-92A03
   $Validation =  $Validation && ($this->querystring->Errors->Count() == 0);
   $Validation =  $Validation && ($this->id_license_type->Errors->Count() == 0);
   $Validation =  $Validation && ($this->id_product_tag->Errors->Count() == 0);
+  $Validation =  $Validation && ($this->id_licensed_by->Errors->Count() == 0);
+  $Validation =  $Validation && ($this->licensed_amount->Errors->Count() == 0);
+  $Validation =  $Validation && ($this->range_min->Errors->Count() == 0);
+  $Validation =  $Validation && ($this->range_max->Errors->Count() == 0);
+  $Validation =  $Validation && ($this->id_license_sector->Errors->Count() == 0);
   return (($this->Errors->Count() == 0) && $Validation);
  }
 //End Validate Method
 
-//CheckErrors Method @2-4D53DA34
+//CheckErrors Method @2-1B7FFA7F
  function CheckErrors()
  {
   $errors = false;
@@ -204,8 +237,6 @@ class clsRecordproducts_maintcontentalm_products { //alm_products Class @2-92A03
   $errors = ($errors || $this->modified_iduser->Errors->Count());
   $errors = ($errors || $this->created_iduser->Errors->Count());
   $errors = ($errors || $this->description->Errors->Count());
-  $errors = ($errors || $this->range_min->Errors->Count());
-  $errors = ($errors || $this->range_max->Errors->Count());
   $errors = ($errors || $this->channel_sku->Errors->Count());
   $errors = ($errors || $this->msrp_price->Errors->Count());
   $errors = ($errors || $this->product_content->Errors->Count());
@@ -215,6 +246,14 @@ class clsRecordproducts_maintcontentalm_products { //alm_products Class @2-92A03
   $errors = ($errors || $this->querystring->Errors->Count());
   $errors = ($errors || $this->id_license_type->Errors->Count());
   $errors = ($errors || $this->id_product_tag->Errors->Count());
+  $errors = ($errors || $this->id_licensed_by->Errors->Count());
+  $errors = ($errors || $this->licensed_amount->Errors->Count());
+  $errors = ($errors || $this->range_min->Errors->Count());
+  $errors = ($errors || $this->range_max->Errors->Count());
+  $errors = ($errors || $this->lbtitle->Errors->Count());
+  $errors = ($errors || $this->lbmessage->Errors->Count());
+  $errors = ($errors || $this->showglobal_alert->Errors->Count());
+  $errors = ($errors || $this->id_license_sector->Errors->Count());
   $errors = ($errors || $this->Errors->Count());
   $errors = ($errors || $this->DataSource->Errors->Count());
   return $errors;
@@ -278,7 +317,7 @@ function GetPrimaryKey($keyName)
  }
 //End Operation Method
 
-//InsertRow Method @2-E30748A3
+//InsertRow Method @2-A6794FE6
  function InsertRow()
  {
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeInsert", $this);
@@ -290,8 +329,6 @@ function GetPrimaryKey($keyName)
   $this->DataSource->modified_iduser->SetValue($this->modified_iduser->GetValue(true));
   $this->DataSource->created_iduser->SetValue($this->created_iduser->GetValue(true));
   $this->DataSource->description->SetValue($this->description->GetValue(true));
-  $this->DataSource->range_min->SetValue($this->range_min->GetValue(true));
-  $this->DataSource->range_max->SetValue($this->range_max->GetValue(true));
   $this->DataSource->channel_sku->SetValue($this->channel_sku->GetValue(true));
   $this->DataSource->msrp_price->SetValue($this->msrp_price->GetValue(true));
   $this->DataSource->product_content->SetValue($this->product_content->GetValue(true));
@@ -301,13 +338,21 @@ function GetPrimaryKey($keyName)
   $this->DataSource->querystring->SetValue($this->querystring->GetValue(true));
   $this->DataSource->id_license_type->SetValue($this->id_license_type->GetValue(true));
   $this->DataSource->id_product_tag->SetValue($this->id_product_tag->GetValue(true));
+  $this->DataSource->id_licensed_by->SetValue($this->id_licensed_by->GetValue(true));
+  $this->DataSource->licensed_amount->SetValue($this->licensed_amount->GetValue(true));
+  $this->DataSource->range_min->SetValue($this->range_min->GetValue(true));
+  $this->DataSource->range_max->SetValue($this->range_max->GetValue(true));
+  $this->DataSource->lbtitle->SetValue($this->lbtitle->GetValue(true));
+  $this->DataSource->lbmessage->SetValue($this->lbmessage->GetValue(true));
+  $this->DataSource->showglobal_alert->SetValue($this->showglobal_alert->GetValue(true));
+  $this->DataSource->id_license_sector->SetValue($this->id_license_sector->GetValue(true));
   $this->DataSource->Insert();
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "AfterInsert", $this);
   return (!$this->CheckErrors());
  }
 //End InsertRow Method
 
-//UpdateRow Method @2-BC1DC55C
+//UpdateRow Method @2-3D055716
  function UpdateRow()
  {
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeUpdate", $this);
@@ -319,8 +364,6 @@ function GetPrimaryKey($keyName)
   $this->DataSource->modified_iduser->SetValue($this->modified_iduser->GetValue(true));
   $this->DataSource->created_iduser->SetValue($this->created_iduser->GetValue(true));
   $this->DataSource->description->SetValue($this->description->GetValue(true));
-  $this->DataSource->range_min->SetValue($this->range_min->GetValue(true));
-  $this->DataSource->range_max->SetValue($this->range_max->GetValue(true));
   $this->DataSource->channel_sku->SetValue($this->channel_sku->GetValue(true));
   $this->DataSource->msrp_price->SetValue($this->msrp_price->GetValue(true));
   $this->DataSource->product_content->SetValue($this->product_content->GetValue(true));
@@ -330,13 +373,21 @@ function GetPrimaryKey($keyName)
   $this->DataSource->querystring->SetValue($this->querystring->GetValue(true));
   $this->DataSource->id_license_type->SetValue($this->id_license_type->GetValue(true));
   $this->DataSource->id_product_tag->SetValue($this->id_product_tag->GetValue(true));
+  $this->DataSource->id_licensed_by->SetValue($this->id_licensed_by->GetValue(true));
+  $this->DataSource->licensed_amount->SetValue($this->licensed_amount->GetValue(true));
+  $this->DataSource->range_min->SetValue($this->range_min->GetValue(true));
+  $this->DataSource->range_max->SetValue($this->range_max->GetValue(true));
+  $this->DataSource->lbtitle->SetValue($this->lbtitle->GetValue(true));
+  $this->DataSource->lbmessage->SetValue($this->lbmessage->GetValue(true));
+  $this->DataSource->showglobal_alert->SetValue($this->showglobal_alert->GetValue(true));
+  $this->DataSource->id_license_sector->SetValue($this->id_license_sector->GetValue(true));
   $this->DataSource->Update();
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "AfterUpdate", $this);
   return (!$this->CheckErrors());
  }
 //End UpdateRow Method
 
-//Show Method @2-40BFB952
+//Show Method @2-9B26B6E4
  function Show()
  {
   global $CCSUseAmp;
@@ -355,6 +406,8 @@ function GetPrimaryKey($keyName)
   $this->id_product_type->Prepare();
   $this->id_license_type->Prepare();
   $this->id_product_tag->Prepare();
+  $this->id_licensed_by->Prepare();
+  $this->id_license_sector->Prepare();
 
   $RecordBlock = "Record " . $this->ComponentName;
   $ParentPath = $Tpl->block_path;
@@ -373,8 +426,6 @@ function GetPrimaryKey($keyName)
      $this->hidguid->SetValue($this->DataSource->hidguid->GetValue());
      $this->modified_iduser->SetValue($this->DataSource->modified_iduser->GetValue());
      $this->created_iduser->SetValue($this->DataSource->created_iduser->GetValue());
-     $this->range_min->SetValue($this->DataSource->range_min->GetValue());
-     $this->range_max->SetValue($this->DataSource->range_max->GetValue());
      $this->channel_sku->SetValue($this->DataSource->channel_sku->GetValue());
      $this->msrp_price->SetValue($this->DataSource->msrp_price->GetValue());
      $this->product_content->SetValue($this->DataSource->product_content->GetValue());
@@ -382,6 +433,11 @@ function GetPrimaryKey($keyName)
      $this->id_product_type->SetValue($this->DataSource->id_product_type->GetValue());
      $this->id_license_type->SetValue($this->DataSource->id_license_type->GetValue());
      $this->id_product_tag->SetValue($this->DataSource->id_product_tag->GetValue());
+     $this->id_licensed_by->SetValue($this->DataSource->id_licensed_by->GetValue());
+     $this->licensed_amount->SetValue($this->DataSource->licensed_amount->GetValue());
+     $this->range_min->SetValue($this->DataSource->range_min->GetValue());
+     $this->range_max->SetValue($this->DataSource->range_max->GetValue());
+     $this->id_license_sector->SetValue($this->DataSource->id_license_sector->GetValue());
     }
    } else {
     $this->EditMode = false;
@@ -399,8 +455,6 @@ function GetPrimaryKey($keyName)
    $Error = ComposeStrings($Error, $this->modified_iduser->Errors->ToString());
    $Error = ComposeStrings($Error, $this->created_iduser->Errors->ToString());
    $Error = ComposeStrings($Error, $this->description->Errors->ToString());
-   $Error = ComposeStrings($Error, $this->range_min->Errors->ToString());
-   $Error = ComposeStrings($Error, $this->range_max->Errors->ToString());
    $Error = ComposeStrings($Error, $this->channel_sku->Errors->ToString());
    $Error = ComposeStrings($Error, $this->msrp_price->Errors->ToString());
    $Error = ComposeStrings($Error, $this->product_content->Errors->ToString());
@@ -410,6 +464,14 @@ function GetPrimaryKey($keyName)
    $Error = ComposeStrings($Error, $this->querystring->Errors->ToString());
    $Error = ComposeStrings($Error, $this->id_license_type->Errors->ToString());
    $Error = ComposeStrings($Error, $this->id_product_tag->Errors->ToString());
+   $Error = ComposeStrings($Error, $this->id_licensed_by->Errors->ToString());
+   $Error = ComposeStrings($Error, $this->licensed_amount->Errors->ToString());
+   $Error = ComposeStrings($Error, $this->range_min->Errors->ToString());
+   $Error = ComposeStrings($Error, $this->range_max->Errors->ToString());
+   $Error = ComposeStrings($Error, $this->lbtitle->Errors->ToString());
+   $Error = ComposeStrings($Error, $this->lbmessage->Errors->ToString());
+   $Error = ComposeStrings($Error, $this->showglobal_alert->Errors->ToString());
+   $Error = ComposeStrings($Error, $this->id_license_sector->Errors->ToString());
    $Error = ComposeStrings($Error, $this->Errors->ToString());
    $Error = ComposeStrings($Error, $this->DataSource->Errors->ToString());
    $Tpl->SetVar("Error", $Error);
@@ -439,8 +501,6 @@ function GetPrimaryKey($keyName)
   $this->Button_Update->Show();
   $this->Button_Insert->Show();
   $this->description->Show();
-  $this->range_min->Show();
-  $this->range_max->Show();
   $this->channel_sku->Show();
   $this->msrp_price->Show();
   $this->product_content->Show();
@@ -450,6 +510,14 @@ function GetPrimaryKey($keyName)
   $this->querystring->Show();
   $this->id_license_type->Show();
   $this->id_product_tag->Show();
+  $this->id_licensed_by->Show();
+  $this->licensed_amount->Show();
+  $this->range_min->Show();
+  $this->range_max->Show();
+  $this->lbtitle->Show();
+  $this->lbmessage->Show();
+  $this->showglobal_alert->Show();
+  $this->id_license_sector->Show();
   $Tpl->parse();
   $Tpl->block_path = $ParentPath;
   $this->DataSource->close();
@@ -460,7 +528,7 @@ function GetPrimaryKey($keyName)
 
 class clsproducts_maintcontentalm_productsDataSource extends clsDBdbConnection {  //alm_productsDataSource Class @2-ACAEDE7D
 
-//DataSource Variables @2-A7F5745C
+//DataSource Variables @2-D4E4DFC4
  public $Parent = "";
  public $CCSEvents = "";
  public $CCSEventResult;
@@ -483,8 +551,6 @@ class clsproducts_maintcontentalm_productsDataSource extends clsDBdbConnection {
  public $modified_iduser;
  public $created_iduser;
  public $description;
- public $range_min;
- public $range_max;
  public $channel_sku;
  public $msrp_price;
  public $product_content;
@@ -494,9 +560,17 @@ class clsproducts_maintcontentalm_productsDataSource extends clsDBdbConnection {
  public $querystring;
  public $id_license_type;
  public $id_product_tag;
+ public $id_licensed_by;
+ public $licensed_amount;
+ public $range_min;
+ public $range_max;
+ public $lbtitle;
+ public $lbmessage;
+ public $showglobal_alert;
+ public $id_license_sector;
 //End DataSource Variables
 
-//DataSourceClass_Initialize Event @2-D5AF7A54
+//DataSourceClass_Initialize Event @2-13ED97FB
  function clsproducts_maintcontentalm_productsDataSource(& $Parent)
  {
   $this->Parent = & $Parent;
@@ -516,10 +590,6 @@ class clsproducts_maintcontentalm_productsDataSource extends clsDBdbConnection {
   
   $this->description = new clsField("description", ccsText, "");
   
-  $this->range_min = new clsField("range_min", ccsInteger, "");
-  
-  $this->range_max = new clsField("range_max", ccsInteger, "");
-  
   $this->channel_sku = new clsField("channel_sku", ccsText, "");
   
   $this->msrp_price = new clsField("msrp_price", ccsFloat, "");
@@ -538,13 +608,27 @@ class clsproducts_maintcontentalm_productsDataSource extends clsDBdbConnection {
   
   $this->id_product_tag = new clsField("id_product_tag", ccsText, "");
   
+  $this->id_licensed_by = new clsField("id_licensed_by", ccsText, "");
+  
+  $this->licensed_amount = new clsField("licensed_amount", ccsInteger, "");
+  
+  $this->range_min = new clsField("range_min", ccsInteger, "");
+  
+  $this->range_max = new clsField("range_max", ccsInteger, "");
+  
+  $this->lbtitle = new clsField("lbtitle", ccsText, "");
+  
+  $this->lbmessage = new clsField("lbmessage", ccsText, "");
+  
+  $this->showglobal_alert = new clsField("showglobal_alert", ccsText, "");
+  
+  $this->id_license_sector = new clsField("id_license_sector", ccsText, "");
+  
 
   $this->InsertFields["id_suite"] = array("Name" => "id_suite", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->InsertFields["guid"] = array("Name" => "guid", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->InsertFields["modified_iduser"] = array("Name" => "modified_iduser", "Value" => "", "DataType" => ccsInteger, "OmitIfEmpty" => 1);
   $this->InsertFields["created_iduser"] = array("Name" => "created_iduser", "Value" => "", "DataType" => ccsInteger, "OmitIfEmpty" => 1);
-  $this->InsertFields["range_min"] = array("Name" => "range_min", "Value" => "", "DataType" => ccsInteger, "OmitIfEmpty" => 1);
-  $this->InsertFields["range_max"] = array("Name" => "range_max", "Value" => "", "DataType" => ccsInteger, "OmitIfEmpty" => 1);
   $this->InsertFields["channel_sku"] = array("Name" => "channel_sku", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->InsertFields["msrp_price"] = array("Name" => "msrp_price", "Value" => "", "DataType" => ccsFloat, "OmitIfEmpty" => 1);
   $this->InsertFields["product_content"] = array("Name" => "product_content", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
@@ -552,12 +636,15 @@ class clsproducts_maintcontentalm_productsDataSource extends clsDBdbConnection {
   $this->InsertFields["id_product_type"] = array("Name" => "id_product_type", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->InsertFields["id_license_type"] = array("Name" => "id_license_type", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->InsertFields["id_product_tag"] = array("Name" => "id_product_tag", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
+  $this->InsertFields["id_licensed_by"] = array("Name" => "id_licensed_by", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
+  $this->InsertFields["licensed_amount"] = array("Name" => "licensed_amount", "Value" => "", "DataType" => ccsInteger, "OmitIfEmpty" => 1);
+  $this->InsertFields["range_min"] = array("Name" => "range_min", "Value" => "", "DataType" => ccsInteger, "OmitIfEmpty" => 1);
+  $this->InsertFields["range_max"] = array("Name" => "range_max", "Value" => "", "DataType" => ccsInteger, "OmitIfEmpty" => 1);
+  $this->InsertFields["id_license_sector"] = array("Name" => "id_license_sector", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->UpdateFields["id_suite"] = array("Name" => "id_suite", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->UpdateFields["guid"] = array("Name" => "guid", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->UpdateFields["modified_iduser"] = array("Name" => "modified_iduser", "Value" => "", "DataType" => ccsInteger, "OmitIfEmpty" => 1);
   $this->UpdateFields["created_iduser"] = array("Name" => "created_iduser", "Value" => "", "DataType" => ccsInteger, "OmitIfEmpty" => 1);
-  $this->UpdateFields["range_min"] = array("Name" => "range_min", "Value" => "", "DataType" => ccsInteger, "OmitIfEmpty" => 1);
-  $this->UpdateFields["range_max"] = array("Name" => "range_max", "Value" => "", "DataType" => ccsInteger, "OmitIfEmpty" => 1);
   $this->UpdateFields["channel_sku"] = array("Name" => "channel_sku", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->UpdateFields["msrp_price"] = array("Name" => "msrp_price", "Value" => "", "DataType" => ccsFloat, "OmitIfEmpty" => 1);
   $this->UpdateFields["product_content"] = array("Name" => "product_content", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
@@ -565,6 +652,11 @@ class clsproducts_maintcontentalm_productsDataSource extends clsDBdbConnection {
   $this->UpdateFields["id_product_type"] = array("Name" => "id_product_type", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->UpdateFields["id_license_type"] = array("Name" => "id_license_type", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->UpdateFields["id_product_tag"] = array("Name" => "id_product_tag", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
+  $this->UpdateFields["id_licensed_by"] = array("Name" => "id_licensed_by", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
+  $this->UpdateFields["licensed_amount"] = array("Name" => "licensed_amount", "Value" => "", "DataType" => ccsInteger, "OmitIfEmpty" => 1);
+  $this->UpdateFields["range_min"] = array("Name" => "range_min", "Value" => "", "DataType" => ccsInteger, "OmitIfEmpty" => 1);
+  $this->UpdateFields["range_max"] = array("Name" => "range_max", "Value" => "", "DataType" => ccsInteger, "OmitIfEmpty" => 1);
+  $this->UpdateFields["id_license_sector"] = array("Name" => "id_license_sector", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
  }
 //End DataSourceClass_Initialize Event
 
@@ -595,15 +687,13 @@ class clsproducts_maintcontentalm_productsDataSource extends clsDBdbConnection {
  }
 //End Open Method
 
-//SetValues Method @2-DADB9E9E
+//SetValues Method @2-F6512AC0
  function SetValues()
  {
   $this->suite_code->SetDBValue($this->f("id_suite"));
   $this->hidguid->SetDBValue($this->f("guid"));
   $this->modified_iduser->SetDBValue(trim($this->f("modified_iduser")));
   $this->created_iduser->SetDBValue(trim($this->f("created_iduser")));
-  $this->range_min->SetDBValue(trim($this->f("range_min")));
-  $this->range_max->SetDBValue(trim($this->f("range_max")));
   $this->channel_sku->SetDBValue($this->f("channel_sku"));
   $this->msrp_price->SetDBValue(trim($this->f("msrp_price")));
   $this->product_content->SetDBValue($this->f("product_content"));
@@ -611,10 +701,15 @@ class clsproducts_maintcontentalm_productsDataSource extends clsDBdbConnection {
   $this->id_product_type->SetDBValue($this->f("id_product_type"));
   $this->id_license_type->SetDBValue($this->f("id_license_type"));
   $this->id_product_tag->SetDBValue($this->f("id_product_tag"));
+  $this->id_licensed_by->SetDBValue($this->f("id_licensed_by"));
+  $this->licensed_amount->SetDBValue(trim($this->f("licensed_amount")));
+  $this->range_min->SetDBValue(trim($this->f("range_min")));
+  $this->range_max->SetDBValue(trim($this->f("range_max")));
+  $this->id_license_sector->SetDBValue($this->f("id_license_sector"));
  }
 //End SetValues Method
 
-//Insert Method @2-7BBB1CE4
+//Insert Method @2-F398E372
  function Insert()
  {
   global $CCSLocales;
@@ -625,8 +720,6 @@ class clsproducts_maintcontentalm_productsDataSource extends clsDBdbConnection {
   $this->InsertFields["guid"]["Value"] = $this->hidguid->GetDBValue(true);
   $this->InsertFields["modified_iduser"]["Value"] = $this->modified_iduser->GetDBValue(true);
   $this->InsertFields["created_iduser"]["Value"] = $this->created_iduser->GetDBValue(true);
-  $this->InsertFields["range_min"]["Value"] = $this->range_min->GetDBValue(true);
-  $this->InsertFields["range_max"]["Value"] = $this->range_max->GetDBValue(true);
   $this->InsertFields["channel_sku"]["Value"] = $this->channel_sku->GetDBValue(true);
   $this->InsertFields["msrp_price"]["Value"] = $this->msrp_price->GetDBValue(true);
   $this->InsertFields["product_content"]["Value"] = $this->product_content->GetDBValue(true);
@@ -634,6 +727,11 @@ class clsproducts_maintcontentalm_productsDataSource extends clsDBdbConnection {
   $this->InsertFields["id_product_type"]["Value"] = $this->id_product_type->GetDBValue(true);
   $this->InsertFields["id_license_type"]["Value"] = $this->id_license_type->GetDBValue(true);
   $this->InsertFields["id_product_tag"]["Value"] = $this->id_product_tag->GetDBValue(true);
+  $this->InsertFields["id_licensed_by"]["Value"] = $this->id_licensed_by->GetDBValue(true);
+  $this->InsertFields["licensed_amount"]["Value"] = $this->licensed_amount->GetDBValue(true);
+  $this->InsertFields["range_min"]["Value"] = $this->range_min->GetDBValue(true);
+  $this->InsertFields["range_max"]["Value"] = $this->range_max->GetDBValue(true);
+  $this->InsertFields["id_license_sector"]["Value"] = $this->id_license_sector->GetDBValue(true);
   $this->SQL = CCBuildInsert("alm_products", $this->InsertFields, $this);
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeExecuteInsert", $this->Parent);
   if($this->Errors->Count() == 0 && $this->CmdExecution) {
@@ -643,7 +741,7 @@ class clsproducts_maintcontentalm_productsDataSource extends clsDBdbConnection {
  }
 //End Insert Method
 
-//Update Method @2-47338E2B
+//Update Method @2-5AD3A987
  function Update()
  {
   global $CCSLocales;
@@ -654,8 +752,6 @@ class clsproducts_maintcontentalm_productsDataSource extends clsDBdbConnection {
   $this->UpdateFields["guid"]["Value"] = $this->hidguid->GetDBValue(true);
   $this->UpdateFields["modified_iduser"]["Value"] = $this->modified_iduser->GetDBValue(true);
   $this->UpdateFields["created_iduser"]["Value"] = $this->created_iduser->GetDBValue(true);
-  $this->UpdateFields["range_min"]["Value"] = $this->range_min->GetDBValue(true);
-  $this->UpdateFields["range_max"]["Value"] = $this->range_max->GetDBValue(true);
   $this->UpdateFields["channel_sku"]["Value"] = $this->channel_sku->GetDBValue(true);
   $this->UpdateFields["msrp_price"]["Value"] = $this->msrp_price->GetDBValue(true);
   $this->UpdateFields["product_content"]["Value"] = $this->product_content->GetDBValue(true);
@@ -663,6 +759,11 @@ class clsproducts_maintcontentalm_productsDataSource extends clsDBdbConnection {
   $this->UpdateFields["id_product_type"]["Value"] = $this->id_product_type->GetDBValue(true);
   $this->UpdateFields["id_license_type"]["Value"] = $this->id_license_type->GetDBValue(true);
   $this->UpdateFields["id_product_tag"]["Value"] = $this->id_product_tag->GetDBValue(true);
+  $this->UpdateFields["id_licensed_by"]["Value"] = $this->id_licensed_by->GetDBValue(true);
+  $this->UpdateFields["licensed_amount"]["Value"] = $this->licensed_amount->GetDBValue(true);
+  $this->UpdateFields["range_min"]["Value"] = $this->range_min->GetDBValue(true);
+  $this->UpdateFields["range_max"]["Value"] = $this->range_max->GetDBValue(true);
+  $this->UpdateFields["id_license_sector"]["Value"] = $this->id_license_sector->GetDBValue(true);
   $this->SQL = CCBuildUpdate("alm_products", $this->UpdateFields, $this);
   $this->SQL .= strlen($this->Where) ? " WHERE " . $this->Where : $this->Where;
   if (!strlen($this->Where) && $this->Errors->Count() == 0) 

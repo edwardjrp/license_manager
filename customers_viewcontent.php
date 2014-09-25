@@ -35,7 +35,7 @@ class clsRecordcustomers_viewcontentalm_customers { //alm_customers Class @2-E6E
  // Class variables
 //End Variables
 
-//Class_Initialize Event @2-5FAB9FA7
+//Class_Initialize Event @2-D3BA5D79
  function clsRecordcustomers_viewcontentalm_customers($RelativePath, & $Parent)
  {
 
@@ -540,6 +540,21 @@ class clsRecordcustomers_viewcontentalm_customers { //alm_customers Class @2-E6E
    $this->network_monitor->DataSource->Where = 
      $this->network_monitor->DataSource->wp->Criterion[1];
    $this->network_monitor->HTML = true;
+   $this->networking = new clsControl(ccsCheckBoxList, "networking", $CCSLocales->GetText("networking"), ccsText, "", CCGetRequestParam("networking", $Method, NULL), $this);
+   $this->networking->Multiple = true;
+   $this->networking->DSType = dsTable;
+   $this->networking->DataSource = new clsDBdbConnection();
+   $this->networking->ds = & $this->networking->DataSource;
+   $this->networking->DataSource->SQL = "SELECT * \n" .
+"FROM alm_evaluation_options {SQL_Where} {SQL_OrderBy}";
+   list($this->networking->BoundColumn, $this->networking->TextColumn, $this->networking->DBFormat) = array("id", "title", "");
+   $this->networking->DataSource->Parameters["expr162"] = "29";
+   $this->networking->DataSource->wp = new clsSQLParameters();
+   $this->networking->DataSource->wp->AddParameter("1", "expr162", ccsInteger, "", "", $this->networking->DataSource->Parameters["expr162"], "", false);
+   $this->networking->DataSource->wp->Criterion[1] = $this->networking->DataSource->wp->Operation(opEqual, "type_id", $this->networking->DataSource->wp->GetDBValue("1"), $this->networking->DataSource->ToSQL($this->networking->DataSource->wp->GetDBValue("1"), ccsInteger),false);
+   $this->networking->DataSource->Where = 
+     $this->networking->DataSource->wp->Criterion[1];
+   $this->networking->HTML = true;
    if(!$this->FormSubmitted) {
     if(!is_array($this->city->Value) && !strlen($this->city->Value) && $this->city->Value !== false)
      $this->city->SetText(1);
@@ -559,7 +574,7 @@ class clsRecordcustomers_viewcontentalm_customers { //alm_customers Class @2-E6E
  }
 //End Initialize Method
 
-//Validate Method @2-2B2F4812
+//Validate Method @2-DBFC9290
  function Validate()
  {
   global $CCSLocales;
@@ -611,6 +626,7 @@ class clsRecordcustomers_viewcontentalm_customers { //alm_customers Class @2-E6E
   $Validation = ($this->isp_bandwidth->Validate() && $Validation);
   $Validation = ($this->datalostprevention->Validate() && $Validation);
   $Validation = ($this->network_monitor->Validate() && $Validation);
+  $Validation = ($this->networking->Validate() && $Validation);
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "OnValidate", $this);
   $Validation =  $Validation && ($this->name->Errors->Count() == 0);
   $Validation =  $Validation && ($this->taxid->Errors->Count() == 0);
@@ -658,11 +674,12 @@ class clsRecordcustomers_viewcontentalm_customers { //alm_customers Class @2-E6E
   $Validation =  $Validation && ($this->isp_bandwidth->Errors->Count() == 0);
   $Validation =  $Validation && ($this->datalostprevention->Errors->Count() == 0);
   $Validation =  $Validation && ($this->network_monitor->Errors->Count() == 0);
+  $Validation =  $Validation && ($this->networking->Errors->Count() == 0);
   return (($this->Errors->Count() == 0) && $Validation);
  }
 //End Validate Method
 
-//CheckErrors Method @2-D50F3FF8
+//CheckErrors Method @2-31762879
  function CheckErrors()
  {
   $errors = false;
@@ -713,6 +730,7 @@ class clsRecordcustomers_viewcontentalm_customers { //alm_customers Class @2-E6E
   $errors = ($errors || $this->isp_bandwidth->Errors->Count());
   $errors = ($errors || $this->datalostprevention->Errors->Count());
   $errors = ($errors || $this->network_monitor->Errors->Count());
+  $errors = ($errors || $this->networking->Errors->Count());
   $errors = ($errors || $this->Errors->Count());
   $errors = ($errors || $this->DataSource->Errors->Count());
   return $errors;
@@ -776,7 +794,7 @@ function GetPrimaryKey($keyName)
  }
 //End Operation Method
 
-//InsertRow Method @2-8B15998A
+//InsertRow Method @2-4C673959
  function InsertRow()
  {
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeInsert", $this);
@@ -828,13 +846,14 @@ function GetPrimaryKey($keyName)
   $this->DataSource->isp_bandwidth->SetValue($this->isp_bandwidth->GetValue(true));
   $this->DataSource->datalostprevention->SetValue($this->datalostprevention->GetValue(true));
   $this->DataSource->network_monitor->SetValue($this->network_monitor->GetValue(true));
+  $this->DataSource->networking->SetValue($this->networking->GetValue(true));
   $this->DataSource->Insert();
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "AfterInsert", $this);
   return (!$this->CheckErrors());
  }
 //End InsertRow Method
 
-//UpdateRow Method @2-8E9A7D25
+//UpdateRow Method @2-47F439E0
  function UpdateRow()
  {
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeUpdate", $this);
@@ -886,13 +905,14 @@ function GetPrimaryKey($keyName)
   $this->DataSource->isp_bandwidth->SetValue($this->isp_bandwidth->GetValue(true));
   $this->DataSource->datalostprevention->SetValue($this->datalostprevention->GetValue(true));
   $this->DataSource->network_monitor->SetValue($this->network_monitor->GetValue(true));
+  $this->DataSource->networking->SetValue($this->networking->GetValue(true));
   $this->DataSource->Update();
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "AfterUpdate", $this);
   return (!$this->CheckErrors());
  }
 //End UpdateRow Method
 
-//Show Method @2-D282FF53
+//Show Method @2-BADF38FE
  function Show()
  {
   global $CCSUseAmp;
@@ -938,6 +958,7 @@ function GetPrimaryKey($keyName)
   $this->isp->Prepare();
   $this->datalostprevention->Prepare();
   $this->network_monitor->Prepare();
+  $this->networking->Prepare();
 
   $RecordBlock = "Record " . $this->ComponentName;
   $ParentPath = $Tpl->block_path;
@@ -997,6 +1018,7 @@ function GetPrimaryKey($keyName)
      $this->isp_bandwidth->SetValue($this->DataSource->isp_bandwidth->GetValue());
      $this->datalostprevention->SetValue($this->DataSource->datalostprevention->GetValue());
      $this->network_monitor->SetValue($this->DataSource->network_monitor->GetValue());
+     $this->networking->SetValue($this->DataSource->networking->GetValue());
     }
    } else {
     $this->EditMode = false;
@@ -1054,6 +1076,7 @@ function GetPrimaryKey($keyName)
    $Error = ComposeStrings($Error, $this->isp_bandwidth->Errors->ToString());
    $Error = ComposeStrings($Error, $this->datalostprevention->Errors->ToString());
    $Error = ComposeStrings($Error, $this->network_monitor->Errors->ToString());
+   $Error = ComposeStrings($Error, $this->networking->Errors->ToString());
    $Error = ComposeStrings($Error, $this->Errors->ToString());
    $Error = ComposeStrings($Error, $this->DataSource->Errors->ToString());
    $Tpl->SetVar("Error", $Error);
@@ -1123,6 +1146,7 @@ function GetPrimaryKey($keyName)
   $this->isp_bandwidth->Show();
   $this->datalostprevention->Show();
   $this->network_monitor->Show();
+  $this->networking->Show();
   $Tpl->parse();
   $Tpl->block_path = $ParentPath;
   $this->DataSource->close();
@@ -1133,7 +1157,7 @@ function GetPrimaryKey($keyName)
 
 class clscustomers_viewcontentalm_customersDataSource extends clsDBdbConnection {  //alm_customersDataSource Class @2-20957048
 
-//DataSource Variables @2-3BA5E6A7
+//DataSource Variables @2-26C0CCCB
  public $Parent = "";
  public $CCSEvents = "";
  public $CCSEventResult;
@@ -1196,9 +1220,10 @@ class clscustomers_viewcontentalm_customersDataSource extends clsDBdbConnection 
  public $isp_bandwidth;
  public $datalostprevention;
  public $network_monitor;
+ public $networking;
 //End DataSource Variables
 
-//DataSourceClass_Initialize Event @2-C538CE07
+//DataSourceClass_Initialize Event @2-DD3A56E9
  function clscustomers_viewcontentalm_customersDataSource(& $Parent)
  {
   $this->Parent = & $Parent;
@@ -1298,6 +1323,8 @@ class clscustomers_viewcontentalm_customersDataSource extends clsDBdbConnection 
   
   $this->network_monitor = new clsField("network_monitor", ccsText, "");
   
+  $this->networking = new clsField("networking", ccsText, "");
+  
 
   $this->InsertFields["name"] = array("Name" => "name", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->InsertFields["taxid"] = array("Name" => "taxid", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
@@ -1344,6 +1371,7 @@ class clscustomers_viewcontentalm_customersDataSource extends clsDBdbConnection 
   $this->InsertFields["isp_bandwidth"] = array("Name" => "isp_bandwidth", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->InsertFields["datalostprevention"] = array("Name" => "datalostprevention", "Value" => "", "DataType" => ccsText);
   $this->InsertFields["network_monitor"] = array("Name" => "network_monitor", "Value" => "", "DataType" => ccsText);
+  $this->InsertFields["networking"] = array("Name" => "networking", "Value" => "", "DataType" => ccsText);
   $this->UpdateFields["name"] = array("Name" => "name", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->UpdateFields["taxid"] = array("Name" => "taxid", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->UpdateFields["website"] = array("Name" => "website", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
@@ -1389,6 +1417,7 @@ class clscustomers_viewcontentalm_customersDataSource extends clsDBdbConnection 
   $this->UpdateFields["isp_bandwidth"] = array("Name" => "isp_bandwidth", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->UpdateFields["datalostprevention"] = array("Name" => "datalostprevention", "Value" => "", "DataType" => ccsText);
   $this->UpdateFields["network_monitor"] = array("Name" => "network_monitor", "Value" => "", "DataType" => ccsText);
+  $this->UpdateFields["networking"] = array("Name" => "networking", "Value" => "", "DataType" => ccsText);
  }
 //End DataSourceClass_Initialize Event
 
@@ -1419,7 +1448,7 @@ class clscustomers_viewcontentalm_customersDataSource extends clsDBdbConnection 
  }
 //End Open Method
 
-//SetValues Method @2-64537A18
+//SetValues Method @2-96FFB382
  function SetValues()
  {
   $this->name->SetDBValue($this->f("name"));
@@ -1467,10 +1496,11 @@ class clscustomers_viewcontentalm_customersDataSource extends clsDBdbConnection 
   $this->isp_bandwidth->SetDBValue($this->f("isp_bandwidth"));
   $this->datalostprevention->SetDBValue($this->f("datalostprevention"));
   $this->network_monitor->SetDBValue($this->f("network_monitor"));
+  $this->networking->SetDBValue($this->f("networking"));
  }
 //End SetValues Method
 
-//Insert Method @2-E9B072B0
+//Insert Method @2-FF725501
  function Insert()
  {
   global $CCSLocales;
@@ -1522,6 +1552,7 @@ class clscustomers_viewcontentalm_customersDataSource extends clsDBdbConnection 
   $this->InsertFields["isp_bandwidth"]["Value"] = $this->isp_bandwidth->GetDBValue(true);
   $this->InsertFields["datalostprevention"]["Value"] = $this->datalostprevention->GetDBValue(true);
   $this->InsertFields["network_monitor"]["Value"] = $this->network_monitor->GetDBValue(true);
+  $this->InsertFields["networking"]["Value"] = $this->networking->GetDBValue(true);
   $this->SQL = CCBuildInsert("alm_customers", $this->InsertFields, $this);
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeExecuteInsert", $this->Parent);
   if($this->Errors->Count() == 0 && $this->CmdExecution) {
@@ -1531,7 +1562,7 @@ class clscustomers_viewcontentalm_customersDataSource extends clsDBdbConnection 
  }
 //End Insert Method
 
-//Update Method @2-842D884A
+//Update Method @2-00653854
  function Update()
  {
   global $CCSLocales;
@@ -1583,6 +1614,7 @@ class clscustomers_viewcontentalm_customersDataSource extends clsDBdbConnection 
   $this->UpdateFields["isp_bandwidth"]["Value"] = $this->isp_bandwidth->GetDBValue(true);
   $this->UpdateFields["datalostprevention"]["Value"] = $this->datalostprevention->GetDBValue(true);
   $this->UpdateFields["network_monitor"]["Value"] = $this->network_monitor->GetDBValue(true);
+  $this->UpdateFields["networking"]["Value"] = $this->networking->GetDBValue(true);
   $this->SQL = CCBuildUpdate("alm_customers", $this->UpdateFields, $this);
   $this->SQL .= strlen($this->Where) ? " WHERE " . $this->Where : $this->Where;
   if (!strlen($this->Where) && $this->Errors->Count() == 0) 
@@ -1644,7 +1676,7 @@ class clscustomers_viewcontent { //customers_viewcontent class @1-E56F5B35
  }
 //End Class_Terminate Event
 
-//BindEvents Method @1-BC84D2EF
+//BindEvents Method @1-7D47DDAC
  function BindEvents()
  {
   $this->alm_customers->os_workstations->CCSEvents["BeforeShow"] = "customers_viewcontent_alm_customers_os_workstations_BeforeShow";
@@ -1678,6 +1710,7 @@ class clscustomers_viewcontent { //customers_viewcontent class @1-E56F5B35
   $this->alm_customers->isp->CCSEvents["BeforeShow"] = "customers_viewcontent_alm_customers_isp_BeforeShow";
   $this->alm_customers->datalostprevention->CCSEvents["BeforeShow"] = "customers_viewcontent_alm_customers_datalostprevention_BeforeShow";
   $this->alm_customers->network_monitor->CCSEvents["BeforeShow"] = "customers_viewcontent_alm_customers_network_monitor_BeforeShow";
+  $this->alm_customers->networking->CCSEvents["BeforeShow"] = "customers_viewcontent_alm_customers_networking_BeforeShow";
   $this->alm_customers->CCSEvents["BeforeInsert"] = "customers_viewcontent_alm_customers_BeforeInsert";
   $this->alm_customers->CCSEvents["AfterInsert"] = "customers_viewcontent_alm_customers_AfterInsert";
   $this->alm_customers->CCSEvents["BeforeUpdate"] = "customers_viewcontent_alm_customers_BeforeUpdate";

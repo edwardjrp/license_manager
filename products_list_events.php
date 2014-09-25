@@ -35,7 +35,7 @@ function products_list_v_alm_products_params_BeforeShow(& $sender)
 //Custom Code @56-2A29BDB7
 // -------------------------
  // Write your own code here.
- 	$querystring = trim(CCGetQueryString("QueryString",""));
+ 	$querystring = trim(CCGetQueryString("QueryString",array("o","dguid","tab")));
 	if (strlen($querystring) > 0)
 		$sender->SetValue("&$querystring");
 // -------------------------

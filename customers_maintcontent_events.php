@@ -767,6 +767,30 @@ function customers_maintcontent_alm_customers_network_monitor_BeforeShow(& $send
 }
 //End Close customers_maintcontent_alm_customers_network_monitor_BeforeShow
 
+//customers_maintcontent_alm_customers_networking_BeforeShow @231-26604995
+function customers_maintcontent_alm_customers_networking_BeforeShow(& $sender)
+{
+ $customers_maintcontent_alm_customers_networking_BeforeShow = true;
+ $Component = & $sender;
+ $Container = & CCGetParentContainer($sender);
+ global $customers_maintcontent; //Compatibility
+//End customers_maintcontent_alm_customers_networking_BeforeShow
+
+//Custom Code @232-2A29BDB7
+// -------------------------
+    // Write your own code here.
+ 	$networking = explode(",",$customers_maintcontent->alm_customers->networking->GetValue());
+	$customers_maintcontent->alm_customers->networking->Multiple = true;
+	$customers_maintcontent->alm_customers->networking->SetValue($networking);
+
+// -------------------------
+//End Custom Code
+
+//Close customers_maintcontent_alm_customers_networking_BeforeShow @231-2B7FD0E4
+ return $customers_maintcontent_alm_customers_networking_BeforeShow;
+}
+//End Close customers_maintcontent_alm_customers_networking_BeforeShow
+
 //Used because the last_user_id query on afterinsert was not working
 $lastguid = "";
 
@@ -967,6 +991,12 @@ function customers_maintcontent_alm_customers_BeforeInsert(& $sender)
 		$socialmedia_security_list .= $social.",";
 	}	
 
+	$networking = CCGetFromPost("networking",array());
+	$networking_list = "";
+	foreach($networking as $networking_item) {
+		$networking_list .= $networking_item.",";
+	}	
+
 	$customers_maintcontent->alm_customers->os_workstations->SetValue($os_workstations_list);
 	$customers_maintcontent->alm_customers->os_servers->SetValue($os_servers_list);
 	$customers_maintcontent->alm_customers->servers_type->SetValue($servers_type_list);
@@ -1010,6 +1040,8 @@ function customers_maintcontent_alm_customers_BeforeInsert(& $sender)
 	$customers_maintcontent->alm_customers->wireless_security->SetValue($wireless_security_list);
 
 	$customers_maintcontent->alm_customers->socialmedia_security->SetValue($socialmedia_security_list);
+
+	$customers_maintcontent->alm_customers->networking->SetValue($networking_list);
 
 	$customers_maintcontent->alm_customers->created_iduser->SetValue($userid);
 	$customers_maintcontent->alm_customers->hidguid->SetValue($guid);
@@ -1315,6 +1347,12 @@ function customers_maintcontent_alm_customers_BeforeUpdate(& $sender)
 		$socialmedia_security_list .= $social.",";
 	}	
 
+	$networking = CCGetFromPost("networking",array());
+	$networking_list = "";
+	foreach($networking as $networking_item) {
+		$networking_list .= $networking_item.",";
+	}	
+
 	$customers_maintcontent->alm_customers->os_workstations->SetValue($os_workstations_list);
 	$customers_maintcontent->alm_customers->os_servers->SetValue($os_servers_list);
 	$customers_maintcontent->alm_customers->servers_type->SetValue($servers_type_list);
@@ -1358,7 +1396,9 @@ function customers_maintcontent_alm_customers_BeforeUpdate(& $sender)
 	$customers_maintcontent->alm_customers->wireless_security->SetValue($wireless_security_list);
 
 	$customers_maintcontent->alm_customers->socialmedia_security->SetValue($socialmedia_security_list);
-
+	
+	$customers_maintcontent->alm_customers->networking->SetValue($networking_list);
+	
 	$customers_maintcontent->alm_customers->modified_iduser->SetValue($userid);
 
 

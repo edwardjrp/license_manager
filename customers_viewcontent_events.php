@@ -750,6 +750,30 @@ function customers_viewcontent_alm_customers_network_monitor_BeforeShow(& $sende
 }
 //End Close customers_viewcontent_alm_customers_network_monitor_BeforeShow
 
+//customers_viewcontent_alm_customers_networking_BeforeShow @160-6656413D
+function customers_viewcontent_alm_customers_networking_BeforeShow(& $sender)
+{
+ $customers_viewcontent_alm_customers_networking_BeforeShow = true;
+ $Component = & $sender;
+ $Container = & CCGetParentContainer($sender);
+ global $customers_viewcontent; //Compatibility
+//End customers_viewcontent_alm_customers_networking_BeforeShow
+
+//Custom Code @161-2A29BDB7
+// -------------------------
+    // Write your own code here.
+ 	$networking = explode(",",$customers_viewcontent->alm_customers->networking->GetValue());
+	$customers_viewcontent->alm_customers->networking->Multiple = true;
+	$customers_viewcontent->alm_customers->networking->SetValue($networking);
+
+// -------------------------
+//End Custom Code
+
+//Close customers_viewcontent_alm_customers_networking_BeforeShow @160-160D729F
+ return $customers_viewcontent_alm_customers_networking_BeforeShow;
+}
+//End Close customers_viewcontent_alm_customers_networking_BeforeShow
+
 //customers_viewcontent_alm_customers_BeforeInsert @2-6477422F
 function customers_viewcontent_alm_customers_BeforeInsert(& $sender)
 {

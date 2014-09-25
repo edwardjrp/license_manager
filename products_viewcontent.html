@@ -23,13 +23,6 @@
 					</div>
 
 					<div class="col-md-2 col-xs-12">
-						<div class="row col-xs-12">
-							<label class="control-label blue">{res:numberofnodes}</label><br>
-							<input type="text" name="{range_min_Name}" value="{range_min}" disabled class="col-md-5 col-xs-12">&nbsp;&nbsp;&nbsp;
-							<input type="text" name="{range_min1_Name}" value="{range_min1}" disabled class="col-md-5 col-xs-12">
-						</div> 
-					</div>
-					<div class="col-md-2 col-xs-12">
 						<label class="control-label blue">{res:channel_sku}</label><br>
 						<input type="text" name="{channel_sku_Name}" value="{channel_sku}" disabled class="col-md-12 col-xs-12">
 					</div>
@@ -42,6 +35,35 @@
 
 				<div class="row col-xs-12 space"></div>
 				
+				<div class="row col-xs-12">
+					<div class="col-md-1 col-xs-0"></div>
+					<div class="col-md-4 col-xs-12">
+						<label class="control-label blue">{res:licensedby}</label><br>
+						<!-- BEGIN RadioButton id_licensed_by --><input {Check} type="radio" name="{id_licensed_by_Name}" value="{Value}" id="id_licensed_by_{Value}" class="ace id_licensed_by" disabled><span class="lbl">
+&nbsp;&nbsp;{Description}&nbsp;&nbsp;&nbsp;</span><!-- END RadioButton id_licensed_by -->
+					</div>
+
+					<div class="col-md-2 col-xs-12 hide" id="amounts">
+						<label class="control-label blue">{res:amount_percentage}</label><br>
+						<input type="text" name="{licensed_amount_Name}" value="{licensed_amount}" class="col-md-12 col-xs-12" disabled>
+					</div>
+
+					<div class="col-md-2 col-xs-12" id="nodes">
+						<div class="row col-xs-12">
+							<label class="control-label blue">{res:numberofnodes}</label><br>
+							<input type="text" name="{range_min_Name}" value="{range_min}" disabled class="col-md-5 col-xs-12">&nbsp;&nbsp;&nbsp;<input type="text" name="{range_min1_Name}" value="{range_min1}" disabled class="col-md-5 col-xs-12">
+						</div>
+					</div>
+
+					<div class="col-md-2 col-xs-12">
+						<label class="control-label blue">{res:licensesector}</label><br>
+						<input type="text" name="{id_license_sector_Name}" value="{id_license_sector}" id="id_license_sector" disabled>
+					</div>
+
+				</div><!-- row -->
+
+				<div class="row col-xs-12 space"></div>
+
 				<div class="row col-xs-12">
 					<div class="col-md-1 col-xs-0"></div>
 					<div class="col-md-10 col-xs-12">
@@ -123,6 +145,16 @@ $(function(){
         //$.validate({
         //        form : "#alm_products"
         //});
+
+	//Default value for radio
+	var selectedLicensedBy = $("input[name=id_licensed_by]:checked").val();
+	if (selectedLicensedBy == 1) {
+		$("#nodes").removeClass("hide");
+		$("#amounts").addClass("hide");	
+	} else {
+		$("#nodes").addClass("hide");
+		$("#amounts").removeClass("hide");	
+	}
 
 
 });

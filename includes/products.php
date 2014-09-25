@@ -77,7 +77,8 @@ class Products {
 		$guid = $params["guid"];
 		if (strlen($guid) > 0) {
 			$db = new \clsDBdbConnection();
-			$fields_array = array("id_suite","id_product_type","range_min","range_max","msrp_price","product_content","description");
+			$fields_array = array("id_suite","id_product_type","range_min","range_max","msrp_price","product_content","description",
+								  "id_license_type","id_product_tag","id_licensed_by","id_license_sector","licensed_amount",);
 			$fields = implode(",",$fields_array);
 			$sql = "select $fields from alm_products where guid = '$guid' ";
 			$db->query($sql);

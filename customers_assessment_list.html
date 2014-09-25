@@ -94,6 +94,7 @@ $(function(){
 		var curTab = "tab_9";
 		$("#addnew").click(function(e) {
             var link = $(this).attr("href");
+			curTab = $("#typelist").val();
 			$(this).attr("href", link+"?tab="+curTab);
 		});
 		
