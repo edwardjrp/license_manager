@@ -437,7 +437,7 @@ class clsproducts_viewcontentv_alm_productsDataSource extends clsDBdbConnection 
  }
 //End Open Method
 
-//SetValues Method @5-61977C47
+//SetValues Method @5-D18DB392
  function SetValues()
  {
   $this->description->SetDBValue($this->f("suite_description"));
@@ -454,7 +454,7 @@ class clsproducts_viewcontentv_alm_productsDataSource extends clsDBdbConnection 
   $this->licensed_amount->SetDBValue(trim($this->f("licensed_amount")));
   $this->range_min->SetDBValue($this->f("range_min"));
   $this->range_min1->SetDBValue($this->f("range_max"));
-  $this->id_license_sector->SetDBValue($this->f("license_sector_type"));
+  $this->id_license_sector->SetDBValue($this->f("sector_name"));
  }
 //End SetValues Method
 

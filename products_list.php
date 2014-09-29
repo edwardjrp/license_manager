@@ -261,7 +261,7 @@ class clsGridproducts_listv_alm_products { //v_alm_products class @12-34EC6C64
  public $Sorter_id_product_type;
 //End Variables
 
-//Class_Initialize Event @12-FCFE87F8
+//Class_Initialize Event @12-47E5CA25
  function clsGridproducts_listv_alm_products($RelativePath, & $Parent)
  {
   global $FileName;
@@ -294,7 +294,6 @@ class clsGridproducts_listv_alm_products { //v_alm_products class @12-34EC6C64
   $this->suite_code = new clsControl(ccsLabel, "suite_code", "suite_code", ccsText, "", CCGetRequestParam("suite_code", ccsGet, NULL), $this);
   $this->description = new clsControl(ccsLabel, "description", "description", ccsText, "", CCGetRequestParam("description", ccsGet, NULL), $this);
   $this->range_min = new clsControl(ccsLabel, "range_min", "range_min", ccsInteger, "", CCGetRequestParam("range_min", ccsGet, NULL), $this);
-  $this->range_max = new clsControl(ccsLabel, "range_max", "range_max", ccsInteger, "", CCGetRequestParam("range_max", ccsGet, NULL), $this);
   $this->channel_sku = new clsControl(ccsLabel, "channel_sku", "channel_sku", ccsText, "", CCGetRequestParam("channel_sku", ccsGet, NULL), $this);
   $this->msrp_price = new clsControl(ccsLabel, "msrp_price", "msrp_price", ccsFloat, array(False, 2, Null, Null, False, "\$ ", "", 1, True, ""), CCGetRequestParam("msrp_price", ccsGet, NULL), $this);
   $this->suite_description = new clsControl(ccsLabel, "suite_description", "suite_description", ccsText, "", CCGetRequestParam("suite_description", ccsGet, NULL), $this);
@@ -304,6 +303,10 @@ class clsGridproducts_listv_alm_products { //v_alm_products class @12-34EC6C64
   $this->lbdelete = new clsControl(ccsLabel, "lbdelete", "lbdelete", ccsText, "", CCGetRequestParam("lbdelete", ccsGet, NULL), $this);
   $this->tag_name = new clsControl(ccsLabel, "tag_name", "tag_name", ccsText, "", CCGetRequestParam("tag_name", ccsGet, NULL), $this);
   $this->license_name = new clsControl(ccsLabel, "license_name", "license_name", ccsText, "", CCGetRequestParam("license_name", ccsGet, NULL), $this);
+  $this->range_max = new clsControl(ccsLabel, "range_max", "range_max", ccsInteger, "", CCGetRequestParam("range_max", ccsGet, NULL), $this);
+  $this->qtypercentage = new clsControl(ccsLabel, "qtypercentage", "qtypercentage", ccsText, "", CCGetRequestParam("qtypercentage", ccsGet, NULL), $this);
+  $this->licensedby_name = new clsControl(ccsLabel, "licensedby_name", "licensedby_name", ccsText, "", CCGetRequestParam("licensedby_name", ccsGet, NULL), $this);
+  $this->hidlicensedby = new clsControl(ccsHidden, "hidlicensedby", "hidlicensedby", ccsText, "", CCGetRequestParam("hidlicensedby", ccsGet, NULL), $this);
   $this->Sorter_guid = new clsSorter($this->ComponentName, "Sorter_guid", $FileName, $this);
   $this->Sorter_suite_code = new clsSorter($this->ComponentName, "Sorter_suite_code", $FileName, $this);
   $this->Sorter_range_min = new clsSorter($this->ComponentName, "Sorter_range_min", $FileName, $this);
@@ -331,7 +334,7 @@ class clsGridproducts_listv_alm_products { //v_alm_products class @12-34EC6C64
  }
 //End Initialize Method
 
-//Show Method @12-F0EF08C0
+//Show Method @12-5D679B62
  function Show()
  {
   global $Tpl;
@@ -366,7 +369,6 @@ class clsGridproducts_listv_alm_products { //v_alm_products class @12-34EC6C64
    $this->ControlsVisible["suite_code"] = $this->suite_code->Visible;
    $this->ControlsVisible["description"] = $this->description->Visible;
    $this->ControlsVisible["range_min"] = $this->range_min->Visible;
-   $this->ControlsVisible["range_max"] = $this->range_max->Visible;
    $this->ControlsVisible["channel_sku"] = $this->channel_sku->Visible;
    $this->ControlsVisible["msrp_price"] = $this->msrp_price->Visible;
    $this->ControlsVisible["suite_description"] = $this->suite_description->Visible;
@@ -376,6 +378,10 @@ class clsGridproducts_listv_alm_products { //v_alm_products class @12-34EC6C64
    $this->ControlsVisible["lbdelete"] = $this->lbdelete->Visible;
    $this->ControlsVisible["tag_name"] = $this->tag_name->Visible;
    $this->ControlsVisible["license_name"] = $this->license_name->Visible;
+   $this->ControlsVisible["range_max"] = $this->range_max->Visible;
+   $this->ControlsVisible["qtypercentage"] = $this->qtypercentage->Visible;
+   $this->ControlsVisible["licensedby_name"] = $this->licensedby_name->Visible;
+   $this->ControlsVisible["hidlicensedby"] = $this->hidlicensedby->Visible;
    while ($this->ForceIteration || (($this->RowNumber < $this->PageSize) &&  ($this->HasRecord = $this->DataSource->has_next_record()))) {
     $this->RowNumber++;
     if ($this->HasRecord) {
@@ -387,13 +393,16 @@ class clsGridproducts_listv_alm_products { //v_alm_products class @12-34EC6C64
     $this->suite_code->SetValue($this->DataSource->suite_code->GetValue());
     $this->description->SetValue($this->DataSource->description->GetValue());
     $this->range_min->SetValue($this->DataSource->range_min->GetValue());
-    $this->range_max->SetValue($this->DataSource->range_max->GetValue());
     $this->channel_sku->SetValue($this->DataSource->channel_sku->GetValue());
     $this->msrp_price->SetValue($this->DataSource->msrp_price->GetValue());
     $this->suite_description->SetValue($this->DataSource->suite_description->GetValue());
     $this->product_type_icon_name->SetValue($this->DataSource->product_type_icon_name->GetValue());
     $this->tag_name->SetValue($this->DataSource->tag_name->GetValue());
     $this->license_name->SetValue($this->DataSource->license_name->GetValue());
+    $this->range_max->SetValue($this->DataSource->range_max->GetValue());
+    $this->qtypercentage->SetValue($this->DataSource->qtypercentage->GetValue());
+    $this->licensedby_name->SetValue($this->DataSource->licensedby_name->GetValue());
+    $this->hidlicensedby->SetValue($this->DataSource->hidlicensedby->GetValue());
     $this->Attributes->SetValue("rowNumber", $this->RowNumber);
     $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeShowRow", $this);
     $this->Attributes->Show();
@@ -401,7 +410,6 @@ class clsGridproducts_listv_alm_products { //v_alm_products class @12-34EC6C64
     $this->suite_code->Show();
     $this->description->Show();
     $this->range_min->Show();
-    $this->range_max->Show();
     $this->channel_sku->Show();
     $this->msrp_price->Show();
     $this->suite_description->Show();
@@ -410,6 +418,10 @@ class clsGridproducts_listv_alm_products { //v_alm_products class @12-34EC6C64
     $this->pndeletebutton->Show();
     $this->tag_name->Show();
     $this->license_name->Show();
+    $this->range_max->Show();
+    $this->qtypercentage->Show();
+    $this->licensedby_name->Show();
+    $this->hidlicensedby->Show();
     $Tpl->block_path = $ParentPath . "/" . $GridBlock;
     $Tpl->parse("Row", true);
    }
@@ -451,7 +463,7 @@ class clsGridproducts_listv_alm_products { //v_alm_products class @12-34EC6C64
  }
 //End Show Method
 
-//GetErrors Method @12-7DB72958
+//GetErrors Method @12-FAEC978D
  function GetErrors()
  {
   $errors = "";
@@ -459,7 +471,6 @@ class clsGridproducts_listv_alm_products { //v_alm_products class @12-34EC6C64
   $errors = ComposeStrings($errors, $this->suite_code->Errors->ToString());
   $errors = ComposeStrings($errors, $this->description->Errors->ToString());
   $errors = ComposeStrings($errors, $this->range_min->Errors->ToString());
-  $errors = ComposeStrings($errors, $this->range_max->Errors->ToString());
   $errors = ComposeStrings($errors, $this->channel_sku->Errors->ToString());
   $errors = ComposeStrings($errors, $this->msrp_price->Errors->ToString());
   $errors = ComposeStrings($errors, $this->suite_description->Errors->ToString());
@@ -468,6 +479,10 @@ class clsGridproducts_listv_alm_products { //v_alm_products class @12-34EC6C64
   $errors = ComposeStrings($errors, $this->lbdelete->Errors->ToString());
   $errors = ComposeStrings($errors, $this->tag_name->Errors->ToString());
   $errors = ComposeStrings($errors, $this->license_name->Errors->ToString());
+  $errors = ComposeStrings($errors, $this->range_max->Errors->ToString());
+  $errors = ComposeStrings($errors, $this->qtypercentage->Errors->ToString());
+  $errors = ComposeStrings($errors, $this->licensedby_name->Errors->ToString());
+  $errors = ComposeStrings($errors, $this->hidlicensedby->Errors->ToString());
   $errors = ComposeStrings($errors, $this->Errors->ToString());
   $errors = ComposeStrings($errors, $this->DataSource->Errors->ToString());
   return $errors;
@@ -478,7 +493,7 @@ class clsGridproducts_listv_alm_products { //v_alm_products class @12-34EC6C64
 
 class clsproducts_listv_alm_productsDataSource extends clsDBdbConnection {  //v_alm_productsDataSource Class @12-FDE3D33F
 
-//DataSource Variables @12-67A34344
+//DataSource Variables @12-9D1339C9
  public $Parent = "";
  public $CCSEvents = "";
  public $CCSEventResult;
@@ -494,16 +509,19 @@ class clsproducts_listv_alm_productsDataSource extends clsDBdbConnection {  //v_
  public $suite_code;
  public $description;
  public $range_min;
- public $range_max;
  public $channel_sku;
  public $msrp_price;
  public $suite_description;
  public $product_type_icon_name;
  public $tag_name;
  public $license_name;
+ public $range_max;
+ public $qtypercentage;
+ public $licensedby_name;
+ public $hidlicensedby;
 //End DataSource Variables
 
-//DataSourceClass_Initialize Event @12-C4BA4FBB
+//DataSourceClass_Initialize Event @12-35A20688
  function clsproducts_listv_alm_productsDataSource(& $Parent)
  {
   $this->Parent = & $Parent;
@@ -517,8 +535,6 @@ class clsproducts_listv_alm_productsDataSource extends clsDBdbConnection {  //v_
   
   $this->range_min = new clsField("range_min", ccsInteger, "");
   
-  $this->range_max = new clsField("range_max", ccsInteger, "");
-  
   $this->channel_sku = new clsField("channel_sku", ccsText, "");
   
   $this->msrp_price = new clsField("msrp_price", ccsFloat, "");
@@ -531,11 +547,19 @@ class clsproducts_listv_alm_productsDataSource extends clsDBdbConnection {  //v_
   
   $this->license_name = new clsField("license_name", ccsText, "");
   
+  $this->range_max = new clsField("range_max", ccsInteger, "");
+  
+  $this->qtypercentage = new clsField("qtypercentage", ccsText, "");
+  
+  $this->licensedby_name = new clsField("licensedby_name", ccsText, "");
+  
+  $this->hidlicensedby = new clsField("hidlicensedby", ccsText, "");
+  
 
  }
 //End DataSourceClass_Initialize Event
 
-//SetOrder Method @12-356E18E2
+//SetOrder Method @12-47706795
  function SetOrder($SorterName, $SorterDirection)
  {
   $this->Order = "";
@@ -543,7 +567,7 @@ class clsproducts_listv_alm_productsDataSource extends clsDBdbConnection {  //v_
    array("Sorter_guid" => array("guid", ""), 
    "Sorter_suite_code" => array("suite_code", ""), 
    "Sorter_range_min" => array("range_min", ""), 
-   "Sorter_range_max" => array("range_max", ""), 
+   "Sorter_range_max" => array("licensed_amount", ""), 
    "Sorter_channel_sku" => array("channel_sku", ""), 
    "Sorter_msrp_price" => array("msrp_price", ""), 
    "Sorter_description" => array("description", ""), 
@@ -606,20 +630,23 @@ class clsproducts_listv_alm_productsDataSource extends clsDBdbConnection {  //v_
  }
 //End Open Method
 
-//SetValues Method @12-9993631C
+//SetValues Method @12-39599701
  function SetValues()
  {
   $this->guid->SetDBValue($this->f("guid"));
   $this->suite_code->SetDBValue($this->f("suite_code"));
   $this->description->SetDBValue($this->f("description"));
   $this->range_min->SetDBValue(trim($this->f("range_min")));
-  $this->range_max->SetDBValue(trim($this->f("range_max")));
   $this->channel_sku->SetDBValue($this->f("channel_sku"));
   $this->msrp_price->SetDBValue(trim($this->f("msrp_price")));
   $this->suite_description->SetDBValue($this->f("suite_description"));
   $this->product_type_icon_name->SetDBValue($this->f("product_type_icon_name"));
   $this->tag_name->SetDBValue($this->f("tag_name"));
   $this->license_name->SetDBValue($this->f("license_name"));
+  $this->range_max->SetDBValue(trim($this->f("range_max")));
+  $this->qtypercentage->SetDBValue($this->f("licensed_amount"));
+  $this->licensedby_name->SetDBValue($this->f("licensedby_name"));
+  $this->hidlicensedby->SetDBValue($this->f("id_licensed_by"));
  }
 //End SetValues Method
 
@@ -673,12 +700,14 @@ class clsproducts_list { //products_list class @1-AB951F3E
  }
 //End Class_Terminate Event
 
-//BindEvents Method @1-4E43775D
+//BindEvents Method @1-77F67D16
  function BindEvents()
  {
-  $this->v_alm_products->range_max->CCSEvents["BeforeShow"] = "products_list_v_alm_products_range_max_BeforeShow";
+  $this->v_alm_products->range_min->CCSEvents["BeforeShow"] = "products_list_v_alm_products_range_min_BeforeShow";
   $this->v_alm_products->params->CCSEvents["BeforeShow"] = "products_list_v_alm_products_params_BeforeShow";
   $this->v_alm_products->pndeletebutton->CCSEvents["BeforeShow"] = "products_list_v_alm_products_pndeletebutton_BeforeShow";
+  $this->v_alm_products->range_max->CCSEvents["BeforeShow"] = "products_list_v_alm_products_range_max_BeforeShow";
+  $this->v_alm_products->qtypercentage->CCSEvents["BeforeShow"] = "products_list_v_alm_products_qtypercentage_BeforeShow";
   $this->v_alm_products->CCSEvents["BeforeShowRow"] = "products_list_v_alm_products_BeforeShowRow";
   $this->v_alm_products->CCSEvents["BeforeShow"] = "products_list_v_alm_products_BeforeShow";
   $this->CCSEvents["BeforeShow"] = "products_list_BeforeShow";

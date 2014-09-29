@@ -1,27 +1,36 @@
 <?php
 // //Events @1-F81417CB
 
-//products_list_v_alm_products_range_max_BeforeShow @29-E65D840D
-function products_list_v_alm_products_range_max_BeforeShow(& $sender)
+//products_list_v_alm_products_range_min_BeforeShow @28-E73BAAA8
+function products_list_v_alm_products_range_min_BeforeShow(& $sender)
 {
- $products_list_v_alm_products_range_max_BeforeShow = true;
+ $products_list_v_alm_products_range_min_BeforeShow = true;
  $Component = & $sender;
  $Container = & CCGetParentContainer($sender);
  global $products_list; //Compatibility
-//End products_list_v_alm_products_range_max_BeforeShow
+//End products_list_v_alm_products_range_min_BeforeShow
 
-//Custom Code @41-2A29BDB7
+//Custom Code @67-2A29BDB7
 // -------------------------
  // Write your own code here.
- 	if ($sender->GetValue() == "0")
-		$sender->SetValue("+");
+ 	switch($products_list->v_alm_products->hidlicensedby->GetValue()) {
+		case "2" :
+		case "3" :
+			$sender->SetValue("N/A");
+		break;
+		default :
+			$minrange = $sender->GetValue()." - ";
+			$sender->SetValue($minrange);
+		break;
+	}
+
 // -------------------------
 //End Custom Code
 
-//Close products_list_v_alm_products_range_max_BeforeShow @29-25657960
- return $products_list_v_alm_products_range_max_BeforeShow;
+//Close products_list_v_alm_products_range_min_BeforeShow @28-749CC23D
+ return $products_list_v_alm_products_range_min_BeforeShow;
 }
-//End Close products_list_v_alm_products_range_max_BeforeShow
+//End Close products_list_v_alm_products_range_min_BeforeShow
 
 //products_list_v_alm_products_params_BeforeShow @55-6727DECB
 function products_list_v_alm_products_params_BeforeShow(& $sender)
@@ -75,6 +84,66 @@ function products_list_v_alm_products_pndeletebutton_BeforeShow(& $sender)
  return $products_list_v_alm_products_pndeletebutton_BeforeShow;
 }
 //End Close products_list_v_alm_products_pndeletebutton_BeforeShow
+
+//products_list_v_alm_products_range_max_BeforeShow @29-E65D840D
+function products_list_v_alm_products_range_max_BeforeShow(& $sender)
+{
+ $products_list_v_alm_products_range_max_BeforeShow = true;
+ $Component = & $sender;
+ $Container = & CCGetParentContainer($sender);
+ global $products_list; //Compatibility
+//End products_list_v_alm_products_range_max_BeforeShow
+
+//Custom Code @41-2A29BDB7
+// -------------------------
+ // Write your own code here.
+ 	if ($sender->GetValue() == "0")
+		$sender->SetValue("+");
+
+ 	switch($products_list->v_alm_products->hidlicensedby->GetValue()) {
+		case "2" :
+		case "3" :
+			$sender->SetValue("");
+		break;
+	}
+
+// -------------------------
+//End Custom Code
+
+//Close products_list_v_alm_products_range_max_BeforeShow @29-25657960
+ return $products_list_v_alm_products_range_max_BeforeShow;
+}
+//End Close products_list_v_alm_products_range_max_BeforeShow
+
+//products_list_v_alm_products_qtypercentage_BeforeShow @63-50ED22B8
+function products_list_v_alm_products_qtypercentage_BeforeShow(& $sender)
+{
+ $products_list_v_alm_products_qtypercentage_BeforeShow = true;
+ $Component = & $sender;
+ $Container = & CCGetParentContainer($sender);
+ global $products_list; //Compatibility
+//End products_list_v_alm_products_qtypercentage_BeforeShow
+
+//Custom Code @64-2A29BDB7
+// -------------------------
+ // Write your own code here.
+ 	switch($products_list->v_alm_products->hidlicensedby->GetValue()) {
+		case "1" :
+			$sender->SetValue("N/A");
+		break;
+		case "3" :
+			$percentage = $sender->GetValue()."%";
+			$sender->SetValue($percentage);
+		break;
+	}
+
+// -------------------------
+//End Custom Code
+
+//Close products_list_v_alm_products_qtypercentage_BeforeShow @63-C323BE67
+ return $products_list_v_alm_products_qtypercentage_BeforeShow;
+}
+//End Close products_list_v_alm_products_qtypercentage_BeforeShow
 
 //products_list_v_alm_products_BeforeShowRow @12-1C0286C6
 function products_list_v_alm_products_BeforeShowRow(& $sender)

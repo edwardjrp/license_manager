@@ -36,7 +36,7 @@ class clsRecordproducts_maintcontentalm_products { //alm_products Class @2-92A03
  // Class variables
 //End Variables
 
-//Class_Initialize Event @2-3BCB888D
+//Class_Initialize Event @2-B214DF1E
  function clsRecordproducts_maintcontentalm_products($RelativePath, & $Parent)
  {
 
@@ -135,8 +135,8 @@ class clsRecordproducts_maintcontentalm_products { //alm_products Class @2-92A03
    $this->id_license_sector->DataSource = new clsDBdbConnection();
    $this->id_license_sector->ds = & $this->id_license_sector->DataSource;
    $this->id_license_sector->DataSource->SQL = "SELECT * \n" .
-"FROM alm_customers_type {SQL_Where} {SQL_OrderBy}";
-   list($this->id_license_sector->BoundColumn, $this->id_license_sector->TextColumn, $this->id_license_sector->DBFormat) = array("id", "customer_type", "");
+"FROM alm_license_sector {SQL_Where} {SQL_OrderBy}";
+   list($this->id_license_sector->BoundColumn, $this->id_license_sector->TextColumn, $this->id_license_sector->DBFormat) = array("id", "sector_name", "");
    $this->id_license_sector->HTML = true;
    $this->pnduplicate->Visible = false;
    $this->pnduplicate->AddComponent("params", $this->params);
