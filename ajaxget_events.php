@@ -39,7 +39,22 @@ function Page_BeforeShow(& $sender)
 			header('Content-Type: application/json');
 			echo json_encode($suite_details);
 		break;
+		case "product_info" :
+			$params["suite_id"] = $id; 
+			$products = new \Alm\Products();
+			$suite_products = $products->getProductsBySuiteID($params);
+			header('Content-Type: application/json');
+			echo json_encode($suite_products);
+		break;
+		case "product_detail" :
+			$params["product_id"] = $id; 
+			$products = new \Alm\Products();
+			$product_detail = $products->getProductByID($params);
+			header('Content-Type: application/json');
+			echo json_encode($product_detail);
+		break;
 	}
+
 // -------------------------
 //End Custom Code
 

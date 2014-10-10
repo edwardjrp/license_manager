@@ -133,7 +133,7 @@ function customers_viewcontent_alm_customers_lbgoback_BeforeShow(& $sender)
 //Custom Code @30-2A29BDB7
 // -------------------------
     // Write your own code here.
-	$remove = array("guid","tab");
+	$remove = array("guid","tab","mr");
 	$querystring = CCGetQueryString("QueryString",$remove);
 	if (strlen($querystring) > 0)
 		$newlink = "?".$querystring;
@@ -773,6 +773,36 @@ function customers_viewcontent_alm_customers_networking_BeforeShow(& $sender)
  return $customers_viewcontent_alm_customers_networking_BeforeShow;
 }
 //End Close customers_viewcontent_alm_customers_networking_BeforeShow
+
+//customers_viewcontent_alm_customers_lbreturn_BeforeShow @164-D3A31ADE
+function customers_viewcontent_alm_customers_lbreturn_BeforeShow(& $sender)
+{
+ $customers_viewcontent_alm_customers_lbreturn_BeforeShow = true;
+ $Component = & $sender;
+ $Container = & CCGetParentContainer($sender);
+ global $customers_viewcontent; //Compatibility
+//End customers_viewcontent_alm_customers_lbreturn_BeforeShow
+
+//Custom Code @165-2A29BDB7
+// -------------------------
+ // Write your own code here.
+	$mr = trim(CCGetFromGet("mr","customers.php"));
+	switch ($mr) {
+		case "licensing" :
+			$sender->SetValue("licensing.php");
+		break;
+		case "customers" :
+		default:
+			$sender->SetValue("customers.php");
+		break;
+	}
+// -------------------------
+//End Custom Code
+
+//Close customers_viewcontent_alm_customers_lbreturn_BeforeShow @164-B056DD57
+ return $customers_viewcontent_alm_customers_lbreturn_BeforeShow;
+}
+//End Close customers_viewcontent_alm_customers_lbreturn_BeforeShow
 
 //customers_viewcontent_alm_customers_BeforeInsert @2-6477422F
 function customers_viewcontent_alm_customers_BeforeInsert(& $sender)

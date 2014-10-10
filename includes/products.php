@@ -174,6 +174,84 @@ class Products {
 
 	}
 
+	public function getProductsBySuiteID($params = array()) {
+		$result = array("status" => false, "message" => "","products" => array());
+
+		$suite_id = (int)$params["suite_id"];
+
+		if ($suite_id > 0) {
+			$db = new \clsDBdbConnection();
+			$fields_array = array("id","range_min","range_max","description","short_description","channel_sku");
+			$fields = implode(",",$fields_array);
+			$sql = "select $fields from alm_products where id_suite = $suite_id ";
+			$db->query($sql);
+
+			$products = array();
+			while ($db->next_record()) {
+				$row = array();
+				foreach($fields_array as $field) {
+					$row[$field] = $db->f($field);
+				}
+				$products[] = $row;
+			}
+
+			$result["status"] = true;
+			$result["products"] = $products;
+			$result["message"] = "Command executed successfully";
+
+			$db->close();
+
+			return $result;
+
+		} else {
+			$result["status"] = false;
+			$result["message"] = "Invalid ID";
+
+			return $result;
+		}
+
+	}
+
+	public function getProductByID($params = array()) {
+		$result = array("status" => false, "message" => "","products" => array());
+
+		$product_id = (int)$params["product_id"];
+
+		if ($product_id > 0) {
+			$db = new \clsDBdbConnection();
+			$fields_array = array("id_suite","id_product_type","range_min","range_max","msrp_price","description","id_license_type",
+								  "id_product_tag","id_licensed_by","id_license_sector","licensed_amount","id","channel_sku",
+								  "short_description");
+			$fields = implode(",",$fields_array);
+			$sql = "select $fields from alm_products where id = $product_id ";
+			$db->query($sql);
+
+			$products = array();
+			while ($db->next_record()) {
+				$row = array();
+				foreach($fields_array as $field) {
+					$row[$field] = $db->f($field);
+				}
+				$products[] = $row;
+			}
+
+			$result["status"] = true;
+			$result["products"] = $products;
+			$result["message"] = "Command executed successfully";
+
+			$db->close();
+
+			return $result;
+
+		} else {
+			$result["status"] = false;
+			$result["message"] = "Invalid ID";
+
+			return $result;
+		}
+
+	}
+
 	public static function setProducts($params = array()) {
 		$result = array("status" => false, "message" => "");
 

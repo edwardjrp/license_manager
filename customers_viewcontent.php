@@ -35,7 +35,7 @@ class clsRecordcustomers_viewcontentalm_customers { //alm_customers Class @2-E6E
  // Class variables
 //End Variables
 
-//Class_Initialize Event @2-D3BA5D79
+//Class_Initialize Event @2-34079E9B
  function clsRecordcustomers_viewcontentalm_customers($RelativePath, & $Parent)
  {
 
@@ -555,6 +555,7 @@ class clsRecordcustomers_viewcontentalm_customers { //alm_customers Class @2-E6E
    $this->networking->DataSource->Where = 
      $this->networking->DataSource->wp->Criterion[1];
    $this->networking->HTML = true;
+   $this->lbreturn = new clsControl(ccsLabel, "lbreturn", "lbreturn", ccsText, "", CCGetRequestParam("lbreturn", $Method, NULL), $this);
    if(!$this->FormSubmitted) {
     if(!is_array($this->city->Value) && !strlen($this->city->Value) && $this->city->Value !== false)
      $this->city->SetText(1);
@@ -679,7 +680,7 @@ class clsRecordcustomers_viewcontentalm_customers { //alm_customers Class @2-E6E
  }
 //End Validate Method
 
-//CheckErrors Method @2-31762879
+//CheckErrors Method @2-4600569E
  function CheckErrors()
  {
   $errors = false;
@@ -731,6 +732,7 @@ class clsRecordcustomers_viewcontentalm_customers { //alm_customers Class @2-E6E
   $errors = ($errors || $this->datalostprevention->Errors->Count());
   $errors = ($errors || $this->network_monitor->Errors->Count());
   $errors = ($errors || $this->networking->Errors->Count());
+  $errors = ($errors || $this->lbreturn->Errors->Count());
   $errors = ($errors || $this->Errors->Count());
   $errors = ($errors || $this->DataSource->Errors->Count());
   return $errors;
@@ -794,7 +796,7 @@ function GetPrimaryKey($keyName)
  }
 //End Operation Method
 
-//InsertRow Method @2-4C673959
+//InsertRow Method @2-966DE42F
  function InsertRow()
  {
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeInsert", $this);
@@ -847,13 +849,14 @@ function GetPrimaryKey($keyName)
   $this->DataSource->datalostprevention->SetValue($this->datalostprevention->GetValue(true));
   $this->DataSource->network_monitor->SetValue($this->network_monitor->GetValue(true));
   $this->DataSource->networking->SetValue($this->networking->GetValue(true));
+  $this->DataSource->lbreturn->SetValue($this->lbreturn->GetValue(true));
   $this->DataSource->Insert();
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "AfterInsert", $this);
   return (!$this->CheckErrors());
  }
 //End InsertRow Method
 
-//UpdateRow Method @2-47F439E0
+//UpdateRow Method @2-E228BD02
  function UpdateRow()
  {
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeUpdate", $this);
@@ -906,13 +909,14 @@ function GetPrimaryKey($keyName)
   $this->DataSource->datalostprevention->SetValue($this->datalostprevention->GetValue(true));
   $this->DataSource->network_monitor->SetValue($this->network_monitor->GetValue(true));
   $this->DataSource->networking->SetValue($this->networking->GetValue(true));
+  $this->DataSource->lbreturn->SetValue($this->lbreturn->GetValue(true));
   $this->DataSource->Update();
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "AfterUpdate", $this);
   return (!$this->CheckErrors());
  }
 //End UpdateRow Method
 
-//Show Method @2-BADF38FE
+//Show Method @2-04AE7242
  function Show()
  {
   global $CCSUseAmp;
@@ -1077,6 +1081,7 @@ function GetPrimaryKey($keyName)
    $Error = ComposeStrings($Error, $this->datalostprevention->Errors->ToString());
    $Error = ComposeStrings($Error, $this->network_monitor->Errors->ToString());
    $Error = ComposeStrings($Error, $this->networking->Errors->ToString());
+   $Error = ComposeStrings($Error, $this->lbreturn->Errors->ToString());
    $Error = ComposeStrings($Error, $this->Errors->ToString());
    $Error = ComposeStrings($Error, $this->DataSource->Errors->ToString());
    $Tpl->SetVar("Error", $Error);
@@ -1147,6 +1152,7 @@ function GetPrimaryKey($keyName)
   $this->datalostprevention->Show();
   $this->network_monitor->Show();
   $this->networking->Show();
+  $this->lbreturn->Show();
   $Tpl->parse();
   $Tpl->block_path = $ParentPath;
   $this->DataSource->close();
@@ -1157,7 +1163,7 @@ function GetPrimaryKey($keyName)
 
 class clscustomers_viewcontentalm_customersDataSource extends clsDBdbConnection {  //alm_customersDataSource Class @2-20957048
 
-//DataSource Variables @2-26C0CCCB
+//DataSource Variables @2-BBE3A0E5
  public $Parent = "";
  public $CCSEvents = "";
  public $CCSEventResult;
@@ -1221,9 +1227,10 @@ class clscustomers_viewcontentalm_customersDataSource extends clsDBdbConnection 
  public $datalostprevention;
  public $network_monitor;
  public $networking;
+ public $lbreturn;
 //End DataSource Variables
 
-//DataSourceClass_Initialize Event @2-DD3A56E9
+//DataSourceClass_Initialize Event @2-860DD1B1
  function clscustomers_viewcontentalm_customersDataSource(& $Parent)
  {
   $this->Parent = & $Parent;
@@ -1324,6 +1331,8 @@ class clscustomers_viewcontentalm_customersDataSource extends clsDBdbConnection 
   $this->network_monitor = new clsField("network_monitor", ccsText, "");
   
   $this->networking = new clsField("networking", ccsText, "");
+  
+  $this->lbreturn = new clsField("lbreturn", ccsText, "");
   
 
   $this->InsertFields["name"] = array("Name" => "name", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
@@ -1676,7 +1685,7 @@ class clscustomers_viewcontent { //customers_viewcontent class @1-E56F5B35
  }
 //End Class_Terminate Event
 
-//BindEvents Method @1-7D47DDAC
+//BindEvents Method @1-4D53C330
  function BindEvents()
  {
   $this->alm_customers->os_workstations->CCSEvents["BeforeShow"] = "customers_viewcontent_alm_customers_os_workstations_BeforeShow";
@@ -1711,6 +1720,7 @@ class clscustomers_viewcontent { //customers_viewcontent class @1-E56F5B35
   $this->alm_customers->datalostprevention->CCSEvents["BeforeShow"] = "customers_viewcontent_alm_customers_datalostprevention_BeforeShow";
   $this->alm_customers->network_monitor->CCSEvents["BeforeShow"] = "customers_viewcontent_alm_customers_network_monitor_BeforeShow";
   $this->alm_customers->networking->CCSEvents["BeforeShow"] = "customers_viewcontent_alm_customers_networking_BeforeShow";
+  $this->alm_customers->lbreturn->CCSEvents["BeforeShow"] = "customers_viewcontent_alm_customers_lbreturn_BeforeShow";
   $this->alm_customers->CCSEvents["BeforeInsert"] = "customers_viewcontent_alm_customers_BeforeInsert";
   $this->alm_customers->CCSEvents["AfterInsert"] = "customers_viewcontent_alm_customers_AfterInsert";
   $this->alm_customers->CCSEvents["BeforeUpdate"] = "customers_viewcontent_alm_customers_BeforeUpdate";

@@ -1,0 +1,540 @@
+<div class="widget-box">
+	<div class="widget-header">
+		<h4>{res:viewcustomerlicenses}</h4>
+	</div>
+	<div class="widget-body">
+		<!-- BEGIN Record alm_customers -->
+		<form id="alm_customers" method="post" name="{HTMLFormName}" action="{Action}">
+			<div class="row widget-main">
+				<!-- BEGIN Error -->
+				<div class="alert alert-block alert-danger">
+					<button class="close" data-dismiss="alert"><i class="icon-remove"></i></button><strong>
+					<li class="icon-remove"></strong>{Error} </li>
+				</div>
+				<!-- END Error -->
+				<div class="row">
+					<div class="col-xs-1">
+					</div>
+					<div class="col-md-10 col-xs-10">
+						<div class="alert alert-block alert-success {page:showalert}">
+							<button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button>
+							<p><strong><i class="icon-ok"></i>{res:saved}</strong>{res:savedmessage}</p>
+						</div>
+						<div class="alert alert-block alert-danger {page:showalert_contacterror}">
+							<p><strong><i class="icon-warning-sign"></i>{res:contacterror}</strong>{res:contacterrormessage}</p>
+						</div>
+					</div>
+				</div>
+				<!-- row -->
+				<div class="tabbable">
+					<ul id="myTab" class="nav nav-tabs">
+						<li class="{tab1_active}"><a href="#customerdetails" data-toggle="tab">{res:tabcust_title}</a> 
+						<li class="{tab2_active}"><a href="#licensingtab" data-toggle="tab">{res:tablicensing_title}</a> 
+					</ul>
+					<div class="tab-content col-md-12 col-xs-12">
+						<div id="customerdetails" class="tab-pane {tab1_active}">
+							<div class="row col-xs-12">
+								<div class="col-md-1 col-xs-0">
+								</div>
+								<div class="col-md-5 col-xs-12">
+									<label class="control-label blue" for="s_customer">{res:customer}</label><br>
+									<input type="text" id="s_customer" maxlength="250" value="{name}" name="{name_Name}" data-validation-error-msg="{res:invalidcustomer}" data-validation="required" disabled class="col-md-12 col-xs-12">
+								</div>
+								<!-- col -->
+								<div class="col-md-2 col-xs-12">
+									<label class="control-label blue" for="s_customer">{res:taxid}</label><br>
+									<input type="text" id="s_taxid" maxlength="20" value="{taxid}" name="{taxid_Name}" disabled class="col-md-12 col-xs-12">
+								</div>
+								<div class="col-md-2 col-xs-12">
+									<label class="control-label blue" for="s_type">{res:customertype}</label><br>
+									<select id="s_type" name="{customertype_id_Name}" disabled class="col-md-12 col-xs-12">
+										<option selected value="">{res:CCS_SelectValue}</option>
+										{customertype_id_Options}
+									</select>
+ 
+								</div>
+							</div>
+							<!-- row-->
+							<div class="row col-xs-12">
+								<div class="col-md-1 col-xs-0">
+								</div>
+								<div class="col-md-5 col-xs-12">
+									<label class="control-label blue" for="s_phone">{res:phone}</label><br>
+									<input type="text" id="s_phone" maxlength="200" value="{phone}" name="{phone_Name}" disabled class="col-md-12 col-xs-12">
+								</div>
+								<div class="col-md-5 col-xs-12">
+									<label class="control-label blue" for="s_website">{res:website}</label><br>
+									<input type="text" id="s_website" maxlength="250" value="{website}" name="{website_Name}" disabled class="col-md-12 col-xs-12">
+								</div>
+							</div>
+							<!-- row -->
+							<div class="row col-xs-12">
+								<div class="col-md-1 col-xs-0">
+								</div>
+								<div class="col-md-5 col-xs-12">
+									<label class="control-label blue" for="s_phone">{res:address}</label><br>
+									<textarea id="s_address" rows="3" cols="49" name="{address_Name}" disabled class="col-md-12 col-xs-12">{address}</textarea>
+								</div>
+								<div class="col-md-3 col-xs-12">
+									<label class="control-label blue" for="city">{res:city}</label><br>
+									<select name="{city_Name}" id="city" disabled class="col-md-12 col-xs-12">
+										{city_Options}
+									</select>
+								</div>
+								<div class="col-md-3 col-xs-12">
+									<label class="control-label blue" for="businesspartner">{res:businesspartners}</label><br>
+									<label>
+									<!-- BEGIN CheckBoxList businesspartner --><input id="businesspartner_{businesspartner:optionNumber}" type="checkbox" value="{Value}" name="{businesspartner_Name}" {Check} class="ace ace-checkbox-2" disabled><span class="lbl">&nbsp;&nbsp;{Description}</span><br>
+									<!-- END CheckBoxList businesspartner --></label>
+								</div>
+							</div>
+							<!-- row -->
+							<div class="row col-xs-12">
+								<div class="col-md-1 col-md-0">
+								</div>
+								<div class="col-md-10 col-xs-12">
+									<h3 class="header smaller lighter red"><span class="icon-phone bigger-130"></span>&nbsp;{res:contacts}</h3>
+									<div class="table-responsive">
+										<table class="table table-striped table-bordered table-hover">
+											<tr>
+												<th class="blue text-center"><span class="icon-cogs bigger-150"></span></th>
+												<th class="blue">{res:contact}</th>
+												<th class="blue">{res:contact_jobposition}</th>
+												<th class="blue">{res:phone}</th>
+												<th class="blue">{res:extension}</th>
+												<th class="blue">{res:mobile}</th>
+												<th class="blue">{res:workemail}</th>
+												<th class="blue">{res:personalemail}</th>
+												<th class="blue">{res:dateupdated}</th>
+											</tr>
+											<!-- BEGIN contact_list -->
+											<tr>
+												<td nowrap>
+													<div class="action-buttons">
+													</div>
+												</td>
+												<td><span class="icon-asterisk bigger-120 orange {lbmaincontact}"></span>&nbsp;{lbcontact}</td>
+												<td>{lbcontact_jobposition}</td>
+												<td>{lbcontact_phone}</td>
+												<td>{lbcontact_extension}</td>
+												<td>{lbcontact_mobile}</td>
+												<td>{lbcontact_workemail}</td>
+												<td>{lbcontact_personalemail}</td>
+												<td nowrap>{lbcontact_dateupdated}</td>
+											</tr>
+											<!-- END contact_list -->
+										</table>
+									</div>
+								</div>
+							</div>
+							<!-- row -->
+							<div class="row col-xs-12">
+								<div class="col-md-1 col-xs-0"></div>
+								<div class="col-md-10 col-xs-12">
+									<h3 class="header smaller lighter purple"><span class="icon-briefcase purple bigger-130"></span>&nbsp;{res:licenses}</h3>
+									<div class="table-responsive">
+										<table class="table table-striped table-bordered table-hover">
+											<tr>
+												<th class="blue text-center"><span class="icon-cogs bigger-150"></span></th>
+												<th class="blue">{res:contact}</th>
+												<th class="blue">{res:contact_jobposition}</th>
+												<th class="blue">{res:phone}</th>
+												<th class="blue">{res:extension}</th>
+												<th class="blue">{res:mobile}</th>
+												<th class="blue">{res:workemail}</th>
+												<th class="blue">{res:personalemail}</th>
+												<th class="blue">{res:dateupdated}</th>
+											</tr>
+											<!-- BEGIN contact_list -->
+											<tr>
+												<td nowrap>
+													<div class="action-buttons">
+													</div>
+												</td>
+												<td><span class="icon-asterisk bigger-120 orange {lbmaincontact}"></span>&nbsp;{lbcontact}</td>
+												<td>{lbcontact_jobposition}</td>
+												<td>{lbcontact_phone}</td>
+												<td>{lbcontact_extension}</td>
+												<td>{lbcontact_mobile}</td>
+												<td>{lbcontact_workemail}</td>
+												<td>{lbcontact_personalemail}</td>
+												<td nowrap>{lbcontact_dateupdated}</td>
+											</tr>
+											<!-- END contact_list -->
+										</table>
+									</div>
+								</div>
+
+							</div>
+							<!-- row -->
+						</div>
+ 
+					</form>
+					<!-- END Record alm_customers -->
+					<!-- customerdetails tab -->
+
+					<div id="licensingtab" class="tab-pane {tab2_active}">
+					<!-- BEGIN Record licensing -->
+					<form id="licensing" method="post" action="{Action}" name="{HTMLFormName}">
+							<!-- BEGIN Error -->
+								{Error}
+							<!-- END Error -->
+
+						<div class="row col-xs-12">
+							<div class="col-md-1 col-xs-0"></div>
+							<div class="col-md-2 col-xs-12">
+								<label class="control-label blue">{res:manufacturer}</label><br>
+								<select name="{manufacturer_Name}" id="manufacturer" class="width-90 chosen-select ">
+									<option value="">{res:selectoption}</option>
+									{manufacturer_Options}
+								</select>
+							</div>
+
+							<div class="col-md-2 col-xs-12">
+								<label class="control-label blue">{res:suite_code}</label><br>
+								<select name="{suite_code_Name}" id="suite" class="width-90 chosen-select" data-validation="required" data-validation-error-msg="{res:invalidsuite}">
+									<option value="">{res:selectoption}</option>
+									{suite_code_Options}
+								</select>
+							</div>
+
+							<div class="col-md-7 col-xs-12">
+								<label class="control-label blue">{res:product}</label><br>
+								<select name="{id_product_Name}" id="products" class="width-90 chosen-select" data-validation="required" data-validation-error-msg="{res:invalidproduct}">
+									<option value="">{res:selectoption}</option>
+									{id_product_Options}
+								</select>
+							</div>
+
+
+						</div><!-- row -->
+
+						<div class="row col-xs-12 space"></div>
+
+						<div class="row col-xs-12">
+							<div class="col-md-1 col-xs-0"></div>
+							<div class="col-md-6 col-xs-12">
+								<label class="control-label blue">
+{res:productdescription}</label><br>
+								<input type="text" name="{product_description_Name}" id="product_description" value="{product_description}" class="col-md-12 col-xs-12" disabled>
+							</div>
+							<div class="col-md-5 col-xs-12">
+								<label class="control-label blue">{res:productshortname}</label><br>
+								<input type="text" name="{product_shortname_Name}" id="product_shortdescription" value="{product_shortname}" class="col-md-12 col-xs-12" disabled>
+							</div>
+						</div>
+
+						<div class="row col-xs-12 space"></div>
+
+						<div class="row col-xs-12">
+							<div class="col-md-1 col-xs-0">
+							</div>
+							<div class="col-md-2 col-xs-12">
+								<label class="control-label blue">{res:licensesector}</label><br>
+								<select name="{id_license_sector_Name}" id="id_license_sector" class="width-90 chosen-select">
+									<option value="">{res:selectoption}</option>
+									{id_license_sector_Options}
+								</select>
+							</div>
+							<div class="col-md-2 col-xs-12">
+								<label class="control-label blue">{res:reseller}</label><br>
+								<select name="{id_reseller_Name}" id="reseller" class="width-90 chosen-select">
+									<option value="">{res:selectoption}</option>
+									{id_reseller_Options}
+								</select>
+							</div>
+							<div class="col-md-3 col-xs-12">
+								<label class="control-label blue" for="s_type">{res:customertype}</label><br>
+								<select id="s_type" name="{id_customer_type_Name}" class="width-90 chosen-select">
+									<option selected value="">{res:CCS_SelectValue}</option>
+									{id_customer_type_Options}
+								</select>
+							</div>
+							<div class="col-md-3 col-xs-12">
+								<label class="control-label blue">{res:product_type}</label><br>
+								<!-- BEGIN RadioButton id_product_type --><input {Check} type="radio" name="{id_product_type_Name}" value="{Value}" id="id_product_type_{Value}" class="ace"><span class="lbl">&nbsp;&nbsp;{Description}&nbsp;&nbsp;&nbsp;</span><!-- END RadioButton id_product_type -->
+							</div>
+						</div><!-- row -->
+
+						<div class="row col-xs-12 space"></div>
+
+						<div class="row col-xs-12">
+							<div class="col-md-1 col-xs-0"></div>
+							<div class="col-md-2 col-xs-12">
+								<label class="control-label blue">{res:licensetype}</label><br>
+								<select name="{id_license_type_Name}" id="id_license_type" class="width-90 chosen-select">
+									<option value="">{res:option_na}</option>
+									{id_license_type_Options}
+								</select>
+							</div>
+
+							<div class="col-md-4 col-xs-12">
+								<label class="control-label blue">{res:licensedby}</label><br>
+								<!-- BEGIN RadioButton id_licensed_by --><input {Check} type="radio" name="{id_licensed_by_Name}" value="{Value}" id="id_licensed_by_{Value}" class="ace id_licensed_by"><span class="lbl">&nbsp;&nbsp;{Description}&nbsp;&nbsp;&nbsp;</span><!-- END RadioButton id_licensed_by -->
+							</div>
+
+							<div class="col-md-2 col-xs-12 hide" id="amounts">
+								<label class="control-label blue">{res:amount_percentage}</label><br>
+								<input type="text" name="{licensed_amount_Name}" value="{licensed_amount}" id="licensed_amount" class="col-md-12 col-xs-12">
+							</div>
+
+							<div class="col-md-2 col-xs-12" id="nodes">
+								<div class="row col-xs-12">
+									<label class="control-label blue">{res:numberofnodes}</label><br>
+									<input type="text" name="{nodes_Name}" value="{nodes}" data-validation="number" data-validation-optional="true" data-validation-error-msg="{res:invalidnodes}" class="col-md-5 col-xs-12">
+								</div>
+							</div>
+
+							<div class="col-md-3 col-xs-12">
+								<div class="row col-xs-12">
+									<label class="control-label blue">{res:channel_sku}</label><br>
+									<input type="text" name="{channel_sku_Name}" value="{channel_sku}" id="channel_sku" data-validation="required" data-validation-error-msg="{res:invalidsku}" class="col-md-5 col-xs-12 input-sm" disabled>
+								</div>
+							</div>
+
+						</div><!-- row -->
+
+						<div class="row col-xs-12 space"></div>
+
+						<div class="row col-xs-12">
+							<div class="col-md-1 col-xs-0"></div>
+							<div class="col-md-7 col-xs-12">
+								<div class="row col-xs-12">
+									<label class="control-label blue">{res:suite}</label><br>
+									<input type="text" name="{suitedescription_Name}" id="suitedescription" value="{suitedescription}" class="col-md-12 col-xs-12" disabled>
+								</div>
+							</div>
+							<div class="col-md-2 col-xs-12">
+								<div class="row col-xs-12">
+									<label class="control-label blue">{res:msrp_price}</label><br>
+									<input type="text" name="{msrp_price_Name}" value="{msrp_price}" id="msrp_price" class="col-md-12 col-xs-12">
+								</div>
+							</div>
+
+						</div><!-- row -->
+
+						<div class="row col-xs-12 space"></div>
+
+						<div class="row col-xs-12">
+							<div class="col-md-1 col-xs-0"></div>
+							<div class="col-md-3 col-xs-12">
+								<div class="row col-xs-12">
+									<label class="control-label blue">{res:grantnumber}</label><br>
+									<input type="text" name="{grant_number_Name}" value="{grant_number}" class="col-md-12 col-xs-12">
+								</div>
+							</div>
+
+							<div class="col-md-2 col-xs-12">
+								<div class="row col-xs-12">
+									<label class="control-label blue">{res:expeditiondate}</label><br>
+									<input type="text" name="{expedition_date_Name}" value="{expedition_date}" class="col-md-12 col-xs-12">
+								</div>
+							</div>
+
+							<div class="col-md-2 col-xs-12">
+								<div class="row col-xs-12">
+									<label class="control-label blue">{res:expirationdate}</label><br>
+									<input type="text" name="{expiration_date_Name}" value="{expiration_date}" class="col-md-12 col-xs-12">
+								</div>
+							</div>
+
+							<div class="col-md-4 col-xs-12">
+								<div class="row col-xs-12">
+									<label class="control-label blue">{res:serialnumber}</label><br>
+									<input type="text" name="{serial_number_Name}" value="{serial_number}" class="col-md-12 col-xs-12">
+								</div>
+							</div>
+
+						</div><!-- row -->
+
+						<div class="row">
+							<div class="col-md-12 col-xs-12">
+								<div class="form-actions action-buttons center inline col-xs-12">
+									<div class="inline"><a href="licensing.php{lbgoback}" role="button" id="goback" class="btn btn-sm btn-success"><li class="icon-arrow-left"></li>&nbsp;{res:buttongoback}</a> &nbsp;&nbsp; </div>
+									<div class="inline">
+										<!-- BEGIN Button Button_Insert --><button name="{Button_Name}" type="submit" value="{res:buttonsave}" class="btn btn-sm btn-success"><li class="icon-save"></li>&nbsp; {res:buttonsave}</button><!-- END Button Button_Insert -->
+									</div>
+									<div class="inline">
+										<!-- BEGIN Button Button_Update --><button name="{Button_Name}" type="submit" value="{res:buttonsave}" class="btn btn-sm btn-success"><li class="icon-save"></li>&nbsp; {res:buttonsave}</button><!-- END Button Button_Update -->
+									</div>
+									<input type="hidden" name="{modified_iduser_Name}" value="{modified_iduser}">
+									<input type="hidden" name="{created_iduser_Name}" value="{created_iduser}">
+									<input type="hidden" name="{hidguid_Name}" value="{hidguid}">
+									<input type="hidden" name="{hidtab_Name}" value="{hidtab}">
+								</div>
+							</div>
+							<!-- col -->
+						</div>
+						<!-- row -->
+
+					</div><!-- licensing tab -->
+				</div><!-- tabcontent -->
+			</div><!-- tabbable -->
+		</div><!-- row -->
+					
+
+		</form>
+		<!-- END Record licensing -->
+
+	</div>
+	<!-- widget-body -->
+</div>
+<!-- widget-box -->
+<link rel="stylesheet" href="assets/css/datepicker.css" />
+<link rel="stylesheet" href="assets/css/colorbox.css" />
+<link rel="stylesheet" href="assets/css/chosen.css" />
+
+<!-- included here to not mess with too much js in the main page -->
+<script src="assets/js/jquery-2.0.3.min.js"></script>
+<script src="assets/js/json3.min.js"></script>
+<script src="assets/js/form-validator/jquery.form-validator.min.js"></script>
+<script src="assets/js/jquery.colorbox-min.js"></script>
+<script src="assets/js/date-time/bootstrap-datepicker.min.js"></script>
+<script src="assets/js/bootbox.min.js"></script>
+<script src="assets/js/jquery-ui-1.10.3.custom.min.js"></script>
+<script src="assets/js/jquery.ui.touch-punch.min.js"></script>
+<script src="assets/js/jquery.colorbox-min.js"></script>
+<script src="assets/js/chosen.jquery.min.js"></script>
+
+<script>
+$(function(){
+        
+        //$("#s_customer").focus();
+        $.validate({
+        	form : "#licensing"
+        });
+
+		//Specified the width, for some weird reason, the width-90 class wasnt working
+		$(".chosen-select").chosen({width: "90%"}); 
+
+		$(".date-picker").datepicker({autoclose:true}).next().on(ace.click_event, function(){
+			$(this).prev().focus();
+		});
+
+
+		//Default value for radio
+		var selectedLicensedBy = $("input[name=id_licensed_by]:checked").val();
+		if (selectedLicensedBy == 1) {
+			$("#nodes").removeClass("hide");
+			$("#amounts").addClass("hide");	
+		} else {
+			$("#nodes").addClass("hide");
+			$("#amounts").removeClass("hide");	
+		}
+	
+		$(".id_licensed_by").change(function() {
+			var selected = $(this).val();
+			if (selected == 1) {
+				$("#nodes").removeClass("hide");
+				$("#amounts").addClass("hide");
+			} else {
+				$("#nodes").addClass("hide");
+				$("#amounts").removeClass("hide");
+			}
+		});
+
+
+		$("#suite").change(function() {
+			var suite_id = $(this).val();
+			var params = {m: "suite_description",id: suite_id};
+			$.ajax({
+				url: "ajaxget.php",
+				type: "get",
+				data: params
+			}).done(function(msg) {
+				$("#suitedescription").val(msg.suite_description);
+				//$("#product_content").val(msg.suite_long_description);
+			});
+
+			var params = {m: "product_info",id: suite_id};
+			$.ajax({
+				url: "ajaxget.php",
+				type: "get",
+				data: params
+			}).done(function(msg) {
+				var products = $("#products");
+				products.empty();
+				products.trigger("chosen:updated");
+				products.append($("<option/>").val("").text("{res:selectoption}") );
+				$.each(msg.products, function() {
+					products.append( $("<option/>").val(this.id).text(this.description +" ( {res:nodes}: "+ this.range_min +" - "+ this.range_max +" ) " + this.short_description ) );
+				});
+				products.trigger("chosen:updated");
+			});
+
+
+		});
+
+
+		$("#products").change(function() {
+			var product_id = $(this).val();
+			var params = {m: "product_detail",id: product_id};
+			$.ajax({
+				url: "ajaxget.php",
+				type: "get",
+				data: params
+			}).done(function(msg) {
+				console.log(msg);
+				$.each(msg.products, function() {
+					$("#product_description").val(this.description);
+					$("#product_shortdescription").val(this.short_description);
+					$("#id_license_sector").val(this.id_license_sector);
+					$("#id_license_sector").trigger("chosen:updated");
+					$("#id_product_type_"+this.id_product_type).click();
+					$("#id_license_type").val(this.id_license_type);
+					$("#id_license_type").trigger("chosen:updated");
+					$("#id_licensed_by_"+this.id_licensed_by).click();	
+					$("#licensed_amount").val(this.licensed_amount);
+					$("#channel_sku").val(this.channel_sku);
+					$("#msrp_price").val(this.msrp_price);
+				});
+
+			});
+		});
+
+
+		$("#manufacturer").chosen().change(function() {
+			var manufacturer_id = $(this).val();
+			var params = {m: "suite_manufacturer",id: manufacturer_id};
+			$.ajax({
+				url: "ajaxget.php",
+				type: "get",
+				data: params
+			}).done(function(msg) {
+				var suite = $("#suite");
+				suite.empty();
+				suite.trigger("chosen:updated");
+				suite.append($("<option/>").val("").text("{res:selectoption}"));
+				$.each(msg.suite, function() {
+					suite.append($("<option/>").val(this.id).text(this.suite_code));
+				});
+				suite.trigger("chosen:updated");
+
+			});
+		});
+
+
+		/*
+		$("#myTab a").click(function (e) {
+		  e.preventDefault();
+		  $("#hidtab").val(e.target);
+		});
+		*/
+
+		$(".delcontact").click(function(e) {
+            var link = $(this).attr("href");
+            e.preventDefault();    
+			bootbox.confirm("{res:confirmdelete}", function(result) {
+                if (result) {
+					window.location.replace(link);
+                } 
+			});
+
+		});
+
+		//Hides all unchecked checkboxes, not used for now
+		//$("input.ace").not(":checked").siblings("span").hide();
+
+});
+
+</script>

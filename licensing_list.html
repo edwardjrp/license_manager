@@ -1,0 +1,167 @@
+<h3 class="row header smaller lighter blue"><span class="col-sm-3"><i class="icon-briefcase bigger-160 purple"></i>&nbsp;<i class="icon-group bigger-160 blue"></i>&nbsp; {res:licensing}</span> </h3>
+<div class="widget-box col-xs-12 col-md-12">
+	<div class="widget-header widget-header-blue">
+		<h4 class="lighter">{res:search}</h4>
+	</div>
+	<div class="widget-body">
+		<div class="widget-main">
+			<!-- BEGIN Record search -->
+			<form id="licensing_listsearch" method="post" action="{Action}" name="{HTMLFormName}">
+				<div class="row">
+					<div class="col-md-12 col-xs-12">
+						<div class="control-group padding">
+							<div class="input-group-md input-group-sm col-md-12 col-xs-12">
+								<!-- BEGIN Error -->{Error}<!-- END Error -->
+								<div class="row">
+									<div class="col-md-4 col-xs-12">
+										<input type="text" name="{s_search_Name}" value="{s_search}" id="s_search" class="col-xs-12 col-md-12">&nbsp;
+									</div>
+									<div class="col-md-4 col-xs-12">
+										<!-- BEGIN Button Button_Search --><button class="btn btn-sm btn-success" name="{Button_Name}" type="submit" value="{res:search}"><i class="icon-search nav-search-icon"></i> &nbsp;{res:search}</button><!-- END Button Button_Search -->&nbsp;&nbsp;&nbsp;<a href="customers_maint.php" role="button" class="btn btn-sm btn-success"><span class="icon-group white"></span> {res:addcustomer}</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<br>
+						<!-- control group -->
+					</div>
+					<!-- control group -->
+				</div>
+				<!-- col -->
+			</div>
+			<!-- row -->
+			<div class="row">
+				&nbsp;
+			</div>
+ 
+			<div class="row">
+			</div>
+			<!-- row -->
+		</form>
+		<!-- END Record search -->
+	</div>
+	<!-- widget main -->
+</div>
+<!-- widget body -->
+</div>
+<!-- widget box -->
+<br>
+<br>
+<div class="table-responsive">
+	<!-- BEGIN Grid alm_customers -->
+	<table class="table table-striped table-bordered table-hover">
+		<tr>
+			<td colspan="9">{res:CCS_TotalRecords}&nbsp;{alm_customers_TotalRecords}</td>
+		</tr>
+		<tr>
+			<th class="text-center">
+			<!-- BEGIN Sorter Sorter_guid --><a href="{Sort_URL}" id="licensing_listalm_customersSorter_guid">
+			<li class="icon-cogs bigger-150"></li>
+			</a>
+			<!-- BEGIN Asc_On --><img border="0" src="Styles/None/Images/Asc.gif"><!-- END Asc_On -->
+			<!-- BEGIN Desc_On --><img border="0" src="Styles/None/Images/Desc.gif"><!-- END Desc_On --><!-- END Sorter Sorter_guid --></th>
+			<th>
+			<!-- BEGIN Sorter Sorter_name --><a href="{Sort_URL}" id="licensing_listalm_customersSorter_name">{res:customer}</a>
+			<!-- BEGIN Asc_On --><img border="0" src="Styles/None/Images/Asc.gif"><!-- END Asc_On -->
+			<!-- BEGIN Desc_On --><img border="0" src="Styles/None/Images/Desc.gif"><!-- END Desc_On --><!-- END Sorter Sorter_name --></th>
+			<th class="blue">{res:maincontact}</th>
+			<th>
+			<!-- BEGIN Sorter Sorter_assigned_to --><a href="{Sort_URL}" id="Sorter_assigned_to">{res:assigned_to}</a>
+			<!-- BEGIN Asc_On --><img border="0" src="Styles/None/Images/Asc.gif"><!-- END Asc_On -->
+			<!-- BEGIN Desc_On --><img border="0" src="Styles/None/Images/Desc.gif"><!-- END Desc_On --><!-- END Sorter Sorter_assigned_to --></th>
+			<th>
+			<!-- BEGIN Sorter Sorter_phone --><a href="{Sort_URL}" id="licensing_listalm_customersSorter_phone">{res:phone}</a>
+			<!-- BEGIN Asc_On --><img border="0" src="Styles/None/Images/Asc.gif"><!-- END Asc_On -->
+			<!-- BEGIN Desc_On --><img border="0" src="Styles/None/Images/Desc.gif"><!-- END Desc_On --><!-- END Sorter Sorter_phone --></th>
+			<th>
+			<!-- BEGIN Sorter Sorter_city --><a href="{Sort_URL}" id="Sorter_city">{res:city}</a>
+			<!-- BEGIN Asc_On --><img border="0" src="Styles/None/Images/Asc.gif"><!-- END Asc_On -->
+			<!-- BEGIN Desc_On --><img border="0" src="Styles/None/Images/Desc.gif"><!-- END Desc_On --><!-- END Sorter Sorter_city --></th>
+			<th>
+			<!-- BEGIN Sorter Sorter_dateupdated --><a href="{Sort_URL}" id="Sorter_dateupdated">{res:dateupdated}</a>
+			<!-- BEGIN Asc_On --><img border="0" src="Styles/None/Images/Asc.gif"><!-- END Asc_On -->
+			<!-- BEGIN Desc_On --><img border="0" src="Styles/None/Images/Desc.gif"><!-- END Desc_On --><!-- END Sorter Sorter_dateupdated --></th>
+		</tr>
+		<!-- BEGIN Row -->
+		<tr {alm_customers:rowStyle}>
+			<td class="text-center">
+				<div class="action-buttons inline">
+					<div id="edit" class="inline">
+						<a href="customers_maint.php?guid={guid}&mr=licensing" class="green"><i class="icon-pencil bigger-180"></i>&nbsp;</a>
+					</div>
+					<div id="view" class="inline">
+						<a href="customers_view.php?guid={guid}&mr=licensing" class="blue"><i class="icon-eye-open bigger-180"></i>&nbsp;</a>
+					</div>
+					<div id="view" class="inline">
+						<a href="licensing_customers.php?guid={guid}" class="blue"><i class="icon-briefcase bigger-180 purple"></i>&nbsp;</a>						
+					</div>					
+				</div>
+			</td>
+			<td>{name}&nbsp;</td>
+			<td>{custid}&nbsp;</td>
+			<td>{assigned_to}&nbsp;</td>
+			<td>{phone}&nbsp;</td>
+			<td>{city}&nbsp;</td>
+			<td>{dateupdated}&nbsp;</td>
+		</tr>
+		<!-- END Row -->
+		<!-- BEGIN NoRecords -->
+		<tr>
+			<td colspan="9">{res:CCS_NoRecords}</td>
+		</tr>
+		<!-- END NoRecords -->
+		<tr>
+			<td colspan="9">
+				<!-- BEGIN Navigator Navigator -->
+				<!-- BEGIN First_On --><a href="{First_URL}"><img border="0" src="Styles/None/Images/First.gif"></a> <!-- END First_On -->
+				<!-- BEGIN First_Off --><img border="0" src="Styles/None/Images/FirstOff.gif"><!-- END First_Off -->
+				<!-- BEGIN Prev_On --><a href="{Prev_URL}"><img border="0" src="Styles/None/Images/Prev.gif"></a> <!-- END Prev_On -->
+				<!-- BEGIN Prev_Off --><img border="0" src="Styles/None/Images/PrevOff.gif"><!-- END Prev_Off -->&nbsp;
+				<!-- BEGIN Pages -->
+				<!-- BEGIN Page_On --><a href="{Page_URL}">{Page_Number}</a>&nbsp;<!-- END Page_On -->
+				<!-- BEGIN Page_Off -->{Page_Number}&nbsp;<!-- END Page_Off --><!-- END Pages -->{res:CCS_Of}&nbsp;{Total_Pages}&nbsp; 
+				<!-- BEGIN Next_On --><a href="{Next_URL}"><img border="0" src="Styles/None/Images/Next.gif"></a> <!-- END Next_On -->
+				<!-- BEGIN Next_Off --><img border="0" src="Styles/None/Images/NextOff.gif"><!-- END Next_Off -->
+				<!-- BEGIN Last_On --><a href="{Last_URL}"><img border="0" src="Styles/None/Images/Last.gif"></a> <!-- END Last_On -->
+				<!-- BEGIN Last_Off --><img border="0" src="Styles/None/Images/LastOff.gif"><!-- END Last_Off --><!-- END Navigator Navigator -->&nbsp;</td>
+		</tr>
+	</table>
+	<!-- END Grid alm_customers --><br>
+</div>
+<link rel="stylesheet" href="assets/css/datepicker.css" />
+<link rel="stylesheet" href="assets/css/colorbox.css" />
+<link rel="stylesheet" href="assets/css/chosen.css" />
+<!-- included here to not mess with too much js in the main page -->
+<script src="assets/js/jquery-2.0.3.min.js"></script>
+<script src="assets/js/json3.min.js"></script>
+<script src="assets/js/form-validator/jquery.form-validator.min.js"></script>
+<script src="assets/js/jquery.colorbox-min.js"></script>
+<script src="assets/js/date-time/bootstrap-datepicker.min.js"></script>
+<script src="assets/js/bootbox.min.js"></script>
+<script src="assets/js/jquery-ui-1.10.3.custom.min.js"></script>
+<script src="assets/js/jquery.ui.touch-punch.min.js"></script>
+<script src="assets/js/jquery.colorbox-min.js"></script>
+<script src="assets/js/chosen.jquery.min.js"></script>
+<script>
+$(function(){
+
+	/*
+	$(".delrecord").click(function(e) {
+	    var link = $(this).attr("href");
+	    e.preventDefault();    
+		bootbox.confirm("{res:confirmdelete}", function(result) {
+			//Bootbox pops twice when cance is click, so the combination cancel,ok returns undefined object
+	        if ( (result) && ( link != undefined ) ) {
+				window.location.replace(link);
+	        } else {
+				bootbox.hideAll();
+			} 
+		});
+
+	});
+
+	*/
+
+});
+
+</script>

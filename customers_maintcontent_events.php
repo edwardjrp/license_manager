@@ -133,7 +133,7 @@ function customers_maintcontent_alm_customers_lbgoback_BeforeShow(& $sender)
 //Custom Code @7-2A29BDB7
 // -------------------------
     // Write your own code here.
-	$remove = array("guid","tab");
+	$remove = array("guid","tab","mr");
 	$querystring = CCGetQueryString("QueryString",$remove);
 	if (strlen($querystring) > 0)
 		$newlink = "?".$querystring;
@@ -790,6 +790,37 @@ function customers_maintcontent_alm_customers_networking_BeforeShow(& $sender)
  return $customers_maintcontent_alm_customers_networking_BeforeShow;
 }
 //End Close customers_maintcontent_alm_customers_networking_BeforeShow
+
+//customers_maintcontent_alm_customers_lbreturn_BeforeShow @235-2021293A
+function customers_maintcontent_alm_customers_lbreturn_BeforeShow(& $sender)
+{
+ $customers_maintcontent_alm_customers_lbreturn_BeforeShow = true;
+ $Component = & $sender;
+ $Container = & CCGetParentContainer($sender);
+ global $customers_maintcontent; //Compatibility
+//End customers_maintcontent_alm_customers_lbreturn_BeforeShow
+
+//Custom Code @236-2A29BDB7
+// -------------------------
+ // Write your own code here.
+	$mr = trim(CCGetFromGet("mr","customers.php"));
+	switch ($mr) {
+		case "licensing" :
+			$sender->SetValue("licensing.php");
+		break;
+		case "customers" :
+		default:
+			$sender->SetValue("customers.php");
+		break;
+	}
+
+// -------------------------
+//End Custom Code
+
+//Close customers_maintcontent_alm_customers_lbreturn_BeforeShow @235-8DB6E739
+ return $customers_maintcontent_alm_customers_lbreturn_BeforeShow;
+}
+//End Close customers_maintcontent_alm_customers_lbreturn_BeforeShow
 
 //Used because the last_user_id query on afterinsert was not working
 $lastguid = "";

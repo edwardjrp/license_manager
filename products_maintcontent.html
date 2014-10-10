@@ -164,12 +164,19 @@
 				<!-- main row -->
 				<div class="row">
 					<div class="col-md-12 col-xs-12">
-						<div class="form-actions center">
-							<a href="products.php{lbgoback}" role="button" id="goback" class="btn btn-sm btn-success"><li class="icon-arrow-left"></li>&nbsp;{res:buttongoback}</a> &nbsp;&nbsp;
-							
-							<!-- BEGIN Button Button_Update --><button name="{Button_Name}" type="submit" value="{res:buttonsave}" id="Button_Update" class="btn btn-sm btn-success"><li class="icon-save"></li>&nbsp; {res:buttonsave}</button><!-- END Button Button_Update -->
-							<!-- BEGIN Button Button_Insert --><button name="{Button_Name}" type="submit" value="{res:buttonsave}" id="Button_Insert" class="btn btn-sm btn-success"><li class="icon-save"></li>&nbsp; {res:buttonsave}</button><!-- END Button Button_Insert -->
-							&nbsp;&nbsp;<!-- BEGIN Panel pnduplicate --><a href="products_maint.php?o=duplicate{params}" role="button" id="duplicate" class="btn btn-sm btn-success"><li class="icon-copy"></li>&nbsp;{res:duplicate}</a><!-- END Panel pnduplicate -->
+						<div class="form-actions action-buttons center inline col-xs-12">
+							<div class="inline">
+								<a href="products.php{lbgoback}" role="button" id="goback" class="btn btn-sm btn-success"><li class="icon-arrow-left"></li>&nbsp;{res:buttongoback}</a> &nbsp;&nbsp;
+							</div>
+							<div class="inline">														
+								<!-- BEGIN Button Button_Update --><button name="{Button_Name}" type="submit" value="{res:buttonsave}" id="Button_Update" class="btn btn-sm btn-success"><li class="icon-save"></li>&nbsp; {res:buttonsave}</button><!-- END Button Button_Update -->
+							</div>
+							<div class="inline">
+								<!-- BEGIN Button Button_Insert --><button name="{Button_Name}" type="submit" value="{res:buttonsave}" id="Button_Insert" class="btn btn-sm btn-success"><li class="icon-save"></li>&nbsp; {res:buttonsave}</button><!-- END Button Button_Insert -->
+							</div>
+							<div class="inline">														
+								&nbsp;&nbsp;<!-- BEGIN Panel pnduplicate --><a href="products_maint.php?o=duplicate{params}" role="button" id="duplicate" class="btn btn-sm btn-success"><li class="icon-copy"></li>&nbsp;{res:duplicate}</a><!-- END Panel pnduplicate -->
+							</div>
 							<input id="modified_iduser" type="hidden" value="{modified_iduser}" name="{modified_iduser_Name}">
 							<input id="created_iduser" type="hidden" value="{created_iduser}" name="{created_iduser_Name}">
 							<input id="hidguid" type="hidden" value="{hidguid}" name="{hidguid_Name}">
