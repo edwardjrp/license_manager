@@ -126,6 +126,11 @@ function globalmaint_maintcontent_lbmodule_BeforeShow(& $sender)
 			$m_title = $CCSLocales->GetText("producttags");
 			$globalmaint_maintcontent->lbmodule->setvalue($m_title);
 		break;
+		case "resellers" :
+			$m_title = $CCSLocales->GetText("resellers");
+			$globalmaint_maintcontent->lbmodule->setvalue($m_title);
+		break;
+
 	}
 
 // -------------------------
@@ -214,6 +219,7 @@ function globalmaint_maintcontent_BeforeShow(& $sender)
 			case "producttypes" :
 			case "licensetypes" :
 			case "producttags" :
+			case "resellers" :
 
 				$moduleContent = $customers->getAllModuleByGuid($params);
 				$moduleContent = $moduleContent["details"];

@@ -1,46 +1,6 @@
 <?php
 // //Events @1-F81417CB
 
-//DEL  // -------------------------
-//DEL      // Write your own code here.
-//DEL   	$os_workstations = explode(",",$customers_viewcontent->alm_customers->os_workstations->GetValue());
-//DEL  	$customers_viewcontent->alm_customers->os_workstations->Multiple = true;
-//DEL  	$customers_viewcontent->alm_customers->os_workstations->SetValue($os_workstations);
-//DEL  
-//DEL  // -------------------------
-
-//DEL  // -------------------------
-//DEL      // Write your own code here.
-//DEL   	$os_servers = explode(",",$customers_viewcontent->alm_customers->os_servers->GetValue());
-//DEL  	$customers_viewcontent->alm_customers->os_servers->Multiple = true;
-//DEL  	$customers_viewcontent->alm_customers->os_servers->SetValue($os_servers);
-//DEL  
-//DEL  // -------------------------
-
-//DEL  // -------------------------
-//DEL      // Write your own code here.
-//DEL   	$servers_type = explode(",",$customers_viewcontent->alm_customers->servers_type->GetValue());
-//DEL  	$customers_viewcontent->alm_customers->servers_type->Multiple = true;
-//DEL  	$customers_viewcontent->alm_customers->servers_type->SetValue($servers_type);
-//DEL  
-//DEL  // -------------------------
-
-//DEL  // -------------------------
-//DEL      // Write your own code here.
-//DEL   	$mailservers = explode(",",$customers_viewcontent->alm_customers->mailservers->GetValue());
-//DEL  	$customers_viewcontent->alm_customers->mailservers->Multiple = true;
-//DEL  	$customers_viewcontent->alm_customers->mailservers->SetValue($mailservers);
-//DEL  
-//DEL  // -------------------------
-
-//DEL  // -------------------------
-//DEL      // Write your own code here.
-//DEL   	$proxyserver = explode(",",$customers_viewcontent->alm_customers->proxyserver->GetValue());
-//DEL  	$customers_viewcontent->alm_customers->proxyserver->Multiple = true;
-//DEL  	$customers_viewcontent->alm_customers->proxyserver->SetValue($proxyserver);
-//DEL  
-//DEL  // -------------------------
-
 //licensing_customerscontent_alm_customers_lbgoback_BeforeShow @29-8BF832A2
 function licensing_customerscontent_alm_customers_lbgoback_BeforeShow(& $sender)
 {
@@ -53,14 +13,6 @@ function licensing_customerscontent_alm_customers_lbgoback_BeforeShow(& $sender)
 //Custom Code @30-2A29BDB7
 // -------------------------
     // Write your own code here.
-	$remove = array("guid","tab");
-	$querystring = CCGetQueryString("QueryString",$remove);
-	if (strlen($querystring) > 0)
-		$newlink = "?".$querystring;
-	else 
-		$newlink = $querystring;
-
-	$sender->setValue($newlink);
 
 // -------------------------
 //End Custom Code
@@ -69,70 +21,6 @@ function licensing_customerscontent_alm_customers_lbgoback_BeforeShow(& $sender)
  return $licensing_customerscontent_alm_customers_lbgoback_BeforeShow;
 }
 //End Close licensing_customerscontent_alm_customers_lbgoback_BeforeShow
-
-//DEL  // -------------------------
-//DEL      // Write your own code here.
-//DEL   	$content_filter = explode(",",$customers_viewcontent->alm_customers->content_filter->GetValue());
-//DEL  	$customers_viewcontent->alm_customers->content_filter->Multiple = true;
-//DEL  	$customers_viewcontent->alm_customers->content_filter->SetValue($content_filter);
-//DEL  
-//DEL  // -------------------------
-
-//DEL  // -------------------------
-//DEL      // Write your own code here.
-//DEL   	$branches_connectivity = explode(",",$customers_viewcontent->alm_customers->branches_connectivity->GetValue());
-//DEL  	$customers_viewcontent->alm_customers->branches_connectivity->Multiple = true;
-//DEL  	$customers_viewcontent->alm_customers->branches_connectivity->SetValue($branches_connectivity);
-//DEL  
-//DEL  // -------------------------
-
-//DEL  // -------------------------
-//DEL      // Write your own code here.
-//DEL   	$branches_bandwidth = explode(",",$customers_viewcontent->alm_customers->branches_bandwidth->GetValue());
-//DEL  	$customers_viewcontent->alm_customers->branches_bandwidth->Multiple = true;
-//DEL  	$customers_viewcontent->alm_customers->branches_bandwidth->SetValue($branches_bandwidth);
-//DEL  
-//DEL  // -------------------------
-
-//DEL  // -------------------------
-//DEL      // Write your own code here.
-//DEL   	$os_workstations_hw = explode(",",$customers_viewcontent->alm_customers->os_workstations_hw->GetValue());
-//DEL  	$customers_viewcontent->alm_customers->os_workstations_hw->Multiple = true;
-//DEL  	$customers_viewcontent->alm_customers->os_workstations_hw->SetValue($os_workstations_hw);
-//DEL  
-//DEL  // -------------------------
-
-//DEL  // -------------------------
-//DEL      // Write your own code here.
-//DEL   	$os_servers_hw = explode(",",$customers_viewcontent->alm_customers->os_servers_hw->GetValue());
-//DEL  	$customers_viewcontent->alm_customers->os_servers_hw->Multiple = true;
-//DEL  	$customers_viewcontent->alm_customers->os_servers_hw->SetValue($os_servers_hw);
-//DEL  
-//DEL  // -------------------------
-
-//DEL  // -------------------------
-//DEL      // Write your own code here.
-//DEL   	$database_security = explode(",",$customers_viewcontent->alm_customers->database_security->GetValue());
-//DEL  	$customers_viewcontent->alm_customers->database_security->Multiple = true;
-//DEL  	$customers_viewcontent->alm_customers->database_security->SetValue($database_security);
-//DEL  
-//DEL  // -------------------------
-
-//DEL  // -------------------------
-//DEL      // Write your own code here.
-//DEL   	$security_events = explode(",",$customers_viewcontent->alm_customers->security_events->GetValue());
-//DEL  	$customers_viewcontent->alm_customers->security_events->Multiple = true;
-//DEL  	$customers_viewcontent->alm_customers->security_events->SetValue($security_events);
-//DEL  
-//DEL  // -------------------------
-
-//DEL  // -------------------------
-//DEL      // Write your own code here.
-//DEL   	$changecontrol = explode(",",$customers_viewcontent->alm_customers->changecontrol->GetValue());
-//DEL  	$customers_viewcontent->alm_customers->changecontrol->Multiple = true;
-//DEL  	$customers_viewcontent->alm_customers->changecontrol->SetValue($changecontrol);
-//DEL  
-//DEL  // -------------------------
 
 //licensing_customerscontent_alm_customers_businesspartner_BeforeShow @73-8A682B49
 function licensing_customerscontent_alm_customers_businesspartner_BeforeShow(& $sender)
@@ -177,142 +65,6 @@ function licensing_customerscontent_alm_customers_manufacturer_BeforeShow(& $sen
  return $licensing_customerscontent_alm_customers_manufacturer_BeforeShow;
 }
 //End Close licensing_customerscontent_alm_customers_manufacturer_BeforeShow
-
-//DEL  // -------------------------
-//DEL      // Write your own code here.
-//DEL   	$virtualization = explode(",",$customers_viewcontent->alm_customers->virtualization->GetValue());
-//DEL  	$customers_viewcontent->alm_customers->virtualization->Multiple = true;
-//DEL  	$customers_viewcontent->alm_customers->virtualization->SetValue($virtualization);
-//DEL  
-//DEL  // -------------------------
-
-//DEL  // -------------------------
-//DEL      // Write your own code here.
-//DEL   	$email_protection = explode(",",$customers_viewcontent->alm_customers->email_protection->GetValue());
-//DEL  	$customers_viewcontent->alm_customers->email_protection->Multiple = true;
-//DEL  	$customers_viewcontent->alm_customers->email_protection->SetValue($email_protection);
-//DEL  
-//DEL  // -------------------------
-
-//DEL  // -------------------------
-//DEL      // Write your own code here.
-//DEL   	$vurnerabilities = explode(",",$customers_viewcontent->alm_customers->vurnerabilities->GetValue());
-//DEL  	$customers_viewcontent->alm_customers->vurnerabilities->Multiple = true;
-//DEL  	$customers_viewcontent->alm_customers->vurnerabilities->SetValue($vurnerabilities);
-//DEL  
-//DEL  // -------------------------
-
-//DEL  // -------------------------
-//DEL      // Write your own code here.
-//DEL   	$firewalls = explode(",",$customers_viewcontent->alm_customers->firewalls->GetValue());
-//DEL  	$customers_viewcontent->alm_customers->firewalls->Multiple = true;
-//DEL  	$customers_viewcontent->alm_customers->firewalls->SetValue($firewalls);
-//DEL  
-//DEL  // -------------------------
-
-//DEL  // -------------------------
-//DEL      // Write your own code here.
-//DEL   	$backupsystem = explode(",",$customers_viewcontent->alm_customers->backupsystem->GetValue());
-//DEL  	$customers_viewcontent->alm_customers->backupsystem->Multiple = true;
-//DEL  	$customers_viewcontent->alm_customers->backupsystem->SetValue($backupsystem);
-//DEL  
-//DEL  // -------------------------
-
-//DEL  // -------------------------
-//DEL      // Write your own code here.
-//DEL   	$antivirus = explode(",",$customers_viewcontent->alm_customers->antivirus->GetValue());
-//DEL  	$customers_viewcontent->alm_customers->antivirus->Multiple = true;
-//DEL  	$customers_viewcontent->alm_customers->antivirus->SetValue($antivirus);
-//DEL  
-//DEL  // -------------------------
-
-//DEL  // -------------------------
-//DEL      // Write your own code here.
-//DEL   	$encryption = explode(",",$customers_viewcontent->alm_customers->encryption->GetValue());
-//DEL  	$customers_viewcontent->alm_customers->encryption->Multiple = true;
-//DEL  	$customers_viewcontent->alm_customers->encryption->SetValue($encryption);
-//DEL  
-//DEL  // -------------------------
-
-//DEL  // -------------------------
-//DEL      // Write your own code here.
-//DEL   	$app_control = explode(",",$customers_viewcontent->alm_customers->app_control->GetValue());
-//DEL  	$customers_viewcontent->alm_customers->app_control->Multiple = true;
-//DEL  	$customers_viewcontent->alm_customers->app_control->SetValue($app_control);
-//DEL  
-//DEL  // -------------------------
-
-//DEL  // -------------------------
-//DEL      // Write your own code here.
-//DEL   	$mobility = explode(",",$customers_viewcontent->alm_customers->mobility->GetValue());
-//DEL  	$customers_viewcontent->alm_customers->mobility->Multiple = true;
-//DEL  	$customers_viewcontent->alm_customers->mobility->SetValue($mobility);
-//DEL  
-//DEL  // -------------------------
-
-//DEL  // -------------------------
-//DEL      // Write your own code here.
-//DEL   	$networkips = explode(",",$customers_viewcontent->alm_customers->networkips->GetValue());
-//DEL  	$customers_viewcontent->alm_customers->networkips->Multiple = true;
-//DEL  	$customers_viewcontent->alm_customers->networkips->SetValue($networkips);
-//DEL  
-//DEL  // -------------------------
-
-//DEL  // -------------------------
-//DEL      // Write your own code here.
-//DEL   	$networkac = explode(",",$customers_viewcontent->alm_customers->networkac->GetValue());
-//DEL  	$customers_viewcontent->alm_customers->networkac->Multiple = true;
-//DEL  	$customers_viewcontent->alm_customers->networkac->SetValue($networkac);
-//DEL  
-//DEL  // -------------------------
-
-//DEL  // -------------------------
-//DEL      // Write your own code here.
-//DEL   	$wireless_security = explode(",",$customers_viewcontent->alm_customers->wireless_security->GetValue());
-//DEL  	$customers_viewcontent->alm_customers->wireless_security->Multiple = true;
-//DEL  	$customers_viewcontent->alm_customers->wireless_security->SetValue($wireless_security);
-//DEL  
-//DEL  // -------------------------
-
-//DEL  // -------------------------
-//DEL      // Write your own code here.
-//DEL   	$socialmedia_security = explode(",",$customers_viewcontent->alm_customers->socialmedia_security->GetValue());
-//DEL  	$customers_viewcontent->alm_customers->socialmedia_security->Multiple = true;
-//DEL  	$customers_viewcontent->alm_customers->socialmedia_security->SetValue($socialmedia_security);
-//DEL  
-//DEL  // -------------------------
-
-//DEL  // -------------------------
-//DEL      // Write your own code here.
-//DEL   	$isp = explode(",",$customers_viewcontent->alm_customers->isp->GetValue());
-//DEL  	$customers_viewcontent->alm_customers->isp->Multiple = true;
-//DEL  	$customers_viewcontent->alm_customers->isp->SetValue($isp);
-//DEL  
-//DEL  // -------------------------
-
-//DEL  // -------------------------
-//DEL      // Write your own code here.
-//DEL   	$datalostprevention = explode(",",$customers_viewcontent->alm_customers->datalostprevention->GetValue());
-//DEL  	$customers_viewcontent->alm_customers->datalostprevention->Multiple = true;
-//DEL  	$customers_viewcontent->alm_customers->datalostprevention->SetValue($datalostprevention);
-//DEL  
-//DEL  // -------------------------
-
-//DEL  // -------------------------
-//DEL      // Write your own code here.
-//DEL   	$network_monitor = explode(",",$customers_viewcontent->alm_customers->network_monitor->GetValue());
-//DEL  	$customers_viewcontent->alm_customers->network_monitor->Multiple = true;
-//DEL  	$customers_viewcontent->alm_customers->network_monitor->SetValue($network_monitor);
-//DEL  
-//DEL  // -------------------------
-
-//DEL  // -------------------------
-//DEL      // Write your own code here.
-//DEL   	$networking = explode(",",$customers_viewcontent->alm_customers->networking->GetValue());
-//DEL  	$customers_viewcontent->alm_customers->networking->Multiple = true;
-//DEL  	$customers_viewcontent->alm_customers->networking->SetValue($networking);
-//DEL  
-//DEL  // -------------------------
 
 //licensing_customerscontent_alm_customers_BeforeInsert @2-B15A5E44
 function licensing_customerscontent_alm_customers_BeforeInsert(& $sender)
@@ -407,13 +159,13 @@ function licensing_customerscontent_alm_customers_BeforeShow(& $sender)
 // -------------------------
     // Write your own code here.
 	$guid = CCGetFromGet("guid","");
-	$contact_guid = CCGetFromGet("contact_guid","");
+	$license_guid = CCGetFromGet("license_guid","");
 	$tab = CCGetFromGet("tab","");
 	$o = CCGetFromGet("o","");
 
 	$params = array();
 	$params["customer_guid"] = $guid;
-	$params["contact_guid"] = $contact_guid; 
+	$params["license_guid"] = $license_guid; 
 
 	if (strlen($guid) > 0) {
 		global $Tpl;
@@ -456,6 +208,40 @@ function licensing_customerscontent_alm_customers_BeforeShow(& $sender)
 			$Tpl->parse("contact_list",true);
 
 		}
+
+		//Filling up licenses grid
+		$products = new \Alm\Products();
+		$licenses = $products->getCustomerLicenses($params);
+		$allLicenses = $licenses["licenses"];
+		foreach($allLicenses as $license) {
+			$Tpl->setvar("lbguid",$guid);
+			$Tpl->setvar("lblicense_guid",$license["guid"]);						
+			$Tpl->setvar("lbsuite_code",$license["suite_code"]);
+			$Tpl->setvar("lbsuite_description",$license["suite_description"]);
+			$Tpl->setvar("lbdescription",$license["description"]);
+			$Tpl->setvar("lbproduct_typeicon",$license["type_icon_name"]);
+			$Tpl->setvar("lblicense_name",$license["license_name"]);
+			$Tpl->setvar("lblicensedby_name",$license["licensedby_name"]);
+			if ($license["id_licensed_by"] == "1")
+				$Tpl->setvar("lbnodes_qty",$license["nodes"]);
+			else 
+				$Tpl->setvar("lbnodes_qty",$license["licensed_amount"]);
+
+			$Tpl->setvar("lbchannel_sku",$license["channel_sku"]);
+			$Tpl->setvar("lbmsrp_price","$ ".number_format($license["msrp_price"],2));
+			$Tpl->setvar("lblicense_for",$license["sector_name"]);
+
+			$dateupdated = $license["dateupdated"];
+			if (strlen($dateupdated) > 0) {
+				$dateupdated_array = CCParseDate($dateupdated,array("yyyy","-","mm","-","dd"," ","H",":","n",":","s"));
+				$format = array("mm","/","dd","/","yyyy"," ","hh",":","nn"," ","AM/PM");
+				$dateupdated = CCFormatDate($dateupdated_array,$format);
+				$Tpl->setvar("lbdateupdated",$dateupdated);
+			}
+
+			$Tpl->parse("license_list",true);
+		}
+
 		$db->close();
 	}
 
@@ -526,6 +312,36 @@ function licensing_customerscontent_licensing_id_product_BeforeShow(& $sender)
 //Custom Code @174-2A29BDB7
 // -------------------------
  // Write your own code here.
+ 	$suite_id = (int)$licensing_customerscontent->licensing->suite_code->GetValue();
+	if ($suite_id > 0) {
+		$products = new \Alm\Products();
+		$params = array();
+		$params["suite_id"] = $suite_id;
+		$productList = $products->getProductsBySuiteID($params);
+		$allProducts = $productList["products"];
+		$valueList = array();
+		foreach($allProducts as $product) {
+			$min = $product["range_min"];
+			$max = $product["range_max"];
+			$shortDescription = $product["short_description"];
+			$channelSku = $product["channel_sku"];
+			$description = $product["description"];
+			$valueList[] = array($product["id"],"$description ( Nodes: $min - $max) $shortDescription");
+		}
+		
+		$licensing_customerscontent->licensing->id_product->Values = $valueList;
+
+		$params["product_id"] = $licensing_customerscontent->licensing->id_product->GetValue(); 
+		$productDetails = $products->getProductByID($params);
+		$productDetails = $productDetails["products"];
+		$licensing_customerscontent->licensing->product_shortname->SetValue($productDetails[0]["short_description"]);
+		$licensing_customerscontent->licensing->product_description->SetValue($productDetails[0]["description"]);
+		$suite = $products->getSuiteByID($params);
+		$licensing_customerscontent->licensing->suitedescription->SetValue($suite["suite_description"]);
+
+
+	}
+ 	
 // -------------------------
 //End Custom Code
 
@@ -533,6 +349,70 @@ function licensing_customerscontent_licensing_id_product_BeforeShow(& $sender)
  return $licensing_customerscontent_licensing_id_product_BeforeShow;
 }
 //End Close licensing_customerscontent_licensing_id_product_BeforeShow
+
+//licensing_customerscontent_licensing_hidtab_BeforeShow @195-D622CAAE
+function licensing_customerscontent_licensing_hidtab_BeforeShow(& $sender)
+{
+ $licensing_customerscontent_licensing_hidtab_BeforeShow = true;
+ $Component = & $sender;
+ $Container = & CCGetParentContainer($sender);
+ global $licensing_customerscontent; //Compatibility
+//End licensing_customerscontent_licensing_hidtab_BeforeShow
+
+//Retrieve Value for Control @201-DF450422
+ $Container->hidtab->SetValue(CCGetFromGet("tab", ""));
+//End Retrieve Value for Control
+
+//Close licensing_customerscontent_licensing_hidtab_BeforeShow @195-D811FA38
+ return $licensing_customerscontent_licensing_hidtab_BeforeShow;
+}
+//End Close licensing_customerscontent_licensing_hidtab_BeforeShow
+
+//licensing_customerscontent_licensing_hidcustomer_guid_BeforeShow @199-E47F0B95
+function licensing_customerscontent_licensing_hidcustomer_guid_BeforeShow(& $sender)
+{
+ $licensing_customerscontent_licensing_hidcustomer_guid_BeforeShow = true;
+ $Component = & $sender;
+ $Container = & CCGetParentContainer($sender);
+ global $licensing_customerscontent; //Compatibility
+//End licensing_customerscontent_licensing_hidcustomer_guid_BeforeShow
+
+//Retrieve Value for Control @200-5C6E50E5
+ $Container->hidcustomer_guid->SetValue(CCGetFromGet("guid", ""));
+//End Retrieve Value for Control
+
+//Close licensing_customerscontent_licensing_hidcustomer_guid_BeforeShow @199-DB8AF303
+ return $licensing_customerscontent_licensing_hidcustomer_guid_BeforeShow;
+}
+//End Close licensing_customerscontent_licensing_hidcustomer_guid_BeforeShow
+
+//licensing_customerscontent_licensing_lbgoback_BeforeShow @202-0518E9CD
+function licensing_customerscontent_licensing_lbgoback_BeforeShow(& $sender)
+{
+ $licensing_customerscontent_licensing_lbgoback_BeforeShow = true;
+ $Component = & $sender;
+ $Container = & CCGetParentContainer($sender);
+ global $licensing_customerscontent; //Compatibility
+//End licensing_customerscontent_licensing_lbgoback_BeforeShow
+
+//Custom Code @203-2A29BDB7
+// -------------------------
+ // Write your own code here.
+	$remove = array("guid","tab","license_guid");
+	$querystring = CCGetQueryString("QueryString",$remove);
+	if (strlen($querystring) > 0)
+		$newlink = "?".$querystring;
+	else 
+		$newlink = $querystring;
+
+	$sender->setValue($newlink);
+// -------------------------
+//End Custom Code
+
+//Close licensing_customerscontent_licensing_lbgoback_BeforeShow @202-2A9D98C1
+ return $licensing_customerscontent_licensing_lbgoback_BeforeShow;
+}
+//End Close licensing_customerscontent_licensing_lbgoback_BeforeShow
 
 //Used because the last_user_id query on afterinsert was not working
 $lastguid = "";
@@ -555,6 +435,13 @@ function licensing_customerscontent_licensing_BeforeInsert(& $sender)
 
 	$licensing_customerscontent->licensing->created_iduser->SetValue(CCGetUserID());
 	$licensing_customerscontent->licensing->hidguid->SetValue($guid);
+
+	//Customer ID for the license
+	$customer_guid = trim($licensing_customerscontent->licensing->hidcustomer_guid->GetValue());
+	$db = new clsDBdbConnection();
+	$customer_id = CCDLookup("id","alm_customers","guid = '$customer_guid'",$db);
+	$db->close();
+	$licensing_customerscontent->licensing->hidcustomer_id->SetValue($customer_id);
 
 // -------------------------
 //End Custom Code

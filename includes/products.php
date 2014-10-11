@@ -252,6 +252,50 @@ class Products {
 
 	}
 
+	public function getCustomerLicenses($params = array()) {
+		$result = array("status" => false, "message" => "","licenses" => array());
+	    $customer_guid = $params["customer_guid"];
+	     if (strlen($customer_guid) > 0) {
+	         $db = new \clsDBdbConnection();
+	         $licenses = array();
+
+	         $customer_id = (int)CCDLookUp("id","alm_customers","guid = '$customer_guid' ",$db);
+	         if ($customer_id > 0) {
+	             $fields_array = array("guid","suite_description","suite_code","type_icon_name","license_name","id_licensed_by",
+	             "licensedby_name","sector_name","reseller_name","customer_type","description","nodes","licensed_amount","channel_sku"
+	             ,"msrp_price","dateupdated");
+	             $fields = implode(",",$fields_array);
+	             $sql = "select $fields from v_alm_licenses where id_customer = $customer_id";
+	             $db->query($sql);
+
+	             while ($db->next_record()) {
+	                 $row = array();
+	                 foreach($fields_array as $field) {
+	                     $row[$field] = $db->f($field);
+	                 }
+		             $licenses[] = $row;
+
+	             }
+
+	         }
+
+	         $db->close();
+
+	         $result["status"] = true;
+	         $result["licenses"] = $licenses;
+	         $result["message"] = "Command executed successfully.";
+
+	         return $result;
+
+	     } else {
+	         $result["status"] = false;
+	         $result["message"] = "Invalid GUID";
+	         return $result;
+	     }
+
+    }
+
+
 	public static function setProducts($params = array()) {
 		$result = array("status" => false, "message" => "");
 

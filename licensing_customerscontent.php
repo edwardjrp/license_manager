@@ -36,7 +36,7 @@ class clsRecordlicensing_customerscontentalm_customers { //alm_customers Class @
  // Class variables
 //End Variables
 
-//Class_Initialize Event @2-870BFD80
+//Class_Initialize Event @2-96C3EFC8
  function clsRecordlicensing_customerscontentalm_customers($RelativePath, & $Parent)
  {
 
@@ -80,7 +80,6 @@ class clsRecordlicensing_customerscontentalm_customers { //alm_customers Class @
    $this->Button_Insert = new clsButton("Button_Insert", $Method, $this);
    $this->Button_Update = new clsButton("Button_Update", $Method, $this);
    $this->modified_iduser = new clsControl(ccsHidden, "modified_iduser", $CCSLocales->GetText("modified_iduser"), ccsInteger, "", CCGetRequestParam("modified_iduser", $Method, NULL), $this);
-   $this->created_iduser = new clsControl(ccsHidden, "created_iduser", $CCSLocales->GetText("created_iduser"), ccsInteger, "", CCGetRequestParam("created_iduser", $Method, NULL), $this);
    $this->hidguid = new clsControl(ccsHidden, "hidguid", "hidguid", ccsText, "", CCGetRequestParam("hidguid", $Method, NULL), $this);
    $this->hidtab = new clsControl(ccsHidden, "hidtab", "hidtab", ccsText, "", CCGetRequestParam("hidtab", $Method, NULL), $this);
    $this->customertype_id = new clsControl(ccsListBox, "customertype_id", $CCSLocales->GetText("customertype_id"), ccsInteger, "", CCGetRequestParam("customertype_id", $Method, NULL), $this);
@@ -108,6 +107,7 @@ class clsRecordlicensing_customerscontentalm_customers { //alm_customers Class @
    $this->manufacturer->DataSource->SQL = "SELECT * \n" .
 "FROM alm_product_manufaturers {SQL_Where} {SQL_OrderBy}";
    list($this->manufacturer->BoundColumn, $this->manufacturer->TextColumn, $this->manufacturer->DBFormat) = array("id", "manufacturer", "");
+   $this->created_iduser = new clsControl(ccsHidden, "created_iduser", $CCSLocales->GetText("created_iduser"), ccsInteger, "", CCGetRequestParam("created_iduser", $Method, NULL), $this);
    if(!$this->FormSubmitted) {
     if(!is_array($this->city->Value) && !strlen($this->city->Value) && $this->city->Value !== false)
      $this->city->SetText(1);
@@ -127,7 +127,7 @@ class clsRecordlicensing_customerscontentalm_customers { //alm_customers Class @
  }
 //End Initialize Method
 
-//Validate Method @2-8A4931DA
+//Validate Method @2-43CFB275
  function Validate()
  {
   global $CCSLocales;
@@ -138,7 +138,6 @@ class clsRecordlicensing_customerscontentalm_customers { //alm_customers Class @
   $Validation = ($this->website->Validate() && $Validation);
   $Validation = ($this->city->Validate() && $Validation);
   $Validation = ($this->modified_iduser->Validate() && $Validation);
-  $Validation = ($this->created_iduser->Validate() && $Validation);
   $Validation = ($this->hidguid->Validate() && $Validation);
   $Validation = ($this->hidtab->Validate() && $Validation);
   $Validation = ($this->customertype_id->Validate() && $Validation);
@@ -146,13 +145,13 @@ class clsRecordlicensing_customerscontentalm_customers { //alm_customers Class @
   $Validation = ($this->address->Validate() && $Validation);
   $Validation = ($this->businesspartner->Validate() && $Validation);
   $Validation = ($this->manufacturer->Validate() && $Validation);
+  $Validation = ($this->created_iduser->Validate() && $Validation);
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "OnValidate", $this);
   $Validation =  $Validation && ($this->name->Errors->Count() == 0);
   $Validation =  $Validation && ($this->taxid->Errors->Count() == 0);
   $Validation =  $Validation && ($this->website->Errors->Count() == 0);
   $Validation =  $Validation && ($this->city->Errors->Count() == 0);
   $Validation =  $Validation && ($this->modified_iduser->Errors->Count() == 0);
-  $Validation =  $Validation && ($this->created_iduser->Errors->Count() == 0);
   $Validation =  $Validation && ($this->hidguid->Errors->Count() == 0);
   $Validation =  $Validation && ($this->hidtab->Errors->Count() == 0);
   $Validation =  $Validation && ($this->customertype_id->Errors->Count() == 0);
@@ -160,11 +159,12 @@ class clsRecordlicensing_customerscontentalm_customers { //alm_customers Class @
   $Validation =  $Validation && ($this->address->Errors->Count() == 0);
   $Validation =  $Validation && ($this->businesspartner->Errors->Count() == 0);
   $Validation =  $Validation && ($this->manufacturer->Errors->Count() == 0);
+  $Validation =  $Validation && ($this->created_iduser->Errors->Count() == 0);
   return (($this->Errors->Count() == 0) && $Validation);
  }
 //End Validate Method
 
-//CheckErrors Method @2-A3BEC5CC
+//CheckErrors Method @2-C0294F18
  function CheckErrors()
  {
   $errors = false;
@@ -174,7 +174,6 @@ class clsRecordlicensing_customerscontentalm_customers { //alm_customers Class @
   $errors = ($errors || $this->city->Errors->Count());
   $errors = ($errors || $this->lbgoback->Errors->Count());
   $errors = ($errors || $this->modified_iduser->Errors->Count());
-  $errors = ($errors || $this->created_iduser->Errors->Count());
   $errors = ($errors || $this->hidguid->Errors->Count());
   $errors = ($errors || $this->hidtab->Errors->Count());
   $errors = ($errors || $this->customertype_id->Errors->Count());
@@ -182,6 +181,7 @@ class clsRecordlicensing_customerscontentalm_customers { //alm_customers Class @
   $errors = ($errors || $this->address->Errors->Count());
   $errors = ($errors || $this->businesspartner->Errors->Count());
   $errors = ($errors || $this->manufacturer->Errors->Count());
+  $errors = ($errors || $this->created_iduser->Errors->Count());
   $errors = ($errors || $this->Errors->Count());
   $errors = ($errors || $this->DataSource->Errors->Count());
   return $errors;
@@ -245,7 +245,7 @@ function GetPrimaryKey($keyName)
  }
 //End Operation Method
 
-//InsertRow Method @2-4BB42FA2
+//InsertRow Method @2-33876818
  function InsertRow()
  {
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeInsert", $this);
@@ -256,7 +256,6 @@ function GetPrimaryKey($keyName)
   $this->DataSource->city->SetValue($this->city->GetValue(true));
   $this->DataSource->lbgoback->SetValue($this->lbgoback->GetValue(true));
   $this->DataSource->modified_iduser->SetValue($this->modified_iduser->GetValue(true));
-  $this->DataSource->created_iduser->SetValue($this->created_iduser->GetValue(true));
   $this->DataSource->hidguid->SetValue($this->hidguid->GetValue(true));
   $this->DataSource->hidtab->SetValue($this->hidtab->GetValue(true));
   $this->DataSource->customertype_id->SetValue($this->customertype_id->GetValue(true));
@@ -264,13 +263,14 @@ function GetPrimaryKey($keyName)
   $this->DataSource->address->SetValue($this->address->GetValue(true));
   $this->DataSource->businesspartner->SetValue($this->businesspartner->GetValue(true));
   $this->DataSource->manufacturer->SetValue($this->manufacturer->GetValue(true));
+  $this->DataSource->created_iduser->SetValue($this->created_iduser->GetValue(true));
   $this->DataSource->Insert();
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "AfterInsert", $this);
   return (!$this->CheckErrors());
  }
 //End InsertRow Method
 
-//UpdateRow Method @2-EE90788E
+//UpdateRow Method @2-96A33F34
  function UpdateRow()
  {
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeUpdate", $this);
@@ -281,7 +281,6 @@ function GetPrimaryKey($keyName)
   $this->DataSource->city->SetValue($this->city->GetValue(true));
   $this->DataSource->lbgoback->SetValue($this->lbgoback->GetValue(true));
   $this->DataSource->modified_iduser->SetValue($this->modified_iduser->GetValue(true));
-  $this->DataSource->created_iduser->SetValue($this->created_iduser->GetValue(true));
   $this->DataSource->hidguid->SetValue($this->hidguid->GetValue(true));
   $this->DataSource->hidtab->SetValue($this->hidtab->GetValue(true));
   $this->DataSource->customertype_id->SetValue($this->customertype_id->GetValue(true));
@@ -289,13 +288,14 @@ function GetPrimaryKey($keyName)
   $this->DataSource->address->SetValue($this->address->GetValue(true));
   $this->DataSource->businesspartner->SetValue($this->businesspartner->GetValue(true));
   $this->DataSource->manufacturer->SetValue($this->manufacturer->GetValue(true));
+  $this->DataSource->created_iduser->SetValue($this->created_iduser->GetValue(true));
   $this->DataSource->Update();
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "AfterUpdate", $this);
   return (!$this->CheckErrors());
  }
 //End UpdateRow Method
 
-//Show Method @2-ED56B0E4
+//Show Method @2-E0C23428
  function Show()
  {
   global $CCSUseAmp;
@@ -332,12 +332,12 @@ function GetPrimaryKey($keyName)
      $this->website->SetValue($this->DataSource->website->GetValue());
      $this->city->SetValue($this->DataSource->city->GetValue());
      $this->modified_iduser->SetValue($this->DataSource->modified_iduser->GetValue());
-     $this->created_iduser->SetValue($this->DataSource->created_iduser->GetValue());
      $this->hidguid->SetValue($this->DataSource->hidguid->GetValue());
      $this->customertype_id->SetValue($this->DataSource->customertype_id->GetValue());
      $this->phone->SetValue($this->DataSource->phone->GetValue());
      $this->address->SetValue($this->DataSource->address->GetValue());
      $this->businesspartner->SetValue($this->DataSource->businesspartner->GetValue());
+     $this->created_iduser->SetValue($this->DataSource->created_iduser->GetValue());
     }
    } else {
     $this->EditMode = false;
@@ -354,7 +354,6 @@ function GetPrimaryKey($keyName)
    $Error = ComposeStrings($Error, $this->city->Errors->ToString());
    $Error = ComposeStrings($Error, $this->lbgoback->Errors->ToString());
    $Error = ComposeStrings($Error, $this->modified_iduser->Errors->ToString());
-   $Error = ComposeStrings($Error, $this->created_iduser->Errors->ToString());
    $Error = ComposeStrings($Error, $this->hidguid->Errors->ToString());
    $Error = ComposeStrings($Error, $this->hidtab->Errors->ToString());
    $Error = ComposeStrings($Error, $this->customertype_id->Errors->ToString());
@@ -362,6 +361,7 @@ function GetPrimaryKey($keyName)
    $Error = ComposeStrings($Error, $this->address->Errors->ToString());
    $Error = ComposeStrings($Error, $this->businesspartner->Errors->ToString());
    $Error = ComposeStrings($Error, $this->manufacturer->Errors->ToString());
+   $Error = ComposeStrings($Error, $this->created_iduser->Errors->ToString());
    $Error = ComposeStrings($Error, $this->Errors->ToString());
    $Error = ComposeStrings($Error, $this->DataSource->Errors->ToString());
    $Tpl->SetVar("Error", $Error);
@@ -390,7 +390,6 @@ function GetPrimaryKey($keyName)
   $this->Button_Insert->Show();
   $this->Button_Update->Show();
   $this->modified_iduser->Show();
-  $this->created_iduser->Show();
   $this->hidguid->Show();
   $this->hidtab->Show();
   $this->customertype_id->Show();
@@ -398,6 +397,7 @@ function GetPrimaryKey($keyName)
   $this->address->Show();
   $this->businesspartner->Show();
   $this->manufacturer->Show();
+  $this->created_iduser->Show();
   $Tpl->parse();
   $Tpl->block_path = $ParentPath;
   $this->DataSource->close();
@@ -408,7 +408,7 @@ function GetPrimaryKey($keyName)
 
 class clslicensing_customerscontentalm_customersDataSource extends clsDBdbConnection {  //alm_customersDataSource Class @2-A16DF851
 
-//DataSource Variables @2-C66D2AF4
+//DataSource Variables @2-7ED33386
  public $Parent = "";
  public $CCSEvents = "";
  public $CCSEventResult;
@@ -430,7 +430,6 @@ class clslicensing_customerscontentalm_customersDataSource extends clsDBdbConnec
  public $city;
  public $lbgoback;
  public $modified_iduser;
- public $created_iduser;
  public $hidguid;
  public $hidtab;
  public $customertype_id;
@@ -438,9 +437,10 @@ class clslicensing_customerscontentalm_customersDataSource extends clsDBdbConnec
  public $address;
  public $businesspartner;
  public $manufacturer;
+ public $created_iduser;
 //End DataSource Variables
 
-//DataSourceClass_Initialize Event @2-80678B46
+//DataSourceClass_Initialize Event @2-C8DD5E73
  function clslicensing_customerscontentalm_customersDataSource(& $Parent)
  {
   $this->Parent = & $Parent;
@@ -458,8 +458,6 @@ class clslicensing_customerscontentalm_customersDataSource extends clsDBdbConnec
   
   $this->modified_iduser = new clsField("modified_iduser", ccsInteger, "");
   
-  $this->created_iduser = new clsField("created_iduser", ccsInteger, "");
-  
   $this->hidguid = new clsField("hidguid", ccsText, "");
   
   $this->hidtab = new clsField("hidtab", ccsText, "");
@@ -474,29 +472,31 @@ class clslicensing_customerscontentalm_customersDataSource extends clsDBdbConnec
   
   $this->manufacturer = new clsField("manufacturer", ccsText, "");
   
+  $this->created_iduser = new clsField("created_iduser", ccsInteger, "");
+  
 
   $this->InsertFields["name"] = array("Name" => "name", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->InsertFields["taxid"] = array("Name" => "taxid", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->InsertFields["website"] = array("Name" => "website", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->InsertFields["city"] = array("Name" => "city", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->InsertFields["modified_iduser"] = array("Name" => "modified_iduser", "Value" => "", "DataType" => ccsInteger, "OmitIfEmpty" => 1);
-  $this->InsertFields["created_iduser"] = array("Name" => "created_iduser", "Value" => "", "DataType" => ccsInteger, "OmitIfEmpty" => 1);
   $this->InsertFields["guid"] = array("Name" => "guid", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->InsertFields["customertype_id"] = array("Name" => "customertype_id", "Value" => "", "DataType" => ccsInteger, "OmitIfEmpty" => 1);
   $this->InsertFields["phone"] = array("Name" => "phone", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->InsertFields["address"] = array("Name" => "address", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->InsertFields["businesspartner"] = array("Name" => "businesspartner", "Value" => "", "DataType" => ccsText);
+  $this->InsertFields["created_iduser"] = array("Name" => "created_iduser", "Value" => "", "DataType" => ccsInteger, "OmitIfEmpty" => 1);
   $this->UpdateFields["name"] = array("Name" => "name", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->UpdateFields["taxid"] = array("Name" => "taxid", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->UpdateFields["website"] = array("Name" => "website", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->UpdateFields["city"] = array("Name" => "city", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->UpdateFields["modified_iduser"] = array("Name" => "modified_iduser", "Value" => "", "DataType" => ccsInteger, "OmitIfEmpty" => 1);
-  $this->UpdateFields["created_iduser"] = array("Name" => "created_iduser", "Value" => "", "DataType" => ccsInteger, "OmitIfEmpty" => 1);
   $this->UpdateFields["guid"] = array("Name" => "guid", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->UpdateFields["customertype_id"] = array("Name" => "customertype_id", "Value" => "", "DataType" => ccsInteger, "OmitIfEmpty" => 1);
   $this->UpdateFields["phone"] = array("Name" => "phone", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->UpdateFields["address"] = array("Name" => "address", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->UpdateFields["businesspartner"] = array("Name" => "businesspartner", "Value" => "", "DataType" => ccsText);
+  $this->UpdateFields["created_iduser"] = array("Name" => "created_iduser", "Value" => "", "DataType" => ccsInteger, "OmitIfEmpty" => 1);
  }
 //End DataSourceClass_Initialize Event
 
@@ -527,7 +527,7 @@ class clslicensing_customerscontentalm_customersDataSource extends clsDBdbConnec
  }
 //End Open Method
 
-//SetValues Method @2-E1E0838B
+//SetValues Method @2-D5199B1F
  function SetValues()
  {
   $this->name->SetDBValue($this->f("name"));
@@ -535,16 +535,16 @@ class clslicensing_customerscontentalm_customersDataSource extends clsDBdbConnec
   $this->website->SetDBValue($this->f("website"));
   $this->city->SetDBValue($this->f("city"));
   $this->modified_iduser->SetDBValue(trim($this->f("modified_iduser")));
-  $this->created_iduser->SetDBValue(trim($this->f("created_iduser")));
   $this->hidguid->SetDBValue($this->f("guid"));
   $this->customertype_id->SetDBValue(trim($this->f("customertype_id")));
   $this->phone->SetDBValue($this->f("phone"));
   $this->address->SetDBValue($this->f("address"));
   $this->businesspartner->SetDBValue($this->f("businesspartner"));
+  $this->created_iduser->SetDBValue(trim($this->f("created_iduser")));
  }
 //End SetValues Method
 
-//Insert Method @2-67C8424B
+//Insert Method @2-3355BAE1
  function Insert()
  {
   global $CCSLocales;
@@ -556,12 +556,12 @@ class clslicensing_customerscontentalm_customersDataSource extends clsDBdbConnec
   $this->InsertFields["website"]["Value"] = $this->website->GetDBValue(true);
   $this->InsertFields["city"]["Value"] = $this->city->GetDBValue(true);
   $this->InsertFields["modified_iduser"]["Value"] = $this->modified_iduser->GetDBValue(true);
-  $this->InsertFields["created_iduser"]["Value"] = $this->created_iduser->GetDBValue(true);
   $this->InsertFields["guid"]["Value"] = $this->hidguid->GetDBValue(true);
   $this->InsertFields["customertype_id"]["Value"] = $this->customertype_id->GetDBValue(true);
   $this->InsertFields["phone"]["Value"] = $this->phone->GetDBValue(true);
   $this->InsertFields["address"]["Value"] = $this->address->GetDBValue(true);
   $this->InsertFields["businesspartner"]["Value"] = $this->businesspartner->GetDBValue(true);
+  $this->InsertFields["created_iduser"]["Value"] = $this->created_iduser->GetDBValue(true);
   $this->SQL = CCBuildInsert("alm_customers", $this->InsertFields, $this);
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeExecuteInsert", $this->Parent);
   if($this->Errors->Count() == 0 && $this->CmdExecution) {
@@ -571,7 +571,7 @@ class clslicensing_customerscontentalm_customersDataSource extends clsDBdbConnec
  }
 //End Insert Method
 
-//Update Method @2-EFB1CC13
+//Update Method @2-0E1B038D
  function Update()
  {
   global $CCSLocales;
@@ -583,12 +583,12 @@ class clslicensing_customerscontentalm_customersDataSource extends clsDBdbConnec
   $this->UpdateFields["website"]["Value"] = $this->website->GetDBValue(true);
   $this->UpdateFields["city"]["Value"] = $this->city->GetDBValue(true);
   $this->UpdateFields["modified_iduser"]["Value"] = $this->modified_iduser->GetDBValue(true);
-  $this->UpdateFields["created_iduser"]["Value"] = $this->created_iduser->GetDBValue(true);
   $this->UpdateFields["guid"]["Value"] = $this->hidguid->GetDBValue(true);
   $this->UpdateFields["customertype_id"]["Value"] = $this->customertype_id->GetDBValue(true);
   $this->UpdateFields["phone"]["Value"] = $this->phone->GetDBValue(true);
   $this->UpdateFields["address"]["Value"] = $this->address->GetDBValue(true);
   $this->UpdateFields["businesspartner"]["Value"] = $this->businesspartner->GetDBValue(true);
+  $this->UpdateFields["created_iduser"]["Value"] = $this->created_iduser->GetDBValue(true);
   $this->SQL = CCBuildUpdate("alm_customers", $this->UpdateFields, $this);
   $this->SQL .= strlen($this->Where) ? " WHERE " . $this->Where : $this->Where;
   if (!strlen($this->Where) && $this->Errors->Count() == 0) 
@@ -639,7 +639,7 @@ class clsRecordlicensing_customerscontentlicensing { //licensing Class @154-009C
  // Class variables
 //End Variables
 
-//Class_Initialize Event @154-3E556051
+//Class_Initialize Event @154-417E1C5B
  function clsRecordlicensing_customerscontentlicensing($RelativePath, & $Parent)
  {
 
@@ -710,8 +710,8 @@ class clsRecordlicensing_customerscontentlicensing { //licensing Class @154-009C
    $this->suitedescription = new clsControl(ccsTextBox, "suitedescription", "suitedescription", ccsText, "", CCGetRequestParam("suitedescription", $Method, NULL), $this);
    $this->msrp_price = new clsControl(ccsTextBox, "msrp_price", $CCSLocales->GetText("msrp_price"), ccsFloat, array(False, 2, Null, Null, False, "", "", 1, True, ""), CCGetRequestParam("msrp_price", $Method, NULL), $this);
    $this->grant_number = new clsControl(ccsTextBox, "grant_number", $CCSLocales->GetText("grantnumber"), ccsText, "", CCGetRequestParam("grant_number", $Method, NULL), $this);
-   $this->expedition_date = new clsControl(ccsTextBox, "expedition_date", $CCSLocales->GetText("expeditiondate"), ccsText, "", CCGetRequestParam("expedition_date", $Method, NULL), $this);
-   $this->expiration_date = new clsControl(ccsTextBox, "expiration_date", $CCSLocales->GetText("expirationdate"), ccsText, "", CCGetRequestParam("expiration_date", $Method, NULL), $this);
+   $this->expedition_date = new clsControl(ccsTextBox, "expedition_date", $CCSLocales->GetText("expeditiondate"), ccsDate, array("mm", "/", "dd", "/", "yyyy"), CCGetRequestParam("expedition_date", $Method, NULL), $this);
+   $this->expiration_date = new clsControl(ccsTextBox, "expiration_date", $CCSLocales->GetText("expirationdate"), ccsDate, $DefaultDateFormat, CCGetRequestParam("expiration_date", $Method, NULL), $this);
    $this->serial_number = new clsControl(ccsTextBox, "serial_number", $CCSLocales->GetText("serialnumber"), ccsText, "", CCGetRequestParam("serial_number", $Method, NULL), $this);
    $this->id_reseller = new clsControl(ccsListBox, "id_reseller", $CCSLocales->GetText("reseller"), ccsText, "", CCGetRequestParam("id_reseller", $Method, NULL), $this);
    $this->id_reseller->DSType = dsTable;
@@ -751,6 +751,9 @@ class clsRecordlicensing_customerscontentlicensing { //licensing Class @154-009C
    $this->created_iduser = new clsControl(ccsHidden, "created_iduser", "created_iduser", ccsText, "", CCGetRequestParam("created_iduser", $Method, NULL), $this);
    $this->hidguid = new clsControl(ccsHidden, "hidguid", "hidguid", ccsText, "", CCGetRequestParam("hidguid", $Method, NULL), $this);
    $this->hidtab = new clsControl(ccsHidden, "hidtab", "hidtab", ccsText, "", CCGetRequestParam("hidtab", $Method, NULL), $this);
+   $this->hidcustomer_id = new clsControl(ccsHidden, "hidcustomer_id", "hidcustomer_id", ccsText, "", CCGetRequestParam("hidcustomer_id", $Method, NULL), $this);
+   $this->hidcustomer_guid = new clsControl(ccsHidden, "hidcustomer_guid", "hidcustomer_guid", ccsText, "", CCGetRequestParam("hidcustomer_guid", $Method, NULL), $this);
+   $this->lbgoback = new clsControl(ccsLabel, "lbgoback", "lbgoback", ccsText, "", CCGetRequestParam("lbgoback", $Method, NULL), $this);
    if(!$this->FormSubmitted) {
     if(!is_array($this->id_license_type->Value) && !strlen($this->id_license_type->Value) && $this->id_license_type->Value !== false)
      $this->id_license_type->SetText(1);
@@ -769,18 +772,18 @@ class clsRecordlicensing_customerscontentlicensing { //licensing Class @154-009C
  }
 //End Class_Initialize Event
 
-//Initialize Method @154-62F1B4B3
+//Initialize Method @154-B5A2ABE9
  function Initialize()
  {
 
   if(!$this->Visible)
    return;
 
-  $this->DataSource->Parameters["urllicensing_guid"] = CCGetFromGet("licensing_guid", NULL);
+  $this->DataSource->Parameters["urllicense_guid"] = CCGetFromGet("license_guid", NULL);
  }
 //End Initialize Method
 
-//Validate Method @154-90E74D8C
+//Validate Method @154-42735AE3
  function Validate()
  {
   global $CCSLocales;
@@ -810,6 +813,8 @@ class clsRecordlicensing_customerscontentlicensing { //licensing Class @154-009C
   $Validation = ($this->created_iduser->Validate() && $Validation);
   $Validation = ($this->hidguid->Validate() && $Validation);
   $Validation = ($this->hidtab->Validate() && $Validation);
+  $Validation = ($this->hidcustomer_id->Validate() && $Validation);
+  $Validation = ($this->hidcustomer_guid->Validate() && $Validation);
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "OnValidate", $this);
   $Validation =  $Validation && ($this->manufacturer->Errors->Count() == 0);
   $Validation =  $Validation && ($this->suite_code->Errors->Count() == 0);
@@ -835,11 +840,13 @@ class clsRecordlicensing_customerscontentlicensing { //licensing Class @154-009C
   $Validation =  $Validation && ($this->created_iduser->Errors->Count() == 0);
   $Validation =  $Validation && ($this->hidguid->Errors->Count() == 0);
   $Validation =  $Validation && ($this->hidtab->Errors->Count() == 0);
+  $Validation =  $Validation && ($this->hidcustomer_id->Errors->Count() == 0);
+  $Validation =  $Validation && ($this->hidcustomer_guid->Errors->Count() == 0);
   return (($this->Errors->Count() == 0) && $Validation);
  }
 //End Validate Method
 
-//CheckErrors Method @154-3C7307D1
+//CheckErrors Method @154-6A627824
  function CheckErrors()
  {
   $errors = false;
@@ -867,6 +874,9 @@ class clsRecordlicensing_customerscontentlicensing { //licensing Class @154-009C
   $errors = ($errors || $this->created_iduser->Errors->Count());
   $errors = ($errors || $this->hidguid->Errors->Count());
   $errors = ($errors || $this->hidtab->Errors->Count());
+  $errors = ($errors || $this->hidcustomer_id->Errors->Count());
+  $errors = ($errors || $this->hidcustomer_guid->Errors->Count());
+  $errors = ($errors || $this->lbgoback->Errors->Count());
   $errors = ($errors || $this->Errors->Count());
   $errors = ($errors || $this->DataSource->Errors->Count());
   return $errors;
@@ -930,7 +940,7 @@ function GetPrimaryKey($keyName)
  }
 //End Operation Method
 
-//InsertRow Method @154-55174A8B
+//InsertRow Method @154-9D4AECE5
  function InsertRow()
  {
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeInsert", $this);
@@ -959,13 +969,16 @@ function GetPrimaryKey($keyName)
   $this->DataSource->created_iduser->SetValue($this->created_iduser->GetValue(true));
   $this->DataSource->hidguid->SetValue($this->hidguid->GetValue(true));
   $this->DataSource->hidtab->SetValue($this->hidtab->GetValue(true));
+  $this->DataSource->hidcustomer_id->SetValue($this->hidcustomer_id->GetValue(true));
+  $this->DataSource->hidcustomer_guid->SetValue($this->hidcustomer_guid->GetValue(true));
+  $this->DataSource->lbgoback->SetValue($this->lbgoback->GetValue(true));
   $this->DataSource->Insert();
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "AfterInsert", $this);
   return (!$this->CheckErrors());
  }
 //End InsertRow Method
 
-//UpdateRow Method @154-78B273E0
+//UpdateRow Method @154-62EA1696
  function UpdateRow()
  {
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeUpdate", $this);
@@ -994,13 +1007,16 @@ function GetPrimaryKey($keyName)
   $this->DataSource->created_iduser->SetValue($this->created_iduser->GetValue(true));
   $this->DataSource->hidguid->SetValue($this->hidguid->GetValue(true));
   $this->DataSource->hidtab->SetValue($this->hidtab->GetValue(true));
+  $this->DataSource->hidcustomer_id->SetValue($this->hidcustomer_id->GetValue(true));
+  $this->DataSource->hidcustomer_guid->SetValue($this->hidcustomer_guid->GetValue(true));
+  $this->DataSource->lbgoback->SetValue($this->lbgoback->GetValue(true));
   $this->DataSource->Update();
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "AfterUpdate", $this);
   return (!$this->CheckErrors());
  }
 //End UpdateRow Method
 
-//Show Method @154-271A5516
+//Show Method @154-5F580629
  function Show()
  {
   global $CCSUseAmp;
@@ -1056,6 +1072,7 @@ function GetPrimaryKey($keyName)
      $this->modified_iduser->SetValue($this->DataSource->modified_iduser->GetValue());
      $this->created_iduser->SetValue($this->DataSource->created_iduser->GetValue());
      $this->hidguid->SetValue($this->DataSource->hidguid->GetValue());
+     $this->hidcustomer_id->SetValue($this->DataSource->hidcustomer_id->GetValue());
     }
    } else {
     $this->EditMode = false;
@@ -1090,6 +1107,9 @@ function GetPrimaryKey($keyName)
    $Error = ComposeStrings($Error, $this->created_iduser->Errors->ToString());
    $Error = ComposeStrings($Error, $this->hidguid->Errors->ToString());
    $Error = ComposeStrings($Error, $this->hidtab->Errors->ToString());
+   $Error = ComposeStrings($Error, $this->hidcustomer_id->Errors->ToString());
+   $Error = ComposeStrings($Error, $this->hidcustomer_guid->Errors->ToString());
+   $Error = ComposeStrings($Error, $this->lbgoback->Errors->ToString());
    $Error = ComposeStrings($Error, $this->Errors->ToString());
    $Error = ComposeStrings($Error, $this->DataSource->Errors->ToString());
    $Tpl->SetVar("Error", $Error);
@@ -1136,6 +1156,9 @@ function GetPrimaryKey($keyName)
   $this->created_iduser->Show();
   $this->hidguid->Show();
   $this->hidtab->Show();
+  $this->hidcustomer_id->Show();
+  $this->hidcustomer_guid->Show();
+  $this->lbgoback->Show();
   $Tpl->parse();
   $Tpl->block_path = $ParentPath;
   $this->DataSource->close();
@@ -1146,7 +1169,7 @@ function GetPrimaryKey($keyName)
 
 class clslicensing_customerscontentlicensingDataSource extends clsDBdbConnection {  //licensingDataSource Class @154-180292B1
 
-//DataSource Variables @154-8ACBC9C4
+//DataSource Variables @154-5D352F0D
  public $Parent = "";
  public $CCSEvents = "";
  public $CCSEventResult;
@@ -1186,9 +1209,12 @@ class clslicensing_customerscontentlicensingDataSource extends clsDBdbConnection
  public $created_iduser;
  public $hidguid;
  public $hidtab;
+ public $hidcustomer_id;
+ public $hidcustomer_guid;
+ public $lbgoback;
 //End DataSource Variables
 
-//DataSourceClass_Initialize Event @154-C294C1AC
+//DataSourceClass_Initialize Event @154-1E8F5160
  function clslicensing_customerscontentlicensingDataSource(& $Parent)
  {
   $this->Parent = & $Parent;
@@ -1216,9 +1242,9 @@ class clslicensing_customerscontentlicensingDataSource extends clsDBdbConnection
   
   $this->grant_number = new clsField("grant_number", ccsText, "");
   
-  $this->expedition_date = new clsField("expedition_date", ccsText, "");
+  $this->expedition_date = new clsField("expedition_date", ccsDate, array("yyyy", "-", "mm", "-", "dd"));
   
-  $this->expiration_date = new clsField("expiration_date", ccsText, "");
+  $this->expiration_date = new clsField("expiration_date", ccsDate, array("yyyy", "-", "mm", "-", "dd"));
   
   $this->serial_number = new clsField("serial_number", ccsText, "");
   
@@ -1242,6 +1268,12 @@ class clslicensing_customerscontentlicensingDataSource extends clsDBdbConnection
   
   $this->hidtab = new clsField("hidtab", ccsText, "");
   
+  $this->hidcustomer_id = new clsField("hidcustomer_id", ccsText, "");
+  
+  $this->hidcustomer_guid = new clsField("hidcustomer_guid", ccsText, "");
+  
+  $this->lbgoback = new clsField("lbgoback", ccsText, "");
+  
 
   $this->InsertFields["id_suite"] = array("Name" => "id_suite", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->InsertFields["id_product"] = array("Name" => "id_product", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
@@ -1252,8 +1284,8 @@ class clslicensing_customerscontentlicensingDataSource extends clsDBdbConnection
   $this->InsertFields["channel_sku"] = array("Name" => "channel_sku", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->InsertFields["msrp_price"] = array("Name" => "msrp_price", "Value" => "", "DataType" => ccsFloat, "OmitIfEmpty" => 1);
   $this->InsertFields["grant_number"] = array("Name" => "grant_number", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
-  $this->InsertFields["expedition_date"] = array("Name" => "expedition_date", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
-  $this->InsertFields["expiration_date"] = array("Name" => "expiration_date", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
+  $this->InsertFields["expedition_date"] = array("Name" => "expedition_date", "Value" => "", "DataType" => ccsDate, "OmitIfEmpty" => 1);
+  $this->InsertFields["expiration_date"] = array("Name" => "expiration_date", "Value" => "", "DataType" => ccsDate, "OmitIfEmpty" => 1);
   $this->InsertFields["serial_number"] = array("Name" => "serial_number", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->InsertFields["id_reseller"] = array("Name" => "id_reseller", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->InsertFields["id_customer_type"] = array("Name" => "id_customer_type", "Value" => "", "DataType" => ccsInteger, "OmitIfEmpty" => 1);
@@ -1262,6 +1294,7 @@ class clslicensing_customerscontentlicensingDataSource extends clsDBdbConnection
   $this->InsertFields["modified_iduser"] = array("Name" => "modified_iduser", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->InsertFields["created_iduser"] = array("Name" => "created_iduser", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->InsertFields["guid"] = array("Name" => "guid", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
+  $this->InsertFields["id_customer"] = array("Name" => "id_customer", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->UpdateFields["id_suite"] = array("Name" => "id_suite", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->UpdateFields["id_product"] = array("Name" => "id_product", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->UpdateFields["id_license_type"] = array("Name" => "id_license_type", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
@@ -1271,8 +1304,8 @@ class clslicensing_customerscontentlicensingDataSource extends clsDBdbConnection
   $this->UpdateFields["channel_sku"] = array("Name" => "channel_sku", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->UpdateFields["msrp_price"] = array("Name" => "msrp_price", "Value" => "", "DataType" => ccsFloat, "OmitIfEmpty" => 1);
   $this->UpdateFields["grant_number"] = array("Name" => "grant_number", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
-  $this->UpdateFields["expedition_date"] = array("Name" => "expedition_date", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
-  $this->UpdateFields["expiration_date"] = array("Name" => "expiration_date", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
+  $this->UpdateFields["expedition_date"] = array("Name" => "expedition_date", "Value" => "", "DataType" => ccsDate, "OmitIfEmpty" => 1);
+  $this->UpdateFields["expiration_date"] = array("Name" => "expiration_date", "Value" => "", "DataType" => ccsDate, "OmitIfEmpty" => 1);
   $this->UpdateFields["serial_number"] = array("Name" => "serial_number", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->UpdateFields["id_reseller"] = array("Name" => "id_reseller", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->UpdateFields["id_customer_type"] = array("Name" => "id_customer_type", "Value" => "", "DataType" => ccsInteger, "OmitIfEmpty" => 1);
@@ -1281,16 +1314,17 @@ class clslicensing_customerscontentlicensingDataSource extends clsDBdbConnection
   $this->UpdateFields["modified_iduser"] = array("Name" => "modified_iduser", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->UpdateFields["created_iduser"] = array("Name" => "created_iduser", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->UpdateFields["guid"] = array("Name" => "guid", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
+  $this->UpdateFields["id_customer"] = array("Name" => "id_customer", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
  }
 //End DataSourceClass_Initialize Event
 
-//Prepare Method @154-D9345EA5
+//Prepare Method @154-26B7B5D6
  function Prepare()
  {
   global $CCSLocales;
   global $DefaultDateFormat;
   $this->wp = new clsSQLParameters($this->ErrorBlock);
-  $this->wp->AddParameter("1", "urllicensing_guid", ccsText, "", "", $this->Parameters["urllicensing_guid"], "", false);
+  $this->wp->AddParameter("1", "urllicense_guid", ccsText, "", "", $this->Parameters["urllicense_guid"], "", false);
   $this->AllParametersSet = $this->wp->AllParamsSet();
   $this->wp->Criterion[1] = $this->wp->Operation(opEqual, "guid", $this->wp->GetDBValue("1"), $this->ToSQL($this->wp->GetDBValue("1"), ccsText),false);
   $this->Where = 
@@ -1311,7 +1345,7 @@ class clslicensing_customerscontentlicensingDataSource extends clsDBdbConnection
  }
 //End Open Method
 
-//SetValues Method @154-D209A19F
+//SetValues Method @154-AE5343B2
  function SetValues()
  {
   $this->suite_code->SetDBValue($this->f("id_suite"));
@@ -1323,8 +1357,8 @@ class clslicensing_customerscontentlicensingDataSource extends clsDBdbConnection
   $this->channel_sku->SetDBValue($this->f("channel_sku"));
   $this->msrp_price->SetDBValue(trim($this->f("msrp_price")));
   $this->grant_number->SetDBValue($this->f("grant_number"));
-  $this->expedition_date->SetDBValue($this->f("expedition_date"));
-  $this->expiration_date->SetDBValue($this->f("expiration_date"));
+  $this->expedition_date->SetDBValue(trim($this->f("expedition_date")));
+  $this->expiration_date->SetDBValue(trim($this->f("expiration_date")));
   $this->serial_number->SetDBValue($this->f("serial_number"));
   $this->id_reseller->SetDBValue($this->f("id_reseller"));
   $this->id_customer_type->SetDBValue(trim($this->f("id_customer_type")));
@@ -1333,10 +1367,11 @@ class clslicensing_customerscontentlicensingDataSource extends clsDBdbConnection
   $this->modified_iduser->SetDBValue($this->f("modified_iduser"));
   $this->created_iduser->SetDBValue($this->f("created_iduser"));
   $this->hidguid->SetDBValue($this->f("guid"));
+  $this->hidcustomer_id->SetDBValue($this->f("id_customer"));
  }
 //End SetValues Method
 
-//Insert Method @154-0552A911
+//Insert Method @154-672B37FF
  function Insert()
  {
   global $CCSLocales;
@@ -1362,6 +1397,7 @@ class clslicensing_customerscontentlicensingDataSource extends clsDBdbConnection
   $this->InsertFields["modified_iduser"]["Value"] = $this->modified_iduser->GetDBValue(true);
   $this->InsertFields["created_iduser"]["Value"] = $this->created_iduser->GetDBValue(true);
   $this->InsertFields["guid"]["Value"] = $this->hidguid->GetDBValue(true);
+  $this->InsertFields["id_customer"]["Value"] = $this->hidcustomer_id->GetDBValue(true);
   $this->SQL = CCBuildInsert("alm_licensing", $this->InsertFields, $this);
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeExecuteInsert", $this->Parent);
   if($this->Errors->Count() == 0 && $this->CmdExecution) {
@@ -1371,7 +1407,7 @@ class clslicensing_customerscontentlicensingDataSource extends clsDBdbConnection
  }
 //End Insert Method
 
-//Update Method @154-2E97AC5D
+//Update Method @154-D4742C30
  function Update()
  {
   global $CCSLocales;
@@ -1397,6 +1433,7 @@ class clslicensing_customerscontentlicensingDataSource extends clsDBdbConnection
   $this->UpdateFields["modified_iduser"]["Value"] = $this->modified_iduser->GetDBValue(true);
   $this->UpdateFields["created_iduser"]["Value"] = $this->created_iduser->GetDBValue(true);
   $this->UpdateFields["guid"]["Value"] = $this->hidguid->GetDBValue(true);
+  $this->UpdateFields["id_customer"]["Value"] = $this->hidcustomer_id->GetDBValue(true);
   $this->SQL = CCBuildUpdate("alm_licensing", $this->UpdateFields, $this);
   $this->SQL .= strlen($this->Where) ? " WHERE " . $this->Where : $this->Where;
   if (!strlen($this->Where) && $this->Errors->Count() == 0) 
@@ -1459,7 +1496,7 @@ class clslicensing_customerscontent { //licensing_customerscontent class @1-EBAC
  }
 //End Class_Terminate Event
 
-//BindEvents Method @1-D5F3C977
+//BindEvents Method @1-ACE0A3D9
  function BindEvents()
  {
   $this->alm_customers->lbgoback->CCSEvents["BeforeShow"] = "licensing_customerscontent_alm_customers_lbgoback_BeforeShow";
@@ -1473,6 +1510,9 @@ class clslicensing_customerscontent { //licensing_customerscontent class @1-EBAC
   $this->licensing->manufacturer->CCSEvents["BeforeShow"] = "licensing_customerscontent_licensing_manufacturer_BeforeShow";
   $this->licensing->suite_code->CCSEvents["BeforeShow"] = "licensing_customerscontent_licensing_suite_code_BeforeShow";
   $this->licensing->id_product->CCSEvents["BeforeShow"] = "licensing_customerscontent_licensing_id_product_BeforeShow";
+  $this->licensing->hidtab->CCSEvents["BeforeShow"] = "licensing_customerscontent_licensing_hidtab_BeforeShow";
+  $this->licensing->hidcustomer_guid->CCSEvents["BeforeShow"] = "licensing_customerscontent_licensing_hidcustomer_guid_BeforeShow";
+  $this->licensing->lbgoback->CCSEvents["BeforeShow"] = "licensing_customerscontent_licensing_lbgoback_BeforeShow";
   $this->licensing->CCSEvents["BeforeInsert"] = "licensing_customerscontent_licensing_BeforeInsert";
   $this->licensing->CCSEvents["AfterInsert"] = "licensing_customerscontent_licensing_AfterInsert";
   $this->licensing->CCSEvents["BeforeUpdate"] = "licensing_customerscontent_licensing_BeforeUpdate";
@@ -1555,6 +1595,7 @@ class clslicensing_customerscontent { //licensing_customerscontent class @1-EBAC
 } //End licensing_customerscontent Class @1-FCB6E20C
 
 include_once("includes/customers.php");
+include_once("includes/products.php");
 
 //Include Event File @1-2C77744A
 include_once(RelativePath . "/licensing_customerscontent_events.php");

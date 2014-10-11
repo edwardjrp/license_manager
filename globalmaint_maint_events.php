@@ -80,6 +80,12 @@ function Page_BeforeShow(& $sender)
 			$MainPage->lbmodule->setvalue($m_title);
 			$Tpl->setvar("module",$m);
 		break;
+		case "resellers" :
+			$m_title = $CCSLocales->GetText("resellers");
+			$MainPage->lbmodule->setvalue($m_title);
+			$Tpl->setvar("module",$m);
+		break;
+
 	}
 
 

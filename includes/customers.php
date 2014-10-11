@@ -569,6 +569,10 @@ class Customers {
 					$fields_array = array( "id", "guid", "tag_name as title" );
 					$table = "alm_product_tags";
 				break;
+				case "resellers" :
+					$fields_array = array( "id", "guid", "reseller_name as title" );
+					$table = "alm_resellers";
+				break;
 				case "city" :
 				default :
 					$fields_array = array( "id", "guid", "city as title" );
@@ -650,6 +654,9 @@ class Customers {
 				case "producttags" :
 					$table = "alm_product_tags";
 				break;
+				case "resellers" :
+					$table = "alm_resellers";
+				break;
 				case "city" :
 				default :
 					$table = "alm_city";
@@ -727,6 +734,10 @@ class Customers {
 				case "producttags" :
 					$fields_array = array( "id", "guid", "tag_name as title" );
 					$table = "alm_product_tags";
+				break;
+				case "resellers" :
+					$fields_array = array( "id", "guid", "reseller_name as title" );
+					$table = "alm_resellers";
 				break;
 				case "city" :
 				default :
@@ -818,6 +829,10 @@ class Customers {
 					$fields_array = array( "guid", "tag_name", "created_iduser" );
 					$table = "alm_product_tags";
 				break;
+				case "resellers" :
+					$fields_array = array( "guid", "reseller_name", "created_iduser" );
+					$table = "alm_resellers";
+				break;
 				case "city" :
 				default :
 					$fields_array = array( "guid", "city", "created_iduser" );
@@ -905,6 +920,10 @@ class Customers {
 				case "producttags" :
 					$fields_array = array( "tag_name = '$title' ", "modified_iduser = $userid" );
 					$table = "alm_product_tags";
+				break;
+				case "resellers" :
+					$fields_array = array( "reseller_name = '$title' ", "modified_iduser = $userid" );
+					$table = "alm_resellers";
 				break;
 				case "city" :
 				default :
