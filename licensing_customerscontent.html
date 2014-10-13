@@ -262,14 +262,6 @@
  
 								</div>
 								<div class="col-md-3 col-xs-12">
-									<label for="s_type" class="control-label blue">{res:customertype}</label><br>
-									<select id="s_type" class="width-90 chosen-select" name="{id_customer_type_Name}">
-										<option selected value="">{res:selectoption}</option>
-										{id_customer_type_Options}
-									</select>
- 
-								</div>
-								<div class="col-md-3 col-xs-12">
 									<label class="control-label blue">{res:product_type}</label><br>
 									<!-- BEGIN RadioButton id_product_type --><input id="id_product_type_{Value}" class="ace" type="radio" value="{Value}" name="{id_product_type_Name}" {Check}><span class="lbl">&nbsp;&nbsp;{Description}&nbsp;&nbsp;&nbsp;</span><!-- END RadioButton id_product_type -->
 								</div>
@@ -298,8 +290,7 @@
 								</div>
 								<div id="nodes" class="col-md-2 col-xs-12">
 									<div class="row col-xs-12">
-										<label class="control-label blue">
-{res:numberofnodes}</label><br>
+										<label class="control-label blue">{res:numberofnodes}</label><br>
 										<input type="text" class="col-md-12 col-xs-12" value="{nodes}" name="{nodes_Name}" data-validation="number" data-validation-error-msg="{res:invalidnodes}" data-validation-optional="true">
 									</div>
 								</div>
@@ -330,15 +321,13 @@
 								</div>
 							</div>
 							<!-- row -->
-							<div class="row col-xs-12 space">
-							</div>
+							<div class="row col-xs-12 space"></div>
 							<div class="row col-xs-12">
 								<div class="col-md-1 col-xs-0">
 								</div>
 								<div class="col-md-3 col-xs-12">
 									<div class="row col-xs-12">
-										<label class="control-label blue">
-{res:grantnumber}</label><br>
+										<label class="control-label blue">{res:grantnumber}</label><br>
 										<input type="text" class="col-md-12 col-xs-12" value="{grant_number}" name="{grant_number_Name}">
 									</div>
 								</div>
@@ -366,13 +355,27 @@
 										<input type="text" class="col-md-12 col-xs-12" value="{serial_number}" name="{serial_number_Name}">
 									</div>
 								</div>
+							</div><!-- row -->
+
+							<div class="row col-xs-12 space hr"></div>
+
+							<div class="row col-xs-12">
+								<div class="col-md-1 col-xs-0"></div>
+								<div class="col-md-3 col-xs-12"></div>
+								<div class="col-md-2 col-xs-12">
+									<label class="control-label orange">{res:datecreated}</label><br>
+									<input type="text" id="datecreated" class="col-md-12 col-xs-12" disabled value="{datecreated}" name="{datecreated_Name}">
+								</div>
+								<div class="col-md-2 col-xs-12">
+									<label class="control-label orange">{res:dateupdated}</label><br>
+									<input type="text" id="dateupdated" class="col-md-12 col-xs-12" disabled value="{dateupdated}" name="{dateupdated_Name}">								
+								</div>
 							</div>
-							<!-- row -->
+
 							<div class="row">
 								<div class="col-md-12 col-xs-12">
 									<div class="form-actions action-buttons center inline col-xs-12">
-										<div class="inline"><a href="licensing.php{lbgoback}" role="button" id="goback" class="btn btn-sm btn-success"><li class="icon-arrow-left"></li>
-&nbsp;{res:buttongoback}</a> &nbsp;&nbsp;</div>
+										<div class="inline"><a href="licensing.php{lbgoback}" role="button" id="goback" class="btn btn-sm btn-success"><li class="icon-arrow-left"></li>&nbsp;{res:buttongoback}</a> &nbsp;&nbsp;</div>
 										<div class="inline">
 											<!-- BEGIN Button Button_Insert --><button class="btn btn-sm btn-success" type="submit" name="{Button_Name}" value="{res:buttonsave}"><span class="icon-save"></li>&nbsp; {res:buttonsave}</button><!-- END Button Button_Insert -->
 										</div>
@@ -495,7 +498,6 @@ $(function(){
                         type: "get",
                         data: params
                 }).done(function(msg) {
-                        console.log(msg);
                         $.each(msg.products, function() {
                                 $("#product_description").val(this.description);
                                 $("#product_shortdescription").val(this.short_description);
@@ -507,7 +509,8 @@ $(function(){
                                 $("#id_licensed_by_"+this.id_licensed_by).click();      
                                 $("#licensed_amount").val(this.licensed_amount);
                                 $("#channel_sku").val(this.channel_sku);
-                                $("#msrp_price").val(this.msrp_price);
+								var productPrice = parseFloat(this.msrp_price);
+                                $("#msrp_price").val(productPrice.toFixed(2));
                         });
 
                 });
