@@ -12,8 +12,7 @@ function licensing_customerscontent_alm_customers_lbgoback_BeforeShow(& $sender)
 
 //Custom Code @30-2A29BDB7
 // -------------------------
-    // Write your own code here.
-
+ // Write your own code here.
 // -------------------------
 //End Custom Code
 
@@ -300,56 +299,6 @@ function licensing_customerscontent_licensing_suite_code_BeforeShow(& $sender)
 }
 //End Close licensing_customerscontent_licensing_suite_code_BeforeShow
 
-//licensing_customerscontent_licensing_id_product_BeforeShow @173-47584CC4
-function licensing_customerscontent_licensing_id_product_BeforeShow(& $sender)
-{
- $licensing_customerscontent_licensing_id_product_BeforeShow = true;
- $Component = & $sender;
- $Container = & CCGetParentContainer($sender);
- global $licensing_customerscontent; //Compatibility
-//End licensing_customerscontent_licensing_id_product_BeforeShow
-
-//Custom Code @174-2A29BDB7
-// -------------------------
- // Write your own code here.
- 	$suite_id = (int)$licensing_customerscontent->licensing->suite_code->GetValue();
-	if ($suite_id > 0) {
-		$products = new \Alm\Products();
-		$params = array();
-		$params["suite_id"] = $suite_id;
-		$productList = $products->getProductsBySuiteID($params);
-		$allProducts = $productList["products"];
-		$valueList = array();
-		foreach($allProducts as $product) {
-			$min = $product["range_min"];
-			$max = $product["range_max"];
-			$shortDescription = $product["short_description"];
-			$channelSku = $product["channel_sku"];
-			$description = $product["description"];
-			$valueList[] = array($product["id"],"$description ( Nodes: $min - $max) $shortDescription");
-		}
-		
-		$licensing_customerscontent->licensing->id_product->Values = $valueList;
-
-		$params["product_id"] = $licensing_customerscontent->licensing->id_product->GetValue(); 
-		$productDetails = $products->getProductByID($params);
-		$productDetails = $productDetails["products"];
-		$licensing_customerscontent->licensing->product_shortname->SetValue($productDetails[0]["short_description"]);
-		$licensing_customerscontent->licensing->product_description->SetValue($productDetails[0]["description"]);
-		$suite = $products->getSuiteByID($params);
-		$licensing_customerscontent->licensing->suitedescription->SetValue($suite["suite_description"]);
-
-
-	}
- 	
-// -------------------------
-//End Custom Code
-
-//Close licensing_customerscontent_licensing_id_product_BeforeShow @173-36830841
- return $licensing_customerscontent_licensing_id_product_BeforeShow;
-}
-//End Close licensing_customerscontent_licensing_id_product_BeforeShow
-
 //licensing_customerscontent_licensing_hidtab_BeforeShow @195-D622CAAE
 function licensing_customerscontent_licensing_hidtab_BeforeShow(& $sender)
 {
@@ -413,6 +362,84 @@ function licensing_customerscontent_licensing_lbgoback_BeforeShow(& $sender)
  return $licensing_customerscontent_licensing_lbgoback_BeforeShow;
 }
 //End Close licensing_customerscontent_licensing_lbgoback_BeforeShow
+
+//licensing_customerscontent_licensing_id_product_BeforeShow @173-47584CC4
+function licensing_customerscontent_licensing_id_product_BeforeShow(& $sender)
+{
+ $licensing_customerscontent_licensing_id_product_BeforeShow = true;
+ $Component = & $sender;
+ $Container = & CCGetParentContainer($sender);
+ global $licensing_customerscontent; //Compatibility
+//End licensing_customerscontent_licensing_id_product_BeforeShow
+
+//Custom Code @174-2A29BDB7
+// -------------------------
+ // Write your own code here.
+ 	$suite_id = (int)$licensing_customerscontent->licensing->suite_code->GetValue();
+	if ($suite_id > 0) {
+		$products = new \Alm\Products();
+		$params = array();
+		$params["suite_id"] = $suite_id;
+		$productList = $products->getProductsBySuiteID($params);
+		$allProducts = $productList["products"];
+		$valueList = array();
+		foreach($allProducts as $product) {
+			$min = $product["range_min"];
+			$max = $product["range_max"];
+			$shortDescription = $product["short_description"];
+			$channelSku = $product["channel_sku"];
+			$description = $product["description"];
+			$valueList[] = array($product["id"],"$description (Nodes: $min - $max) $channelSku ");
+		}
+		
+		$licensing_customerscontent->licensing->id_product->Values = $valueList;
+
+		$params["product_id"] = $licensing_customerscontent->licensing->id_product->GetValue(); 
+		$productDetails = $products->getProductByID($params);
+		$productDetails = $productDetails["products"];
+		$suite = $products->getSuiteByID($params);
+		$licensing_customerscontent->licensing->suitedescription->SetValue($suite["suite_description"]);
+
+
+	}
+ 	
+// -------------------------
+//End Custom Code
+
+//Close licensing_customerscontent_licensing_id_product_BeforeShow @173-36830841
+ return $licensing_customerscontent_licensing_id_product_BeforeShow;
+}
+//End Close licensing_customerscontent_licensing_id_product_BeforeShow
+
+//licensing_customerscontent_licensing_id_license_status_BeforeShow @205-17C5A635
+function licensing_customerscontent_licensing_id_license_status_BeforeShow(& $sender)
+{
+ $licensing_customerscontent_licensing_id_license_status_BeforeShow = true;
+ $Component = & $sender;
+ $Container = & CCGetParentContainer($sender);
+ global $licensing_customerscontent; //Compatibility
+//End licensing_customerscontent_licensing_id_license_status_BeforeShow
+
+//Custom Code @207-2A29BDB7
+// -------------------------
+ // Write your own code here.
+ 	$idstatus = (int)$sender->GetValue();
+	if ($idstatus > 0) {
+	 	$db = new clsDBdbConnection();
+		$sql = "select status_name,icon_name,css_color from alm_license_status where id = $idstatus";
+		$db->query($sql);
+		$db->next_record();
+		$licensing_customerscontent->licensing->lblicense_status_css->SetValue($db->f("css_color"));
+		$sender->SetValue($db->f("status_name"));
+		$db->close();
+	}
+// -------------------------
+//End Custom Code
+
+//Close licensing_customerscontent_licensing_id_license_status_BeforeShow @205-C8AA0A17
+ return $licensing_customerscontent_licensing_id_license_status_BeforeShow;
+}
+//End Close licensing_customerscontent_licensing_id_license_status_BeforeShow
 
 //Used because the last_user_id query on afterinsert was not working
 $lastguid = "";

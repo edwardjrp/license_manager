@@ -5,33 +5,33 @@ include(RelativePath . "/Classes.php");
 include(RelativePath . "/db_adapter.php");
 //End Include Files
 
-//Connection Settings @0-AB6DBC71
+//Connection Settings @0-DE802A68
 $CCConnectionSettings = array (
-    "dbConnection" => array(
-        "Type" => "MySQL",
-        "DBLib" => "MySQLi",
-        "Database" => "alm",
-        "Host" => "192.168.211.1",
-        "Port" => "3306",
-        "User" => "root",
-        "Password" => "root",
-        "Encoding" => array("", "utf8"),
-        "Persistent" => false,
-        "DateFormat" => array("yyyy", "-", "mm", "-", "dd", " ", "HH", ":", "nn", ":", "ss"),
-        "BooleanFormat" => array("true", "false", ""),
-        "Uppercase" => false
-    )
+ "dbConnection" => array(
+  "Type" => "MySQL",
+  "DBLib" => "MySQLi",
+  "Database" => "alm",
+  "Host" => "192.168.2.1",
+  "Port" => "3306",
+  "User" => "root",
+  "Password" => "root",
+  "Encoding" => array("", "utf8"),
+  "Persistent" => false,
+  "DateFormat" => array("yyyy", "-", "mm", "-", "dd", " ", "HH", ":", "nn", ":", "ss"),
+  "BooleanFormat" => array("true", "false", ""),
+  "Uppercase" => false
+ )
 );
 //End Connection Settings
 
 //Initialize Common Variables @0-E609193E
 $PHPVersion = explode(".",  phpversion());
 if (($PHPVersion[0] < 4) || ($PHPVersion[0] == 4  && $PHPVersion[1] < 1)) {
-    echo "Sorry. This program requires PHP 4.1 and above to run. You may upgrade your php at <a href='http://www.php.net/downloads.php'>http://www.php.net/downloads.php</a>";
-    exit;
+ echo "Sorry. This program requires PHP 4.1 and above to run. You may upgrade your php at <a href='http://www.php.net/downloads.php'>http://www.php.net/downloads.php</a>";
+ exit;
 }
 if (session_id() == "")
-    session_start();
+ session_start();
 header('Pragma: ');
 header('Cache-control: ');
 header('Expires: ');
@@ -52,7 +52,7 @@ $CCSLocales->Init();
 $Charset = "utf-8";
 
 if ($PHPLocale = $CCSLocales->GetFormatInfo("PHPLocale"))
-    setlocale(LC_ALL, $PHPLocale);
+ setlocale(LC_ALL, $PHPLocale);
 CCConvertDataArrays();
 $CCProjectStyle = "";
 //for compatibility
@@ -96,31 +96,31 @@ $MainPage = new clsMainPage();
 //dbConnection Connection Class @-3E799716
 class clsDBdbConnection extends DB_Adapter
 {
-    function clsDBdbConnection()
-    {
-        $this->Initialize();
-    }
+ function clsDBdbConnection()
+ {
+  $this->Initialize();
+ }
 
-    function Initialize()
-    {
-        global $CCConnectionSettings;
-        $this->SetProvider($CCConnectionSettings["dbConnection"]);
-        parent::Initialize();
-        $this->DateLeftDelimiter = "'";
-        $this->DateRightDelimiter = "'";
-    }
+ function Initialize()
+ {
+  global $CCConnectionSettings;
+  $this->SetProvider($CCConnectionSettings["dbConnection"]);
+  parent::Initialize();
+  $this->DateLeftDelimiter = "'";
+  $this->DateRightDelimiter = "'";
+ }
 
-    function OptimizeSQL($SQL)
-    {
-        $PageSize = (int) $this->PageSize;
-        if (!$PageSize) return $SQL;
-        $Page = $this->AbsolutePage ? (int) $this->AbsolutePage : 1;
-        if (strcmp($this->RecordsCount, "CCS not counted")) 
-            $SQL .= (" LIMIT " . (($Page - 1) * $PageSize) . "," . $PageSize);
-        else
-            $SQL .= (" LIMIT " . (($Page - 1) * $PageSize) . "," . ($PageSize + 1));
-        return $SQL;
-    }
+ function OptimizeSQL($SQL)
+ {
+  $PageSize = (int) $this->PageSize;
+  if (!$PageSize) return $SQL;
+  $Page = $this->AbsolutePage ? (int) $this->AbsolutePage : 1;
+  if (strcmp($this->RecordsCount, "CCS not counted")) 
+   $SQL .= (" LIMIT " . (($Page - 1) * $PageSize) . "," . $PageSize);
+  else
+   $SQL .= (" LIMIT " . (($Page - 1) * $PageSize) . "," . ($PageSize + 1));
+  return $SQL;
+ }
 
 }
 //End dbConnection Connection Class
@@ -187,21 +187,21 @@ function CCGetValue(&$db, $fieldname)
 //CCGetSession @0-A9848448
 function CCGetSession($parameter_name, $default_value = "")
 {
-    return isset($_SESSION[$parameter_name]) ? $_SESSION[$parameter_name] : $default_value;
+ return isset($_SESSION[$parameter_name]) ? $_SESSION[$parameter_name] : $default_value;
 }
 //End CCGetSession
 
 //CCSetSession @0-7889A59E
 function CCSetSession($param_name, $param_value)
 {
-    $_SESSION[$param_name] = $param_value;
+ $_SESSION[$param_name] = $param_value;
 }
 //End CCSetSession
 
 //CCGetCookie @0-6B04B9B5
 function CCGetCookie($parameter_name)
 {
-    return isset($_COOKIE[$parameter_name]) ? $_COOKIE[$parameter_name] : "";
+ return isset($_COOKIE[$parameter_name]) ? $_COOKIE[$parameter_name] : "";
 }
 //End CCGetCookie
 
@@ -234,50 +234,50 @@ function CCStrip($value)
 //CCGetParam @0-3BB7E2D4
 function CCGetParam($parameter_name, $default_value = "")
 {
-    $parameter_value = "";
-    if(isset($_POST[$parameter_name]))
-        $parameter_value = CCStrip($_POST[$parameter_name]);
-    else if(isset($_GET[$parameter_name]))
-        $parameter_value = CCStrip($_GET[$parameter_name]);
-    else
-        $parameter_value = $default_value;
-    return $parameter_value;
+ $parameter_value = "";
+ if(isset($_POST[$parameter_name]))
+  $parameter_value = CCStrip($_POST[$parameter_name]);
+ else if(isset($_GET[$parameter_name]))
+  $parameter_value = CCStrip($_GET[$parameter_name]);
+ else
+  $parameter_value = $default_value;
+ return $parameter_value;
 }
 //End CCGetParam
 
 //CCGetParamStartsWith @0-4BE76C1A
 function CCGetParamStartsWith($prefix)
 {
-    $parameter_name = "";
-    foreach($_POST as $key => $value) {
-        if(preg_match ("/^" . $prefix . "_\d+$/i", $key)) {
-            $parameter_name = $key;
-            break;
-        }
-    }
-    if($parameter_name === "") {
-        foreach($_GET as $key => $value) {
-            if(preg_match ("/^" . $prefix . "_\d+$/i", $key)) {
-                $parameter_name = $key;
-                break;
-            }
-        }
-    }
-    return $parameter_name;
+ $parameter_name = "";
+ foreach($_POST as $key => $value) {
+  if(preg_match ("/^" . $prefix . "_\d+$/i", $key)) {
+   $parameter_name = $key;
+   break;
+  }
+ }
+ if($parameter_name === "") {
+  foreach($_GET as $key => $value) {
+   if(preg_match ("/^" . $prefix . "_\d+$/i", $key)) {
+    $parameter_name = $key;
+    break;
+   }
+  }
+ }
+ return $parameter_name;
 }
 //End CCGetParamStartsWith
 
 //CCGetFromPost @0-393586D2
 function CCGetFromPost($parameter_name, $default_value = "")
 {
-    return isset($_POST[$parameter_name]) ? CCStrip($_POST[$parameter_name]) : $default_value;
+ return isset($_POST[$parameter_name]) ? CCStrip($_POST[$parameter_name]) : $default_value;
 }
 //End CCGetFromPost
 
 //CCGetFromGet @0-90CF1921
 function CCGetFromGet($parameter_name, $default_value = "")
 {
-    return isset($_GET[$parameter_name]) ? CCStrip($_GET[$parameter_name]) : $default_value;
+ return isset($_GET[$parameter_name]) ? CCStrip($_GET[$parameter_name]) : $default_value;
 }
 //End CCGetFromGet
 
@@ -322,32 +322,32 @@ function CCGetDBValue($sql, &$db)
 //CCGetListValues @0-74F64ABA
 function CCGetListValues(&$db, $sql, $where = "", $order_by = "", $bound_column = "", $text_column = "", $dbformat = "", $datatype = "", $errorclass = "", $fieldname = "", $DSType = dsSQL)
 {
-    $errors = new clsErrors();
-    $values = "";
-    if(!strlen($bound_column))
-        $bound_column = 0;
-    if(!strlen($text_column))
-        $text_column = 1;
-    if ($DSType == dsProcedure && $db->DB == "MSSQL" && count($db->Binds)) 
-        $db->execute($sql);
-    else
-        $db->query(CCBuildSQL($sql, $where, $order_by));
-    if ($db->next_record())
-    {
-        do
-        {
-            $bound_column_value = $db->f($bound_column);
-            if($bound_column_value === false) {$bound_column_value = "";}
-            list($bound_column_value, $errors) = CCParseValue($bound_column_value, $dbformat, $datatype, $errors, $fieldname);
-            $values[] = array($bound_column_value, $db->f($text_column));
-        } while ($db->next_record());
-    }
-    if (is_string($errorclass)) {
-        return $values;
-    } else {
-        $errorclass->AddErrors($errors);
-        return array($values, $errorclass);
-    }
+ $errors = new clsErrors();
+ $values = "";
+ if(!strlen($bound_column))
+  $bound_column = 0;
+ if(!strlen($text_column))
+  $text_column = 1;
+ if ($DSType == dsProcedure && $db->DB == "MSSQL" && count($db->Binds)) 
+  $db->execute($sql);
+ else
+  $db->query(CCBuildSQL($sql, $where, $order_by));
+ if ($db->next_record())
+ {
+  do
+  {
+   $bound_column_value = $db->f($bound_column);
+   if($bound_column_value === false) {$bound_column_value = "";}
+   list($bound_column_value, $errors) = CCParseValue($bound_column_value, $dbformat, $datatype, $errors, $fieldname);
+   $values[] = array($bound_column_value, $db->f($text_column));
+  } while ($db->next_record());
+ }
+ if (is_string($errorclass)) {
+  return $values;
+ } else {
+  $errorclass->AddErrors($errors);
+  return array($values, $errorclass);
+ }
 }
 
 //End CCGetListValues
@@ -453,16 +453,16 @@ function CCGetListValues(&$db, $sql, $where = "", $order_by = "", $bound_column 
 //CCBuildSQL @0-9C1D4901
 function CCBuildSQL($sql, $where = "", $order_by = "")
 {
-    if (!$sql) return "";
-    if(strlen($where)) $where = " WHERE " . $where;
-    if(strlen($order_by)) $order_by = " ORDER BY " . $order_by;
-    if(stristr($sql,"{SQL_Where}") || stristr($sql,"{SQL_OrderBy}")) {
-        $sql = str_replace("{SQL_Where}", $where, $sql);
-        $sql = str_replace("{SQL_OrderBy}", $order_by, $sql);
-        return $sql;
-    }
-    $sql .= $where . $order_by;
-    return $sql;
+ if (!$sql) return "";
+ if(strlen($where)) $where = " WHERE " . $where;
+ if(strlen($order_by)) $order_by = " ORDER BY " . $order_by;
+ if(stristr($sql,"{SQL_Where}") || stristr($sql,"{SQL_OrderBy}")) {
+  $sql = str_replace("{SQL_Where}", $where, $sql);
+  $sql = str_replace("{SQL_OrderBy}", $order_by, $sql);
+  return $sql;
+ }
+ $sql .= $where . $order_by;
+ return $sql;
 }
 
 //End CCBuildSQL
@@ -470,19 +470,19 @@ function CCBuildSQL($sql, $where = "", $order_by = "")
 //CCBuildInsert @0-6433D327
 function CCBuildInsert($table, & $Fields, & $Connection)
 {
-    $fields = array();
-    $values = array();
-    foreach ($Fields as $Field) {
-        if (!isset($Field["OmitIfEmpty"]) || !$Field["OmitIfEmpty"] || !is_null($Field["Value"])) {
-            $fields[] = $Field["Name"];
-            if ($Field["DataType"] == ccsMemo && ($Connection->DB == "Oracle" || $Connection->DB == "OracleOCI")) {
-                $values[] = ":" . $Field["Name"];
-                $Connection->Bind($Field["Name"], $Field["Value"], -1);
-            }else{
-                $values[] = $Connection->ToSQL($Field["Value"], $Field["DataType"]);
-            }
-        }
-    }
+ $fields = array();
+ $values = array();
+ foreach ($Fields as $Field) {
+  if (!isset($Field["OmitIfEmpty"]) || !$Field["OmitIfEmpty"] || !is_null($Field["Value"])) {
+   $fields[] = $Field["Name"];
+   if ($Field["DataType"] == ccsMemo && ($Connection->DB == "Oracle" || $Connection->DB == "OracleOCI")) {
+    $values[] = ":" . $Field["Name"];
+    $Connection->Bind($Field["Name"], $Field["Value"], -1);
+   }else{
+    $values[] = $Connection->ToSQL($Field["Value"], $Field["DataType"]);
+   }
+  }
+ }
   return count($fields) ? "INSERT INTO " . $table . " (" . implode(", ", $fields) . ") VALUES(" . implode(", ", $values) . ")" : "";
 
 }
@@ -492,18 +492,18 @@ function CCBuildInsert($table, & $Fields, & $Connection)
 //CCBuildUpdate @0-E2594C39
 function CCBuildUpdate($table, & $Fields, & $Connection)
 {
-    $pairs = array();
-    foreach ($Fields as $Field) {
-        if (!isset($Field["OmitIfEmpty"]) || !$Field["OmitIfEmpty"] || !is_null($Field["Value"])) {
-            if ($Field["DataType"] == ccsMemo && ($Connection->DB == "Oracle" || $Connection->DB == "OracleOCI")) {
-                $value = ":" . $Field["Name"];
-                $Connection->Bind($Field["Name"], $Field["Value"], -1);
-            }else{
-                $value = $Connection->ToSQL($Field["Value"], $Field["DataType"]);
-            }
-            $pairs[] = $Field["Name"] . " = " . $value;
-        }
-    }
+ $pairs = array();
+ foreach ($Fields as $Field) {
+  if (!isset($Field["OmitIfEmpty"]) || !$Field["OmitIfEmpty"] || !is_null($Field["Value"])) {
+   if ($Field["DataType"] == ccsMemo && ($Connection->DB == "Oracle" || $Connection->DB == "OracleOCI")) {
+    $value = ":" . $Field["Name"];
+    $Connection->Bind($Field["Name"], $Field["Value"], -1);
+   }else{
+    $value = $Connection->ToSQL($Field["Value"], $Field["DataType"]);
+   }
+   $pairs[] = $Field["Name"] . " = " . $value;
+  }
+ }
   return count($pairs) ? "UPDATE " . $table . " SET " . implode(", ", $pairs) : "";
 
 }
@@ -513,37 +513,37 @@ function CCBuildUpdate($table, & $Fields, & $Connection)
 //CCGetRequestParam @0-AC78F6A0
 function CCGetRequestParam($ParameterName, $Method, $DefaultValue = "")
 {
-    $ParameterValue = $DefaultValue;
-    if($Method == ccsGet && isset($_GET[$ParameterName]))
-        $ParameterValue = CCStrip($_GET[$ParameterName]);
-    else if($Method == ccsPost && isset($_POST[$ParameterName]))
-        $ParameterValue = CCStrip($_POST[$ParameterName]);
-    return $ParameterValue;
+ $ParameterValue = $DefaultValue;
+ if($Method == ccsGet && isset($_GET[$ParameterName]))
+  $ParameterValue = CCStrip($_GET[$ParameterName]);
+ else if($Method == ccsPost && isset($_POST[$ParameterName]))
+  $ParameterValue = CCStrip($_POST[$ParameterName]);
+ return $ParameterValue;
 }
 //End CCGetRequestParam
 
 //CCGetQueryString @0-CDA71B06
 function CCGetQueryString($CollectionName, $RemoveParameters)
 {
-    $querystring = "";
-    $postdata = "";
-    if($CollectionName == "Form")
-        $querystring = CCCollectionToString($_POST, $RemoveParameters);
-    else if($CollectionName == "QueryString")
-        $querystring = CCCollectionToString($_GET, $RemoveParameters);
-    else if($CollectionName == "All")
-    {
-        $querystring = CCCollectionToString($_GET, $RemoveParameters);
-        $postdata = CCCollectionToString($_POST, $RemoveParameters);
-        if(strlen($postdata) > 0 && strlen($querystring) > 0)
-            $querystring .= "&" . $postdata;
-        else
-            $querystring .= $postdata;
-    }
-    else
-        die("1050: Common Functions. CCGetQueryString Function. " .
-            "The CollectionName contains an illegal value.");
-    return $querystring;
+ $querystring = "";
+ $postdata = "";
+ if($CollectionName == "Form")
+  $querystring = CCCollectionToString($_POST, $RemoveParameters);
+ else if($CollectionName == "QueryString")
+  $querystring = CCCollectionToString($_GET, $RemoveParameters);
+ else if($CollectionName == "All")
+ {
+  $querystring = CCCollectionToString($_GET, $RemoveParameters);
+  $postdata = CCCollectionToString($_POST, $RemoveParameters);
+  if(strlen($postdata) > 0 && strlen($querystring) > 0)
+   $querystring .= "&" . $postdata;
+  else
+   $querystring .= $postdata;
+ }
+ else
+  die("1050: Common Functions. CCGetQueryString Function. " .
+   "The CollectionName contains an illegal value.");
+ return $querystring;
 }
 //End CCGetQueryString
 
@@ -601,40 +601,40 @@ function CCMergeQueryStrings($LeftQueryString, $RightQueryString = "")
 //CCAddParam @0-5D96DB6B
 function CCAddParam($querystring, $ParameterName, $ParameterValue)
 {
-    $queryStr = null; $paramStr = null;
-    if (strpos($querystring, '?') !== false)
-        list($queryStr, $paramStr) = explode('?', $querystring);
-    else if (strpos($querystring, '=') !== false)
-        $paramStr = $querystring;
-    else
-        $queryStr = $querystring;
-    $paramStr = $paramStr ? '&' . $paramStr : '';
-    $paramStr = preg_replace ('/&' . $ParameterName . '(\[\])?=[^&]*/', '', $paramStr);
-    if(is_array($ParameterValue)) {
-        foreach($ParameterValue as $key => $val) {
-            $paramStr .= "&" . urlencode($ParameterName) . "[]=" . urlencode($val);
-        }
-    } else {
-        $paramStr .= "&" . urlencode($ParameterName) . "=" . urlencode($ParameterValue);
-    }
-    $paramStr = ltrim($paramStr, '&');
-    return $queryStr ? $queryStr . '?' . $paramStr : $paramStr;
+ $queryStr = null; $paramStr = null;
+ if (strpos($querystring, '?') !== false)
+  list($queryStr, $paramStr) = explode('?', $querystring);
+ else if (strpos($querystring, '=') !== false)
+  $paramStr = $querystring;
+ else
+  $queryStr = $querystring;
+ $paramStr = $paramStr ? '&' . $paramStr : '';
+ $paramStr = preg_replace ('/&' . $ParameterName . '(\[\])?=[^&]*/', '', $paramStr);
+ if(is_array($ParameterValue)) {
+  foreach($ParameterValue as $key => $val) {
+   $paramStr .= "&" . urlencode($ParameterName) . "[]=" . urlencode($val);
+  }
+ } else {
+  $paramStr .= "&" . urlencode($ParameterName) . "=" . urlencode($ParameterValue);
+ }
+ $paramStr = ltrim($paramStr, '&');
+ return $queryStr ? $queryStr . '?' . $paramStr : $paramStr;
 }
 //End CCAddParam
 
 //CCRemoveParam @0-E44DBAB9
 function CCRemoveParam($querystring, $ParameterName)
 {
-    if (strpos($querystring, '?') !== false)
-        list($queryStr, $paramStr) = explode('?', $querystring);
-    else if (strpos($querystring, '=') !== false)
-        $paramStr = $querystring;
-    else
-        $queryStr = $querystring;
-    $paramStr = $paramStr ? '&' . $paramStr : '';
-    $paramStr = preg_replace ('/&' . $ParameterName . '(\[\])?=[^&]*/', '', $paramStr);
-    $paramStr = ltrim($paramStr, '&');
-    return $queryStr ? $queryStr . '?' . $paramStr : $paramStr;
+ if (strpos($querystring, '?') !== false)
+  list($queryStr, $paramStr) = explode('?', $querystring);
+ else if (strpos($querystring, '=') !== false)
+  $paramStr = $querystring;
+ else
+  $queryStr = $querystring;
+ $paramStr = $paramStr ? '&' . $paramStr : '';
+ $paramStr = preg_replace ('/&' . $ParameterName . '(\[\])?=[^&]*/', '', $paramStr);
+ $paramStr = ltrim($paramStr, '&');
+ return $queryStr ? $queryStr . '?' . $paramStr : $paramStr;
 }
 //End CCRemoveParam
 
@@ -1628,360 +1628,360 @@ function CCDayOfYear($date) {
 //CCConvertEncoding @0-5177A761
 function CCConvertEncoding($text, $from, $to)
 {
-    return $text;
+ return $text;
 }
 //End CCConvertEncoding
 
 //CCConvertEncodingArray @0-1A109043
 function CCConvertEncodingArray($array, $from="", $to="")
 {
-    if (strlen($from) && strlen($to) && strcasecmp($from, $to)) {
-        foreach ($array as $key => $value)
-            $array[$key] = is_array($value) ? CCConvertEncodingArray($value, $from, $to) : CCConvertEncoding($value, $from, $to);
-    }
-    return $array;
+ if (strlen($from) && strlen($to) && strcasecmp($from, $to)) {
+  foreach ($array as $key => $value)
+   $array[$key] = is_array($value) ? CCConvertEncodingArray($value, $from, $to) : CCConvertEncoding($value, $from, $to);
+ }
+ return $array;
 }
 //End CCConvertEncodingArray
 
 //CCConvertDataArrays @0-303D5215
 function CCConvertDataArrays($from="", $to="")
 {
-    global $FileEncoding;
-    global $TemplateEncoding;
-    global $CCSLocales;
-    if ($from == "")
-        $from = $CCSLocales->GetFormatInfo("PHPEncoding");
-    if ($from == "")
-        $from = $TemplateEncoding;
-    if ($to == "")
-        $to = $FileEncoding;
-    if (strlen($from) && strlen($to) && strcmp($from, $to)) {
-        $_POST = CCConvertEncodingArray($_POST, $from, $to);
-        $_GET = CCConvertEncodingArray($_GET, $from, $to);
-    }
+ global $FileEncoding;
+ global $TemplateEncoding;
+ global $CCSLocales;
+ if ($from == "")
+  $from = $CCSLocales->GetFormatInfo("PHPEncoding");
+ if ($from == "")
+  $from = $TemplateEncoding;
+ if ($to == "")
+  $to = $FileEncoding;
+ if (strlen($from) && strlen($to) && strcmp($from, $to)) {
+  $_POST = CCConvertEncodingArray($_POST, $from, $to);
+  $_GET = CCConvertEncodingArray($_GET, $from, $to);
+ }
 }
 //End CCConvertDataArrays
 
 //CCGetOriginalFileName @0-16048768
 function CCGetOriginalFileName($value)
 {
-    return preg_match("/^\d{14,}\./", $value) ? substr($value, strpos($value, ".") + 1) : $value;
+ return preg_match("/^\d{14,}\./", $value) ? substr($value, strpos($value, ".") + 1) : $value;
 }
 //End CCGetOriginalFileName
 
 //ComposeStrings @0-84AD8866
 function ComposeStrings($str1, $str2, $delimiter = null)
 {
-    global $CCSIsXHTML;
-    if(is_null($delimiter)) {
-        $delimiter = $CCSIsXHTML ? "<br />" : "<br>";
-    }
-    return $str1 . (strlen($str1) && strlen($str2) ? $delimiter : "") . $str2;
+ global $CCSIsXHTML;
+ if(is_null($delimiter)) {
+  $delimiter = $CCSIsXHTML ? "<br />" : "<br>";
+ }
+ return $str1 . (strlen($str1) && strlen($str2) ? $delimiter : "") . $str2;
 }
 //End ComposeStrings
 
 //CCStrLen @0-3660E806
 function CCStrLen($str, $encoding = false) {
-    return strlen($str);
+ return strlen($str);
 }
 //End CCStrLen
 
 //CCSubStr @0-552E6589
 function CCSubStr($str, $offset, $length = null, $encoding = false) {
-    return is_null($length) ? substr($str, $offset) : substr($str, $offset, $length);
+ return is_null($length) ? substr($str, $offset) : substr($str, $offset, $length);
 }
 //End CCSubStr
 
 //CCStrPos @0-BA504839
 function CCStrPos($haystack, $needle, $offset = "", $encoding = false) {
-    return strpos($haystack, $needle, $offset);
+ return strpos($haystack, $needle, $offset);
 }
 //End CCStrPos
 
 //CCCheckSSL @0-A8E1366D
 function CCCheckSSL()
 {
-    $HTTPS = isset($_SERVER["HTTPS"]) ? strtolower($_SERVER["HTTPS"]) : "";
-    if($HTTPS != "on")
-    {
-        echo "SSL connection error. This page can be accessed only via secured connection.";
-        exit;
-    }
+ $HTTPS = isset($_SERVER["HTTPS"]) ? strtolower($_SERVER["HTTPS"]) : "";
+ if($HTTPS != "on")
+ {
+  echo "SSL connection error. This page can be accessed only via secured connection.";
+  exit;
+ }
 }
 //End CCCheckSSL
 
 //GenerateCaptchaCode @0-BCA1E0E9
 function GenerateCaptchaCode($letters, $sesVariableName, $width, $height, $length, $rot, $br, $w1, $w2, $noise) {
-    $restricted = "|cp|cb|ck|c6|c9|rn|rm|mm|co|do|cl|db|qp|qb|dp|";
-    $res = new clsQuadraticPaths();
-    $t = ""; $code = ""; $r = "";
-    for ($i = 0; $i < $length; $i++) {
-        $r = intval((count($letters)) * (mt_rand(0, 99)/100));
-        while (strpos("|" . substr($code, -strlen($code), 1) . $letters[$r][0] . "|", $restricted) !== false) {
-            $r = intval((count($letters)) * (mt_rand(0, 99)/100));
-        }
-        $code = $code . $letters[$r][0];
-        $t = new clsQuadraticPaths();
-        $t->LoadFromArray($letters[$r]);
-        $t->Wave(2 * $w2 * (mt_rand(0, 99)/100) - $w2);
-        $t->Rotate(2 * $rot * (mt_rand(0, 99)/100) - $rot);
-        $t->Normalize(0, 100);
-        if (($t->MaxX - $t->MinX) > 100) {
-            $t->Normalize(100, 100);
-        }
-        $t->Addition(($i - 1) * $t->MaxY, 0);
-        $res->AddPaths($t);
-    }
-    $res->Rotate(90);
-    $res->Wave(2 * $w1 * (mt_rand(0, 99)/100) - $w1);
-    $res->Rotate(-90);
-    $res->Broke($br, $br);
-    $res->Normalize($width - 12, $height - 12);
-    $res->Addition(6, 6);
-    $res->Mix();
-    $res->Noises($noise);
-    CCSetSession($sesVariableName, $code);
-    return $res->ToString();
+ $restricted = "|cp|cb|ck|c6|c9|rn|rm|mm|co|do|cl|db|qp|qb|dp|";
+ $res = new clsQuadraticPaths();
+ $t = ""; $code = ""; $r = "";
+ for ($i = 0; $i < $length; $i++) {
+  $r = intval((count($letters)) * (mt_rand(0, 99)/100));
+  while (strpos("|" . substr($code, -strlen($code), 1) . $letters[$r][0] . "|", $restricted) !== false) {
+   $r = intval((count($letters)) * (mt_rand(0, 99)/100));
+  }
+  $code = $code . $letters[$r][0];
+  $t = new clsQuadraticPaths();
+  $t->LoadFromArray($letters[$r]);
+  $t->Wave(2 * $w2 * (mt_rand(0, 99)/100) - $w2);
+  $t->Rotate(2 * $rot * (mt_rand(0, 99)/100) - $rot);
+  $t->Normalize(0, 100);
+  if (($t->MaxX - $t->MinX) > 100) {
+   $t->Normalize(100, 100);
+  }
+  $t->Addition(($i - 1) * $t->MaxY, 0);
+  $res->AddPaths($t);
+ }
+ $res->Rotate(90);
+ $res->Wave(2 * $w1 * (mt_rand(0, 99)/100) - $w1);
+ $res->Rotate(-90);
+ $res->Broke($br, $br);
+ $res->Normalize($width - 12, $height - 12);
+ $res->Addition(6, 6);
+ $res->Mix();
+ $res->Noises($noise);
+ CCSetSession($sesVariableName, $code);
+ return $res->ToString();
 }
 //End GenerateCaptchaCode
 
 //file_get_contents @0-4991CB3D
 if (!function_exists('file_get_contents')) {
-    function file_get_contents($filename, $incpath = false, $resource_context = null)
-    {
-        if (false === $fh = fopen($filename, 'rb', $incpath)) {
-            trigger_error('file_get_contents() failed to open stream: No such file or directory', E_USER_WARNING);
-            return false;
-        }
-        clearstatcache();
-        if ($fsize = @filesize($filename)) {
-            $data = fread($fh, $fsize);
-        } else {
-            $data = '';
-            while (!feof($fh)) {
-                $data .= fread($fh, 8192);
-            }
-        }
-        fclose($fh);
-        return $data;
-    }
+ function file_get_contents($filename, $incpath = false, $resource_context = null)
+ {
+  if (false === $fh = fopen($filename, 'rb', $incpath)) {
+   trigger_error('file_get_contents() failed to open stream: No such file or directory', E_USER_WARNING);
+   return false;
+  }
+  clearstatcache();
+  if ($fsize = @filesize($filename)) {
+   $data = fread($fh, $fsize);
+  } else {
+   $data = '';
+   while (!feof($fh)) {
+    $data .= fread($fh, 8192);
+   }
+  }
+  fclose($fh);
+  return $data;
+ }
 }
 //End file_get_contents
 
 //CCSecurityRedirect @0-F212A7B7
 function CCSecurityRedirect($GroupsAccess, $URL)
 {
-    global $_SERVER;
-    $ReturnPage = isset($_SERVER["REQUEST_URI"]) ? $_SERVER["REQUEST_URI"] : "";
-    if(!strlen($ReturnPage)) {
-        $ReturnPage = isset($_SERVER["SCRIPT_NAME"]) ? $_SERVER["SCRIPT_NAME"] : "";
-        $QueryString = CCGetQueryString("QueryString", "");
-        if($QueryString !== "")
-            $ReturnPage .= "?" . $QueryString;
-    }
-    $ErrorType = CCSecurityAccessCheck($GroupsAccess);
-    if($ErrorType != "success")
-    {
-        if(!strlen($URL))
-            $Link = ServerURL . "login.php";
-        else
-            $Link = $URL;
-        header("Location: " . $Link . "?ret_link=" . urlencode($ReturnPage) . "&type=" . $ErrorType);
-        exit;
-    }
+ global $_SERVER;
+ $ReturnPage = isset($_SERVER["REQUEST_URI"]) ? $_SERVER["REQUEST_URI"] : "";
+ if(!strlen($ReturnPage)) {
+  $ReturnPage = isset($_SERVER["SCRIPT_NAME"]) ? $_SERVER["SCRIPT_NAME"] : "";
+  $QueryString = CCGetQueryString("QueryString", "");
+  if($QueryString !== "")
+   $ReturnPage .= "?" . $QueryString;
+ }
+ $ErrorType = CCSecurityAccessCheck($GroupsAccess);
+ if($ErrorType != "success")
+ {
+  if(!strlen($URL))
+   $Link = ServerURL . "login.php";
+  else
+   $Link = $URL;
+  header("Location: " . $Link . "?ret_link=" . urlencode($ReturnPage) . "&type=" . $ErrorType);
+  exit;
+ }
 }
 //End CCSecurityRedirect
 
 //CCSecurityAccessCheck @0-7B496647
 function CCSecurityAccessCheck($GroupsAccess)
 {
-    $ErrorType = "success";
-    if(!strlen(CCGetUserID()))
-    {
-        $ErrorType = "notLogged";
-    }
-    else
-    {
-        $GroupID = CCGetGroupID();
-        if(!strlen($GroupID))
-        {
-            $ErrorType = "groupIDNotSet";
-        }
-        else
-        {
-            if(!CCUserInGroups($GroupID, $GroupsAccess))
-                $ErrorType = "illegalGroup";
-        }
-    }
-    return $ErrorType;
+ $ErrorType = "success";
+ if(!strlen(CCGetUserID()))
+ {
+  $ErrorType = "notLogged";
+ }
+ else
+ {
+  $GroupID = CCGetGroupID();
+  if(!strlen($GroupID))
+  {
+   $ErrorType = "groupIDNotSet";
+  }
+  else
+  {
+   if(!CCUserInGroups($GroupID, $GroupsAccess))
+    $ErrorType = "illegalGroup";
+  }
+ }
+ return $ErrorType;
 }
 //End CCSecurityAccessCheck
 
 //CCGetUserID @0-6FAFFFAE
 function CCGetUserID()
 {
-    return CCGetSession("UserID");
+ return CCGetSession("UserID");
 }
 //End CCGetUserID
 
 //CCGetGroupID @0-89F10997
 function CCGetGroupID()
 {
-    return CCGetSession("GroupID");
+ return CCGetSession("GroupID");
 }
 //End CCGetGroupID
 
 //CCGetUserLogin @0-ACD25564
 function CCGetUserLogin()
 {
-    return CCGetSession("UserLogin");
+ return CCGetSession("UserLogin");
 }
 //End CCGetUserLogin
 
 //CCGetUserPassword @0-D67B1DE1
 function CCGetUserPassword()
 {
-    return "";
+ return "";
 }
 //End CCGetUserPassword
 
 //CCUserInGroups @0-72661549
 function CCUserInGroups($GroupID, $GroupsAccess)
 {
-    $Result = "";
-    if(strlen($GroupsAccess))
-    {
-        $GroupNumber = intval($GroupID);
-        while(!$Result && $GroupNumber >= 0)
-        {
-            $Result = (strpos(";" . $GroupsAccess . ";", ";" . $GroupNumber . ";") !== false);
-            $GroupNumber--;
-        }
-    }
-    else
-    {
-        $Result = true;
-    }
-    return $Result;
+ $Result = "";
+ if(strlen($GroupsAccess))
+ {
+  $GroupNumber = intval($GroupID);
+  while(!$Result && $GroupNumber >= 0)
+  {
+   $Result = (strpos(";" . $GroupsAccess . ";", ";" . $GroupNumber . ";") !== false);
+   $GroupNumber--;
+  }
+ }
+ else
+ {
+  $Result = true;
+ }
+ return $Result;
 }
 //End CCUserInGroups
 
 //CCCipherInit @0-034764F6
 function CCCipherInit($key) {
-    global $CipherBox, $CipherKey;
-    $temp = '';
-    $idx1 = 0;
-    $idx2 = 0;
-    $keyLength = strlen($key);
-    for ($idx1 = 0; $idx1 < 256; $idx1++) {
-        $CipherBox[$idx1] = $idx1;
-        $CipherKey[$idx1] = ord($key[$idx1 % $keyLength]);
-    }
-    for ($idx1 = 0; $idx1 < 256; $idx1++) {
-        $idx2 = ($idx2 + $CipherBox[$idx1] + $CipherKey[$idx1]) % 256;
-        $temp = $CipherBox[$idx1];
-        $CipherBox[$idx1] = $CipherBox[$idx2];
-        $CipherBox[$idx2] = $temp;
-    }
+ global $CipherBox, $CipherKey;
+ $temp = '';
+ $idx1 = 0;
+ $idx2 = 0;
+ $keyLength = strlen($key);
+ for ($idx1 = 0; $idx1 < 256; $idx1++) {
+  $CipherBox[$idx1] = $idx1;
+  $CipherKey[$idx1] = ord($key[$idx1 % $keyLength]);
+ }
+ for ($idx1 = 0; $idx1 < 256; $idx1++) {
+  $idx2 = ($idx2 + $CipherBox[$idx1] + $CipherKey[$idx1]) % 256;
+  $temp = $CipherBox[$idx1];
+  $CipherBox[$idx1] = $CipherBox[$idx2];
+  $CipherBox[$idx2] = $temp;
+ }
 }
 //End CCCipherInit
 
 //CCEncryptString @0-1D38A95F
 function CCEncryptString($inputStr, $key) {
-    return strtoupper(CCBytesToHex(CCCipherEnDeCrypt($inputStr, $key)));
+ return strtoupper(CCBytesToHex(CCCipherEnDeCrypt($inputStr, $key)));
 }
 //End CCEncryptString
 
 //CCDecryptString @0-548844D9
 function CCDecryptString($inputStr, $key) {
-    return CCBytesToString(CCCipherEnDeCrypt(CCHexToBytes($inputStr), $key));
+ return CCBytesToString(CCCipherEnDeCrypt(CCHexToBytes($inputStr), $key));
 }
 //End CCDecryptString
 
 //CCEncryptPasswordDB @0-7E81E2F7
 function CCEncryptPasswordDB($password) {
-    return md5($password);
+ return md5($password);
 }
 //End CCEncryptPasswordDB
 
 //CCCipherEnDeCrypt @0-D1CE45DA
 function CCCipherEnDeCrypt($inputStr, $key) {
-    global $CipherBox;
-    $result = array();
-    $i = 0;
-    $j = 0;
-    CCCipherInit($key);
-    for ($a = 0; $a < strlen($inputStr); $a++) {
-        $i = ($i + 1) % 256;
-        $j = ($j + $CipherBox[$i]) % 256;
-        $temp = $CipherBox[$i];
-        $CipherBox[$i] = $CipherBox[$j];
-        $CipherBox[$j] = $temp;
-        $k = $CipherBox[(($CipherBox[$i] + $CipherBox[$j]) % 256)];
-        $crypted = ord($inputStr[$a]) ^ $k;
-        $result[$a] = $crypted;
-    }
-    return $result;
+ global $CipherBox;
+ $result = array();
+ $i = 0;
+ $j = 0;
+ CCCipherInit($key);
+ for ($a = 0; $a < strlen($inputStr); $a++) {
+  $i = ($i + 1) % 256;
+  $j = ($j + $CipherBox[$i]) % 256;
+  $temp = $CipherBox[$i];
+  $CipherBox[$i] = $CipherBox[$j];
+  $CipherBox[$j] = $temp;
+  $k = $CipherBox[(($CipherBox[$i] + $CipherBox[$j]) % 256)];
+  $crypted = ord($inputStr[$a]) ^ $k;
+  $result[$a] = $crypted;
+ }
+ return $result;
 }
 //End CCCipherEnDeCrypt
 
 //CCBytesToString @0-48925391
 function CCBytesToString($bytesArray) {
-    $result = '';
-    foreach ($bytesArray as $byte) {
-        $result .= chr($byte);
-    }
-    return $result;
+ $result = '';
+ foreach ($bytesArray as $byte) {
+  $result .= chr($byte);
+ }
+ return $result;
 }
 //End CCBytesToString
 
 //CCBytesToHex @0-AC21C0B4
 function CCBytesToHex($bytesArray) {
-    $result = '';
-    foreach ($bytesArray as $byte) {
-        $tmp = dechex($byte);
-        $result .= str_repeat("0", 2 - strlen($tmp)) . $tmp;
-    }
-    return $result;
+ $result = '';
+ foreach ($bytesArray as $byte) {
+  $tmp = dechex($byte);
+  $result .= str_repeat("0", 2 - strlen($tmp)) . $tmp;
+ }
+ return $result;
 }
 //End CCBytesToHex
 
 //CCHexToBytes @0-DE5FE7C5
 function CCHexToBytes($hexstr) {
-    $result = '';
-    $num = 0;
-    for ($i = 0; $i < strlen($hexstr); $i += 2) {
-        $num = hexdec(substr($hexstr, $i, 1)) * 16;
-        $num += hexdec(substr($hexstr, $i + 1, 1));
-        $result .= chr($num);
-    }
-    return $result;
+ $result = '';
+ $num = 0;
+ for ($i = 0; $i < strlen($hexstr); $i += 2) {
+  $num = hexdec(substr($hexstr, $i, 1)) * 16;
+  $num += hexdec(substr($hexstr, $i + 1, 1));
+  $result .= chr($num);
+ }
+ return $result;
 }
 //End CCHexToBytes
 
 //CCLoginUser @0-107BBEEE
 function CCLoginUser($login, $password)
 {
-    CCLogoutUser();
-    $db = new clsDBdbConnection();
-    $SQL = "SELECT id, group_id, password FROM alm_users WHERE username=" . $db->ToSQL($login, ccsText) . " AND password=" . $db->ToSQL(md5($password), ccsText);
-    $db->query($SQL);
-    $Result = $db->next_record();
-    if ($Result) {
-        CCSetSession("UserID", $db->f("id"));
-        CCSetSession("UserLogin", $login);
-        CCSetSession("GroupID", $db->f("group_id"));
-    }
-    return $Result;
+ CCLogoutUser();
+ $db = new clsDBdbConnection();
+ $SQL = "SELECT id, group_id, password FROM alm_users WHERE username=" . $db->ToSQL($login, ccsText) . " AND password=" . $db->ToSQL(md5($password), ccsText);
+ $db->query($SQL);
+ $Result = $db->next_record();
+ if ($Result) {
+  CCSetSession("UserID", $db->f("id"));
+  CCSetSession("UserLogin", $login);
+  CCSetSession("GroupID", $db->f("group_id"));
+ }
+ return $Result;
 }
 //End CCLoginUser
 
 //CCLogoutUser @0-55C59DC5
 function CCLogoutUser()
 {
-    CCSetSession("UserID", "");
-    CCSetSession("UserLogin", "");
-    CCSetSession("GroupID", "");
+ CCSetSession("UserID", "");
+ CCSetSession("UserLogin", "");
+ CCSetSession("GroupID", "");
 }
 //End CCLogoutUser
 

@@ -214,75 +214,109 @@
 										<option selected value="">{res:selectoption}</option>
 										{suite_code_Options}
 									</select>
- 
 								</div>
-								<div class="col-md-7 col-xs-12">
-									<label class="control-label blue">{res:product}</label><br>
-									<select id="products" class="width-90 chosen-select" name="{id_product_Name}" data-validation="required" data-validation-error-msg="{res:invalidproduct}">
-										<option selected value="">{res:selectoption}</option>
-										{id_product_Options}
+
+								<div class="col-md-3 col-xs-12">
+									<label class="control-label blue">{res:product_type}</label><br>
+									<select name="{id_product_type_Name}" id="id_product_type" class="width-90 chosen-select">
+										<option value="">{res:selectoption}</option>
+										{id_product_type_Options}
 									</select>
- 
 								</div>
-							</div>
-							<!-- row -->
-							<div class="row col-xs-12 space">
-							</div>
+
+							</div><!-- row -->
+
+							<div class="row col-xs-12 space"></div>
+
 							<div class="row col-xs-12">
-								<div class="col-md-1 col-xs-0">
-								</div>
-								<div class="col-md-6 col-xs-12">
-									<label class="control-label blue">{res:productdescription}</label><br>
-									<input type="text" disabled id="product_description" class="col-md-12 col-xs-12" value="{product_description}" name="{product_description_Name}">
-								</div>
-								<div class="col-md-5 col-xs-12">
-									<label class="control-label blue">{res:productshortname}</label><br>
-									<input type="text" disabled id="product_shortdescription" class="col-md-12 col-xs-12" value="{product_shortname}" name="{product_shortname_Name}">
-								</div>
-							</div>
-							<div class="row col-xs-12 space">
-							</div>
-							<div class="row col-xs-12">
-								<div class="col-md-1 col-xs-0">
-								</div>
+								<div class="col-md-1 col-xs-0"></div>
 								<div class="col-md-2 col-xs-12">
 									<label class="control-label blue">{res:licensesector}</label><br>
 									<select id="id_license_sector" class="width-90 chosen-select" name="{id_license_sector_Name}">
 										<option selected value="0">{res:selectoption}</option>
 										{id_license_sector_Options}
 									</select>
- 
 								</div>
-								<div class="col-md-3 col-xs-12">
-									<label class="control-label blue">{res:reseller}</label><br>
-									<select id="reseller" class="width-90 chosen-select" name="{id_reseller_Name}">
-										<option selected value="">{res:selectoption}</option>
-										{id_reseller_Options}
-									</select>
- 
-								</div>
-								<div class="col-md-3 col-xs-12">
-									<label class="control-label blue">{res:product_type}</label><br>
-									<!-- BEGIN RadioButton id_product_type --><input id="id_product_type_{Value}" class="ace" type="radio" value="{Value}" name="{id_product_type_Name}" {Check}><span class="lbl">&nbsp;&nbsp;{Description}&nbsp;&nbsp;&nbsp;</span><!-- END RadioButton id_product_type -->
-								</div>
-							</div>
-							<!-- row -->
-							<div class="row col-xs-12 space">
-							</div>
-							<div class="row col-xs-12">
-								<div class="col-md-1 col-xs-0">
-								</div>
+
 								<div class="col-md-3 col-xs-12">
 									<label class="control-label blue">{res:licensetype}</label><br>
 									<select id="id_license_type" class="width-90 chosen-select" name="{id_license_type_Name}">
 										<option selected value="0">{res:selectoption}</option>
 										{id_license_type_Options}
 									</select>
- 
 								</div>
+
+								<div class="col-md-2 col-xs-12">
+									<div class="row col-xs-12">
+										<label class="control-label blue">{res:channel_sku}</label><br>
+										<input type="text" id="channel_sku" class="col-md-12 col-xs-12" value="{channel_sku}" name="{channel_sku_Name}" data-validation="required" data-validation-error-msg="{res:invalidsku}">
+									</div>
+								</div>
+
+							</div><!-- row -->
+
+							<div class="row col-xs-12 space"></div>
+
+							<div class="row col-xs-12">
+								<div class="col-md-1 col-xs-0"></div>
+								<div class="col-md-9 col-xs-12">
+									<label class="control-label blue">{res:product}</label><br>
+									<select id="products" class="width-90 chosen-select" name="{id_product_Name}" data-validation="required" data-validation-error-msg="{res:invalidproduct}">
+										<option selected value="">{res:selectoption}</option>
+										{id_product_Options}
+									</select> 
+								</div>
+							</div><!-- row -->
+
+							<div class="row col-xs-12 space"></div>
+
+							<div class="row col-xs-12">
+								<div class="col-md-1 col-xs-0">
+								</div>
+								<div class="col-md-6 col-xs-12">
+									<label class="control-label blue">{res:suite}</label><br>
+									<input type="text" disabled id="suitedescription" class="col-md-12 col-xs-12" value="{suitedescription}" name="{suitedescription_Name}">								
+								</div>
+								<div class="col-md-2 col-xs-12">
+									<label class="control-label blue">{res:msrp_price}</label><br>
+									<input type="text" id="msrp_price" class="col-md-12 col-xs-12" value="{msrp_price}" name="{msrp_price_Name}">
+								</div>
+							</div>
+							<div class="row col-xs-12 space">
+							</div>
+							<div class="row col-xs-12">
+								<div class="col-md-1 col-xs-0"></div>
+								<div class="col-md-4 col-xs-12">
+									<label class="control-label blue">{res:reseller}</label><br>
+									<select id="reseller" class="width-90 chosen-select" name="{id_reseller_Name}">
+										<option selected value="">{res:selectoption}</option>
+										{id_reseller_Options}
+									</select>
+								</div>
+
+								<div class="col-md-2 col-xs-12">
+									<label class="control-label blue">{res:registeredon}</label><br>
+									<div class="input-group">
+										<input type="text" class="col-md-12 col-xs-12 date-picker" value="{registered_date}" name="{registered_date_Name}" data-date-format="mm/dd/yyyy">
+										<span class="input-group-addon"><i class="icon-calendar bigger-110"></i></span>
+									</div>
+								</div>
+
+								<div class="col-md-2 col-xs-12">
+									<label class="control-label blue">{res:licensestatus}</label><br>
+									<span class="{lblicense_status_css}">{id_license_status}</span>
+								</div>
+
+							</div>
+							<!-- row -->
+							<div class="row col-xs-12 space">
+							</div>
+							<div class="row col-xs-12">
+								<div class="col-md-1 col-xs-0"></div>
 								<div class="col-md-4 col-xs-12">
 									<label class="control-label blue">{res:licensedby}</label><br>
-									<!-- BEGIN RadioButton id_licensed_by --><input id="id_licensed_by_{Value}" class="ace id_licensed_by" type="radio" value="{Value}" name="{id_licensed_by_Name}" {Check}><span class="lbl">&nbsp;&nbsp;{Description}&nbsp;&nbsp;&nbsp;</span><!-- END RadioButton id_licensed_by -->
+									<!-- BEGIN RadioButton id_licensed_by --><input id="id_licensed_by_{Value}" class="ace id_licensed_by" type="radio" value="{Value}" name="{id_licensed_by_Name}" {Check}><span class="lbl">
+&nbsp;&nbsp;{Description}&nbsp;&nbsp;&nbsp;</span><!-- END RadioButton id_licensed_by -->
 								</div>
 								<div id="amounts" class="col-md-2 col-xs-12 hide">
 									<label class="control-label blue">{res:amount_percentage}</label><br>
@@ -294,34 +328,10 @@
 										<input type="text" class="col-md-12 col-xs-12" value="{nodes}" name="{nodes_Name}" data-validation="number" data-validation-error-msg="{res:invalidnodes}" data-validation-optional="true">
 									</div>
 								</div>
-								<div class="col-md-2 col-xs-12">
-									<div class="row col-xs-12">
-										<label class="control-label blue">{res:channel_sku}</label><br>
-										<input type="text" id="channel_sku" class="col-md-12 col-xs-12" readonly value="{channel_sku}" name="{channel_sku_Name}" data-validation="required" data-validation-error-msg="{res:invalidsku}">
-									</div>
-								</div>
-							</div>
-							<!-- row -->
-							<div class="row col-xs-12 space">
-							</div>
-							<div class="row col-xs-12">
-								<div class="col-md-1 col-xs-0">
-								</div>
-								<div class="col-md-7 col-xs-12">
-									<div class="row col-xs-12">
-										<label class="control-label blue">{res:suite}</label><br>
-										<input type="text" disabled id="suitedescription" class="col-md-12 col-xs-12" value="{suitedescription}" name="{suitedescription_Name}">
-									</div>
-								</div>
-								<div class="col-md-2 col-xs-12">
-									<div class="row col-xs-12">
-										<label class="control-label blue">{res:msrp_price}</label><br>
-										<input type="text" id="msrp_price" class="col-md-12 col-xs-12" value="{msrp_price}" name="{msrp_price_Name}">
-									</div>
-								</div>
-							</div>
-							<!-- row -->
+							</div><!-- row -->
+							
 							<div class="row col-xs-12 space"></div>
+
 							<div class="row col-xs-12">
 								<div class="col-md-1 col-xs-0">
 								</div>
@@ -335,7 +345,7 @@
 									<div class="row col-xs-12">
 										<label class="control-label blue">{res:expeditiondate}</label><br>
 										<div class="input-group">
-											<input type="text" class="col-md-12 col-xs-12 date-picker" value="{expedition_date}" name="{expedition_date_Name}" data-date-format="mm/dd/yyyy">
+											<input type="text" class="col-md-12 col-xs-12 date-picker" value="{expedition_date}" name="{expedition_date_Name}" data-date-format="mm/dd/yyyy" id="expeditionDate">
 											<span class="input-group-addon"><i class="icon-calendar bigger-110"></i></span>
 										</div>
 									</div>
@@ -344,7 +354,7 @@
 									<div class="row col-xs-12">
 										<label class="control-label blue">{res:expirationdate}</label><br>
 										<div class="input-group">
-											<input type="text" class="col-md-12 col-xs-12 date-picker" value="{expiration_date}" name="{expiration_date_Name}" data-date-format="mm/dd/yyyy">
+											<input type="text" class="col-md-12 col-xs-12 date-picker" value="{expiration_date}" name="{expiration_date_Name}" data-date-format="mm/dd/yyyy" id="expirationDate">
 											<span class="input-group-addon"><i class="icon-calendar bigger-110"></i></span>
 										</div>
 									</div>
@@ -358,19 +368,6 @@
 							</div><!-- row -->
 
 							<div class="row col-xs-12 space hr"></div>
-
-							<div class="row col-xs-12">
-								<div class="col-md-1 col-xs-0"></div>
-								<div class="col-md-3 col-xs-12"></div>
-								<div class="col-md-2 col-xs-12">
-									<label class="control-label orange">{res:datecreated}</label><br>
-									<input type="text" id="datecreated" class="col-md-12 col-xs-12" disabled value="{datecreated}" name="{datecreated_Name}">
-								</div>
-								<div class="col-md-2 col-xs-12">
-									<label class="control-label orange">{res:dateupdated}</label><br>
-									<input type="text" id="dateupdated" class="col-md-12 col-xs-12" disabled value="{dateupdated}" name="{dateupdated_Name}">								
-								</div>
-							</div>
 
 							<div class="row">
 								<div class="col-md-12 col-xs-12">
@@ -434,6 +431,23 @@ $(function(){
 			autoclose:true,
 			todayHighlight: true
         });
+
+		$("#expeditionDate").change(function() {
+			var expDate = $(this).val();
+			if (expDate.length > 0) {
+				var expireDate = new Date(expDate); 
+				expireDate.setFullYear(expireDate.getFullYear() +  1);
+				expireDate.setDate(expireDate.getDate() - 1);			
+				var day = expireDate.getDate();
+				var month = expireDate.getMonth() + 1;
+				var year = expireDate.getFullYear();
+				var fullExpireDate = month + "/" + day + "/" + year;
+				$("#expirationDate").val(fullExpireDate);
+			} else {				
+				$("#expirationDate").val("");
+			}
+
+		});
 
 
         //Default value for radio
@@ -499,13 +513,15 @@ $(function(){
                         data: params
                 }).done(function(msg) {
                         $.each(msg.products, function() {
-                                $("#product_description").val(this.description);
-                                $("#product_shortdescription").val(this.short_description);
                                 $("#id_license_sector").val(this.id_license_sector);
                                 $("#id_license_sector").trigger("chosen:updated");
-                                $("#id_product_type_"+this.id_product_type).click();
+
+                                $("#id_product_type").val(this.id_product_type);
+                                $("#id_product_type").trigger("chosen:updated");
+
                                 $("#id_license_type").val(this.id_license_type);
                                 $("#id_license_type").trigger("chosen:updated");
+
                                 $("#id_licensed_by_"+this.id_licensed_by).click();      
                                 $("#licensed_amount").val(this.licensed_amount);
                                 $("#channel_sku").val(this.channel_sku);
