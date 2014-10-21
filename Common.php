@@ -5,13 +5,13 @@ include(RelativePath . "/Classes.php");
 include(RelativePath . "/db_adapter.php");
 //End Include Files
 
-//Connection Settings @0-DE802A68
+//Connection Settings @0-AB6DBC71
 $CCConnectionSettings = array (
  "dbConnection" => array(
   "Type" => "MySQL",
   "DBLib" => "MySQLi",
   "Database" => "alm",
-  "Host" => "192.168.2.1",
+  "Host" => "192.168.211.1",
   "Port" => "3306",
   "User" => "root",
   "Password" => "root",

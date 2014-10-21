@@ -167,15 +167,21 @@
 											<tr>
 												<td nowrap>
 													<div class="action-buttons">
-														<div class="inline"><a href="licensing_customers.php?guid={lbguid}&license_guid={lblicense_guid}&tab=licensing" class="green"><i class="icon-pencil bigger-180"></i></a></div>
+														<div class="inline"><a href="licensing_customers.php?guid={lbguid}&license_guid={lblicense_guid}&tab=licensing" class="green"><i class="icon-pencil bigger-180"></i></a>														
+														</div>
 													</div>
 												</td> 
-												<td>{lbsuite_code}</td> 
+												<td class="text-center">{lbsuite_code}<br>
+													<span class="{lblicense_status_css} arrowed-in">{lblicense_status}</span>
+												</td> 
 												<td nowrap><span class="orange">{lbsuite_description}</span> <br>
 													<span class="small purple">{lbdescription}</span> <br>
 													<span class="small green">{lblicense_name}</span> <br>
-													<span class="small blue">{res:licensedby}:&nbsp;{lblicensedby_name}</span></td> 
-												<td class="text-center"><img src="assets/{lbproduct_typeicon}"></td> 
+													<span class="small blue">{res:licensedby}:&nbsp;{lblicensedby_name}</span>													
+												</td> 
+												<td class="text-center">
+													<img src="assets/{lbproduct_typeicon}">													
+												</td> 
 												<td>{lbnodes_qty}</td> 
 												<td>{lbchannel_sku}</td> 
 												<td>{lbmsrp_price}</td> 
@@ -210,7 +216,7 @@
 								</div>
 								<div class="col-md-2 col-xs-12">
 									<label class="control-label blue">{res:suite_code}</label><br>
-									<select id="suite" class="width-90 chosen-select" name="{suite_code_Name}" data-validation="required" data-validation-error-msg="{res:invalidsuite}">
+									<select id="suite" class="width-90 chosen-select licensefilter" name="{suite_code_Name}" data-validation="required" data-validation-error-msg="{res:invalidsuite}">
 										<option selected value="">{res:selectoption}</option>
 										{suite_code_Options}
 									</select>
@@ -218,7 +224,7 @@
 
 								<div class="col-md-3 col-xs-12">
 									<label class="control-label blue">{res:product_type}</label><br>
-									<select name="{id_product_type_Name}" id="id_product_type" class="width-90 chosen-select">
+									<select name="{id_product_type_Name}" id="id_product_type" class="width-90 chosen-select licensefilter">
 										<option value="">{res:selectoption}</option>
 										{id_product_type_Options}
 									</select>
@@ -232,7 +238,7 @@
 								<div class="col-md-1 col-xs-0"></div>
 								<div class="col-md-2 col-xs-12">
 									<label class="control-label blue">{res:licensesector}</label><br>
-									<select id="id_license_sector" class="width-90 chosen-select" name="{id_license_sector_Name}">
+									<select id="id_license_sector" class="width-90 chosen-select licensefilter" name="{id_license_sector_Name}">
 										<option selected value="0">{res:selectoption}</option>
 										{id_license_sector_Options}
 									</select>
@@ -240,7 +246,7 @@
 
 								<div class="col-md-3 col-xs-12">
 									<label class="control-label blue">{res:licensetype}</label><br>
-									<select id="id_license_type" class="width-90 chosen-select" name="{id_license_type_Name}">
+									<select id="id_license_type" class="width-90 chosen-select licensefilter" name="{id_license_type_Name}">
 										<option selected value="0">{res:selectoption}</option>
 										{id_license_type_Options}
 									</select>
@@ -315,8 +321,7 @@
 								<div class="col-md-1 col-xs-0"></div>
 								<div class="col-md-4 col-xs-12">
 									<label class="control-label blue">{res:licensedby}</label><br>
-									<!-- BEGIN RadioButton id_licensed_by --><input id="id_licensed_by_{Value}" class="ace id_licensed_by" type="radio" value="{Value}" name="{id_licensed_by_Name}" {Check}><span class="lbl">
-&nbsp;&nbsp;{Description}&nbsp;&nbsp;&nbsp;</span><!-- END RadioButton id_licensed_by -->
+									<!-- BEGIN RadioButton id_licensed_by --><input id="id_licensed_by_{Value}" class="ace id_licensed_by" type="radio" value="{Value}" name="{id_licensed_by_Name}" {Check}><span class="lbl">&nbsp;&nbsp;{Description}&nbsp;&nbsp;&nbsp;</span><!-- END RadioButton id_licensed_by -->
 								</div>
 								<div id="amounts" class="col-md-2 col-xs-12 hide">
 									<label class="control-label blue">{res:amount_percentage}</label><br>
@@ -472,8 +477,12 @@ $(function(){
         });
 
 
-        $("#suite").change(function() {
-                var suite_id = $(this).val();
+        $(".licensefilter").change(function() {
+                var suite_id = $("#suite").val();
+				var id_product_type = $("#id_product_type").val();
+				var id_license_sector = $("#id_license_sector").val();
+				var id_license_type = $("#id_license_type").val();
+
                 var params = {m: "suite_description",id: suite_id};
                 $.ajax({
                         url: "ajaxget.php",
@@ -484,7 +493,8 @@ $(function(){
                         //$("#product_content").val(msg.suite_long_description);
                 });
 
-                var params = {m: "product_info",id: suite_id};
+                var params = {m: "product_info",id: suite_id, id_product_type: id_product_type, 
+							id_license_sector: id_license_sector, id_license_type: id_license_type};
                 $.ajax({
                         url: "ajaxget.php",
                         type: "get",
@@ -554,13 +564,6 @@ $(function(){
         });
 
 
-        /*
-        $("#myTab a").click(function (e) {
-          e.preventDefault();
-          $("#hidtab").val(e.target);
-        });
-        */
-
 		/*
         $(".delcontact").click(function(e) {
             var link = $(this).attr("href");
@@ -578,6 +581,3 @@ $(function(){
 });
 
 </script>
-<ul>
-</ul>
-</form>

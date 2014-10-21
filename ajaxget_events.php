@@ -23,6 +23,7 @@ function Page_BeforeShow(& $sender)
 
  	$m = trim(CCGetFromGet("m",""));
 	$id = (int)CCGetFromGet("id",0);
+
 	$params = array();
 	switch ($m) {
 		case "suite_description" :
@@ -40,7 +41,15 @@ function Page_BeforeShow(& $sender)
 			echo json_encode($suite_details);
 		break;
 		case "product_info" :
+			$id_product_type = (int)CCGetFromGet("id_product_type",0);
+			$id_license_sector = (int)CCGetFromGet("id_license_sector",0);
+			$id_license_type = (int)CCGetFromGet("id_license_type",0);
+
 			$params["suite_id"] = $id; 
+			$params["id_product_type"] = $id_product_type;
+			$params["id_license_sector"] = $id_license_sector;
+			$params["id_license_type"] = $id_license_type;
+
 			$products = new \Alm\Products();
 			$suite_products = $products->getProductsBySuiteID($params);
 			header('Content-Type: application/json');

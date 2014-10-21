@@ -65,6 +65,20 @@ function licensing_customerscontent_alm_customers_manufacturer_BeforeShow(& $sen
 }
 //End Close licensing_customerscontent_alm_customers_manufacturer_BeforeShow
 
+//DEL  // -------------------------
+//DEL   // Write your own code here.
+//DEL   	$idstatus = (int)$sender->GetValue();
+//DEL  	if ($idstatus > 0) {
+//DEL  	 	$db = new clsDBdbConnection();
+//DEL  		$sql = "select status_name,icon_name,css_color from alm_license_status where id = $idstatus";
+//DEL  		$db->query($sql);
+//DEL  		$db->next_record();
+//DEL  		$licensing_customerscontent->licensing->lblicense_status_css->SetValue($db->f("css_color"));
+//DEL  		$sender->SetValue($db->f("status_name"));
+//DEL  		$db->close();
+//DEL  	}
+//DEL  // -------------------------
+
 //licensing_customerscontent_alm_customers_BeforeInsert @2-B15A5E44
 function licensing_customerscontent_alm_customers_BeforeInsert(& $sender)
 {
@@ -221,6 +235,9 @@ function licensing_customerscontent_alm_customers_BeforeShow(& $sender)
 			$Tpl->setvar("lbproduct_typeicon",$license["type_icon_name"]);
 			$Tpl->setvar("lblicense_name",$license["license_name"]);
 			$Tpl->setvar("lblicensedby_name",$license["licensedby_name"]);
+			$Tpl->setvar("lblicense_status",$license["license_status_name"]);
+			$Tpl->setvar("lblicense_status_css",$license["alm_license_status_css_color"]);
+
 			if ($license["id_licensed_by"] == "1")
 				$Tpl->setvar("lbnodes_qty",$license["nodes"]);
 			else 
@@ -291,6 +308,12 @@ function licensing_customerscontent_licensing_suite_code_BeforeShow(& $sender)
 //Custom Code @39-2A29BDB7
 // -------------------------
  // Write your own code here.
+ 	$suite_id = $licensing_customerscontent->licensing->suite_code->GetValue();
+	$db = new clsDBdbConnection();
+	$suite_description = CCDLookup("suite_description","alm_product_suites","id = $suite_id",$db);
+	$licensing_customerscontent->licensing->suitedescription->SetValue($suite_description);
+	$db->close();
+
 // -------------------------
 //End Custom Code
 
@@ -376,10 +399,19 @@ function licensing_customerscontent_licensing_id_product_BeforeShow(& $sender)
 // -------------------------
  // Write your own code here.
  	$suite_id = (int)$licensing_customerscontent->licensing->suite_code->GetValue();
-	if ($suite_id > 0) {
+	$id_product_type = (int)$licensing_customerscontent->licensing->id_product_type->GetValue();
+	$id_license_sector = (int)$licensing_customerscontent->licensing->id_license_sector->GetValue();
+	$id_license_type = (int)$licensing_customerscontent->licensing->id_license_type->GetValue();
+
+	if ( ($suite_id > 0) || ($id_product_type > 0) || ($id_license_sector > 0) || ($id_license_type > 0) ) {
 		$products = new \Alm\Products();
+
 		$params = array();
 		$params["suite_id"] = $suite_id;
+		$params["id_product_type"] = $id_product_type;
+		$params["id_license_sector"] = $id_license_sector;
+		$params["id_license_type"] = $id_license_type;
+
 		$productList = $products->getProductsBySuiteID($params);
 		$allProducts = $productList["products"];
 		$valueList = array();

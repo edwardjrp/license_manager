@@ -178,12 +178,28 @@ class Products {
 		$result = array("status" => false, "message" => "","products" => array());
 
 		$suite_id = (int)$params["suite_id"];
+		$id_product_type = (int)$params["id_product_type"];
+		$id_license_sector = (int)$params["id_license_sector"];
+		$id_license_type = (int)$params["id_license_type"];
 
-		if ($suite_id > 0) {
+		if ( ($suite_id > 0) || ($id_product_type > 0) || ($id_license_sector > 0) || ($id_license_type > 0) ) {
 			$db = new \clsDBdbConnection();
 			$fields_array = array("id","range_min","range_max","description","short_description","channel_sku");
 			$fields = implode(",",$fields_array);
-			$sql = "select $fields from alm_products where id_suite = $suite_id ";
+
+			$whereProductType = "";
+			if ($id_product_type > 0)
+				$whereProductType = " and id_product_type = $id_product_type ";
+
+			$whereLicenseSector = "";
+			if ($id_license_sector > 0)
+				$whereLicenseSector = " and id_license_sector = $id_license_sector ";
+
+			$whereLicenseType = "";
+			if ($id_license_type > 0)
+				$whereLicenseType = " and id_license_type = $id_license_type ";
+
+			$sql = "select $fields from alm_products where id_suite = $suite_id $whereProductType $whereLicenseSector $whereLicenseType";
 			$db->query($sql);
 
 			$products = array();
@@ -263,7 +279,7 @@ class Products {
 	         if ($customer_id > 0) {
 	             $fields_array = array("guid","suite_description","suite_code","type_icon_name","license_name","id_licensed_by",
 	             "licensedby_name","sector_name","reseller_name","description","nodes","licensed_amount","channel_sku"
-	             ,"msrp_price","dateupdated");
+	             ,"msrp_price","dateupdated","license_status_name","alm_license_status_css_color");
 	             $fields = implode(",",$fields_array);
 	             $sql = "select $fields from v_alm_licenses where id_customer = $customer_id";
 
