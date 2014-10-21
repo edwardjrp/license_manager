@@ -108,8 +108,7 @@
  
 												<th class="blue">{res:extension}</th>
  
-												<th class="blue">
-{res:mobile}</th>
+												<th class="blue">{res:mobile}</th>
  
 												<th class="blue">{res:workemail}</th>
  
@@ -157,7 +156,8 @@
  
 												<th class="blue">{res:channel_sku}</th>
  
-												<th class="blue">{res:msrp_price}</th>
+												<th class="blue">
+{res:msrp_price}</th>
  
 												<th class="blue">{res:licensesector}</th>
  
@@ -444,7 +444,12 @@ $(function(){
 				expireDate.setFullYear(expireDate.getFullYear() +  1);
 				expireDate.setDate(expireDate.getDate() - 1);			
 				var day = expireDate.getDate();
+				if (day < 10)
+					day = "0" + day;
 				var month = expireDate.getMonth() + 1;
+				if (month < 10)
+					month = "0" + month;
+
 				var year = expireDate.getFullYear();
 				var fullExpireDate = month + "/" + day + "/" + year;
 				$("#expirationDate").val(fullExpireDate);
