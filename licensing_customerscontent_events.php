@@ -421,7 +421,7 @@ function licensing_customerscontent_licensing_id_product_BeforeShow(& $sender)
 			$shortDescription = $product["short_description"];
 			$channelSku = $product["channel_sku"];
 			$description = $product["description"];
-			$valueList[] = array($product["id"],"$description (Nodes: $min - $max) $channelSku ");
+			$valueList[] = array($product["id"],"$description ( Nodes: $min - $max ) $channelSku ");
 		}
 		
 		$licensing_customerscontent->licensing->id_product->Values = $valueList;
@@ -472,6 +472,73 @@ function licensing_customerscontent_licensing_id_license_status_BeforeShow(& $se
  return $licensing_customerscontent_licensing_id_license_status_BeforeShow;
 }
 //End Close licensing_customerscontent_licensing_id_license_status_BeforeShow
+
+//licensing_customerscontent_licensing_params_BeforeShow @49-02262C70
+function licensing_customerscontent_licensing_params_BeforeShow(& $sender)
+{
+ $licensing_customerscontent_licensing_params_BeforeShow = true;
+ $Component = & $sender;
+ $Container = & CCGetParentContainer($sender);
+ global $licensing_customerscontent; //Compatibility
+//End licensing_customerscontent_licensing_params_BeforeShow
+
+//Custom Code @50-2A29BDB7
+// -------------------------
+ // Write your own code here.
+ 	$querystring = CCGetQueryString("QueryString",array("license_guid"));
+	$sender->SetValue("$querystring");
+
+// -------------------------
+//End Custom Code
+
+//Close licensing_customerscontent_licensing_params_BeforeShow @49-47F0CBB8
+ return $licensing_customerscontent_licensing_params_BeforeShow;
+}
+//End Close licensing_customerscontent_licensing_params_BeforeShow
+
+//licensing_customerscontent_licensing_pncanceledit_BeforeShow @208-BF490B96
+function licensing_customerscontent_licensing_pncanceledit_BeforeShow(& $sender)
+{
+ $licensing_customerscontent_licensing_pncanceledit_BeforeShow = true;
+ $Component = & $sender;
+ $Container = & CCGetParentContainer($sender);
+ global $licensing_customerscontent; //Compatibility
+//End licensing_customerscontent_licensing_pncanceledit_BeforeShow
+
+//Custom Code @209-2A29BDB7
+// -------------------------
+ // Write your own code here.
+ 	$guid = trim(CCGetFromGet("license_guid",""));
+	if (strlen($guid) > 0)
+		$licensing_customerscontent->licensing->pncanceledit->Visible = true;
+	else
+		$licensing_customerscontent->licensing->pncanceledit->Visible = false;
+
+// -------------------------
+//End Custom Code
+
+//Close licensing_customerscontent_licensing_pncanceledit_BeforeShow @208-7285F64D
+ return $licensing_customerscontent_licensing_pncanceledit_BeforeShow;
+}
+//End Close licensing_customerscontent_licensing_pncanceledit_BeforeShow
+
+//licensing_customerscontent_licensing_hidlicense_guid_BeforeShow @211-C8E0892C
+function licensing_customerscontent_licensing_hidlicense_guid_BeforeShow(& $sender)
+{
+ $licensing_customerscontent_licensing_hidlicense_guid_BeforeShow = true;
+ $Component = & $sender;
+ $Container = & CCGetParentContainer($sender);
+ global $licensing_customerscontent; //Compatibility
+//End licensing_customerscontent_licensing_hidlicense_guid_BeforeShow
+
+//Retrieve Value for Control @212-836879CA
+ $Container->hidlicense_guid->SetValue(CCGetFromGet("license_guid", ""));
+//End Retrieve Value for Control
+
+//Close licensing_customerscontent_licensing_hidlicense_guid_BeforeShow @211-F077FEBE
+ return $licensing_customerscontent_licensing_hidlicense_guid_BeforeShow;
+}
+//End Close licensing_customerscontent_licensing_hidlicense_guid_BeforeShow
 
 //Used because the last_user_id query on afterinsert was not working
 $lastguid = "";
@@ -544,9 +611,12 @@ function licensing_customerscontent_licensing_AfterInsert(& $sender)
 		}
 	} 
 
+	$customer_guid = trim($licensing_customerscontent->licensing->hidcustomer_guid->GetValue());
+
+
 	//Getting querystring parameter to include in redirect when a duplicate operation takes place
 	$querystring = CCGetFromPost("querystring","");
-	$Redirect = $FileName."?guid=$lastguid&$querystring";
+	$Redirect = $FileName."?guid=$customer_guid&$querystring";
 
 // -------------------------
 //End Custom Code
@@ -616,6 +686,32 @@ function licensing_customerscontent_licensing_AfterUpdate(& $sender)
 }
 //End Close licensing_customerscontent_licensing_AfterUpdate
 
+//licensing_customerscontent_pndropzone_BeforeShow @213-09FC21CD
+function licensing_customerscontent_pndropzone_BeforeShow(& $sender)
+{
+ $licensing_customerscontent_pndropzone_BeforeShow = true;
+ $Component = & $sender;
+ $Container = & CCGetParentContainer($sender);
+ global $licensing_customerscontent; //Compatibility
+//End licensing_customerscontent_pndropzone_BeforeShow
+
+//Custom Code @214-2A29BDB7
+// -------------------------
+ // Write your own code here.
+ 	$license_guid = trim(CCGetFromGet("license_guid",""));
+	if (strlen($license_guid) > 0)
+		$licensing_customerscontent->pndropzone->Visible = true;
+	else 
+		$licensing_customerscontent->pndropzone->Visible = false;
+
+// -------------------------
+//End Custom Code
+
+//Close licensing_customerscontent_pndropzone_BeforeShow @213-76FF19A4
+ return $licensing_customerscontent_pndropzone_BeforeShow;
+}
+//End Close licensing_customerscontent_pndropzone_BeforeShow
+
 //licensing_customerscontent_BeforeShow @1-C659BA3A
 function licensing_customerscontent_BeforeShow(& $sender)
 {
@@ -659,6 +755,57 @@ function licensing_customerscontent_BeforeShow(& $sender)
 		$MainPage->Attributes->SetValue("showalert_contacterror","hide");
 	else
 		$MainPage->Attributes->SetValue("showalert_contacterror","show");
+
+
+	//Procesing file uploading
+	$hidlicense_guid = trim(CCGetFromPost("hidlicense_guid",""));
+	if ( (!empty($_FILES)) && (strlen($hidlicense_guid) > 0) ) {
+		$params = array();
+		$params["license_guid"] = $hidlicense_guid;
+		$products = new \Alm\Products();
+		$products->uploadLicenseFile($_FILES,$params);
+		//Finishing script execution for file uploads because its asyncronous
+		exit;
+	}
+
+	$license_guid = trim(CCGetFromGet("license_guid",""));
+	$licensefile_guid = trim(CCGetFromGet("licensefile_guid",""));
+	$o = trim(CCGetFromGet("o",""));
+
+	//Delete licensing operation
+	if ( (strlen($licensefile_guid) > 0) && ($o = "dellicense") ) {
+		$params = array();
+		$params["licensefile_guid"] = $licensefile_guid;
+		$products = new \Alm\Products();
+		$products->deleteLicenseFileByGuid($params);
+ 		$querystring = CCGetQueryString("QueryString",array("licensefile_guid","o"));
+		global $FileName;
+		$urlRedirect = $FileName."?$querystring"; 
+		header("Location: $urlRedirect");			
+	}
+
+	if (strlen($license_guid) > 0) {
+		//License files grid
+		$params = array();
+		$params["license_guid"] = $license_guid;
+		$products = new \Alm\Products();
+		$licenseFiles = $products->getLicenseFiles($params);
+		$licenseFiles = $licenseFiles["licensefiles"];
+ 		$querystring = CCGetQueryString("QueryString",array("o","licensefile_guid"));
+		foreach ($licenseFiles as $licenseFile) {
+			$licensefile_guid = $licenseFile["guid"];
+			$linkdelete = "";
+			if (CCGetGroupID() == "4") {
+				//Moved linkdelete to code because issues displaying panels inside custom template blocks
+				$linkdelete = "<a href='licensing_customers.php?o=dellicense&licensefile_guid=$licensefile_guid&$querystring' class='dellicense' ><li class='icon-trash bigger-150 red'></li></a>";
+			}
+			$Tpl->setvar("linkdelete",$linkdelete);
+			$Tpl->setvar("licensefile_guid",$licensefile_guid);
+			$Tpl->setvar("getparams","&".$querystring);
+			$Tpl->Parse("licensefile_list",true);
+		}
+	}
+	
 
 // -------------------------
 //End Custom Code

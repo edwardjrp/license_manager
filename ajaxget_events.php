@@ -55,6 +55,14 @@ function Page_BeforeShow(& $sender)
 			header('Content-Type: application/json');
 			echo json_encode($suite_products);
 		break;
+		case "product_info_sku" :
+			$sku = trim(CCGetFromGet("channel_sku",""));
+			$params["channel_sku"] = $sku;
+			$products = new \Alm\Products();
+			$product_detail = $products->getProductBySku($params);
+			header('Content-Type: application/json');
+			echo json_encode($product_detail);
+		break;
 		case "product_detail" :
 			$params["product_id"] = $id; 
 			$products = new \Alm\Products();

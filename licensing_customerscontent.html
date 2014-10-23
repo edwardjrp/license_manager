@@ -253,9 +253,13 @@
 								</div>
 
 								<div class="col-md-2 col-xs-12">
-									<div class="row col-xs-12">
+									<div class="row col-xs-10">
 										<label class="control-label blue">{res:channel_sku}</label><br>
 										<input type="text" id="channel_sku" class="col-md-12 col-xs-12" value="{channel_sku}" name="{channel_sku_Name}" data-validation="required" data-validation-error-msg="{res:invalidsku}">
+									</div>
+									<div class="row col-xs-1">
+										<label>&nbsp;&nbsp;</label>
+										<a href="#" id="searchsku" class="btn btn-warning btn-xs"><i class="icon-search bigger-120 icon-only"></i></a>
 									</div>
 								</div>
 
@@ -384,12 +388,51 @@
 										<div class="inline">
 											<!-- BEGIN Button Button_Update --><button class="btn btn-sm btn-success" type="submit" name="{Button_Name}" value="{res:buttonsave}"><li class="icon-save"></li>&nbsp; {res:buttonsave}</button><!-- END Button Button_Update -->
 										</div>
+
+										<div class="inline">
+											&nbsp;&nbsp;
+											<!-- BEGIN Panel pncanceledit -->
+												<a href="licensing_customers.php?{params}" role="button" id="canceledit" class="btn btn-sm btn-yellow"><li class="icon-ban-circle"></li>&nbsp;{res:canceledit}</a>
+											<!-- END Panel pncanceledit -->
+										</div>
+
 										<input type="hidden" value="{modified_iduser}" name="{modified_iduser_Name}"><input type="hidden" value="{created_iduser}" name="{created_iduser_Name}"><input type="hidden" value="{hidguid}" name="{hidguid_Name}"><input type="hidden" value="{hidtab}" name="{hidtab_Name}"><input type="hidden" value="{hidcustomer_guid}" name="{hidcustomer_guid_Name}"><input type="hidden" value="{hidcustomer_id}" name="{hidcustomer_id_Name}">
 									</div>
 								</div>
 								<!-- col -->
-							</div>
-							<!-- row -->
+							</div><!-- row -->
+				</form>
+				<!-- END Record licensing -->
+
+							<!-- license drop zone here -->
+							<div class="row">
+								<div class="col-md-5 col-xs-12">
+									<!-- BEGIN Panel pndropzone -->
+									<form class="dropzone" name="dropzone" action="licensing_customers.php" method="post">
+										<label for="title" class="blue">
+{res:uploadlicense}</label>
+										<input type="hidden" name="{hidlicense_guid_Name}" value="{hidlicense_guid}" id="hidlicense_guid">
+										<div class="fallback">
+											<input type="file" id="licensefile" multiple />
+										</div>
+									</form>
+									<!-- END Panel pndropzone -->
+								</div>
+								<div class="col-md-5 col-xs-12">
+									<!-- BEGIN licensefile_list -->
+									<div class="inline col-xs-2">
+										<div class="row action-buttons">
+											<a href="licensing_viewfile.php?licensefile_guid={licensefile_guid}{getparams}"><img src="assets/license64.png" class="img-responsive img-rounded" /></a>
+										</div>
+										<div class="row action-buttons inline">
+											<a href="licensing_viewfile.php?licensefile_guid={licensefile_guid}{getparams}"><li class="icon-eye-open bigger-180 blue"></li></a>
+											{linkdelete}											
+										</div>
+									</div>
+									<!-- END licensefile_list -->
+								</div>
+							</div> <!-- row -->
+
 						</div>
 						<!-- licensing tab -->
 					</div>
@@ -398,8 +441,6 @@
 				<!-- tabbable -->
 			</div>
 			<!-- row -->
-		</form>
-		<!-- END Record licensing -->
 	</div>
 	<!-- widget-body -->
 </div>
@@ -407,6 +448,7 @@
 <link rel="stylesheet" href="assets/css/datepicker.css">
 <link rel="stylesheet" href="assets/css/colorbox.css">
 <link rel="stylesheet" href="assets/css/chosen.css">
+<link rel="stylesheet" href="assets/css/dropzone.css" />
 <!-- included here to not mess with too much js in the main page -->
 <script src="assets/js/jquery-2.0.3.min.js"></script>
 <script src="assets/js/json3.min.js"></script>
@@ -418,15 +460,14 @@
 <script src="assets/js/jquery.ui.touch-punch.min.js"></script>
 <script src="assets/js/jquery.colorbox-min.js"></script>
 <script src="assets/js/chosen.jquery.min.js"></script>
-
+<script src="assets/js/dropzone.min.js"></script>
 
 <script>
 $(function(){
-        
-        //$("#s_customer").focus();
-        $.validate({
-                form : "#licensing"
-        });
+    	    
+	    $.validate({
+	         form : "#licensing"
+	    });
 
         //Specified the width, for some weird reason, the width-90 class wasnt working
         $(".chosen-select").chosen({width: "90%"}); 
@@ -481,6 +522,55 @@ $(function(){
                 }
         });
 
+		$("#searchsku").click(function() {
+			var sku = $("#channel_sku").val();
+			if (sku.length > 0) {
+				var params = {m: "product_info_sku", channel_sku: sku};
+				$.ajax({
+					url: "ajaxget.php",
+					type: "get",
+					data: params
+				}).done(function(msg) {
+					var manufacturer = $("#manufacturer");
+					var suite = $("#suite");
+					var id_product_type = $("#id_product_type");
+					var id_license_sector = $("#id_license_sector");
+					var id_license_type = $("#id_license_type");
+					var suitedescription = $("#suitedescription");
+					var msrp_price = $("#msrp_price");
+
+					$.each(msg.products, function() {
+						manufacturer.val(this.id_manufacturer);
+						manufacturer.trigger("chosen:updated");
+						suite.val(this.id_suite);
+						suite.trigger("chosen:updated");
+						id_product_type.val(this.id_product_type);
+						id_product_type.trigger("chosen:updated");
+						id_license_sector.val(this.id_license_sector);
+						id_license_sector.trigger("chosen:updated");
+						id_license_type.val(this.id_license_type);
+						id_license_type.trigger("chosen:updated");
+						suitedescription.val(this.suite_description);
+                        $("#id_licensed_by_"+this.id_licensed_by).click();      
+                        $("#licensed_amount").val(this.licensed_amount);
+						var productPrice = parseFloat(this.msrp_price);
+                        $("#msrp_price").val(productPrice.toFixed(2));
+
+
+						//Refilling product listbox based on sku search
+                        var products = $("#products");
+                        products.empty();
+                        products.trigger("chosen:updated");
+                        products.append($("<option/>").val("").text("{res:selectoption}") );
+						products.append( $("<option/>").val(this.id).text(this.description +" ( {res:nodes}: "+ this.range_min +" - "+ this.range_max +" ) " + this.channel_sku ).prop("selected",true) );
+                        products.trigger("chosen:updated");
+
+					});
+				
+				});
+			}
+		});
+
 
         $(".licensefilter").change(function() {
                 var suite_id = $("#suite").val();
@@ -510,7 +600,7 @@ $(function(){
                         products.trigger("chosen:updated");
                         products.append($("<option/>").val("").text("{res:selectoption}") );
                         $.each(msg.products, function() {
-                                products.append( $("<option/>").val(this.id).text(this.description +" ( {res:nodes}: "+ this.range_min +" - "+ this.range_max +" ) " + this.short_description ) );
+                                products.append( $("<option/>").val(this.id).text(this.description +" ( {res:nodes}: "+ this.range_min +" - "+ this.range_max +" ) " + this.channel_sku ) );
                         });
                         products.trigger("chosen:updated");
                 });
@@ -569,8 +659,7 @@ $(function(){
         });
 
 
-		/*
-        $(".delcontact").click(function(e) {
+        $(".dellicense").click(function(e) {
             var link = $(this).attr("href");
             e.preventDefault();    
             bootbox.confirm("{res:confirmdelete}", function(result) {
@@ -580,7 +669,18 @@ $(function(){
             });
 
          });
-		*/
+
+	Dropzone.autoDiscover = false;
+	var dropzone = new Dropzone(".dropzone", {
+		maxFilesize: 10, //in MB
+		acceptedFiles: "application/pdf,.pdf",
+		dictDefaultMessage: "{res:dropimagestitle}"
+	});
+
+	dropzone.on("success", function(file) {
+		//Refresh page after upload
+		location.reload();
+	});
 
 
 });

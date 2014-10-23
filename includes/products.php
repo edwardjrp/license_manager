@@ -228,6 +228,61 @@ class Products {
 
 	}
 
+	public function getProductBySku($params = array()) {
+		$result = array("status" => false, "message" => "","products" => array());
+
+		$channel_sku = trim($params["channel_sku"]);
+
+		if (strlen($channel_sku) > 0) {
+			$db = new \clsDBdbConnection();
+			$db2 = new \clsDBdbConnection();
+			$channel_sku = $db->esc($channel_sku);
+
+			$fields_array = array("id_suite","id_product_type","range_min","range_max","msrp_price","description","id_license_type",
+								  "id_product_tag","id_licensed_by","id_license_sector","licensed_amount","id","channel_sku",
+								  "short_description");
+			$fields = implode(",",$fields_array);
+			$sql = "select $fields from alm_products where channel_sku = '$channel_sku' ";
+			$db->query($sql);
+
+			$products = array();
+			while ($db->next_record()) {
+				$row = array();
+				foreach($fields_array as $field) {
+					$row[$field] = $db->f($field);
+				}
+
+				//Getting the manufacturer and suite description for the product to be displayed on the licensing form
+				$id_suite = (int)$db->f("id_suite");
+				$id_manufacturer = 0;
+				$suite_description = "";
+				if ($id_suite > 0) {
+					$id_manufacturer = (int)CCDLookUp("id_manufacturer","alm_product_suites","id = $id_suite",$db2);
+					$suite_description = CCDLookUp("suite_description","alm_product_suites","id = $id_suite",$db2);
+				}
+				$row["id_manufacturer"] = $id_manufacturer;
+				$row["suite_description"] = $suite_description;
+				$products[] = $row;
+			}
+
+			$result["status"] = true;
+			$result["products"] = $products;
+			$result["message"] = "Command executed successfully";
+
+			$db2->close();
+			$db->close();
+
+			return $result;
+
+		} else {
+			$result["status"] = false;
+			$result["message"] = "Invalid SKU";
+
+			return $result;
+		}
+
+	}
+
 	public function getProductByID($params = array()) {
 		$result = array("status" => false, "message" => "","products" => array());
 
@@ -312,6 +367,235 @@ class Products {
 
     }
 
+
+	public function uploadLicenseFile($file,$params = array()) {
+
+	     if ( (!empty($file)) && (strlen($params["license_guid"]) > 0) ) {
+	         $db = new \clsDBdbConnection();
+
+	         $options = \Options::getConsoleOptions();
+	         $uploadTo = $options["console_license_url"];
+	         $tmpFile = $file["file"]["tmp_name"];
+	         $fileName = $file["file"]["name"];
+	         $targetPath = dirname(__FILE__)."/..".$uploadTo; //because dirname will be positioned in include folder
+	         $fileExt = ".".pathinfo($fileName, PATHINFO_EXTENSION);
+	         $targetFilename = \Options::getUUIDv6().$fileExt;
+	         $targetFile = $targetPath.$targetFilename;
+
+	         //Updating an existing image, which will replace the existing one for the new
+		     /*
+	         if (strlen($params["image_guid"]) > 0) {
+	             //Get the existing image name to re-use it and replace image on upload
+	             $image_guid = $params["image_guid"];
+	             $existing_imagename = CCDLookUp("image_name","customer_images","guid = '$image_guid'",$db);
+	             $existing_imagename = trim($existing_imagename);
+	             if (strlen($existing_imagename) > 0) {
+	                 $targetFilename = $existing_imagename;
+	                 $targetFile = $targetPath.$targetFilename;
+	             }
+
+	         }
+		     */
+
+	         if (move_uploaded_file($tmpFile,$targetFile)) {
+	             //File successfully uploaded
+	             $guid = $params["license_guid"];
+	             $guid = $db->esc($guid);
+	             $license_id = (int)CCDLookUp("id","alm_licensing","guid = '$guid' ",$db);
+	             $params["license_id"] = $license_id;
+	             $params["targetFilename"] = $targetFilename;
+
+	             //Saving db file reference
+	             $this->saveLicenseRecord($params);
+
+	             $db->close();
+
+	             return true;
+
+	         } else {
+	             $db->close();
+	             return false;
+	         }
+
+		     /*
+	         $log  = new Logger('almlogs');
+	         $log->pushHandler(new StreamHandler(MAIN_LOG, Logger::WARNING));
+	         $log->addWarning($params["license_guid"].LOG_LINESEPARATOR);
+	         $log->addWarning($tmpFile.LOG_LINESEPARATOR);
+		     */
+
+
+	     } else {
+	         return false;
+	     }
+
+    }
+
+
+	private function saveLicenseRecord($params = array()) {
+		 $license_id = (int)$params["license_id"];
+	     $targetFilename = $params["targetFilename"];
+
+	     if ( (strlen($targetFilename) > 0) && ($license_id > 0) ) {
+             $db = new \clsDBdbConnection();
+		     $guid = uuid_create();
+             $sql = "insert into alm_license_files (guid,id_license,filename)
+                     values('$guid',$license_id,'$targetFilename') ";
+             $db->query($sql);
+
+	         $db->close();
+
+	         return true;
+
+	     } else {
+	         return false;
+	     }
+
+	 }
+
+	public function getLicenseFiles($params = array()) {
+		$result = array("status" => false, "message" => "","licensefiles" => array());
+	    $license_guid = $params["license_guid"];
+
+	     if (strlen($license_guid) > 0) {
+	         $db = new \clsDBdbConnection();
+		     $options = \Options::getConsoleOptions();
+		     //The dot(.) added is because the image will be loaded from the app root and url includes a first slah
+		     $licensesUrl = ".".$options["console_license_url"];
+
+	         $licensefiles = array();
+
+	         $license_id = (int)CCDLookUp("id","alm_licensing","guid = '$license_guid' ",$db);
+	         if ($license_id > 0) {
+	             $fields_array = array("guid","filename");
+	             $fields = implode(",",$fields_array);
+	             $sql = "select $fields from alm_license_files where id_license = $license_id";
+
+	             $db->query($sql);
+
+	             while ($db->next_record()) {
+	                 $row = array();
+	                 foreach($fields_array as $field) {
+		                 if ($field == "filename") {
+			                 $row[$field] = $licensesUrl.$db->f($field);
+		                 } else {
+			                 $row[$field] = $db->f($field);
+		                 }
+	                 }
+		             $licensefiles[] = $row;
+
+	             }
+
+	         }
+
+	         $db->close();
+
+	         $result["status"] = true;
+	         $result["licensefiles"] = $licensefiles;
+	         $result["message"] = "Command executed successfully.";
+
+	         return $result;
+
+	     } else {
+	         $result["status"] = false;
+	         $result["message"] = "Invalid GUID";
+	         return $result;
+	     }
+
+    }
+
+	public function getLicenseFileByGuid($params = array()) {
+		$result = array("status" => false, "message" => "","licensefile" => array());
+	    $licensefile_guid = $params["licensefile_guid"];
+
+	     if (strlen($licensefile_guid) > 0) {
+	         $db = new \clsDBdbConnection();
+		     $options = \Options::getConsoleOptions();
+
+		     //The dot(.) added is because the image will be loaded from the app root and url includes a first slah
+		     $licensesUrl = ".".$options["console_license_url"];
+
+	         $licensefile = array();
+
+             $fields_array = array("id","filename");
+             $fields = implode(",",$fields_array);
+             $sql = "select $fields from alm_license_files where guid = '$licensefile_guid' ";
+
+             $db->query($sql);
+
+             while ($db->next_record()) {
+                 $row = array();
+                 foreach($fields_array as $field) {
+	                 if ($field == "filename") {
+		                 $row[$field] = $licensesUrl.$db->f($field);
+	                 } else {
+		                 $row[$field] = $db->f($field);
+	                 }
+                 }
+	             $licensefile[] = $row;
+
+             }
+
+	         $db->close();
+
+	         $result["status"] = true;
+	         $result["licensefile"] = $licensefile;
+	         $result["message"] = "Command executed successfully.";
+
+	         return $result;
+
+	     } else {
+	         $result["status"] = false;
+	         $result["message"] = "Invalid GUID";
+	         return $result;
+	     }
+
+    }
+
+	public function deleteLicenseFileByGuid($params = array()) {
+		$result = array("status" => false, "message" => "","licensefile" => array());
+	    $licensefile_guid = $params["licensefile_guid"];
+
+	     if (strlen($licensefile_guid) > 0) {
+	         $db = new \clsDBdbConnection();
+		     $options = \Options::getConsoleOptions();
+
+		     //The dot(.) added is because the image will be loaded from the app root and url includes a first slah
+		     $licensesUrl = ".".$options["console_license_url"];
+
+		     $licenseFilename = CCDLookUp("filename","alm_license_files","guid = '$licensefile_guid' ",$db);
+		     if (strlen($licenseFilename) > 0) {
+			     $licenseFilename = $licensesUrl.$licenseFilename;
+			     if ( unlink($licenseFilename) ) {
+				     //Deleting record after deleting phisical file
+				     $sql = "delete from alm_license_files where guid = '$licensefile_guid' ";
+				     $db->query($sql);
+				     $result["status"] = true;
+				     $result["message"] = "Command executed successfully.";
+
+			     } else {
+				     $result["status"] = false;
+			         $result["message"] = "An error ocurred trying to delete file.";
+
+			     }
+
+		     } else {
+			     $result["status"] = false;
+			     $result["message"] = "Invalid Filename";
+
+		     }
+
+	         $db->close();
+
+	         return $result;
+
+	     } else {
+	         $result["status"] = false;
+	         $result["message"] = "Invalid GUID";
+	         return $result;
+	     }
+
+    }
 
 	public static function setProducts($params = array()) {
 		$result = array("status" => false, "message" => "");
@@ -546,6 +830,8 @@ class Products {
 		}
 
 	}
+
+
 
 }
 
