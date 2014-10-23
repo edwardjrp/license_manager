@@ -69,6 +69,8 @@ namespace :deploy do
       execute "rm /home/edward/alm/current/Common.php"
       #Symlink to the share db configuration files, this is needed because db params are different on dev and prod
       execute "ln -s /home/edward/alm/shared/Common.php /home/edward/alm/current/Common.php"
+      #Change folder ownership to be able to upload files by the web server
+      execute "chown edward:www-data /home/edward/alm/current/assets/licenses"
     end
   end
 
