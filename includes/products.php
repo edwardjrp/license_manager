@@ -570,10 +570,17 @@ class Products {
 				     //Deleting record after deleting phisical file
 				     $sql = "delete from alm_license_files where guid = '$licensefile_guid' ";
 				     $db->query($sql);
+
 				     $result["status"] = true;
 				     $result["message"] = "Command executed successfully.";
 
 			     } else {
+				     //Checks if file doesnt note exist as well to delete record
+				     if (!file_exists($licenseFilename)) {
+					     //Deleting record after deleting phisical file
+					     $sql = "delete from alm_license_files where guid = '$licensefile_guid' ";
+					     $db->query($sql);
+				     }
 				     $result["status"] = false;
 			         $result["message"] = "An error ocurred trying to delete file.";
 
