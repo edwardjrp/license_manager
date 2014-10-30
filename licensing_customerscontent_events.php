@@ -36,7 +36,6 @@ function licensing_customerscontent_alm_customers_businesspartner_BeforeShow(& $
  	$businesspartner = explode(",",$licensing_customerscontent->alm_customers->businesspartner->GetValue());
 	$licensing_customerscontent->alm_customers->businesspartner->Multiple = true;
 	$licensing_customerscontent->alm_customers->businesspartner->SetValue($businesspartner);
-
 // -------------------------
 //End Custom Code
 
@@ -44,6 +43,38 @@ function licensing_customerscontent_alm_customers_businesspartner_BeforeShow(& $
  return $licensing_customerscontent_alm_customers_businesspartner_BeforeShow;
 }
 //End Close licensing_customerscontent_alm_customers_businesspartner_BeforeShow
+
+//licensing_customerscontent_alm_customers_businesspartner_ds_BeforeBuildSelect @73-D8B8E715
+function licensing_customerscontent_alm_customers_businesspartner_ds_BeforeBuildSelect(& $sender)
+{
+ $licensing_customerscontent_alm_customers_businesspartner_ds_BeforeBuildSelect = true;
+ $Component = & $sender;
+ $Container = & CCGetParentContainer($sender);
+ global $licensing_customerscontent; //Compatibility
+//End licensing_customerscontent_alm_customers_businesspartner_ds_BeforeBuildSelect
+
+//Custom Code @215-2A29BDB7
+// -------------------------
+ // Write your own code here.
+ 	//Will hide the non selected business partners from the list, this custom code is larger 
+	//because getting the value of the businesspartner listbox does not work.
+	$guid = trim(CCGetFromGet("guid",""));
+	if (strlen($guid) > 0) {
+		$db = new clsDBdbConnection();
+		$businesspartners = trim(CCDLookup("businesspartner","alm_customers","guid = '$guid'",$db),",");
+		if (strlen($businesspartners) > 0)
+			$licensing_customerscontent->alm_customers->businesspartner->ds->Where = "id in ($businesspartners)";
+		else
+			$licensing_customerscontent->alm_customers->businesspartner->ds->Where = "id in (0)";
+		$db->close();
+	}
+// -------------------------
+//End Custom Code
+
+//Close licensing_customerscontent_alm_customers_businesspartner_ds_BeforeBuildSelect @73-E8D70D73
+ return $licensing_customerscontent_alm_customers_businesspartner_ds_BeforeBuildSelect;
+}
+//End Close licensing_customerscontent_alm_customers_businesspartner_ds_BeforeBuildSelect
 
 //licensing_customerscontent_alm_customers_manufacturer_BeforeShow @153-1B691D2B
 function licensing_customerscontent_alm_customers_manufacturer_BeforeShow(& $sender)
@@ -244,16 +275,37 @@ function licensing_customerscontent_alm_customers_BeforeShow(& $sender)
 				$Tpl->setvar("lbnodes_qty",$license["licensed_amount"]);
 
 			$Tpl->setvar("lbchannel_sku",$license["channel_sku"]);
-			$Tpl->setvar("lbmsrp_price","$ ".number_format($license["msrp_price"],2));
-			$Tpl->setvar("lblicense_for",$license["sector_name"]);
 
-			$dateupdated = $license["dateupdated"];
-			if (strlen($dateupdated) > 0) {
-				$dateupdated_array = CCParseDate($dateupdated,array("yyyy","-","mm","-","dd"," ","H",":","n",":","s"));
-				$format = array("mm","/","dd","/","yyyy"," ","hh",":","nn"," ","AM/PM");
-				$dateupdated = CCFormatDate($dateupdated_array,$format);
-				$Tpl->setvar("lbdateupdated",$dateupdated);
+			//Total cost of license
+			$price = $license["msrp_price"];
+			$licenseBy = $license["id_licensed_by"];
+			$nodes = $license["nodes"];
+			$licenseAmount = $license["licensed_amount"];
+			$totalCost = 0;
+			switch ($licenseBy) {
+				case "1" :
+					//Nodes
+					$totalCost = ( $price * $nodes );
+				break;
+				case "2" :
+					//Qty
+					$totalCost = ( $price * $licenseAmount );
+				break;
+				case "3" :
+					//Percentage
+					$totalCost = ( $price * ($licenseAmount/100) ) + $price;
+				break;
 			}
+
+			$Tpl->setvar("lbtotalcost","$ ".number_format($totalCost,2));
+
+			$Tpl->setvar("lblicense_for",$license["sector_name"]);
+			$Tpl->setvar("lbgrantnumber",$license["grant_number"]);
+			$expDate = date("m/d/Y",strtotime($license["expedition_date"]));
+			$Tpl->setvar("lbexpedition",$expDate);
+			$expirDate = date("m/d/Y",strtotime($license["expiration_date"]));
+			$Tpl->setvar("lbexpiration",$expirDate);
+			$Tpl->setvar("lbserialnumber",$license["serial_number"]);
 
 			$Tpl->parse("license_list",true);
 		}
@@ -386,63 +438,6 @@ function licensing_customerscontent_licensing_lbgoback_BeforeShow(& $sender)
 }
 //End Close licensing_customerscontent_licensing_lbgoback_BeforeShow
 
-//licensing_customerscontent_licensing_id_product_BeforeShow @173-47584CC4
-function licensing_customerscontent_licensing_id_product_BeforeShow(& $sender)
-{
- $licensing_customerscontent_licensing_id_product_BeforeShow = true;
- $Component = & $sender;
- $Container = & CCGetParentContainer($sender);
- global $licensing_customerscontent; //Compatibility
-//End licensing_customerscontent_licensing_id_product_BeforeShow
-
-//Custom Code @174-2A29BDB7
-// -------------------------
- // Write your own code here.
- 	$suite_id = (int)$licensing_customerscontent->licensing->suite_code->GetValue();
-	$id_product_type = (int)$licensing_customerscontent->licensing->id_product_type->GetValue();
-	$id_license_sector = (int)$licensing_customerscontent->licensing->id_license_sector->GetValue();
-	$id_license_type = (int)$licensing_customerscontent->licensing->id_license_type->GetValue();
-
-	if ( ($suite_id > 0) || ($id_product_type > 0) || ($id_license_sector > 0) || ($id_license_type > 0) ) {
-		$products = new \Alm\Products();
-
-		$params = array();
-		$params["suite_id"] = $suite_id;
-		$params["id_product_type"] = $id_product_type;
-		$params["id_license_sector"] = $id_license_sector;
-		$params["id_license_type"] = $id_license_type;
-
-		$productList = $products->getProductsBySuiteID($params);
-		$allProducts = $productList["products"];
-		$valueList = array();
-		foreach($allProducts as $product) {
-			$min = $product["range_min"];
-			$max = $product["range_max"];
-			$shortDescription = $product["short_description"];
-			$channelSku = $product["channel_sku"];
-			$description = $product["description"];
-			$valueList[] = array($product["id"],"$description ( Nodes: $min - $max ) $channelSku ");
-		}
-		
-		$licensing_customerscontent->licensing->id_product->Values = $valueList;
-
-		$params["product_id"] = $licensing_customerscontent->licensing->id_product->GetValue(); 
-		$productDetails = $products->getProductByID($params);
-		$productDetails = $productDetails["products"];
-		$suite = $products->getSuiteByID($params);
-		$licensing_customerscontent->licensing->suitedescription->SetValue($suite["suite_description"]);
-
-
-	}
- 	
-// -------------------------
-//End Custom Code
-
-//Close licensing_customerscontent_licensing_id_product_BeforeShow @173-36830841
- return $licensing_customerscontent_licensing_id_product_BeforeShow;
-}
-//End Close licensing_customerscontent_licensing_id_product_BeforeShow
-
 //licensing_customerscontent_licensing_id_license_status_BeforeShow @205-17C5A635
 function licensing_customerscontent_licensing_id_license_status_BeforeShow(& $sender)
 {
@@ -485,7 +480,7 @@ function licensing_customerscontent_licensing_params_BeforeShow(& $sender)
 //Custom Code @50-2A29BDB7
 // -------------------------
  // Write your own code here.
- 	$querystring = CCGetQueryString("QueryString",array("license_guid"));
+ 	$querystring = CCGetQueryString("QueryString",array("license_guid","tab"));
 	$sender->SetValue("$querystring");
 
 // -------------------------
@@ -540,6 +535,105 @@ function licensing_customerscontent_licensing_hidlicense_guid_BeforeShow(& $send
 }
 //End Close licensing_customerscontent_licensing_hidlicense_guid_BeforeShow
 
+//licensing_customerscontent_licensing_id_product_BeforeShow @173-47584CC4
+function licensing_customerscontent_licensing_id_product_BeforeShow(& $sender)
+{
+ $licensing_customerscontent_licensing_id_product_BeforeShow = true;
+ $Component = & $sender;
+ $Container = & CCGetParentContainer($sender);
+ global $licensing_customerscontent; //Compatibility
+//End licensing_customerscontent_licensing_id_product_BeforeShow
+
+//Custom Code @174-2A29BDB7
+// -------------------------
+ // Write your own code here.
+ 	$suite_id = (int)$licensing_customerscontent->licensing->suite_code->GetValue();
+	$id_product_type = (int)$licensing_customerscontent->licensing->id_product_type->GetValue();
+	$id_license_sector = (int)$licensing_customerscontent->licensing->id_license_sector->GetValue();
+	$id_license_type = (int)$licensing_customerscontent->licensing->id_license_type->GetValue();
+
+	if ( ($suite_id > 0) || ($id_product_type > 0) || ($id_license_sector > 0) || ($id_license_type > 0) ) {
+		$products = new \Alm\Products();
+
+		$params = array();
+		$params["suite_id"] = $suite_id;
+		$params["id_product_type"] = $id_product_type;
+		$params["id_license_sector"] = $id_license_sector;
+		$params["id_license_type"] = $id_license_type;
+
+		$productList = $products->getProductsBySuiteID($params);
+		$allProducts = $productList["products"];
+		$valueList = array();
+		foreach($allProducts as $product) {
+			$min = $product["range_min"];
+			$max = $product["range_max"];
+			$shortDescription = $product["short_description"];
+			$channelSku = $product["channel_sku"];
+			$description = $product["description"];
+			$valueList[] = array($product["id"],"$description ( Nodes: $min - $max )");
+		}
+		
+		$licensing_customerscontent->licensing->id_product->Values = $valueList;
+
+		$params["product_id"] = $licensing_customerscontent->licensing->id_product->GetValue(); 
+		$productDetails = $products->getProductByID($params);
+		$productDetails = $productDetails["products"];
+		$suite = $products->getSuiteByID($params);
+		$licensing_customerscontent->licensing->suitedescription->SetValue($suite["suite_description"]);
+
+
+	}
+ 	
+// -------------------------
+//End Custom Code
+
+//Close licensing_customerscontent_licensing_id_product_BeforeShow @173-36830841
+ return $licensing_customerscontent_licensing_id_product_BeforeShow;
+}
+//End Close licensing_customerscontent_licensing_id_product_BeforeShow
+
+//licensing_customerscontent_licensing_totalcost_BeforeShow @218-B8E8E8C4
+function licensing_customerscontent_licensing_totalcost_BeforeShow(& $sender)
+{
+ $licensing_customerscontent_licensing_totalcost_BeforeShow = true;
+ $Component = & $sender;
+ $Container = & CCGetParentContainer($sender);
+ global $licensing_customerscontent; //Compatibility
+//End licensing_customerscontent_licensing_totalcost_BeforeShow
+
+//Custom Code @219-2A29BDB7
+// -------------------------
+ // Write your own code here.
+	$price = $licensing_customerscontent->licensing->msrp_price->GetValue();
+	$licenseBy = $licensing_customerscontent->licensing->id_licensed_by->GetValue();
+	$nodes = $licensing_customerscontent->licensing->nodes->GetValue();
+	$licenseAmount = $licensing_customerscontent->licensing->licensed_amount->GetValue();
+	$totalCost = 0;
+	switch ($licenseBy) {
+		case "1" :
+			//Nodes
+			$totalCost = ( $price * $nodes );
+		break;
+		case "2" :
+			//Qty
+			$totalCost = ( $price * $licenseAmount );
+		break;
+		case "3" :
+			//Percentage
+			$totalCost = ( $price * ($licenseAmount/100) ) + $price;
+		break;
+	}
+
+	$sender->SetValue($totalCost);
+
+// -------------------------
+//End Custom Code
+
+//Close licensing_customerscontent_licensing_totalcost_BeforeShow @218-9CA8A2EF
+ return $licensing_customerscontent_licensing_totalcost_BeforeShow;
+}
+//End Close licensing_customerscontent_licensing_totalcost_BeforeShow
+
 //Used because the last_user_id query on afterinsert was not working
 $lastguid = "";
 
@@ -560,7 +654,7 @@ function licensing_customerscontent_licensing_BeforeInsert(& $sender)
 	$lastguid = $guid;
 
 	$licensing_customerscontent->licensing->created_iduser->SetValue(CCGetUserID());
-	$licensing_customerscontent->licensing->hidguid->SetValue($guid);
+	$licensing_customerscontent->licensing->hidguid->SetValue($guid);	
 
 	//Customer ID for the license
 	$customer_guid = trim($licensing_customerscontent->licensing->hidcustomer_guid->GetValue());
@@ -614,9 +708,9 @@ function licensing_customerscontent_licensing_AfterInsert(& $sender)
 	$customer_guid = trim($licensing_customerscontent->licensing->hidcustomer_guid->GetValue());
 
 
-	//Getting querystring parameter to include in redirect when a duplicate operation takes place
-	$querystring = CCGetFromPost("querystring","");
-	$Redirect = $FileName."?guid=$customer_guid&$querystring";
+	//Getting querystring parameter to include in redirect, redirect will set licensing to add mode even when editing
+	//$querystring = CCGetFromPost("querystring","");
+	$Redirect = $FileName."?guid=$customer_guid";
 
 // -------------------------
 //End Custom Code
@@ -639,6 +733,16 @@ function licensing_customerscontent_licensing_BeforeUpdate(& $sender)
 // -------------------------
  // Write your own code here.
  	$licensing_customerscontent->licensing->modified_iduser->SetValue(CCGetUserID());
+
+	//Changing license status to active when inactive and grant,expdate,expirdate are present
+	$grantNo = trim($licensing_customerscontent->licensing->grant_number->GetValue());
+	$expDate = $licensing_customerscontent->licensing->expedition_date->GetValue();
+	$expirDate = $licensing_customerscontent->licensing->expiration_date->GetValue();
+	$licenseStatus = (int)$licensing_customerscontent->licensing->hidlicensestatus->GetValue();
+	if ( ($licenseStatus == 1) && (strlen($grantNo) > 0) && (count($expDate) > 1) && (count($expirDate) > 1) ) {		
+		$licensing_customerscontent->licensing->hidlicensestatus->SetValue("2");
+	}
+
 // -------------------------
 //End Custom Code
 
@@ -662,11 +766,14 @@ function licensing_customerscontent_licensing_AfterUpdate(& $sender)
 	//Show message alert after saving information
 	CCSetSession("showalert","show");
 
+	global $FileName;
+	global $Redirect;
+
 	//Checking if there was a duplicity error
 	$errors = (Array)$sender->DataSource->Errors;
 	$errorcount = (int)$errors["ErrorsCount"];
-	$error = $errors["Errors"][0];
 	if ($errorcount >= 1) {
+		$error = $errors["Errors"][0];
 		$position = strpos($error,"Duplicate entry");
 		if ( !($position === false)) {
 			global $CCSLocales;
@@ -677,6 +784,12 @@ function licensing_customerscontent_licensing_AfterUpdate(& $sender)
 			CCSetSession("showalert","hide");
 		}
 	} 
+
+	$customer_guid = trim($licensing_customerscontent->licensing->hidcustomer_guid->GetValue());
+
+	//Getting querystring parameter to include in redirect, redirect will set licensing to add mode even when editing
+	//$querystring = CCGetFromPost("querystring","");
+	$Redirect = $FileName."?guid=$customer_guid";
 
 // -------------------------
 //End Custom Code
@@ -699,10 +812,13 @@ function licensing_customerscontent_pndropzone_BeforeShow(& $sender)
 // -------------------------
  // Write your own code here.
  	$license_guid = trim(CCGetFromGet("license_guid",""));
-	if (strlen($license_guid) > 0)
+	if (strlen($license_guid) > 0) {
 		$licensing_customerscontent->pndropzone->Visible = true;
-	else 
+		$licensing_customerscontent->pndropzonejs->Visible = true;
+	} else {
 		$licensing_customerscontent->pndropzone->Visible = false;
+		$licensing_customerscontent->pndropzonejs->Visible = false;
+	}
 
 // -------------------------
 //End Custom Code

@@ -157,11 +157,11 @@
 												<th class="blue">{res:channel_sku}</th>
  
 												<th class="blue">
-{res:msrp_price}</th>
+{res:totalcost}</th>
  
 												<th class="blue">{res:licensesector}</th>
  
-												<th class="blue">{res:dateupdated}</th>
+												<th class="blue">{res:licenseinfo}</th>
 											</tr>
 											<!-- BEGIN license_list -->
 											<tr>
@@ -175,18 +175,23 @@
 													<span class="{lblicense_status_css} arrowed-in">{lblicense_status}</span>
 												</td> 
 												<td nowrap><span class="orange">{lbsuite_description}</span> <br>
-													<span class="small purple">{lbdescription}</span> <br>
-													<span class="small green">{lblicense_name}</span> <br>
-													<span class="small blue">{res:licensedby}:&nbsp;{lblicensedby_name}</span>													
+													<span class="smaller-80 purple">{lbdescription}</span> <br>
+													<span class="smaller-80 green">{lblicense_name}</span> <br>
+													<span class="smaller-80 blue">{res:licensedby}:&nbsp;{lblicensedby_name}</span>													
 												</td> 
 												<td class="text-center">
 													<img src="assets/{lbproduct_typeicon}">													
 												</td> 
 												<td>{lbnodes_qty}</td> 
-												<td>{lbchannel_sku}</td> 
-												<td>{lbmsrp_price}</td> 
+												<td class="smaller-80">{lbchannel_sku}</td> 
+												<td>{lbtotalcost}</td> 
 												<td>{lblicense_for}</td> 
-												<td nowrap>{lbdateupdated}</td>
+												<td nowrap>
+													<span class="small blue smaller-80">{res:lbfrom} &nbsp; {lbexpedition}</span><br>
+													<span class="small red smaller-80">{res:lbto} &nbsp; {lbexpiration}</span><br>
+													<span class="small green smaller-80">{res:lbgrantno} &nbsp; {lbgrantnumber}</span><br>
+													<span class="small purple smaller-80">{res:lbserialno} &nbsp; {lbserialnumber}</span>
+												</td>
 											</tr>
 											<!-- END license_list -->
 										</table>
@@ -255,27 +260,14 @@
 								<div class="col-md-2 col-xs-12">
 									<div class="row col-xs-10">
 										<label class="control-label blue">{res:channel_sku}</label><br>
-										<input type="text" id="channel_sku" class="col-md-12 col-xs-12" value="{channel_sku}" name="{channel_sku_Name}" data-validation="required" data-validation-error-msg="{res:invalidsku}">
+										<input type="text" id="channel_sku" class="col-md-12 col-xs-12 searchsku" value="{channel_sku}" name="{channel_sku_Name}" data-validation="required" data-validation-error-msg="{res:invalidsku}">
 									</div>
 									<div class="row col-xs-1">
 										<label>&nbsp;&nbsp;</label>
-										<a href="#" id="searchsku" class="btn btn-warning btn-xs"><i class="icon-search bigger-120 icon-only"></i></a>
+										<a href="#" id="searchsku" class="btn btn-warning btn-xs searchsku"><i class="icon-search bigger-120 icon-only"></i></a>
 									</div>
 								</div>
 
-							</div><!-- row -->
-
-							<div class="row col-xs-12 space"></div>
-
-							<div class="row col-xs-12">
-								<div class="col-md-1 col-xs-0"></div>
-								<div class="col-md-9 col-xs-12">
-									<label class="control-label blue">{res:product}</label><br>
-									<select id="products" class="width-90 chosen-select" name="{id_product_Name}" data-validation="required" data-validation-error-msg="{res:invalidproduct}">
-										<option selected value="">{res:selectoption}</option>
-										{id_product_Options}
-									</select> 
-								</div>
 							</div><!-- row -->
 
 							<div class="row col-xs-12 space"></div>
@@ -291,9 +283,24 @@
 									<label class="control-label blue">{res:msrp_price}</label><br>
 									<input type="text" id="msrp_price" class="col-md-12 col-xs-12" value="{msrp_price}" name="{msrp_price_Name}">
 								</div>
-							</div>
-							<div class="row col-xs-12 space">
-							</div>
+							</div><!-- row -->
+
+							<div class="row col-xs-12 space"></div>
+
+							<div class="row col-xs-12">
+								<div class="col-md-1 col-xs-0"></div>
+								<div class="col-md-9 col-xs-12">
+									<label class="control-label blue">{res:product}</label><br>
+									<select id="products" class="width-90 chosen-select" name="{id_product_Name}" data-validation="required" data-validation-error-msg="{res:invalidproduct}">
+										<option selected value="">{res:selectoption}</option>
+										{id_product_Options}
+									</select>
+ 
+								</div>
+							</div><!-- row -->
+
+							<div class="row col-xs-12 space"></div>
+
 							<div class="row col-xs-12">
 								<div class="col-md-1 col-xs-0"></div>
 								<div class="col-md-4 col-xs-12">
@@ -337,6 +344,14 @@
 										<input type="text" class="col-md-12 col-xs-12" value="{nodes}" name="{nodes_Name}" data-validation="number" data-validation-error-msg="{res:invalidnodes}" data-validation-optional="true">
 									</div>
 								</div>
+
+								<div class="col-md-2 col-xs-12">
+									<div class="row col-xs-12">
+										<label class="control-label blue">{res:totalcost}</label><br>
+										<input type="text" id="totalcost" class="col-md-12 col-xs-12" name="{totalcost_Name}" value="{totalcost}" readonly>
+									</div>
+								</div>
+
 							</div><!-- row -->
 							
 							<div class="row col-xs-12 space"></div>
@@ -397,6 +412,7 @@
 										</div>
 
 										<input type="hidden" value="{modified_iduser}" name="{modified_iduser_Name}"><input type="hidden" value="{created_iduser}" name="{created_iduser_Name}"><input type="hidden" value="{hidguid}" name="{hidguid_Name}"><input type="hidden" value="{hidtab}" name="{hidtab_Name}"><input type="hidden" value="{hidcustomer_guid}" name="{hidcustomer_guid_Name}"><input type="hidden" value="{hidcustomer_id}" name="{hidcustomer_id_Name}">
+										<input type="hidden" name="{hidlicensestatus_Name}" value="{hidlicensestatus}" id="licensing_customerscontentlicensinghidlicensestatus">
 									</div>
 								</div>
 								<!-- col -->
@@ -409,8 +425,7 @@
 								<div class="col-md-5 col-xs-12">
 									<!-- BEGIN Panel pndropzone -->
 									<form class="dropzone" name="dropzone" action="licensing_customers.php" method="post">
-										<label for="title" class="blue">
-{res:uploadlicense}</label>
+										<label for="title" class="blue">{res:uploadlicense}</label>
 										<input type="hidden" name="{hidlicense_guid_Name}" value="{hidlicense_guid}" id="hidlicense_guid">
 										<div class="fallback">
 											<input type="file" id="licensefile" multiple />
@@ -521,8 +536,9 @@ $(function(){
                         $("#amounts").removeClass("hide");
                 }
         });
-
-		$("#searchsku").click(function() {
+		
+		//search sku executes for both botton and channelsku input
+		$(".searchsku").on("click keyup",function() {
 			var sku = $("#channel_sku").val();
 			if (sku.length > 0) {
 				var params = {m: "product_info_sku", channel_sku: sku};
@@ -539,17 +555,54 @@ $(function(){
 					var suitedescription = $("#suitedescription");
 					var msrp_price = $("#msrp_price");
 
-					$.each(msg.products, function() {
-						manufacturer.val(this.id_manufacturer);
+					//If product object is empty set 0 to all lisbox and values autofilled
+					if (msg.products.length <= 0) {
+						manufacturer.val(0);
 						manufacturer.trigger("chosen:updated");
-						suite.val(this.id_suite);
+						suite.val(0);
 						suite.trigger("chosen:updated");
-						id_product_type.val(this.id_product_type);
+						id_product_type.val(0);
 						id_product_type.trigger("chosen:updated");
-						id_license_sector.val(this.id_license_sector);
+						id_license_sector.val(0);
 						id_license_sector.trigger("chosen:updated");
-						id_license_type.val(this.id_license_type);
+						id_license_type.val(0);
 						id_license_type.trigger("chosen:updated");
+						suitedescription.val("");
+                        $("#id_licensed_by_1").click();      
+                        $("#licensed_amount").val(0);
+                        $("#msrp_price").val(0);
+                        $("#products").empty();
+                        $("#products").trigger("chosen:updated");
+					}
+
+					$.each(msg.products, function() {
+						var curManufacturer = this.id_manufacturer;
+						curManufacturer = curManufacturer || 0;
+						manufacturer.val(curManufacturer);
+						manufacturer.trigger("chosen:updated");
+
+						var curSuite = this.id_suite;
+						curSuite = curSuite || 0;
+						suite.val(curSuite);
+						suite.trigger("chosen:updated");
+
+						//convert to 0 in case of null or undefined value
+						var productType = this.id_product_type;
+						productType = productType || 0;
+						id_product_type.val(productType);
+						id_product_type.trigger("chosen:updated");
+
+						//convert to 0 in case of null or undefined value
+						var licenseSector = this.id_license_sector;
+						licenseSector = licenseSector || 0;
+						id_license_sector.val(licenseSector);
+						id_license_sector.trigger("chosen:updated");
+						
+						var licenseType = this.id_license_type;
+						licenseType = licenseType || 0;
+						id_license_type.val(licenseType);
+						id_license_type.trigger("chosen:updated");
+
 						suitedescription.val(this.suite_description);
                         $("#id_licensed_by_"+this.id_licensed_by).click();      
                         $("#licensed_amount").val(this.licensed_amount);
@@ -562,7 +615,7 @@ $(function(){
                         products.empty();
                         products.trigger("chosen:updated");
                         products.append($("<option/>").val("").text("{res:selectoption}") );
-						products.append( $("<option/>").val(this.id).text(this.description +" ( {res:nodes}: "+ this.range_min +" - "+ this.range_max +" ) " + this.channel_sku ).prop("selected",true) );
+						products.append( $("<option/>").val(this.id).text(this.description +" ( {res:nodes}: "+ this.range_min +" - "+ this.range_max +" ) ").prop("selected",true) );
                         products.trigger("chosen:updated");
 
 					});
@@ -600,7 +653,7 @@ $(function(){
                         products.trigger("chosen:updated");
                         products.append($("<option/>").val("").text("{res:selectoption}") );
                         $.each(msg.products, function() {
-                                products.append( $("<option/>").val(this.id).text(this.description +" ( {res:nodes}: "+ this.range_min +" - "+ this.range_max +" ) " + this.channel_sku ) );
+                                products.append( $("<option/>").val(this.id).text(this.description +" ( {res:nodes}: "+ this.range_min +" - "+ this.range_max +" ) ") );
                         });
                         products.trigger("chosen:updated");
                 });
@@ -649,7 +702,7 @@ $(function(){
                         var suite = $("#suite");
                         suite.empty();
                         suite.trigger("chosen:updated");
-                        suite.append($("<option/>").val("").text("{res:selectoption}"));
+                        suite.append($("<option/>").val("0").text("{res:selectoption}"));
                         $.each(msg.suite, function() {
                                 suite.append($("<option/>").val(this.id).text(this.suite_code));
                         });
@@ -669,19 +722,20 @@ $(function(){
             });
 
          });
-
-	Dropzone.autoDiscover = false;
-	var dropzone = new Dropzone(".dropzone", {
-		maxFilesize: 10, //in MB
-		acceptedFiles: "application/pdf,.pdf",
-		dictDefaultMessage: "{res:dropimagestitle}"
-	});
-
-	dropzone.on("success", function(file) {
-		//Refresh page after upload
-		location.reload();
-	});
-
+	
+	//Inside a panel because when dropzone element is not present throws an error and mess js scripts in menus
+	<!-- BEGIN Panel pndropzonejs -->
+		Dropzone.autoDiscover = false; 
+		var dropzone = new Dropzone(".dropzone", { 
+			maxFilesize: 10, 
+			//in MB acceptedFiles: "application/pdf,.pdf", 
+			dictDefaultMessage: "{res:dropimagestitle}" 
+		});
+		dropzone.on("success", function(file) {
+			//Refresh page after upload
+			location.reload();
+		});
+	<!-- END Panel pndropzonejs -->
 
 });
 

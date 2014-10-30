@@ -334,7 +334,8 @@ class Products {
 	         if ($customer_id > 0) {
 	             $fields_array = array("guid","suite_description","suite_code","type_icon_name","license_name","id_licensed_by",
 	             "licensedby_name","sector_name","reseller_name","description","nodes","licensed_amount","channel_sku"
-	             ,"msrp_price","dateupdated","license_status_name","alm_license_status_css_color");
+	             ,"msrp_price","dateupdated","license_status_name","alm_license_status_css_color","grant_number","expedition_date"
+	             ,"expiration_date","serial_number");
 	             $fields = implode(",",$fields_array);
 	             $sql = "select $fields from v_alm_licenses where id_customer = $customer_id";
 
