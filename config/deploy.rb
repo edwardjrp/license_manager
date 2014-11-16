@@ -2,7 +2,7 @@
 lock '3.2.1'
 
 set :application, 'alm'
-set :repo_url, 'ssh://edward@inheavenpodcast.capa3.net:8022/home/edward/alm.git'
+set :repo_url, 'ssh://edward@lab.capa3.net:8022/home/edward/alm.git'
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
@@ -41,18 +41,18 @@ set :keep_releases, 5
 # set :keep_releases, 5
 
 task :query_interactive do
-  on 'edward@inheavenpodcast.capa3.net:8022' do
+  on 'edward@lab.capa3.net:8022' do
     info capture("[[ $- == *i* ]] && echo 'Interactive' || echo 'Not interactive'")
   end
 end
 task :query_login do
-  on 'edward@inheavenpodcast.capa3.net:8022' do
+  on 'edward@lab.capa3.net:8022' do
     info capture("shopt -q login_shell && echo 'Login shell' || echo 'Not login shell'")
   end
 end
 
 task :sudo_test do
-  on 'edward@inheavenpodcast.capa3.net:8022' do
+  on 'edward@lab.capa3.net:8022' do
     info capture("whoami; sudo su - edward")
   end
 end
