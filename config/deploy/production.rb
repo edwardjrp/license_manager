@@ -34,7 +34,7 @@ server 'lab.capa3.net', user: 'edward', port: 8022
 #    auth_methods: %w(publickey password),
 #    password: "password goes here",
 #    user: "edward",
-#    port: 8022,
+   port: 8022
   }
 #
 # And/or per server (overrides global)
