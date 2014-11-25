@@ -3,6 +3,7 @@ lock '3.2.1'
 
 set :application, 'alm'
 set :repo_url, 'ssh://edward@lab.capa3.net:8022/home/edward/alm.git'
+#set :repo_url, 'ssh://edward@lab.capa3.net/home/edward/alm.git'
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call

@@ -4,7 +4,7 @@
 # is considered to be the first unless any hosts have the primary
 # property set.  Don't declare `role :all`, it's a meta role.
 
-role :app, %w{edward@ lab.capa3.net}
+role :app, %w{edward@lab.capa3.net}
 #role :web, %w{deploy@example.com}
 #role :db,  %w{deploy@example.com}
 
@@ -16,9 +16,9 @@ role :app, %w{edward@ lab.capa3.net}
 # used to set extended properties on the server.
 
 #set :password, ask('Server password:', nil)
-#server ' lab.capa3.net', user: 'edward', port: 8022, password: fetch(:password)
-server ' lab.capa3.net', user: 'edward', port: 8022
-
+#server 'lab.capa3.net', user: 'edward', port: 8022, password: fetch(:password)
+server 'lab.capa3.net', user: 'edward', port: 8022
+#server 'lab.capa3.net', user: 'edward'
 
 # Custom SSH Options
 # ==================
