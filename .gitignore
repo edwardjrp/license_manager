@@ -1,4 +1,4 @@
 vendor/
 .idea/
 .git/
-assets/licenses/
+assets/licenses/*
