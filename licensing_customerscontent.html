@@ -524,6 +524,12 @@ $(function(){
 				var year = expireDate.getFullYear();
 				var fullExpireDate = month + "/" + day + "/" + year;
 				$("#expirationDate").val(fullExpireDate);
+
+				//Checking the licenseType listbox
+				var licenseType = $("#id_license_type").val();
+				if ( (licenseType == 7) || (licenseType == 12) )
+					$("#expirationDate").val("");
+
 			} else {				
 				$("#expirationDate").val("");
 			}

@@ -779,8 +779,13 @@ function licensing_customerscontent_licensing_BeforeUpdate(& $sender)
 	$expDate = $licensing_customerscontent->licensing->expedition_date->GetValue();
 	$expirDate = $licensing_customerscontent->licensing->expiration_date->GetValue();
 	$licenseStatus = (int)$licensing_customerscontent->licensing->hidlicensestatus->GetValue();
+	$licenseType = (int)$licensing_customerscontent->licensing->id_license_type->GetValue();
 	if ( ($licenseStatus == 1) && (strlen($grantNo) > 0) && (count($expDate) > 1) && (count($expirDate) > 1) ) {		
 		$licensing_customerscontent->licensing->hidlicensestatus->SetValue("2");
+	} else {
+		if ( ($licenseStatus == 1) && (strlen($grantNo) > 0) && (count($expDate) > 1) && 
+		( ( ($licenseType == 7) || ($licenseType == 12) ) ) )
+			$licensing_customerscontent->licensing->hidlicensestatus->SetValue("2");
 	}
 
 // -------------------------
