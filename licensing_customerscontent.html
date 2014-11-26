@@ -729,8 +729,10 @@ $(function(){
 		//Disables the expirationDate if licenseType is perpetual
 		$("#id_license_type").chosen().change(function() {
 			var licenseType = $(this).val();
-			if (licenseType == 1) {
+			if ( (licenseType == 7) || (licenseType == 12) ) {
 				$("#expirationDate").prop("disabled","disabled");
+			} else {
+				$("#expirationDate").prop("disabled","");		
 			}
 		});
 

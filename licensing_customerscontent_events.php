@@ -402,7 +402,7 @@ function licensing_customerscontent_licensing_expiration_date_BeforeShow(& $send
  	$licenseType = $licensing_customerscontent->licensing->id_license_type->GetValue();
 	//Checking if licenseType is perpetual to disabled expirationDate input
 	//There is alsi a js code for clientside behavior
- 	if ( $licenseType == "1" ) {
+ 	if ( ( $licenseType == "7" ) || ($licenseType == "12") ) {
 		global $Tpl;
 		$Tpl->setvar("expirationDisabled","disabled");
 	}
