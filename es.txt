@@ -364,3 +364,4 @@ website=Pagina Web
 welcome=Bienvenido
 wireless_security=Seguridad Inalambrica
 workemail=Email de Trabajo
+granttype=Tipo Aut.

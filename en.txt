@@ -376,3 +376,4 @@ welcome=Welcome
 wireless_security=Wireless Security
 workemail=Work Email
 sku=SKU:
+granttype=Grant Type

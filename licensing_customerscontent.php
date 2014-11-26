@@ -639,7 +639,7 @@ class clsRecordlicensing_customerscontentlicensing { //licensing Class @154-009C
  // Class variables
 //End Variables
 
-//Class_Initialize Event @154-20916290
+//Class_Initialize Event @154-2DEDBF81
  function clsRecordlicensing_customerscontentlicensing($RelativePath, & $Parent)
  {
 
@@ -753,6 +753,13 @@ class clsRecordlicensing_customerscontentlicensing { //licensing Class @154-009C
    list($this->id_product->BoundColumn, $this->id_product->TextColumn, $this->id_product->DBFormat) = array("", "", "");
    $this->hidlicensestatus = new clsControl(ccsHidden, "hidlicensestatus", "hidlicensestatus", ccsText, "", CCGetRequestParam("hidlicensestatus", $Method, NULL), $this);
    $this->totalcost = new clsControl(ccsTextBox, "totalcost", "totalcost", ccsFloat, array(False, 2, Null, Null, False, "", "", 1, True, ""), CCGetRequestParam("totalcost", $Method, NULL), $this);
+   $this->granttype = new clsControl(ccsListBox, "granttype", $CCSLocales->GetText("granttype"), ccsInteger, "", CCGetRequestParam("granttype", $Method, NULL), $this);
+   $this->granttype->DSType = dsTable;
+   $this->granttype->DataSource = new clsDBdbConnection();
+   $this->granttype->ds = & $this->granttype->DataSource;
+   $this->granttype->DataSource->SQL = "SELECT * \n" .
+"FROM alm_license_granttypes {SQL_Where} {SQL_OrderBy}";
+   list($this->granttype->BoundColumn, $this->granttype->TextColumn, $this->granttype->DBFormat) = array("id", "granttype_name", "");
    $this->pncanceledit->Visible = false;
    $this->pncanceledit->AddComponent("params", $this->params);
    if(!$this->FormSubmitted) {
@@ -764,6 +771,8 @@ class clsRecordlicensing_customerscontentlicensing { //licensing Class @154-009C
      $this->nodes->SetText(1);
     if(!is_array($this->hidlicensestatus->Value) && !strlen($this->hidlicensestatus->Value) && $this->hidlicensestatus->Value !== false)
      $this->hidlicensestatus->SetText(1);
+    if(!is_array($this->granttype->Value) && !strlen($this->granttype->Value) && $this->granttype->Value !== false)
+     $this->granttype->SetText(1);
    }
   }
  }
@@ -780,7 +789,7 @@ class clsRecordlicensing_customerscontentlicensing { //licensing Class @154-009C
  }
 //End Initialize Method
 
-//Validate Method @154-738952B6
+//Validate Method @154-64BDCBB7
  function Validate()
  {
   global $CCSLocales;
@@ -813,6 +822,7 @@ class clsRecordlicensing_customerscontentlicensing { //licensing Class @154-009C
   $Validation = ($this->id_product->Validate() && $Validation);
   $Validation = ($this->hidlicensestatus->Validate() && $Validation);
   $Validation = ($this->totalcost->Validate() && $Validation);
+  $Validation = ($this->granttype->Validate() && $Validation);
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "OnValidate", $this);
   $Validation =  $Validation && ($this->manufacturer->Errors->Count() == 0);
   $Validation =  $Validation && ($this->suite_code->Errors->Count() == 0);
@@ -841,11 +851,12 @@ class clsRecordlicensing_customerscontentlicensing { //licensing Class @154-009C
   $Validation =  $Validation && ($this->id_product->Errors->Count() == 0);
   $Validation =  $Validation && ($this->hidlicensestatus->Errors->Count() == 0);
   $Validation =  $Validation && ($this->totalcost->Errors->Count() == 0);
+  $Validation =  $Validation && ($this->granttype->Errors->Count() == 0);
   return (($this->Errors->Count() == 0) && $Validation);
  }
 //End Validate Method
 
-//CheckErrors Method @154-D92B13BB
+//CheckErrors Method @154-F5ADA438
  function CheckErrors()
  {
   $errors = false;
@@ -880,6 +891,7 @@ class clsRecordlicensing_customerscontentlicensing { //licensing Class @154-009C
   $errors = ($errors || $this->id_product->Errors->Count());
   $errors = ($errors || $this->hidlicensestatus->Errors->Count());
   $errors = ($errors || $this->totalcost->Errors->Count());
+  $errors = ($errors || $this->granttype->Errors->Count());
   $errors = ($errors || $this->Errors->Count());
   $errors = ($errors || $this->DataSource->Errors->Count());
   return $errors;
@@ -943,7 +955,7 @@ function GetPrimaryKey($keyName)
  }
 //End Operation Method
 
-//InsertRow Method @154-D02B781D
+//InsertRow Method @154-03F48E1D
  function InsertRow()
  {
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeInsert", $this);
@@ -979,13 +991,14 @@ function GetPrimaryKey($keyName)
   $this->DataSource->id_product->SetValue($this->id_product->GetValue(true));
   $this->DataSource->hidlicensestatus->SetValue($this->hidlicensestatus->GetValue(true));
   $this->DataSource->totalcost->SetValue($this->totalcost->GetValue(true));
+  $this->DataSource->granttype->SetValue($this->granttype->GetValue(true));
   $this->DataSource->Insert();
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "AfterInsert", $this);
   return (!$this->CheckErrors());
  }
 //End InsertRow Method
 
-//UpdateRow Method @154-D5062A95
+//UpdateRow Method @154-0CD1D165
  function UpdateRow()
  {
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeUpdate", $this);
@@ -1021,13 +1034,14 @@ function GetPrimaryKey($keyName)
   $this->DataSource->id_product->SetValue($this->id_product->GetValue(true));
   $this->DataSource->hidlicensestatus->SetValue($this->hidlicensestatus->GetValue(true));
   $this->DataSource->totalcost->SetValue($this->totalcost->GetValue(true));
+  $this->DataSource->granttype->SetValue($this->granttype->GetValue(true));
   $this->DataSource->Update();
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "AfterUpdate", $this);
   return (!$this->CheckErrors());
  }
 //End UpdateRow Method
 
-//Show Method @154-EE3F9AAB
+//Show Method @154-CA2FADBF
  function Show()
  {
   global $CCSUseAmp;
@@ -1049,6 +1063,7 @@ function GetPrimaryKey($keyName)
   $this->id_license_sector->Prepare();
   $this->id_license_type->Prepare();
   $this->id_product->Prepare();
+  $this->granttype->Prepare();
 
   $RecordBlock = "Record " . $this->ComponentName;
   $ParentPath = $Tpl->block_path;
@@ -1085,6 +1100,7 @@ function GetPrimaryKey($keyName)
      $this->channel_sku->SetValue($this->DataSource->channel_sku->GetValue());
      $this->id_product->SetValue($this->DataSource->id_product->GetValue());
      $this->hidlicensestatus->SetValue($this->DataSource->hidlicensestatus->GetValue());
+     $this->granttype->SetValue($this->DataSource->granttype->GetValue());
     }
    } else {
     $this->EditMode = false;
@@ -1126,6 +1142,7 @@ function GetPrimaryKey($keyName)
    $Error = ComposeStrings($Error, $this->id_product->Errors->ToString());
    $Error = ComposeStrings($Error, $this->hidlicensestatus->Errors->ToString());
    $Error = ComposeStrings($Error, $this->totalcost->Errors->ToString());
+   $Error = ComposeStrings($Error, $this->granttype->Errors->ToString());
    $Error = ComposeStrings($Error, $this->Errors->ToString());
    $Error = ComposeStrings($Error, $this->DataSource->Errors->ToString());
    $Tpl->SetVar("Error", $Error);
@@ -1179,6 +1196,7 @@ function GetPrimaryKey($keyName)
   $this->id_product->Show();
   $this->hidlicensestatus->Show();
   $this->totalcost->Show();
+  $this->granttype->Show();
   $Tpl->parse();
   $Tpl->block_path = $ParentPath;
   $this->DataSource->close();
@@ -1189,7 +1207,7 @@ function GetPrimaryKey($keyName)
 
 class clslicensing_customerscontentlicensingDataSource extends clsDBdbConnection {  //licensingDataSource Class @154-180292B1
 
-//DataSource Variables @154-23771D39
+//DataSource Variables @154-626A691B
  public $Parent = "";
  public $CCSEvents = "";
  public $CCSEventResult;
@@ -1236,9 +1254,10 @@ class clslicensing_customerscontentlicensingDataSource extends clsDBdbConnection
  public $id_product;
  public $hidlicensestatus;
  public $totalcost;
+ public $granttype;
 //End DataSource Variables
 
-//DataSourceClass_Initialize Event @154-2402890D
+//DataSourceClass_Initialize Event @154-96FBB41E
  function clslicensing_customerscontentlicensingDataSource(& $Parent)
  {
   $this->Parent = & $Parent;
@@ -1306,6 +1325,8 @@ class clslicensing_customerscontentlicensingDataSource extends clsDBdbConnection
   
   $this->totalcost = new clsField("totalcost", ccsFloat, "");
   
+  $this->granttype = new clsField("granttype", ccsInteger, "");
+  
 
   $this->InsertFields["id_suite"] = array("Name" => "id_suite", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->InsertFields["id_licensed_by"] = array("Name" => "id_licensed_by", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
@@ -1328,6 +1349,7 @@ class clslicensing_customerscontentlicensingDataSource extends clsDBdbConnection
   $this->InsertFields["channel_sku"] = array("Name" => "channel_sku", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->InsertFields["id_product"] = array("Name" => "id_product", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->InsertFields["id_license_status"] = array("Name" => "id_license_status", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
+  $this->InsertFields["id_license_granttype"] = array("Name" => "id_license_granttype", "Value" => "", "DataType" => ccsInteger, "OmitIfEmpty" => 1);
   $this->UpdateFields["id_suite"] = array("Name" => "id_suite", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->UpdateFields["id_licensed_by"] = array("Name" => "id_licensed_by", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->UpdateFields["licensed_amount"] = array("Name" => "licensed_amount", "Value" => "", "DataType" => ccsInteger, "OmitIfEmpty" => 1);
@@ -1349,6 +1371,7 @@ class clslicensing_customerscontentlicensingDataSource extends clsDBdbConnection
   $this->UpdateFields["channel_sku"] = array("Name" => "channel_sku", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->UpdateFields["id_product"] = array("Name" => "id_product", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->UpdateFields["id_license_status"] = array("Name" => "id_license_status", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
+  $this->UpdateFields["id_license_granttype"] = array("Name" => "id_license_granttype", "Value" => "", "DataType" => ccsInteger, "OmitIfEmpty" => 1);
  }
 //End DataSourceClass_Initialize Event
 
@@ -1379,7 +1402,7 @@ class clslicensing_customerscontentlicensingDataSource extends clsDBdbConnection
  }
 //End Open Method
 
-//SetValues Method @154-F54BCCB9
+//SetValues Method @154-2ACB9101
  function SetValues()
  {
   $this->suite_code->SetDBValue($this->f("id_suite"));
@@ -1404,10 +1427,11 @@ class clslicensing_customerscontentlicensingDataSource extends clsDBdbConnection
   $this->id_license_status->SetDBValue($this->f("id_license_status"));
   $this->id_product->SetDBValue($this->f("id_product"));
   $this->hidlicensestatus->SetDBValue($this->f("id_license_status"));
+  $this->granttype->SetDBValue(trim($this->f("id_license_granttype")));
  }
 //End SetValues Method
 
-//Insert Method @154-68D62ED5
+//Insert Method @154-762D076A
  function Insert()
  {
   global $CCSLocales;
@@ -1435,6 +1459,7 @@ class clslicensing_customerscontentlicensingDataSource extends clsDBdbConnection
   $this->InsertFields["channel_sku"]["Value"] = $this->channel_sku->GetDBValue(true);
   $this->InsertFields["id_product"]["Value"] = $this->id_product->GetDBValue(true);
   $this->InsertFields["id_license_status"]["Value"] = $this->hidlicensestatus->GetDBValue(true);
+  $this->InsertFields["id_license_granttype"]["Value"] = $this->granttype->GetDBValue(true);
   $this->SQL = CCBuildInsert("alm_licensing", $this->InsertFields, $this);
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeExecuteInsert", $this->Parent);
   if($this->Errors->Count() == 0 && $this->CmdExecution) {
@@ -1444,7 +1469,7 @@ class clslicensing_customerscontentlicensingDataSource extends clsDBdbConnection
  }
 //End Insert Method
 
-//Update Method @154-FEC2DC79
+//Update Method @154-47BDFC2A
  function Update()
  {
   global $CCSLocales;
@@ -1472,6 +1497,7 @@ class clslicensing_customerscontentlicensingDataSource extends clsDBdbConnection
   $this->UpdateFields["channel_sku"]["Value"] = $this->channel_sku->GetDBValue(true);
   $this->UpdateFields["id_product"]["Value"] = $this->id_product->GetDBValue(true);
   $this->UpdateFields["id_license_status"]["Value"] = $this->hidlicensestatus->GetDBValue(true);
+  $this->UpdateFields["id_license_granttype"]["Value"] = $this->granttype->GetDBValue(true);
   $this->SQL = CCBuildUpdate("alm_licensing", $this->UpdateFields, $this);
   $this->SQL .= strlen($this->Where) ? " WHERE " . $this->Where : $this->Where;
   if (!strlen($this->Where) && $this->Errors->Count() == 0) 
@@ -1534,7 +1560,7 @@ class clslicensing_customerscontent { //licensing_customerscontent class @1-EBAC
  }
 //End Class_Terminate Event
 
-//BindEvents Method @1-78BCE901
+//BindEvents Method @1-38EF76D2
  function BindEvents()
  {
   $this->alm_customers->lbgoback->CCSEvents["BeforeShow"] = "licensing_customerscontent_alm_customers_lbgoback_BeforeShow";
@@ -1548,6 +1574,7 @@ class clslicensing_customerscontent { //licensing_customerscontent class @1-EBAC
   $this->alm_customers->CCSEvents["BeforeShow"] = "licensing_customerscontent_alm_customers_BeforeShow";
   $this->licensing->manufacturer->CCSEvents["BeforeShow"] = "licensing_customerscontent_licensing_manufacturer_BeforeShow";
   $this->licensing->suite_code->CCSEvents["BeforeShow"] = "licensing_customerscontent_licensing_suite_code_BeforeShow";
+  $this->licensing->expiration_date->CCSEvents["BeforeShow"] = "licensing_customerscontent_licensing_expiration_date_BeforeShow";
   $this->licensing->hidtab->CCSEvents["BeforeShow"] = "licensing_customerscontent_licensing_hidtab_BeforeShow";
   $this->licensing->hidcustomer_guid->CCSEvents["BeforeShow"] = "licensing_customerscontent_licensing_hidcustomer_guid_BeforeShow";
   $this->licensing->lbgoback->CCSEvents["BeforeShow"] = "licensing_customerscontent_licensing_lbgoback_BeforeShow";

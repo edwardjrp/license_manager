@@ -167,7 +167,11 @@
 											<tr>
 												<td nowrap>
 													<div class="action-buttons">
-														<div class="inline"><a href="licensing_customers.php?guid={lbguid}&license_guid={lblicense_guid}&tab=licensing" class="green"><i class="icon-pencil bigger-180"></i></a>														
+														<div class="inline">
+															<a href="licensing_customers.php?guid={lbguid}&license_guid={lblicense_guid}&tab=licensing" class="green"><i class="icon-pencil bigger-180"></i></a>
+														</div>
+														<div class="inline">
+															{linkdelete_license}
 														</div>
 													</div>
 												</td> 
@@ -187,10 +191,10 @@
 												<td class="red">{lbexpiration}</td> 
 												<td>{lblicense_for}</td> 
 												<td nowrap>
+													<span class="small orange smaller-80">{res:granttype}: &nbsp; {lbgranttype}</span><br>
 													<span class="small green smaller-140">{res:lbgrantno} &nbsp; {lbgrantnumber}</span><br>
 													<span class="small purple smaller-80">{res:lbserialno} &nbsp; {lbserialnumber}</span><br>
-													<span class="small blue smaller-80">{res:sku} &nbsp; {lbchannel_sku}</span><br>
-													<span class="small red smaller-80">{res:totalcost} &nbsp; {lbtotalcost}</span>
+													<span class="small blue smaller-80">{res:sku} &nbsp; {lbchannel_sku}</span>
 												</td>
 											</tr>
 											<!-- END license_list -->
@@ -231,7 +235,8 @@
 									<label class="control-label blue">{res:product_type}</label><br>
 									<select name="{id_product_type_Name}" id="id_product_type" class="width-90 chosen-select licensefilter">
 										<option value="">{res:selectoption}</option>
-										{id_product_type_Options}
+										
+{id_product_type_Options}
 									</select>
 								</div>
 
@@ -357,6 +362,16 @@
 								</div>
 								<div class="col-md-3 col-xs-12">
 									<div class="row col-xs-12">
+										<label class="control-label blue">{res:granttype}</label><br>
+										<select name="{granttype_Name}" class="width-90 chosen-select">
+											<option selected value="">{res:selectoption}</option>
+											{granttype_Options}
+										</select>
+									</div>
+								</div>
+
+								<div class="col-md-2 col-xs-12">
+									<div class="row col-xs-12">
 										<label class="control-label blue">{res:grantnumber}</label><br>
 										<input type="text" class="col-md-12 col-xs-12" value="{grant_number}" name="{grant_number_Name}">
 									</div>
@@ -374,12 +389,12 @@
 									<div class="row col-xs-12">
 										<label class="control-label blue">{res:expirationdate}</label><br>
 										<div class="input-group">
-											<input type="text" class="col-md-12 col-xs-12 date-picker" value="{expiration_date}" name="{expiration_date_Name}" data-date-format="mm/dd/yyyy" id="expirationDate">
+											<input type="text" class="col-md-12 col-xs-12 date-picker" value="{expiration_date}" name="{expiration_date_Name}" data-date-format="mm/dd/yyyy" id="expirationDate" {expirationDisabled}>
 											<span class="input-group-addon"><i class="icon-calendar bigger-110"></i></span>
 										</div>
 									</div>
 								</div>
-								<div class="col-md-4 col-xs-12">
+								<div class="col-md-2 col-xs-12">
 									<div class="row col-xs-12">
 										<label class="control-label blue">{res:serialnumber}</label><br>
 										<input type="text" class="col-md-12 col-xs-12" value="{serial_number}" name="{serial_number_Name}">
@@ -710,6 +725,14 @@ $(function(){
 
                 });
         });
+
+		//Disables the expirationDate if licenseType is perpetual
+		$("#id_license_type").chosen().change(function() {
+			var licenseType = $(this).val();
+			if (licenseType == 1) {
+				$("#expirationDate").prop("disabled","disabled");
+			}
+		});
 
 
         $(".dellicense").click(function(e) {

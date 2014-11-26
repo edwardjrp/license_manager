@@ -335,7 +335,7 @@ class Products {
 	             $fields_array = array("guid","suite_description","suite_code","type_icon_name","license_name","id_licensed_by",
 	             "licensedby_name","sector_name","reseller_name","description","nodes","licensed_amount","channel_sku"
 	             ,"msrp_price","dateupdated","license_status_name","alm_license_status_css_color","grant_number","expedition_date"
-	             ,"expiration_date","serial_number");
+	             ,"expiration_date","serial_number","granttype_name");
 	             $fields = implode(",",$fields_array);
 	             $sql = "select $fields from v_alm_licenses where id_customer = $customer_id";
 
@@ -591,6 +591,46 @@ class Products {
 			     $result["status"] = false;
 			     $result["message"] = "Invalid Filename";
 
+		     }
+
+	         $db->close();
+
+	         return $result;
+
+	     } else {
+	         $result["status"] = false;
+	         $result["message"] = "Invalid GUID";
+	         return $result;
+	     }
+
+    }
+
+	public function deleteFullLicenseByGuid($params = array()) {
+		$result = array("status" => false, "message" => "","license" => array());
+
+	    $license_guid = trim($params["license_guid"]);
+
+	     if (strlen($license_guid) > 0) {
+	         $db = new \clsDBdbConnection();
+
+		     $license_id = (int)CCDLookUp("id","alm_licensing"," guid = '$license_guid' ",$db);
+		     if ($license_id > 0) {
+			     $sql = "select guid from alm_license_files where id_license = $license_id ";
+			     $db->query($sql);
+			     while($db->next_record()) {
+				     $this->deleteLicenseFileByGuid( array("licensefile_guid" => $db->f("guid")) );
+			     }
+
+	             //Deleting record after deleting phisical file
+			     $sql = "delete from alm_licensing where guid = '$license_guid' ";
+			     $db->query($sql);
+
+			     $result["status"] = true;
+			     $result["message"] = "Command executed successfully";
+
+		     } else {
+			     $result["status"] = false;
+			     $result["message"] = "Invalid license id";
 		     }
 
 	         $db->close();

@@ -281,6 +281,8 @@ function licensing_customerscontent_alm_customers_BeforeShow(& $sender)
 			$licenseBy = $license["id_licensed_by"];
 			$nodes = $license["nodes"];
 			$licenseAmount = $license["licensed_amount"];
+
+			/* //Total cost display disabled
 			$totalCost = 0;
 			switch ($licenseBy) {
 				case "1" :
@@ -298,6 +300,9 @@ function licensing_customerscontent_alm_customers_BeforeShow(& $sender)
 			}
 
 			$Tpl->setvar("lbtotalcost","$ ".number_format($totalCost,2));
+			*/
+
+			$Tpl->setvar("lbgranttype",$license["granttype_name"]);
 
 			$Tpl->setvar("lblicense_for",$license["sector_name"]);
 			$Tpl->setvar("lbgrantnumber",$license["grant_number"]);
@@ -306,6 +311,14 @@ function licensing_customerscontent_alm_customers_BeforeShow(& $sender)
 			$expirDate = date("m/d/Y",strtotime($license["expiration_date"]));
 			$Tpl->setvar("lbexpiration",$expirDate);
 			$Tpl->setvar("lbserialnumber",$license["serial_number"]);
+
+			//Generate link to delete license only for admins
+			$linkdelete_license = "";
+			if (CCGetGroupID() == "4") {
+				$licenseGuid = $license["guid"];
+				$linkdelete_license = "<a href='licensing_customers.php?guid=$guid&o=delfulllicense&license_guid=$licenseGuid' class='dellicense'><li class='icon-trash bigger-150 red'></li></a>";
+			}
+			$Tpl->setvar("linkdelete_license",$linkdelete_license);
 
 			$Tpl->parse("license_list",true);
 		}
@@ -373,6 +386,33 @@ function licensing_customerscontent_licensing_suite_code_BeforeShow(& $sender)
  return $licensing_customerscontent_licensing_suite_code_BeforeShow;
 }
 //End Close licensing_customerscontent_licensing_suite_code_BeforeShow
+
+//licensing_customerscontent_licensing_expiration_date_BeforeShow @184-994A6DD9
+function licensing_customerscontent_licensing_expiration_date_BeforeShow(& $sender)
+{
+ $licensing_customerscontent_licensing_expiration_date_BeforeShow = true;
+ $Component = & $sender;
+ $Container = & CCGetParentContainer($sender);
+ global $licensing_customerscontent; //Compatibility
+//End licensing_customerscontent_licensing_expiration_date_BeforeShow
+
+//Custom Code @221-2A29BDB7
+// -------------------------
+ // Write your own code here.
+ 	$licenseType = $licensing_customerscontent->licensing->id_license_type->GetValue();
+	//Checking if licenseType is perpetual to disabled expirationDate input
+	//There is alsi a js code for clientside behavior
+ 	if ( $licenseType == "1" ) {
+		global $Tpl;
+		$Tpl->setvar("expirationDisabled","disabled");
+	}
+// -------------------------
+//End Custom Code
+
+//Close licensing_customerscontent_licensing_expiration_date_BeforeShow @184-068C01A9
+ return $licensing_customerscontent_licensing_expiration_date_BeforeShow;
+}
+//End Close licensing_customerscontent_licensing_expiration_date_BeforeShow
 
 //licensing_customerscontent_licensing_hidtab_BeforeShow @195-D622CAAE
 function licensing_customerscontent_licensing_hidtab_BeforeShow(& $sender)
@@ -889,12 +929,24 @@ function licensing_customerscontent_BeforeShow(& $sender)
 	$o = trim(CCGetFromGet("o",""));
 
 	//Delete licensing operation
-	if ( (strlen($licensefile_guid) > 0) && ($o = "dellicense") ) {
+	if ( (strlen($licensefile_guid) > 0) && ($o == "dellicense") ) {
 		$params = array();
 		$params["licensefile_guid"] = $licensefile_guid;
 		$products = new \Alm\Products();
 		$products->deleteLicenseFileByGuid($params);
  		$querystring = CCGetQueryString("QueryString",array("licensefile_guid","o"));
+		global $FileName;
+		$urlRedirect = $FileName."?$querystring"; 
+		header("Location: $urlRedirect");			
+	}
+
+	//Delete full licensing operation
+	if ( (strlen($license_guid) > 0) && ($o == "delfulllicense") ) {
+		$params = array();
+		$params["license_guid"] = $license_guid;
+		$products = new \Alm\Products();
+		$products->deleteFullLicenseByGuid($params);
+ 		$querystring = CCGetQueryString("QueryString",array("license_guid","o"));
 		global $FileName;
 		$urlRedirect = $FileName."?$querystring"; 
 		header("Location: $urlRedirect");			
