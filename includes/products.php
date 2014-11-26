@@ -337,7 +337,7 @@ class Products {
 	             ,"msrp_price","dateupdated","license_status_name","alm_license_status_css_color","grant_number","expedition_date"
 	             ,"expiration_date","serial_number","granttype_name");
 	             $fields = implode(",",$fields_array);
-	             $sql = "select $fields from v_alm_licenses where id_customer = $customer_id";
+	             $sql = "select $fields from v_alm_licenses where id_customer = $customer_id order by grant_number";
 
 	             $db->query($sql);
 
