@@ -174,7 +174,8 @@
 															{linkdelete_license}
 														</div>
 														<div class="inline">
-															<a class="popover-info" role="button&quot;data-animation=&quot;true" data-toggle="popover" data-html="true" data-rel="popover" data-placement="right" data-original-title="<span class='purple'>{res:relatedlicenses}</span>" data-content="
+															
+<a class="popover-info" role="button" data-animation="true" data-toggle="popover" data-html="true" data-rel="popover" data-placement="right" data-original-title="<span class='purple'>{res:relatedlicenses}</span>" data-content="
 																<div class='table-responsive'>
 																<table class='table table-striped table-bordered table-hover'>
 																	<tr>
@@ -188,17 +189,39 @@
 																		<th class='blue'>{res:licensesector}</th>
 																		<th class='blue'>{res:licenseinfo}</th>
 																	</tr>
+																	<!-- BEGIN license_popup -->
 																	<tr>
-																		<td>Content 1</td>
-																		<td>Content 2</td>
-																		<td>Content 2</td>
-																		<td>Content 2</td>
-																		<td>Content 2</td>
-																		<td>Content 2</td>
-																		<td>Content 2</td>
-																		<td>Content 2</td>
-																		<td>Content 2</td>
+																		<td nowrap>
+																			<div class='action-buttons'>
+																				<div class='inline'>
+																					<a href='licensing_customers.php?guid={lbguid_popup}&license_guid={lblicense_guid_popup}&tab=licensing' class='green'><i class='icon-pencil bigger-180'></i></a>
+																				</div>
+																				<div class='inline'>
+																					{linkdelete_license_popup}
+																				</div>
+																			</div>
+																		</td>
+																		<td class='text-center'>{lbsuite_code_popup}<br>
+																			<span class='{lblicense_status_css_popup} arrowed-in'>{lblicense_status_popup}</span>
+																		</td>
+																		<td class='text-center'><img src='assets/{lbproduct_typeicon_popup}'></td>
+																		<td nowrap><span class='orange'>{lbsuite_description_popup}</span> <br>
+																			<span class=''>{lbdescription_popup}</span> <br>
+																			<span class='green'>{lblicense_name_popup}</span> <br>
+																			<span class='blue'>{res:licensedby}:&nbsp;{lblicensedby_name_popup}</span>																		
+																		</td>
+																		<td class='text-right'>{lbnodes_qty_popup}</td>
+																		<td class='green'>{lbexpedition_popup}</td>
+																		<td class='red'>{lbexpiration_popup}</td>
+																		<td>{lblicense_for_popup}</td>
+																		<td nowrap>
+																			<span class='small orange smaller-80'>{res:granttype}: &nbsp; {lbgranttype_popup}</span><br>
+																			<span class='small green smaller-140'>{res:lbgrantno} &nbsp; {lbgrantnumber_popup}</span><br>
+																			<span class='small purple smaller-80'>{res:lbserialno} &nbsp; {lbserialnumber_popup}</span><br>
+																			<span class='small blue smaller-80'>{res:sku} &nbsp; {lbchannel_sku_popup}</span>																		
+																		</td>
 																	</tr>
+																	<!-- END license_popup -->
 																</table>
 																</div>
 																">
@@ -393,7 +416,8 @@
 								</div>
 								<div class="col-md-3 col-xs-12">
 									<div class="row col-xs-12">
-										<label class="control-label blue">{res:granttype}</label><br>
+										<label class="control-label blue">
+{res:granttype}</label><br>
 										<select name="{granttype_Name}" class="width-90 chosen-select">
 											<option selected value="">{res:selectoption}</option>
 											{granttype_Options}
@@ -403,8 +427,7 @@
 
 								<div class="col-md-2 col-xs-12">
 									<div class="row col-xs-12">
-										<label class="control-label blue">
-{res:grantnumber}</label><br>
+										<label class="control-label blue">{res:grantnumber}</label><br>
 										<input type="text" class="col-md-12 col-xs-12" value="{grant_number}" name="{grant_number_Name}">
 									</div>
 								</div>
@@ -507,6 +530,14 @@
 	<!-- widget-body -->
 </div>
 <!-- widget-box -->
+
+<!-- fixed style for popup box table to cover the whole table -->
+<style>
+	.popover {
+		max-width: 100%
+	}
+</style>
+
 <link rel="stylesheet" href="assets/css/datepicker.css">
 <link rel="stylesheet" href="assets/css/colorbox.css">
 <link rel="stylesheet" href="assets/css/chosen.css">
@@ -561,8 +592,12 @@ $(function(){
 
 				//Checking the licenseType listbox
 				var licenseType = $("#id_license_type").val();
-				if ( (licenseType == 7) || (licenseType == 12) )
+				if ( (licenseType == 7) || (licenseType == 12) ) {
 					$("#expirationDate").val("");
+					$("#expirationDate").prop("disabled","disabled");
+				} else {
+					$("#expirationDate").prop("disabled","");						
+				}
 
 			} else {				
 				$("#expirationDate").val("");
@@ -628,6 +663,16 @@ $(function(){
                         $("#msrp_price").val(0);
                         $("#products").empty();
                         $("#products").trigger("chosen:updated");
+
+						//Checking the licenseType listbox
+						var licenseType = $("#id_license_type").val();
+						if ( (licenseType == 7) || (licenseType == 12) ) {
+							$("#expirationDate").val("");
+							$("#expirationDate").prop("disabled","disabled");
+						} else {
+							$("#expirationDate").prop("disabled","");						
+						}
+
 					}
 
 					$.each(msg.products, function() {
@@ -657,6 +702,14 @@ $(function(){
 						licenseType = licenseType || 0;
 						id_license_type.val(licenseType);
 						id_license_type.trigger("chosen:updated");
+
+						//Checking the licenseType listbox
+						if ( (licenseType == 7) || (licenseType == 12) ) {
+							$("#expirationDate").val("");
+							$("#expirationDate").prop("disabled","disabled");
+						} else {
+							$("#expirationDate").prop("disabled","");						
+						}
 
 						suitedescription.val(this.suite_description);
                         $("#id_licensed_by_"+this.id_licensed_by).click();      
@@ -789,10 +842,13 @@ $(function(){
          });
 
 		//Related licenses popover
-		var popover = $("[data-rel=popover]").popover();
-		popover.on("show.bs.popover", function() {
-			popover.data()["bs.popover"].$tip.css("max-width", "90%");
-		});
+		$("[data-rel=popover]").popover();
+		
+		//Using events on popovers, strangely only the first element was firing it
+		//var popover = $("[data-rel=popover]").popover();
+		//popover.on("show.bs.popover", function() {
+		//	popover.data()["bs.popover"].$tip.css("max-width", "90%");
+		//});
 
 	
 	//Inside a panel because when dropzone element is not present throws an error and mess js scripts in menus

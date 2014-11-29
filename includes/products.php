@@ -332,13 +332,118 @@ class Products {
 
 	         $customer_id = (int)CCDLookUp("id","alm_customers","guid = '$customer_guid' ",$db);
 	         if ($customer_id > 0) {
-	             $fields_array = array("guid","suite_description","suite_code","type_icon_name","license_name","id_licensed_by",
+	             $fields_array = array("id","guid","suite_description","suite_code","type_icon_name","license_name","id_licensed_by",
 	             "licensedby_name","sector_name","reseller_name","description","nodes","licensed_amount","channel_sku"
 	             ,"msrp_price","dateupdated","license_status_name","alm_license_status_css_color","grant_number","expedition_date"
 	             ,"expiration_date","serial_number","granttype_name");
 	             $fields = implode(",",$fields_array);
 	             $sql = "select $fields from v_alm_licenses where id_customer = $customer_id order by grant_number";
 
+	             $db->query($sql);
+
+	             while ($db->next_record()) {
+	                 $row = array();
+	                 foreach($fields_array as $field) {
+	                     $row[$field] = $db->f($field);
+	                 }
+		             $licenses[] = $row;
+
+	             }
+
+	         }
+
+	         $db->close();
+
+	         $result["status"] = true;
+	         $result["licenses"] = $licenses;
+	         $result["message"] = "Command executed successfully.";
+
+	         return $result;
+
+	     } else {
+	         $result["status"] = false;
+	         $result["message"] = "Invalid GUID";
+	         return $result;
+	     }
+
+    }
+
+	/* This function returns licenses that share the same grant number except the license id
+	 * sent as part of the params, it is specially used to display the grid licensing information popup
+	 *for licenses sharing the same grant number
+	 *
+	*/
+	public function getCustomerRelatedLicenses($params = array()) {
+		$result = array("status" => false, "message" => "","licenses" => array());
+	    $customer_guid = $params["customer_guid"];
+		$grantNumber = $params["grant_number"];
+		$licenseID = $params["license_id"];
+
+	     if (strlen($customer_guid) > 0) {
+	         $db = new \clsDBdbConnection();
+	         $licenses = array();
+
+	         $customer_id = (int)CCDLookUp("id","alm_customers","guid = '$customer_guid' ",$db);
+	         if ($customer_id > 0) {
+	             $fields_array = array("id","guid","suite_description","suite_code","type_icon_name","license_name","id_licensed_by",
+	             "licensedby_name","sector_name","reseller_name","description","nodes","licensed_amount","channel_sku"
+	             ,"msrp_price","dateupdated","license_status_name","alm_license_status_css_color","grant_number","expedition_date"
+	             ,"expiration_date","serial_number","granttype_name");
+	             $fields = implode(",",$fields_array);
+	             $sql = "select $fields from v_alm_licenses where id_customer = $customer_id
+ 						 and grant_number = '$grantNumber' and id != $licenseID ";
+
+	             $db->query($sql);
+
+	             while ($db->next_record()) {
+	                 $row = array();
+	                 foreach($fields_array as $field) {
+	                     $row[$field] = $db->f($field);
+	                 }
+		             $licenses[] = $row;
+
+	             }
+
+	         }
+
+	         $db->close();
+
+	         $result["status"] = true;
+	         $result["licenses"] = $licenses;
+	         $result["message"] = "Command executed successfully.";
+
+	         return $result;
+
+	     } else {
+	         $result["status"] = false;
+	         $result["message"] = "Invalid GUID";
+	         return $result;
+	     }
+
+    }
+
+	/* This function returns licenses filtering the ones with the same grant number
+	 *
+	 * It is specially used to display the grid licensing information and popup equivalent
+	 *for licenses sharing the same grant number
+	 *
+	*/
+	public function getCustomerUniqueLicenses($params = array()) {
+		$result = array("status" => false, "message" => "","licenses" => array());
+	    $customer_guid = $params["customer_guid"];
+	     if (strlen($customer_guid) > 0) {
+	         $db = new \clsDBdbConnection();
+	         $licenses = array();
+
+	         $customer_id = (int)CCDLookUp("id","alm_customers","guid = '$customer_guid' ",$db);
+	         if ($customer_id > 0) {
+	             $fields_array = array("id","guid","suite_description","suite_code","type_icon_name","license_name","id_licensed_by",
+	             "licensedby_name","sector_name","reseller_name","description","nodes","licensed_amount","channel_sku"
+	             ,"msrp_price","dateupdated","license_status_name","alm_license_status_css_color","grant_number","expedition_date"
+	             ,"expiration_date","serial_number","granttype_name");
+	             $fields = implode(",",$fields_array);
+	             $sql = "select $fields from v_alm_licenses where id_customer = $customer_id
+						 and id in (select id from v_alm_licenses where id_customer = 21 group by grant_number) ";
 	             $db->query($sql);
 
 	             while ($db->next_record()) {

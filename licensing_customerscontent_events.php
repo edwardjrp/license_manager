@@ -255,7 +255,7 @@ function licensing_customerscontent_alm_customers_BeforeShow(& $sender)
 
 		//Filling up licenses grid
 		$products = new \Alm\Products();
-		$licenses = $products->getCustomerLicenses($params);
+		$licenses = $products->getCustomerUniqueLicenses($params);
 		$allLicenses = $licenses["licenses"];
 		foreach($allLicenses as $license) {
 			$Tpl->setvar("lbguid",$guid);
@@ -306,9 +306,19 @@ function licensing_customerscontent_alm_customers_BeforeShow(& $sender)
 
 			$Tpl->setvar("lblicense_for",$license["sector_name"]);
 			$Tpl->setvar("lbgrantnumber",$license["grant_number"]);
-			$expDate = date("m/d/Y",strtotime($license["expedition_date"]));
+
+			if ( strlen($license["expedition_date"]) <= 0 )
+				$expDate = "";
+			else	
+				$expDate = date("m/d/Y",strtotime($license["expedition_date"]));
+
 			$Tpl->setvar("lbexpedition",$expDate);
-			$expirDate = date("m/d/Y",strtotime($license["expiration_date"]));
+
+			if ( strlen($license["expiration_date"]) <= 0 )
+				$expirDate = "";
+			else	
+				$expirDate = date("m/d/Y",strtotime($license["expiration_date"]));
+
 			$Tpl->setvar("lbexpiration",$expirDate);
 			$Tpl->setvar("lbserialnumber",$license["serial_number"]);
 
@@ -319,6 +329,80 @@ function licensing_customerscontent_alm_customers_BeforeShow(& $sender)
 				$linkdelete_license = "<a href='licensing_customers.php?guid=$guid&o=delfulllicense&license_guid=$licenseGuid' class='dellicense'><li class='icon-trash bigger-150 red'></li></a>";
 			}
 			$Tpl->setvar("linkdelete_license",$linkdelete_license);
+
+
+	        $parentPath = $Tpl->block_path;
+	        $Tpl->block_path = $Tpl->block_path."/license_list";		
+			$Tpl->SetBlockVar("license_popup","");
+			
+
+			//Displaying popup table for licenses with the same grant number
+			$grantNumber =  $license["grant_number"];
+			$licenseID = $license["id"];
+
+			$params["grant_number"] = $grantNumber;
+			$params["license_id"] = $licenseID;
+			$licensesPopup = $products->getCustomerRelatedLicenses($params);
+			$allLicensesPopup = $licensesPopup["licenses"];
+			foreach($allLicensesPopup as $licensePopup) {
+				$Tpl->setvar("lbguid_popup",$guid);
+				$Tpl->setvar("lblicense_guid_popup",$licensePopup["guid"]);						
+				$Tpl->setvar("lbsuite_code_popup",$licensePopup["suite_code"]);
+				$Tpl->setvar("lbsuite_description_popup",$licensePopup["suite_description"]);
+				$Tpl->setvar("lbdescription_popup",$licensePopup["description"]);
+				$Tpl->setvar("lbproduct_typeicon_popup",$licensePopup["type_icon_name"]);
+				$Tpl->setvar("lblicense_name_popup",$licensePopup["license_name"]);
+				$Tpl->setvar("lblicensedby_name_popup",$licensePopup["licensedby_name"]);
+				$Tpl->setvar("lblicense_status_popup",$licensePopup["license_status_name"]);
+				$Tpl->setvar("lblicense_status_css_popup",$licensePopup["alm_license_status_css_color"]);
+
+				if ($licensePopup["id_licensed_by"] == "1")
+					$Tpl->setvar("lbnodes_qty_popup",$licensePopup["nodes"]);
+				else 
+					$Tpl->setvar("lbnodes_qty_popup",$licensePopup["licensed_amount"]);
+
+				$Tpl->setvar("lbchannel_sku_popup",$licensePopup["channel_sku"]);
+
+				//Total cost of license
+				$price = $licensePopup["msrp_price"];
+				$licenseBy = $licensePopup["id_licensed_by"];
+				$nodes = $licensePopup["nodes"];
+				$licenseAmount = $licensePopup["licensed_amount"];
+
+				$Tpl->setvar("lbgranttype_popup",$licensePopup["granttype_name"]);
+				$Tpl->setvar("lblicense_for_popup",$licensePopup["sector_name"]);
+				$Tpl->setvar("lbgrantnumber_popup",$licensePopup["grant_number"]);
+
+				if ( strlen($licensePopup["expedition_date"]) <= 0 )
+					$expDate = "";
+				else	
+					$expDate = date("m/d/Y",strtotime($licensePopup["expedition_date"]));
+
+				$Tpl->setvar("lbexpedition_popup",$expDate);
+
+				if ( strlen($licensePopup["expiration_date"]) <= 0 )
+					$expirDate = "";
+				else	
+					$expirDate = date("m/d/Y",strtotime($licensePopup["expiration_date"]));
+
+				$Tpl->setvar("lbexpiration_popup",$expirDate);
+				$Tpl->setvar("lbserialnumber_popup",$licensePopup["serial_number"]);
+
+				//Generate link to delete license only for admins
+				$linkdelete_license = "";
+				if (CCGetGroupID() == "4") {
+					$licenseGuid = $licensePopup["guid"];
+					$linkdelete_license = "<a href='licensing_customers.php?guid=$guid&o=delfulllicense&license_guid=$licenseGuid' class='dellicense'><li class='icon-trash bigger-150 red'></li></a>";
+				}
+				$Tpl->setvar("linkdelete_license_popup",$linkdelete_license);
+
+				$Tpl->parse("license_popup", true);
+			
+			} //foreach licenses group into a popup for those with same grant number
+
+			$table_detail = $Tpl->GetVar("license_popup");
+			$Tpl->block_path = $parentPath;
+			$Tpl->SetBlockVar("license_popup",$table_detail);
 
 			$Tpl->parse("license_list",true);
 		}
@@ -703,6 +787,28 @@ function licensing_customerscontent_licensing_BeforeInsert(& $sender)
 	$db->close();
 	$licensing_customerscontent->licensing->hidcustomer_id->SetValue($customer_id);
 
+
+	//Changing license status to active when inactive and grant,expdate,expirdate are present
+	$grantNo = trim($licensing_customerscontent->licensing->grant_number->GetValue());
+	$expDate = $licensing_customerscontent->licensing->expedition_date->GetValue();
+	$expirDate = $licensing_customerscontent->licensing->expiration_date->GetValue();
+	$licenseStatus = (int)$licensing_customerscontent->licensing->hidlicensestatus->GetValue();
+	$licenseType = (int)$licensing_customerscontent->licensing->id_license_type->GetValue();
+
+	//Making sure that perpetual licenses dont get expiration date values
+	if ( ($licenseStatus == 1) && (strlen($grantNo) > 0) && (count($expDate) > 1) && (count($expirDate) > 1) ) {
+
+		if ( ($licenseType == 7) || ($licenseType == 12) )
+			$licensing_customerscontent->licensing->expiration_date->SetValue("");
+		$licensing_customerscontent->licensing->hidlicensestatus->SetValue("2");
+
+	} else {
+		if ( ($licenseStatus == 1) && (strlen($grantNo) > 0) && (count($expDate) > 1) && 
+		( ( ($licenseType == 7) || ($licenseType == 12) ) ) )
+			$licensing_customerscontent->licensing->hidlicensestatus->SetValue("2");
+			$licensing_customerscontent->licensing->expiration_date->SetValue("");
+	}
+
 // -------------------------
 //End Custom Code
 
@@ -780,12 +886,18 @@ function licensing_customerscontent_licensing_BeforeUpdate(& $sender)
 	$expirDate = $licensing_customerscontent->licensing->expiration_date->GetValue();
 	$licenseStatus = (int)$licensing_customerscontent->licensing->hidlicensestatus->GetValue();
 	$licenseType = (int)$licensing_customerscontent->licensing->id_license_type->GetValue();
-	if ( ($licenseStatus == 1) && (strlen($grantNo) > 0) && (count($expDate) > 1) && (count($expirDate) > 1) ) {		
+
+	if ( ($licenseStatus == 1) && (strlen($grantNo) > 0) && (count($expDate) > 1) && (count($expirDate) > 1) ) {
+
+		if ( ($licenseType == 7) || ($licenseType == 12) )
+			$licensing_customerscontent->licensing->expiration_date->SetValue("");
 		$licensing_customerscontent->licensing->hidlicensestatus->SetValue("2");
+
 	} else {
 		if ( ($licenseStatus == 1) && (strlen($grantNo) > 0) && (count($expDate) > 1) && 
 		( ( ($licenseType == 7) || ($licenseType == 12) ) ) )
 			$licensing_customerscontent->licensing->hidlicensestatus->SetValue("2");
+			$licensing_customerscontent->licensing->expiration_date->SetValue("");
 	}
 
 // -------------------------
