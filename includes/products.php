@@ -370,7 +370,7 @@ class Products {
 
 	/* This function returns licenses that share the same grant number except the license id
 	 * sent as part of the params, it is specially used to display the grid licensing information popup
-	 *for licenses sharing the same grant number
+	 *for licenses sharing the same grant number.
 	 *
 	*/
 	public function getCustomerRelatedLicenses($params = array()) {
