@@ -71,6 +71,8 @@ namespace :deploy do
       execute "ln -s /home/edward/alm/shared/Common.php /home/edward/alm/current/Common.php"
       #Symlink to the shared licenses folder outside of the capistrano deployment because it overwrites it and this dir holds production data
       execute "ln -s /home/edward/alm/shared/licenses/ /home/edward/alm/current/assets/licenses"
+      #Symlink the vendor folder to the shared environment, if updated with composer, the folder must be regenerated and then moved to the shared folder
+      execute "ln -s /home/edward/alm/shared/vendor/ /home/edward/alm/current/vendor"
     end
   end
 
