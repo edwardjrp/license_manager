@@ -443,7 +443,7 @@ class Products {
 	             ,"expiration_date","serial_number","granttype_name");
 	             $fields = implode(",",$fields_array);
 	             $sql = "select $fields from v_alm_licenses where id_customer = $customer_id
-						 and id in (select id from v_alm_licenses where id_customer = 21 group by grant_number) ";
+						 and id in (select id from v_alm_licenses where id_customer = $customer_id group by grant_number) ";
 	             $db->query($sql);
 
 	             while ($db->next_record()) {
