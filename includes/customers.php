@@ -573,11 +573,16 @@ class Customers {
 					$fields_array = array( "id", "guid", "reseller_name as title" );
 					$table = "alm_resellers";
 				break;
+				case "license_granttypes" :
+					$fields_array = array( "id", "guid", "granttype_name as title" );
+					$table = "alm_license_granttypes";
+				break;
 				case "city" :
 				default :
 					$fields_array = array( "id", "guid", "city as title" );
 					$table = "alm_city";
 				break;
+
 			}
 
 			$fields = implode(",", $fields_array);
@@ -656,6 +661,9 @@ class Customers {
 				break;
 				case "resellers" :
 					$table = "alm_resellers";
+				break;
+				case "license_granttypes" :
+					$table = "alm_license_granttypes";
 				break;
 				case "city" :
 				default :
@@ -738,6 +746,10 @@ class Customers {
 				case "resellers" :
 					$fields_array = array( "id", "guid", "reseller_name as title" );
 					$table = "alm_resellers";
+				break;
+				case "license_granttypes" :
+					$fields_array = array( "id", "guid", "granttype_name as title" );
+					$table = "alm_license_granttypes";
 				break;
 				case "city" :
 				default :
@@ -833,6 +845,10 @@ class Customers {
 					$fields_array = array( "guid", "reseller_name", "created_iduser" );
 					$table = "alm_resellers";
 				break;
+				case "license_granttypes" :
+					$fields_array = array( "guid", "granttype_name", "created_iduser" );
+					$table = "alm_license_granttypes";
+				break;
 				case "city" :
 				default :
 					$fields_array = array( "guid", "city", "created_iduser" );
@@ -924,6 +940,10 @@ class Customers {
 				case "resellers" :
 					$fields_array = array( "reseller_name = '$title' ", "modified_iduser = $userid" );
 					$table = "alm_resellers";
+				break;
+				case "license_granttypes" :
+					$fields_array = array( "granttype_name = '$title' ", "modified_iduser = $userid" );
+					$table = "alm_license_granttypes";
 				break;
 				case "city" :
 				default :

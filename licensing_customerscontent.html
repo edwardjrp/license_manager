@@ -215,10 +215,10 @@
 																		<td class='red'>{lbexpiration_popup}</td>
 																		<td>{lblicense_for_popup}</td>
 																		<td nowrap>
-																			<span class='small orange smaller-80'>{res:granttype}: &nbsp; {lbgranttype_popup}</span><br>
-																			<span class='small green smaller-140'>{res:lbgrantno} &nbsp; {lbgrantnumber_popup}</span><br>
-																			<span class='small purple smaller-80'>{res:lbserialno} &nbsp; {lbserialnumber_popup}</span><br>
-																			<span class='small blue smaller-80'>{res:sku} &nbsp; {lbchannel_sku_popup}</span>																		
+																			<span class='small orange smaller-80'>{res:granttype}:&nbsp;{lbgranttype_popup}</span><br>
+																			<span class='small green smaller-140'>{res:lbnumber}&nbsp;{lbgrantnumber_popup}</span><br>
+																			<span class='small purple smaller-80'>{res:lbserialno}&nbsp;{lbserialnumber_popup}</span><br>
+																			<span class='small blue smaller-80'>{res:sku}&nbsp;{lbchannel_sku_popup}</span>																		
 																		</td>
 																	</tr>
 																	<!-- END license_popup -->
@@ -246,10 +246,10 @@
 												<td class="red">{lbexpiration}</td> 
 												<td>{lblicense_for}</td> 
 												<td nowrap>
-													<span class="small orange smaller-80">{res:granttype}: &nbsp; {lbgranttype}</span><br>
-													<span class="small green smaller-140">{res:lbgrantno} &nbsp; {lbgrantnumber}</span><br>
-													<span class="small purple smaller-80">{res:lbserialno} &nbsp; {lbserialnumber}</span><br>
-													<span class="small blue smaller-80">{res:sku} &nbsp; {lbchannel_sku}</span>
+													<span class="small orange smaller-80">{res:granttype}:&nbsp;{lbgranttype}</span><br>
+													<span class="small green smaller-140">{res:lbnumber}&nbsp;{lbgrantnumber}</span><br>
+													<span class="small purple smaller-80">{res:lbserialno}&nbsp;{lbserialnumber}</span><br>
+													<span class="small blue smaller-80">{res:sku}&nbsp;{lbchannel_sku}</span>
 												</td>
 											</tr>
 											<!-- END license_list -->
@@ -414,23 +414,19 @@
 							<div class="row col-xs-12">
 								<div class="col-md-1 col-xs-0">
 								</div>
-								<div class="col-md-3 col-xs-12">
+								<div class="col-md-4 col-xs-12">
 									<div class="row col-xs-12">
-										<label class="control-label blue">
-{res:granttype}</label><br>
-										<select name="{granttype_Name}" class="width-90 chosen-select">
-											<option selected value="">{res:selectoption}</option>
-											{granttype_Options}
-										</select>
+										<div class="col-md-12 col-xs-12">
+											<label class="control-label blue">{res:granttype}</label><br>
+											<select name="{granttype_Name}" class="width-90 chosen-select">
+												<option selected value="">{res:selectoption}</option>
+												{granttype_Options}
+											</select>
+											<input type="text" class="col-md-11 col-xs-12" value="{grant_number}" name="{grant_number_Name}">
+										</div>
 									</div>
 								</div>
 
-								<div class="col-md-2 col-xs-12">
-									<div class="row col-xs-12">
-										<label class="control-label blue">{res:grantnumber}</label><br>
-										<input type="text" class="col-md-12 col-xs-12" value="{grant_number}" name="{grant_number_Name}">
-									</div>
-								</div>
 								<div class="col-md-2 col-xs-12">
 									<div class="row col-xs-12">
 										<label class="control-label blue">{res:expeditiondate}</label><br>

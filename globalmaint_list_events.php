@@ -94,7 +94,12 @@ function globalmaint_list_BeforeShow(& $sender)
 			$m_title = $CCSLocales->GetText("resellers");
 			$globalmaint_list->lbmodule->setvalue($m_title);
 			$Tpl->setvar("module",$m);
-		break;		
+		break;	
+		case "license_granttypes" :
+			$m_title = $CCSLocales->GetText("licensegranttypes");
+			$globalmaint_list->lbmodule->setvalue($m_title);
+			$Tpl->setvar("module",$m);
+		break;	
 
 
 	}
@@ -112,6 +117,7 @@ function globalmaint_list_BeforeShow(& $sender)
 		case "licensetypes" :
 		case "producttags" :
 		case "resellers" :
+		case "license_granttypes" :
 			$params["m"] = $m;
 			$moduleContent = $customers->getAllByModule($params);
 			$moduleContent = $moduleContent["maint"];

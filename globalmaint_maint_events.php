@@ -85,6 +85,11 @@ function Page_BeforeShow(& $sender)
 			$MainPage->lbmodule->setvalue($m_title);
 			$Tpl->setvar("module",$m);
 		break;
+		case "license_granttypes" :
+			$m_title = $CCSLocales->GetText("licensegranttypes");
+			$MainPage->lbmodule->setvalue($m_title);
+			$Tpl->setvar("module",$m);
+		break;
 
 	}
 
