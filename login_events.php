@@ -1,12 +1,11 @@
 <?php
-//BindEvents Method @1-79CC6BD3
+//BindEvents Method @1-17538124
 function BindEvents()
 {
  global $Login;
  global $CCSEvents;
  $Login->Button_DoLogin->CCSEvents["OnClick"] = "Login_Button_DoLogin_OnClick";
  $CCSEvents["AfterInitialize"] = "Page_AfterInitialize";
- $CCSEvents["BeforeShow"] = "Page_BeforeShow";
 }
 //End BindEvents Method
 
@@ -60,26 +59,6 @@ function Page_AfterInitialize(& $sender)
  return $Page_AfterInitialize;
 }
 //End Close Page_AfterInitialize
-
-//Page_BeforeShow @1-AB59B658
-function Page_BeforeShow(& $sender)
-{
- $Page_BeforeShow = true;
- $Component = & $sender;
- $Container = & CCGetParentContainer($sender);
- global $login; //Compatibility
-//End Page_BeforeShow
-
-//Custom Code @15-2A29BDB7
-// -------------------------
- // Write your own code here.
-// -------------------------
-//End Custom Code
-
-//Close Page_BeforeShow @1-4BC230CD
- return $Page_BeforeShow;
-}
-//End Close Page_BeforeShow
 
 
 ?>
