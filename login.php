@@ -21,191 +21,191 @@ class clsRecordLogin { //Login Class @7-58926B8F
 
 //Variables @7-9E315808
 
-    // Public variables
-    public $ComponentType = "Record";
-    public $ComponentName;
-    public $Parent;
-    public $HTMLFormAction;
-    public $PressedButton;
-    public $Errors;
-    public $ErrorBlock;
-    public $FormSubmitted;
-    public $FormEnctype;
-    public $Visible;
-    public $IsEmpty;
+ // Public variables
+ public $ComponentType = "Record";
+ public $ComponentName;
+ public $Parent;
+ public $HTMLFormAction;
+ public $PressedButton;
+ public $Errors;
+ public $ErrorBlock;
+ public $FormSubmitted;
+ public $FormEnctype;
+ public $Visible;
+ public $IsEmpty;
 
-    public $CCSEvents = "";
-    public $CCSEventResult;
+ public $CCSEvents = "";
+ public $CCSEventResult;
 
-    public $RelativePath = "";
+ public $RelativePath = "";
 
-    public $InsertAllowed = false;
-    public $UpdateAllowed = false;
-    public $DeleteAllowed = false;
-    public $ReadAllowed   = false;
-    public $EditMode      = false;
-    public $ds;
-    public $DataSource;
-    public $ValidatingControls;
-    public $Controls;
-    public $Attributes;
+ public $InsertAllowed = false;
+ public $UpdateAllowed = false;
+ public $DeleteAllowed = false;
+ public $ReadAllowed   = false;
+ public $EditMode      = false;
+ public $ds;
+ public $DataSource;
+ public $ValidatingControls;
+ public $Controls;
+ public $Attributes;
 
-    // Class variables
+ // Class variables
 //End Variables
 
 //Class_Initialize Event @7-7BB6EF9C
-    function clsRecordLogin($RelativePath, & $Parent)
-    {
+ function clsRecordLogin($RelativePath, & $Parent)
+ {
 
-        global $FileName;
-        global $CCSLocales;
-        global $DefaultDateFormat;
-        $this->Visible = true;
-        $this->Parent = & $Parent;
-        $this->RelativePath = $RelativePath;
-        $this->Errors = new clsErrors();
-        $this->ErrorBlock = "Record Login/Error";
-        $this->ReadAllowed = true;
-        if($this->Visible)
-        {
-            $this->ComponentName = "Login";
-            $this->Attributes = new clsAttributes($this->ComponentName . ":");
-            $CCSForm = explode(":", CCGetFromGet("ccsForm", ""), 2);
-            if(sizeof($CCSForm) == 1)
-                $CCSForm[1] = "";
-            list($FormName, $FormMethod) = $CCSForm;
-            $this->FormEnctype = "application/x-www-form-urlencoded";
-            $this->FormSubmitted = ($FormName == $this->ComponentName);
-            $Method = $this->FormSubmitted ? ccsPost : ccsGet;
-            $this->login = new clsControl(ccsTextBox, "login", "Username", ccsText, "", CCGetRequestParam("login", $Method, NULL), $this);
-            $this->login->Required = true;
-            $this->password = new clsControl(ccsTextBox, "password", "Password", ccsText, "", CCGetRequestParam("password", $Method, NULL), $this);
-            $this->password->Required = true;
-            $this->Button_DoLogin = new clsButton("Button_DoLogin", $Method, $this);
-        }
-    }
+  global $FileName;
+  global $CCSLocales;
+  global $DefaultDateFormat;
+  $this->Visible = true;
+  $this->Parent = & $Parent;
+  $this->RelativePath = $RelativePath;
+  $this->Errors = new clsErrors();
+  $this->ErrorBlock = "Record Login/Error";
+  $this->ReadAllowed = true;
+  if($this->Visible)
+  {
+   $this->ComponentName = "Login";
+   $this->Attributes = new clsAttributes($this->ComponentName . ":");
+   $CCSForm = explode(":", CCGetFromGet("ccsForm", ""), 2);
+   if(sizeof($CCSForm) == 1)
+    $CCSForm[1] = "";
+   list($FormName, $FormMethod) = $CCSForm;
+   $this->FormEnctype = "application/x-www-form-urlencoded";
+   $this->FormSubmitted = ($FormName == $this->ComponentName);
+   $Method = $this->FormSubmitted ? ccsPost : ccsGet;
+   $this->login = new clsControl(ccsTextBox, "login", "Username", ccsText, "", CCGetRequestParam("login", $Method, NULL), $this);
+   $this->login->Required = true;
+   $this->password = new clsControl(ccsTextBox, "password", "Password", ccsText, "", CCGetRequestParam("password", $Method, NULL), $this);
+   $this->password->Required = true;
+   $this->Button_DoLogin = new clsButton("Button_DoLogin", $Method, $this);
+  }
+ }
 //End Class_Initialize Event
 
 //Validate Method @7-C9284A6A
-    function Validate()
-    {
-        global $CCSLocales;
-        $Validation = true;
-        $Where = "";
-        $Validation = ($this->login->Validate() && $Validation);
-        $Validation = ($this->password->Validate() && $Validation);
-        $this->CCSEventResult = CCGetEvent($this->CCSEvents, "OnValidate", $this);
-        $Validation =  $Validation && ($this->login->Errors->Count() == 0);
-        $Validation =  $Validation && ($this->password->Errors->Count() == 0);
-        return (($this->Errors->Count() == 0) && $Validation);
-    }
+ function Validate()
+ {
+  global $CCSLocales;
+  $Validation = true;
+  $Where = "";
+  $Validation = ($this->login->Validate() && $Validation);
+  $Validation = ($this->password->Validate() && $Validation);
+  $this->CCSEventResult = CCGetEvent($this->CCSEvents, "OnValidate", $this);
+  $Validation =  $Validation && ($this->login->Errors->Count() == 0);
+  $Validation =  $Validation && ($this->password->Errors->Count() == 0);
+  return (($this->Errors->Count() == 0) && $Validation);
+ }
 //End Validate Method
 
 //CheckErrors Method @7-CE95D583
-    function CheckErrors()
-    {
-        $errors = false;
-        $errors = ($errors || $this->login->Errors->Count());
-        $errors = ($errors || $this->password->Errors->Count());
-        $errors = ($errors || $this->Errors->Count());
-        return $errors;
-    }
+ function CheckErrors()
+ {
+  $errors = false;
+  $errors = ($errors || $this->login->Errors->Count());
+  $errors = ($errors || $this->password->Errors->Count());
+  $errors = ($errors || $this->Errors->Count());
+  return $errors;
+ }
 //End CheckErrors Method
 
 //MasterDetail @7-ED598703
 function SetPrimaryKeys($keyArray)
 {
-    $this->PrimaryKeys = $keyArray;
+ $this->PrimaryKeys = $keyArray;
 }
 function GetPrimaryKeys()
 {
-    return $this->PrimaryKeys;
+ return $this->PrimaryKeys;
 }
 function GetPrimaryKey($keyName)
 {
-    return $this->PrimaryKeys[$keyName];
+ return $this->PrimaryKeys[$keyName];
 }
 //End MasterDetail
 
-//Operation Method @7-BD99BC92
-    function Operation()
-    {
-        if(!$this->Visible)
-            return;
+//Operation Method @7-54034824
+ function Operation()
+ {
+  if(!$this->Visible)
+   return;
 
-        global $Redirect;
-        global $FileName;
+  global $Redirect;
+  global $FileName;
 
-        if(!$this->FormSubmitted) {
-            return;
-        }
+  if(!$this->FormSubmitted) {
+   return;
+  }
 
-        if($this->FormSubmitted) {
-            $this->PressedButton = "Button_DoLogin";
-            if($this->Button_DoLogin->Pressed) {
-                $this->PressedButton = "Button_DoLogin";
-            }
-        }
-        $Redirect = "main.php";
-        if($this->Validate()) {
-            if($this->PressedButton == "Button_DoLogin") {
-                if(!CCGetEvent($this->Button_DoLogin->CCSEvents, "OnClick", $this->Button_DoLogin)) {
-                    $Redirect = "";
-                }
-            }
-        } else {
-            $Redirect = "";
-        }
+  if($this->FormSubmitted) {
+   $this->PressedButton = "Button_DoLogin";
+   if($this->Button_DoLogin->Pressed) {
+    $this->PressedButton = "Button_DoLogin";
+   }
+  }
+  $Redirect = "customers.php";
+  if($this->Validate()) {
+   if($this->PressedButton == "Button_DoLogin") {
+    if(!CCGetEvent($this->Button_DoLogin->CCSEvents, "OnClick", $this->Button_DoLogin)) {
+     $Redirect = "";
     }
+   }
+  } else {
+   $Redirect = "";
+  }
+ }
 //End Operation Method
 
 //Show Method @7-56656996
-    function Show()
-    {
-        global $CCSUseAmp;
-        global $Tpl;
-        global $FileName;
-        global $CCSLocales;
-        $Error = "";
+ function Show()
+ {
+  global $CCSUseAmp;
+  global $Tpl;
+  global $FileName;
+  global $CCSLocales;
+  $Error = "";
 
-        if(!$this->Visible)
-            return;
+  if(!$this->Visible)
+   return;
 
-        $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeSelect", $this);
+  $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeSelect", $this);
 
 
-        $RecordBlock = "Record " . $this->ComponentName;
-        $ParentPath = $Tpl->block_path;
-        $Tpl->block_path = $ParentPath . "/" . $RecordBlock;
-        $this->EditMode = $this->EditMode && $this->ReadAllowed;
+  $RecordBlock = "Record " . $this->ComponentName;
+  $ParentPath = $Tpl->block_path;
+  $Tpl->block_path = $ParentPath . "/" . $RecordBlock;
+  $this->EditMode = $this->EditMode && $this->ReadAllowed;
 
-        if($this->FormSubmitted || $this->CheckErrors()) {
-            $Error = "";
-            $Error = ComposeStrings($Error, $this->login->Errors->ToString());
-            $Error = ComposeStrings($Error, $this->password->Errors->ToString());
-            $Error = ComposeStrings($Error, $this->Errors->ToString());
-            $Tpl->SetVar("Error", $Error);
-            $Tpl->Parse("Error", false);
-        }
-        $CCSForm = $this->EditMode ? $this->ComponentName . ":" . "Edit" : $this->ComponentName;
-        $this->HTMLFormAction = $FileName . "?" . CCAddParam(CCGetQueryString("QueryString", ""), "ccsForm", $CCSForm);
-        $Tpl->SetVar("Action", !$CCSUseAmp ? $this->HTMLFormAction : str_replace("&", "&amp;", $this->HTMLFormAction));
-        $Tpl->SetVar("HTMLFormName", $this->ComponentName);
-        $Tpl->SetVar("HTMLFormEnctype", $this->FormEnctype);
+  if($this->FormSubmitted || $this->CheckErrors()) {
+   $Error = "";
+   $Error = ComposeStrings($Error, $this->login->Errors->ToString());
+   $Error = ComposeStrings($Error, $this->password->Errors->ToString());
+   $Error = ComposeStrings($Error, $this->Errors->ToString());
+   $Tpl->SetVar("Error", $Error);
+   $Tpl->Parse("Error", false);
+  }
+  $CCSForm = $this->EditMode ? $this->ComponentName . ":" . "Edit" : $this->ComponentName;
+  $this->HTMLFormAction = $FileName . "?" . CCAddParam(CCGetQueryString("QueryString", ""), "ccsForm", $CCSForm);
+  $Tpl->SetVar("Action", !$CCSUseAmp ? $this->HTMLFormAction : str_replace("&", "&amp;", $this->HTMLFormAction));
+  $Tpl->SetVar("HTMLFormName", $this->ComponentName);
+  $Tpl->SetVar("HTMLFormEnctype", $this->FormEnctype);
 
-        $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeShow", $this);
-        $this->Attributes->Show();
-        if(!$this->Visible) {
-            $Tpl->block_path = $ParentPath;
-            return;
-        }
+  $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeShow", $this);
+  $this->Attributes->Show();
+  if(!$this->Visible) {
+   $Tpl->block_path = $ParentPath;
+   return;
+  }
 
-        $this->login->Show();
-        $this->password->Show();
-        $this->Button_DoLogin->Show();
-        $Tpl->parse();
-        $Tpl->block_path = $ParentPath;
-    }
+  $this->login->Show();
+  $this->password->Show();
+  $this->Button_DoLogin->Show();
+  $Tpl->parse();
+  $Tpl->block_path = $ParentPath;
+ }
 //End Show Method
 
 } //End Login Class @7-FCB6E20C
@@ -274,9 +274,9 @@ BindEvents();
 $CCSEventResult = CCGetEvent($CCSEvents, "AfterInitialize", $MainPage);
 
 if ($Charset) {
-    header("Content-Type: " . $ContentType . "; charset=" . $Charset);
+ header("Content-Type: " . $ContentType . "; charset=" . $Charset);
 } else {
-    header("Content-Type: " . $ContentType);
+ header("Content-Type: " . $ContentType);
 }
 //End Initialize Objects
 
@@ -301,19 +301,19 @@ $sidebar_login->Operations();
 //Go to destination page @1-5476D832
 if($Redirect)
 {
-    $CCSEventResult = CCGetEvent($CCSEvents, "BeforeUnload", $MainPage);
-    header("Location: " . $Redirect);
-    $footer->Class_Terminate();
-    unset($footer);
-    $meta_head->Class_Terminate();
-    unset($meta_head);
-    unset($Login);
-    $header_login->Class_Terminate();
-    unset($header_login);
-    $sidebar_login->Class_Terminate();
-    unset($sidebar_login);
-    unset($Tpl);
-    exit;
+ $CCSEventResult = CCGetEvent($CCSEvents, "BeforeUnload", $MainPage);
+ header("Location: " . $Redirect);
+ $footer->Class_Terminate();
+ unset($footer);
+ $meta_head->Class_Terminate();
+ unset($meta_head);
+ unset($Login);
+ $header_login->Class_Terminate();
+ unset($header_login);
+ $sidebar_login->Class_Terminate();
+ unset($sidebar_login);
+ unset($Tpl);
+ exit;
 }
 //End Go to destination page
 
