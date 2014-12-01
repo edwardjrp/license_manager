@@ -274,8 +274,6 @@ function licensing_customerscontent_alm_customers_BeforeShow(& $sender)
 			else 
 				$Tpl->setvar("lbnodes_qty",$license["licensed_amount"]);
 
-			$Tpl->setvar("lbchannel_sku",$license["channel_sku"]);
-
 			//Total cost of license
 			$price = $license["msrp_price"];
 			$licenseBy = $license["id_licensed_by"];
@@ -360,8 +358,6 @@ function licensing_customerscontent_alm_customers_BeforeShow(& $sender)
 					$Tpl->setvar("lbnodes_qty_popup",$licensePopup["nodes"]);
 				else 
 					$Tpl->setvar("lbnodes_qty_popup",$licensePopup["licensed_amount"]);
-
-				$Tpl->setvar("lbchannel_sku_popup",$licensePopup["channel_sku"]);
 
 				//Total cost of license
 				$price = $licensePopup["msrp_price"];

@@ -215,10 +215,8 @@
 																		<td class='red'>{lbexpiration_popup}</td>
 																		<td>{lblicense_for_popup}</td>
 																		<td nowrap>
-																			<span class='small orange smaller-80'>{res:granttype}:&nbsp;{lbgranttype_popup}</span><br>
-																			<span class='small green smaller-140'>{res:lbnumber}&nbsp;{lbgrantnumber_popup}</span><br>
-																			<span class='small purple smaller-80'>{res:lbserialno}&nbsp;{lbserialnumber_popup}</span><br>
-																			<span class='small blue smaller-80'>{res:sku}&nbsp;{lbchannel_sku_popup}</span>																		
+																			<span class=''>{lbgranttype_popup}:&nbsp;</span><br><span class='green'>{lbgrantnumber_popup}</span><br>
+																			<span class=''>{res:lbserialno}&nbsp;</span><br><span class='purple'>{lbserialnumber_popup}</span><br>
 																		</td>
 																	</tr>
 																	<!-- END license_popup -->
@@ -246,10 +244,8 @@
 												<td class="red">{lbexpiration}</td> 
 												<td>{lblicense_for}</td> 
 												<td nowrap>
-													<span class="small orange smaller-80">{res:granttype}:&nbsp;{lbgranttype}</span><br>
-													<span class="small green smaller-140">{res:lbnumber}&nbsp;{lbgrantnumber}</span><br>
-													<span class="small purple smaller-80">{res:lbserialno}&nbsp;{lbserialnumber}</span><br>
-													<span class="small blue smaller-80">{res:sku}&nbsp;{lbchannel_sku}</span>
+													<span class="">{lbgranttype}:&nbsp;</span><br><span class="green">{lbgrantnumber}</span><br>
+													<span class="">{res:lbserialno}&nbsp;</span><br><span class="purple">{lbserialnumber}</span><br>
 												</td>
 											</tr>
 											<!-- END license_list -->
@@ -387,7 +383,8 @@
 								<div class="col-md-1 col-xs-0"></div>
 								<div class="col-md-4 col-xs-12">
 									<label class="control-label blue">{res:licensedby}</label><br>
-									<!-- BEGIN RadioButton id_licensed_by --><input id="id_licensed_by_{Value}" class="ace id_licensed_by" type="radio" value="{Value}" name="{id_licensed_by_Name}" {Check}><span class="lbl">&nbsp;&nbsp;{Description}&nbsp;&nbsp;&nbsp;</span><!-- END RadioButton id_licensed_by -->
+									<!-- BEGIN RadioButton id_licensed_by --><input id="id_licensed_by_{Value}" class="ace id_licensed_by" type="radio" value="{Value}" name="{id_licensed_by_Name}" {Check}><span class="lbl">
+&nbsp;&nbsp;{Description}&nbsp;&nbsp;&nbsp;</span><!-- END RadioButton id_licensed_by -->
 								</div>
 								<div id="amounts" class="col-md-2 col-xs-12 hide">
 									<label class="control-label blue">{res:amount_percentage}</label><br>

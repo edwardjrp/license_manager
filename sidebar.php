@@ -45,11 +45,12 @@ class clssidebar { //sidebar class @1-89A05F8A
  }
 //End Class_Terminate Event
 
-//BindEvents Method @1-3685F815
+//BindEvents Method @1-859274C4
  function BindEvents()
  {
   $this->pnsidebar->CCSEvents["BeforeShow"] = "sidebar_pnsidebar_BeforeShow";
   $this->pnmaintenance->CCSEvents["BeforeShow"] = "sidebar_pnmaintenance_BeforeShow";
+  $this->CCSEvents["BeforeShow"] = "sidebar_BeforeShow";
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "AfterInitialize", $this);
  }
 //End BindEvents Method
