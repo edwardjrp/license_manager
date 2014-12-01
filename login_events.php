@@ -17,7 +17,7 @@ function Login_Button_DoLogin_OnClick(& $sender)
     $Container = & CCGetParentContainer($sender);
     global $Login; //Compatibility
 //End Login_Button_DoLogin_OnClick
-
+ 
 //Login @9-DE10C29C
     global $CCSLocales;
     global $Redirect;
