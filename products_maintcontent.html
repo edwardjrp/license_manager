@@ -126,11 +126,21 @@
 							<!-- BEGIN RadioButton id_product_type --><input {Check} type="radio" name="{id_product_type_Name}" value="{Value}" id="id_product_type_{id_product_type:optionNumber}" class="ace"><span class="lbl">&nbsp;&nbsp;{Description}&nbsp;&nbsp;&nbsp;</span><!-- END RadioButton id_product_type -->
 						</div>
 						<div class="col-md-3 col-xs-12">
-							<label class="control-label blue">{res:product_tag}</label><br>
-							<select name="{id_product_tag_Name}" id="id_product_tag" class="width-90 chosen-select">
-								<option value="">{res:option_na}</option>
-								{id_product_tag_Options}
-							</select>
+							<div class="row">
+								<label class="control-label blue">{res:product_tag}</label><br>
+								<select name="{id_product_tag_Name}" id="id_product_tag" class="width-90 chosen-select">
+									<option value="">{res:option_na}</option>
+									{id_product_tag_Options}
+								</select>
+							</div>
+							<div class="row">
+								<label class="control-label blue">{res:granttype}</label><br>
+								<select name="{id_license_granttype_Name}" id="id_license_granttype" class="width-90 chosen-select">
+									<option value="">{res:option_na}</option>
+									{id_license_granttype_Options}
+								</select>
+
+							</div>
 						</div>
 						<div class="col-md-3 col-xs-12">
 							<label class="control-label blue">{res:licensetype}</label><br>

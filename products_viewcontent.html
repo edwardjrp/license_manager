@@ -39,7 +39,8 @@
 					<div class="col-md-1 col-xs-0"></div>
 					<div class="col-md-4 col-xs-12">
 						<label class="control-label blue">{res:licensedby}</label><br>
-						<!-- BEGIN RadioButton id_licensed_by --><input {Check} type="radio" name="{id_licensed_by_Name}" value="{Value}" id="id_licensed_by_{Value}" class="ace id_licensed_by" disabled><span class="lbl">&nbsp;&nbsp;{Description}&nbsp;&nbsp;&nbsp;</span><!-- END RadioButton id_licensed_by -->
+						<!-- BEGIN RadioButton id_licensed_by --><input {Check} type="radio" name="{id_licensed_by_Name}" value="{Value}" id="id_licensed_by_{Value}" class="ace id_licensed_by" disabled><span class="lbl">
+&nbsp;&nbsp;{Description}&nbsp;&nbsp;&nbsp;</span><!-- END RadioButton id_licensed_by -->
 					</div>
 
 					<div class="col-md-2 col-xs-12 hide" id="amounts">
@@ -81,8 +82,14 @@
 						<!-- BEGIN RadioButton id_product_type --><input {Check} type="radio" name="{id_product_type_Name}" value="{Value}" id="id_product_type_{id_product_type:optionNumber}" class="ace" disabled><span class="lbl">&nbsp;&nbsp;{Description}&nbsp;&nbsp;&nbsp;</span><!-- END RadioButton id_product_type -->
 					</div>
 					<div class="col-md-3 col-xs-12">
-						<label class="control-label blue">{res:product_tag}</label><br>
-						<input type="text" name="{id_product_tag_Name}" value="{id_product_tag}" id="id_product tag" disabled>
+						<div class="row">
+							<label class="control-label blue">{res:product_tag}</label><br>
+							<input type="text" name="{id_product_tag_Name}" value="{id_product_tag}" id="id_product tag" disabled>
+						</div>
+						<div class="row">
+							<label class="control-label blue">{res:granttype}</label><br>
+							<input type="text" name="{granttype_name_Name}" value="{granttype_name}" id="granttype_name" disabled>
+						</div>
 					</div>
 					<div class="col-md-3 col-xs-12">
 						<label class="control-label blue">{res:licensetype}</label><br>
