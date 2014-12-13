@@ -224,7 +224,7 @@
 																</div>
 																">
 															
-															<li class="icon-briefcase purple bigger-180"></li></a>
+															<li class="icon-briefcase purple bigger-180"></li><span class="label label-info arrowed-in-right arrowed label-sm">{lbtotalshared}</span></a>
 														</div>
 													</div>
 												</td> 
@@ -383,8 +383,7 @@
 								<div class="col-md-1 col-xs-0"></div>
 								<div class="col-md-4 col-xs-12">
 									<label class="control-label blue">{res:licensedby}</label><br>
-									<!-- BEGIN RadioButton id_licensed_by --><input id="id_licensed_by_{Value}" class="ace id_licensed_by" type="radio" value="{Value}" name="{id_licensed_by_Name}" {Check}><span class="lbl">
-&nbsp;&nbsp;{Description}&nbsp;&nbsp;&nbsp;</span><!-- END RadioButton id_licensed_by -->
+									<!-- BEGIN RadioButton id_licensed_by --><input id="id_licensed_by_{Value}" class="ace id_licensed_by" type="radio" value="{Value}" name="{id_licensed_by_Name}" {Check}><span class="lbl">&nbsp;&nbsp;{Description}&nbsp;&nbsp;&nbsp;</span><!-- END RadioButton id_licensed_by -->
 								</div>
 								<div id="amounts" class="col-md-2 col-xs-12 hide">
 									<label class="control-label blue">{res:amount_percentage}</label><br>
@@ -393,7 +392,7 @@
 								<div id="nodes" class="col-md-2 col-xs-12">
 									<div class="row col-xs-12">
 										<label class="control-label blue">{res:numberofnodes}</label><br>
-										<input type="text" class="col-md-12 col-xs-12" value="{nodes}" name="{nodes_Name}" data-validation="number" data-validation-error-msg="{res:invalidnodes}" data-validation-optional="true">
+										<input type="text" id="licensed_nodes" class="col-md-12 col-xs-12" value="{nodes}" name="{nodes_Name}" data-validation="number" data-validation-error-msg="{res:invalidnodes}" data-validation-optional="true">
 									</div>
 								</div>
 
@@ -414,8 +413,9 @@
 								<div class="col-md-4 col-xs-12">
 									<div class="row col-xs-12">
 										<div class="col-md-12 col-xs-12">
-											<label class="control-label blue">{res:granttype}</label><br>
-											<select name="{granttype_Name}" class="width-90 chosen-select">
+											<label class="control-label blue">
+{res:granttype}</label><br>
+											<select name="{granttype_Name}" class="width-90 chosen-select" id="license_granttype">
 												<option selected value="">{res:selectoption}</option>
 												{granttype_Options}
 											</select>
@@ -463,8 +463,12 @@
 											<!-- BEGIN Button Button_Update --><button class="btn btn-sm btn-success" type="submit" name="{Button_Name}" value="{res:buttonsave}"><li class="icon-save"></li>&nbsp; {res:buttonsave}</button><!-- END Button Button_Update -->
 										</div>
 										<div class="inline">
-											&nbsp;&nbsp;
-											<!-- BEGIN Panel pncanceledit -->
+											<!-- BEGIN Panel pnaddsupport -->&nbsp;&nbsp;
+												<a href="licensing_customers.php?o=addsupport{params1}" role="button" id="addsuport" class="btn btn-sm btn-warning"><li class="icon-copy"></li>&nbsp;{res:addsupport}</a>
+											<!-- END Panel pnaddsupport -->
+										</div>
+										<div class="inline">											
+											<!-- BEGIN Panel pncanceledit -->&nbsp;&nbsp;
 												<a href="licensing_customers.php?{params}" role="button" id="canceledit" class="btn btn-sm btn-yellow"><li class="icon-ban-circle"></li>&nbsp;{res:canceledit}</a>
 											<!-- END Panel pncanceledit -->
 										</div>
@@ -504,7 +508,8 @@
 										</div>
 										<div class="row action-buttons inline">
 											<a href="licensing_viewfile.php?licensefile_guid={licensefile_guid}{getparams}"><li class="icon-eye-open bigger-180 blue"></li></a>
-											{linkdelete}											
+											
+{linkdelete}											
 										</div>
 									</div>
 									<!-- END licensefile_list -->
@@ -637,6 +642,7 @@ $(function(){
 					var id_license_type = $("#id_license_type");
 					var suitedescription = $("#suitedescription");
 					var msrp_price = $("#msrp_price");
+					var license_granttype = $("#license_granttype");
 
 					//If product object is empty set 0 to all lisbox and values autofilled
 					if (msg.products.length <= 0) {
@@ -651,6 +657,9 @@ $(function(){
 						id_license_type.val(0);
 						id_license_type.trigger("chosen:updated");
 						suitedescription.val("");
+						license_granttype.val(0);
+						license_granttype.trigger("chosen:updated");
+
                         $("#id_licensed_by_1").click();      
                         $("#licensed_amount").val(0);
                         $("#msrp_price").val(0);
@@ -696,6 +705,11 @@ $(function(){
 						id_license_type.val(licenseType);
 						id_license_type.trigger("chosen:updated");
 
+						var licenseGrantType = this.id_license_granttype;
+						licenseGrantType = licenseGrantType || 0;
+						license_granttype.val(licenseGrantType);
+						license_granttype.trigger("chosen:updated");
+
 						//Checking the licenseType listbox
 						if ( (licenseType == 7) || (licenseType == 12) ) {
 							$("#expirationDate").val("");
@@ -710,6 +724,10 @@ $(function(){
 						var productPrice = parseFloat(this.msrp_price);
                         $("#msrp_price").val(productPrice.toFixed(2));
 
+						//Making the math for total costs
+						var licenseBy = this.id_licensed_by || 0;
+						var msrpPrice = Number(productPrice.toFixed(2));
+						setTotalCost(licenseBy,msrpPrice);
 
 						//Refilling product listbox based on sku search
                         var products = $("#products");
@@ -786,11 +804,49 @@ $(function(){
                                 $("#channel_sku").val(this.channel_sku);
 								var productPrice = parseFloat(this.msrp_price);
                                 $("#msrp_price").val(productPrice.toFixed(2));
+
+								//Making the math for total costs
+								var licenseBy = this.id_licensed_by || 0;
+								var msrpPrice = Number(productPrice.toFixed(2));
+								setTotalCost(licenseBy,msrpPrice);
+
+								$("#license_granttype").val(this.id_license_granttype);
+								$("#license_granttype").trigger("chosen:updated");
                         });
 
                 });
         });
 
+		//Sets the total cost of license based on nodes, quatity or percentage
+		function setTotalCost(licenseBy, msrpPrice) {
+			switch (licenseBy) {
+				case "1" :
+					var licensedNodes = $("#licensed_nodes").val();
+					licensedNodes = licensedNodes || 0;
+					var totalCost = (msrpPrice * licensedNodes);
+					totalCost = parseFloat(totalCost);
+					totalCost = totalCost.toFixed(2);
+					$("#totalcost").val(totalCost);
+				break;
+				case "2" :
+					var licensedAmount = $("#licensed_amount").val();
+					licensedAmount = licensedAmount || 0;
+					var totalCost = (msrpPrice * licensedAmount)
+					totalCost = parseFloat(totalCost);
+					totalCost = totalCost.toFixed(2);
+					$("#totalcost").val(totalCost);	
+				break;
+				case "3" :
+					var licensedAmount = $("#licensed_amount").val();
+					licensedAmount = licensedAmount || 0;
+					var totalCost = ( msrpPrice + (msrpPrice * (licensedAmount/100)) );
+					totalCost = parseFloat(totalCost);
+					totalCost = totalCost.toFixed(2);
+					$("#totalcost").val(totalCost);	
+				break;
+			}
+
+		}
 
         $("#manufacturer").chosen().change(function() {
                 var manufacturer_id = $(this).val();

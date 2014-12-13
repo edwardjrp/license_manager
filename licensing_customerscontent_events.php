@@ -342,6 +342,7 @@ function licensing_customerscontent_alm_customers_BeforeShow(& $sender)
 			$params["license_id"] = $licenseID;
 			$licensesPopup = $products->getCustomerRelatedLicenses($params);
 			$allLicensesPopup = $licensesPopup["licenses"];
+			$totalShared = 0;
 			foreach($allLicensesPopup as $licensePopup) {
 				$Tpl->setvar("lbguid_popup",$guid);
 				$Tpl->setvar("lblicense_guid_popup",$licensePopup["guid"]);						
@@ -393,12 +394,18 @@ function licensing_customerscontent_alm_customers_BeforeShow(& $sender)
 				$Tpl->setvar("linkdelete_license_popup",$linkdelete_license);
 
 				$Tpl->parse("license_popup", true);
+
+				$totalShared++;
 			
 			} //foreach licenses group into a popup for those with same grant number
 
 			$table_detail = $Tpl->GetVar("license_popup");
 			$Tpl->block_path = $parentPath;
 			$Tpl->SetBlockVar("license_popup",$table_detail);
+
+
+			//Displaying total licenses sharing grant number
+			$Tpl->setvar("lbtotalshared","+$totalShared");
 
 			$Tpl->parse("license_list",true);
 		}
@@ -600,7 +607,7 @@ function licensing_customerscontent_licensing_params_BeforeShow(& $sender)
 //Custom Code @50-2A29BDB7
 // -------------------------
  // Write your own code here.
- 	$querystring = CCGetQueryString("QueryString",array("license_guid","tab"));
+ 	$querystring = CCGetQueryString("QueryString",array("license_guid","tab","dguid","o"));
 	$sender->SetValue("$querystring");
 
 // -------------------------
@@ -624,7 +631,9 @@ function licensing_customerscontent_licensing_pncanceledit_BeforeShow(& $sender)
 // -------------------------
  // Write your own code here.
  	$guid = trim(CCGetFromGet("license_guid",""));
-	if (strlen($guid) > 0)
+	$o = trim(CCGetFromGet("o",""));
+
+	if ( (strlen($guid) > 0) || ($o == "addsupport") )
 		$licensing_customerscontent->licensing->pncanceledit->Visible = true;
 	else
 		$licensing_customerscontent->licensing->pncanceledit->Visible = false;
@@ -753,6 +762,57 @@ function licensing_customerscontent_licensing_totalcost_BeforeShow(& $sender)
  return $licensing_customerscontent_licensing_totalcost_BeforeShow;
 }
 //End Close licensing_customerscontent_licensing_totalcost_BeforeShow
+
+//licensing_customerscontent_licensing_params1_BeforeShow @222-BD7189EE
+function licensing_customerscontent_licensing_params1_BeforeShow(& $sender)
+{
+ $licensing_customerscontent_licensing_params1_BeforeShow = true;
+ $Component = & $sender;
+ $Container = & CCGetParentContainer($sender);
+ global $licensing_customerscontent; //Compatibility
+//End licensing_customerscontent_licensing_params1_BeforeShow
+
+//Custom Code @223-2A29BDB7
+// -------------------------
+ // Write your own code here.
+ 	$guid = trim(CCGetFromGet("license_guid",""));
+ 	$querystring = CCGetQueryString("QueryString",array("license_guid"));
+	if (strlen($querystring) > 0)
+		$querystring = "&$querystring";
+	$sender->SetValue("&dguid=$guid$querystring");
+// -------------------------
+//End Custom Code
+
+//Close licensing_customerscontent_licensing_params1_BeforeShow @222-F2A98F9D
+ return $licensing_customerscontent_licensing_params1_BeforeShow;
+}
+//End Close licensing_customerscontent_licensing_params1_BeforeShow
+
+//licensing_customerscontent_licensing_pnaddsupport_BeforeShow @51-7CF57775
+function licensing_customerscontent_licensing_pnaddsupport_BeforeShow(& $sender)
+{
+ $licensing_customerscontent_licensing_pnaddsupport_BeforeShow = true;
+ $Component = & $sender;
+ $Container = & CCGetParentContainer($sender);
+ global $licensing_customerscontent; //Compatibility
+//End licensing_customerscontent_licensing_pnaddsupport_BeforeShow
+
+//Custom Code @224-2A29BDB7
+// -------------------------
+ // Write your own code here.
+ 	$guid = trim(CCGetFromGet("license_guid",""));
+	if (strlen($guid) > 0)
+		$licensing_customerscontent->licensing->pnaddsupport->Visible = true;
+	else
+		$licensing_customerscontent->licensing->pnaddsupport->Visible = false;
+
+// -------------------------
+//End Custom Code
+
+//Close licensing_customerscontent_licensing_pnaddsupport_BeforeShow @51-F7C008AF
+ return $licensing_customerscontent_licensing_pnaddsupport_BeforeShow;
+}
+//End Close licensing_customerscontent_licensing_pnaddsupport_BeforeShow
 
 //Used because the last_user_id query on afterinsert was not working
 $lastguid = "";
@@ -951,6 +1011,73 @@ function licensing_customerscontent_licensing_AfterUpdate(& $sender)
  return $licensing_customerscontent_licensing_AfterUpdate;
 }
 //End Close licensing_customerscontent_licensing_AfterUpdate
+
+//licensing_customerscontent_licensing_BeforeShow @154-9D7BEA08
+function licensing_customerscontent_licensing_BeforeShow(& $sender)
+{
+ $licensing_customerscontent_licensing_BeforeShow = true;
+ $Component = & $sender;
+ $Container = & CCGetParentContainer($sender);
+ global $licensing_customerscontent; //Compatibility
+//End licensing_customerscontent_licensing_BeforeShow
+
+//Custom Code @225-2A29BDB7
+// -------------------------
+ // Write your own code here.
+	global $MainPage;
+
+	$o = trim(CCGetFromGet("o",""));
+	$dguid = trim(CCGetFromGet("dguid",""));
+	$customer_guid = trim(CCGetFromGet("guid",""));
+	$querystring = CCGetQueryString("QueryString",array("o","dguid"));
+	if ($o == "addsupport"){
+		$params = array();
+		$params["guid"] = $dguid;
+		$products = new Alm\Products();
+		$license = $products->getLicenseByGuid($params);
+		$license = $license["licenses"];
+		$license = $license[0]; //Returns an array, but this case will always return 1 record only
+		if (count($license) >= 1) {
+			$licensing_customerscontent->licensing->manufacturer->SetValue($license["id_manufacturer"]);
+			$licensing_customerscontent->licensing->suite_code->SetValue($license["id_suite"]);
+			$licensing_customerscontent->licensing->id_product_type->SetValue($license["id_product_type"]);
+			$licensing_customerscontent->licensing->id_license_sector->SetValue($license["id_license_sector"]);
+
+			//Product type 2 = hardware, 1 software, 3 and 4 not yet defined for this rule
+			if ($license["id_product_type"] == 2)
+				$licensing_customerscontent->licensing->id_license_type->SetValue("11"); //11 Code for product type hardware support
+			else 
+				$licensing_customerscontent->licensing->id_license_type->SetValue("10"); //11 Code for product type software support
+
+			$licensing_customerscontent->licensing->suitedescription->SetValue($license["suite_description"]);
+			$licensing_customerscontent->licensing->id_reseller->SetValue($license["id_reseller"]);
+			$licensing_customerscontent->licensing->id_licensed_by->SetValue($license["id_licensed_by"]);
+			$licensing_customerscontent->licensing->licensed_amount->SetValue($license["licensed_amount"]);
+			$licensing_customerscontent->licensing->nodes->SetValue($license["nodes"]);
+			$licensing_customerscontent->licensing->granttype->SetValue($license["id_license_granttype"]);
+			$licensing_customerscontent->licensing->grant_number->SetValue($license["grant_number"]);
+
+			//Show general alert with duplication info taking place
+			//global $CCSLocales;
+			//CCSetSession("showglobal_alert","show");
+			//$licensing_customerscontent->licensing->showglobal_alert->SetValue("show");
+			//$licensing_customerscontent->licensing->lbtitle->SetValue($CCSLocales->GetText("duplicate_product"));
+			//$licensing_customerscontent->licensing->lbmessage->SetValue($CCSLocales->GetText("duplicate_message"));
+
+		}
+		//$licensing_customerscontent->alm_products->querystring->SetValue($querystring);
+		
+	} else {
+		//CCSetSession("showglobal_alert","hide");
+	}
+
+// -------------------------
+//End Custom Code
+
+//Close licensing_customerscontent_licensing_BeforeShow @154-9F545D26
+ return $licensing_customerscontent_licensing_BeforeShow;
+}
+//End Close licensing_customerscontent_licensing_BeforeShow
 
 //licensing_customerscontent_pndropzone_BeforeShow @213-09FC21CD
 function licensing_customerscontent_pndropzone_BeforeShow(& $sender)

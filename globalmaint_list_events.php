@@ -99,8 +99,7 @@ function globalmaint_list_BeforeShow(& $sender)
 			$m_title = $CCSLocales->GetText("licensegranttypes");
 			$globalmaint_list->lbmodule->setvalue($m_title);
 			$Tpl->setvar("module",$m);
-		break;	
-
+		break;
 
 	}
 

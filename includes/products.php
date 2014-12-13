@@ -78,7 +78,7 @@ class Products {
 		if (strlen($guid) > 0) {
 			$db = new \clsDBdbConnection();
 			$fields_array = array("id_suite","id_product_type","range_min","range_max","msrp_price","product_content","description",
-								  "id_license_type","id_product_tag","id_licensed_by","id_license_sector","licensed_amount",);
+								  "id_license_type","id_product_tag","id_licensed_by","id_license_sector","licensed_amount","id_license_granttype");
 			$fields = implode(",",$fields_array);
 			$sql = "select $fields from alm_products where guid = '$guid' ";
 			$db->query($sql);
@@ -240,7 +240,7 @@ class Products {
 
 			$fields_array = array("id_suite","id_product_type","range_min","range_max","msrp_price","description","id_license_type",
 								  "id_product_tag","id_licensed_by","id_license_sector","licensed_amount","id","channel_sku",
-								  "short_description");
+								  "short_description","id_license_granttype");
 			$fields = implode(",",$fields_array);
 			$sql = "select $fields from alm_products where channel_sku = '$channel_sku' ";
 			$db->query($sql);
@@ -292,7 +292,7 @@ class Products {
 			$db = new \clsDBdbConnection();
 			$fields_array = array("id_suite","id_product_type","range_min","range_max","msrp_price","description","id_license_type",
 								  "id_product_tag","id_licensed_by","id_license_sector","licensed_amount","id","channel_sku",
-								  "short_description");
+								  "short_description","id_license_granttype");
 			$fields = implode(",",$fields_array);
 			$sql = "select $fields from alm_products where id = $product_id ";
 			$db->query($sql);
@@ -338,6 +338,50 @@ class Products {
 	             ,"expiration_date","serial_number","granttype_name");
 	             $fields = implode(",",$fields_array);
 	             $sql = "select $fields from v_alm_licenses where id_customer = $customer_id order by grant_number";
+
+	             $db->query($sql);
+
+	             while ($db->next_record()) {
+	                 $row = array();
+	                 foreach($fields_array as $field) {
+	                     $row[$field] = $db->f($field);
+	                 }
+		             $licenses[] = $row;
+
+	             }
+
+	         }
+
+	         $db->close();
+
+	         $result["status"] = true;
+	         $result["licenses"] = $licenses;
+	         $result["message"] = "Command executed successfully.";
+
+	         return $result;
+
+	     } else {
+	         $result["status"] = false;
+	         $result["message"] = "Invalid GUID";
+	         return $result;
+	     }
+
+    }
+
+	public function getLicenseByGuid($params = array()) {
+		$result = array("status" => false, "message" => "","licenses" => array());
+	    $license_guid = $params["guid"];
+	     if (strlen($license_guid) > 0) {
+	         $db = new \clsDBdbConnection();
+	         $licenses = array();
+
+	         $license_id = (int)CCDLookUp("id","alm_licensing","guid = '$license_guid' ",$db);
+	         if ($license_id > 0) {
+	             $fields_array = array("id","guid","id_suite","suite_code","suite_description","id_manufacturer","id_product_type",
+		            "id_licensed_by","id_license_type","id_license_sector","id_reseller","nodes","licensed_amount",
+	                "grant_number","id_license_granttype");
+	             $fields = implode(",",$fields_array);
+	             $sql = "select $fields from v_alm_licenses where id = $license_id ";
 
 	             $db->query($sql);
 
