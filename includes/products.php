@@ -379,7 +379,7 @@ class Products {
 	         if ($license_id > 0) {
 	             $fields_array = array("id","guid","id_suite","suite_code","suite_description","id_manufacturer","id_product_type",
 		            "id_licensed_by","id_license_type","id_license_sector","id_reseller","nodes","licensed_amount",
-	                "grant_number","id_license_granttype");
+	                "grant_number","id_license_granttype","msrp_price","channel_sku","id_product");
 	             $fields = implode(",",$fields_array);
 	             $sql = "select $fields from v_alm_licenses where id = $license_id ";
 
@@ -412,6 +412,37 @@ class Products {
 
     }
 
+	public function setLicenseArchivedByGuid($params = array()) {
+		$result = array("status" => false, "message" => "");
+	    $license_guid = $params["guid"];
+	     if (strlen($license_guid) > 0) {
+	         $db = new \clsDBdbConnection();
+
+	         $license_id = (int)CCDLookUp("id","alm_licensing","guid = '$license_guid' ",$db);
+	         if ($license_id > 0) {
+	             $sql = "update alm_licensing set isarchived = 1 where id = $license_id ";
+	             $db->query($sql);
+
+		         $result["status"] = true;
+		         $result["message"] = "Command executed successfully.";
+
+	         } else {
+		         $result["status"] = false;
+		         $result["message"] = "Invalid ID.";
+	         }
+
+	         $db->close();
+
+	         return $result;
+
+	     } else {
+	         $result["status"] = false;
+	         $result["message"] = "Invalid GUID";
+	         return $result;
+	     }
+
+    }
+
 	/* This function returns licenses that share the same grant number except the license id
 	 * sent as part of the params, it is specially used to display the grid licensing information popup
 	 *for licenses sharing the same grant number.
@@ -422,6 +453,12 @@ class Products {
 	    $customer_guid = $params["customer_guid"];
 		$grantNumber = $params["grant_number"];
 		$licenseID = $params["license_id"];
+
+		//Enable returning archived or non archived licenses
+		$isArchived = 0;
+		if (array_key_exists("isArchived",$params))
+			$isArchived = (int)$params["isArchived"];
+
 
 	     if (strlen($customer_guid) > 0) {
 	         $db = new \clsDBdbConnection();
@@ -435,7 +472,7 @@ class Products {
 	             ,"expiration_date","serial_number","granttype_name");
 	             $fields = implode(",",$fields_array);
 	             $sql = "select $fields from v_alm_licenses where id_customer = $customer_id
- 						 and grant_number = '$grantNumber' and id != $licenseID ";
+ 						 and grant_number = '$grantNumber' and id != $licenseID  and isarchived = $isArchived";
 
 	             $db->query($sql);
 
@@ -475,6 +512,12 @@ class Products {
 	public function getCustomerUniqueLicenses($params = array()) {
 		$result = array("status" => false, "message" => "","licenses" => array());
 	    $customer_guid = $params["customer_guid"];
+
+		//Enable returning archived or non archived licenses
+		$isArchived = 0;
+		if (array_key_exists("isArchived",$params))
+			$isArchived = (int)$params["isArchived"];
+
 	     if (strlen($customer_guid) > 0) {
 	         $db = new \clsDBdbConnection();
 	         $licenses = array();
@@ -483,10 +526,10 @@ class Products {
 	         if ($customer_id > 0) {
 	             $fields_array = array("id","guid","suite_description","suite_code","type_icon_name","license_name","id_licensed_by",
 	             "licensedby_name","sector_name","reseller_name","description","nodes","licensed_amount","channel_sku"
-	             ,"msrp_price","dateupdated","license_status_name","alm_license_status_css_color","grant_number","expedition_date"
-	             ,"expiration_date","serial_number","granttype_name");
+	             ,"msrp_price","dateupdated","id_license_status","license_status_name","alm_license_status_css_color","grant_number","expedition_date"
+	             ,"expiration_date","serial_number","granttype_name","isarchived");
 	             $fields = implode(",",$fields_array);
-	             $sql = "select $fields from v_alm_licenses where id_customer = $customer_id
+	             $sql = "select $fields from v_alm_licenses where id_customer = $customer_id and isarchived = $isArchived
 						 and id in (select id from v_alm_licenses where id_customer = $customer_id group by grant_number) ";
 	             $db->query($sql);
 

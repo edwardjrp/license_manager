@@ -138,9 +138,14 @@
 							</div>
 							<!-- row -->
 							<div class="row col-xs-12">
-								<!-- <div class="col-md-1 col-xs-0"></div> -->
 								<div class="col-md-12 col-xs-12">
-									<h3 class="header smaller lighter purple"><span class="icon-briefcase purple bigger-130">&nbsp;</span>&nbsp;{res:licenses}</h3>
+								<div class="tabbable">
+									<ul class="nav nav-pills">
+										<li class="active"><a href="#activelicenses" data-toggle="tab"><span class="icon-briefcase bigger-180"></span>&nbsp;{res:licenses}</a></li>
+									 	<li><a href="#archivedlicenses" data-toggle="tab"><span class="icon-folder-close bigger-180"></span>&nbsp;{res:archivedlicenses}</a></li>
+									</ul>
+									<div class="tab-content">
+									<div id="activelicenses" class="tab-pane active">
 									<div class="table-responsive">
 										<table class="table table-striped table-bordered table-hover">
 											<tr>
@@ -156,8 +161,7 @@
  
 												<th class="blue">{res:expeditiondate}</th>
  
-												<th class="blue">
-{res:expirationdate}</th>
+												<th class="blue">{res:expirationdate}</th>
  
 												<th class="blue">{res:licensesector}</th>
  
@@ -169,9 +173,6 @@
 													<div class="action-buttons">
 														<div class="inline">
 															<a href="licensing_customers.php?guid={lbguid}&license_guid={lblicense_guid}&tab=licensing" class="green"><i class="icon-pencil bigger-180"></i></a>
-														</div>
-														<div class="inline">
-															{linkdelete_license}
 														</div>
 														<div class="inline">
 															
@@ -226,13 +227,24 @@
 															
 															<li class="icon-briefcase purple bigger-180"></li><span class="label label-info arrowed-in-right arrowed label-sm">{lbtotalshared}</span></a>
 														</div>
+														<br>
+														<div class="inline"> 
+															<div class="btn-group dropup">
+																<button data-toggle="dropdown" class="btn btn-xs btn-info dropdown-toggle">{res:options}<span class="icon-caret-down icon-only"></span></button>
+																<ul class="dropdown-menu dropdown-danger">
+																	<li>{linkdelete_license}</li>
+																	<li class="divider"></li>
+																	{linkrenew_license}
+																</ul>
+															</div>
+														</div><!-- inline dropdown option button -->
 													</div>
 												</td> 
 												<td class="text-center">{lbsuite_code}<br>
 													<span class="{lblicense_status_css} arrowed-in">{lblicense_status}</span>
 												</td> 
 												<td class="text-center">
-													<img src="assets/{lbproduct_typeicon}">													
+													<img src="assets/{lbproduct_typeicon}">
 												</td>
 												<td nowrap><span class="orange">{lbsuite_description}</span> <br>
 													<span class="">{lbdescription}</span> <br>
@@ -250,7 +262,138 @@
 											</tr>
 											<!-- END license_list -->
 										</table>
-									</div>
+									</div><!-- table responsive -->
+
+										</div><!-- tab-pane activelicenses -->
+
+											<div id="archivedlicenses" class="tab-pane">
+												<div class="table-responsive">
+													<table class="table table-striped table-bordered table-hover">
+														<tr>
+															<th class="blue text-center"><span class="icon-cogs bigger-150">&nbsp;</span></th>
+ 
+															<th class="blue">{res:suite_code}</th>
+ 
+			 												<th class="blue">{res:product_type}</th>
+
+															<th class="blue">{res:description}</th>
+  
+															<th class="blue">{res:nodes_qty}</th>
+ 
+															<th class="blue">{res:expeditiondate}</th>
+ 
+															<th class="blue">{res:expirationdate}</th>
+ 
+															<th class="blue">{res:licensesector}</th>
+ 
+															<th class="blue">{res:licenseinfo}</th>
+														</tr>
+														<!-- BEGIN licensearchived_list -->
+														<tr>
+															<td nowrap>
+																<div class="action-buttons">
+																	<div class="inline">
+																		<!-- <a href="licensing_customers.php?guid={lbguid_archived}&license_guid={lblicense_guid_archived}&tab=licensing" class="green"><i class="icon-pencil bigger-180"></i></a> -->
+																	</div>
+																	<div class="inline">
+																		
+<a class="popover-info" role="button" data-animation="true" data-toggle="popover" data-html="true" data-rel="popover" data-placement="right" data-original-title="<span class='purple'>{res:relatedlicenses}</span>" data-content="
+																			<div class='table-responsive'>
+																			<table class='table table-striped table-bordered table-hover'>
+																				<tr>
+																					<th class='blue text-center'><span class='icon-cogs bigger-150'>&nbsp;</span></th>
+																					<th class='blue'>{res:suite_code}</th>
+																					<th class='blue'>{res:product_type}</th>
+																					<th class='blue'>{res:description}</th>
+																					<th class='blue'>{res:nodes_qty}</th>
+																					<th class='blue'>{res:expeditiondate}</th>
+																					<th class='blue'>{res:expirationdate}</th>
+																					<th class='blue'>{res:licensesector}</th>
+																					<th class='blue'>{res:licenseinfo}</th>
+																				</tr>
+																				<!-- BEGIN license_popup_archived -->
+																				<tr>
+																					<td nowrap>
+																						<!--
+																						<div class='action-buttons'>
+																							<div class='inline'>
+																								<a href='licensing_customers.php?guid={lbguid_popup_archived}&license_guid={lblicense_guid_popup_archived}&tab=licensing' class='green'><i class='icon-pencil bigger-180'></i></a>
+																							</div>
+																							<div class='inline'>
+																								{linkdelete_license_popup_archived}
+																							</div>
+																						</div>
+																						-->
+																					</td>
+																					<td class='text-center'>{lbsuite_code_popup_archived}<br>
+																						<span class='{lblicense_status_css_popup_archived} arrowed-in'>{lblicense_status_popup_archived}</span>
+																					</td>
+																					<td class='text-center'><img src='assets/{lbproduct_typeicon_popup_archived}'></td>
+																					<td nowrap><span class='orange'>{lbsuite_description_popup_archived}</span> <br>
+																						<span class=''>{lbdescription_popup_archived}</span> <br>
+																						<span class='green'>{lblicense_name_popup_archived}</span> <br>
+																						<span class='blue'>{res:licensedby}:&nbsp;{lblicensedby_name_popup_archived}</span>																		
+																					</td>
+																					<td class='text-right'>{lbnodes_qty_popup_archived}</td>
+																					<td class='green'>{lbexpedition_popup_archived}</td>
+																					<td class='red'>{lbexpiration_popup_archived}</td>
+																					<td>{lblicense_for_popup_archived}</td>
+																					<td nowrap>
+																						<span class=''>{lbgranttype_popup_archived}:&nbsp;</span><br><span class='green'>{lbgrantnumber_popup_archived}</span><br>
+																						<span class=''>{res:lbserialno}&nbsp;</span><br><span class='purple'>{lbserialnumber_popup_archived}</span><br>
+																					</td>
+																				</tr>
+																				<!-- END license_popup_archived -->
+																			</table>
+																			</div>
+																			">
+																		<li class="icon-briefcase purple bigger-180"></li><span class="label label-info arrowed-in-right arrowed label-sm">{lbtotalshared_archived}</span></a>
+																	</div>
+																	<br>
+																	<div class="inline">
+																	<!--
+																		<div class="btn-group dropup">
+																			<button data-toggle="dropdown" class="btn btn-xs btn-info dropdown-toggle">{res:options}<span class="icon-caret-down icon-only"></span></button>
+																			<ul class="dropdown-menu dropdown-danger">
+																				<li><a href="licensing_customers.php?o=renew&guid={lbguid_archived}&dguid={lblicense_guid_archived}&tab=licensing">{res:renewlicense}</a></li>
+																				<li class="divider"></li>
+																				<li>{linkdelete_license_archived}</li>
+																			</ul>
+																		</div>
+																	</div> 
+																	--> <!-- inline dropdown option button -->
+																</div>
+															</td> 
+															<td class="text-center">{lbsuite_code_archived}<br>
+																<span class="{lblicense_status_css_archived} arrowed-in">{lblicense_status_archived}</span>
+															</td> 
+															<td class="text-center">
+																<img src="assets/{lbproduct_typeicon_archived}">
+															</td>
+															<td nowrap><span class="orange">{lbsuite_description_archived}</span> <br>
+																<span class="">{lbdescription_archived}</span> <br>
+																<span class="green">{lblicense_name_archived}</span> <br>
+																<span class="blue">{res:licensedby}:&nbsp;{lblicensedby_name_archived}</span>
+															</td> 
+															<td class="text-right">{lbnodes_qty_archived}</td> 
+															<td class="green">
+{lbexpedition_archived}</td> 
+															<td class="red">{lbexpiration_archived}</td> 
+															<td>{lblicense_for_archived}</td> 
+															<td nowrap>
+																<span class="">{lbgranttype_archived}:&nbsp;</span><br><span class="green">{lbgrantnumber_archived}</span><br>
+																<span class="">{res:lbserialno}&nbsp;</span><br><span class="purple">{lbserialnumber_archived}</span><br>
+															</td>
+														</tr>
+														<!-- END licensearchived_list -->
+													</table>
+												</div><!-- table responsive -->
+												
+											</div><!-- archivedlicenses -->
+
+										</div> <!-- tab-content -->
+									</div><!-- tabbable -->
+
 								</div>
 								<!-- col -->
 							</div>
@@ -413,8 +556,7 @@
 								<div class="col-md-4 col-xs-12">
 									<div class="row col-xs-12">
 										<div class="col-md-12 col-xs-12">
-											<label class="control-label blue">
-{res:granttype}</label><br>
+											<label class="control-label blue">{res:granttype}</label><br>
 											<select name="{granttype_Name}" class="width-90 chosen-select" id="license_granttype">
 												<option selected value="">{res:selectoption}</option>
 												{granttype_Options}
@@ -480,6 +622,9 @@
 										<input type="hidden" value="{hidcustomer_guid}" name="{hidcustomer_guid_Name}">
 										<input type="hidden" value="{hidcustomer_id}" name="{hidcustomer_id_Name}">
 										<input type="hidden" name="{hidlicensestatus_Name}" value="{hidlicensestatus}">
+										<input type="hidden" name="{hido_Name}" value="{hido}">
+										<input type="hidden" name="{hiddguid_Name}" value="{hiddguid}">
+										<input type="hidden" name="{hidexpired_license_guid_Name}" value="{hidexpired_license_guid}">
 									</div>
 								</div>
 								<!-- col -->
@@ -508,8 +653,7 @@
 										</div>
 										<div class="row action-buttons inline">
 											<a href="licensing_viewfile.php?licensefile_guid={licensefile_guid}{getparams}"><li class="icon-eye-open bigger-180 blue"></li></a>
-											
-{linkdelete}											
+											{linkdelete}											
 										</div>
 									</div>
 									<!-- END licensefile_list -->

@@ -280,26 +280,6 @@ function licensing_customerscontent_alm_customers_BeforeShow(& $sender)
 			$nodes = $license["nodes"];
 			$licenseAmount = $license["licensed_amount"];
 
-			/* //Total cost display disabled
-			$totalCost = 0;
-			switch ($licenseBy) {
-				case "1" :
-					//Nodes
-					$totalCost = ( $price * $nodes );
-				break;
-				case "2" :
-					//Qty
-					$totalCost = ( $price * $licenseAmount );
-				break;
-				case "3" :
-					//Percentage
-					$totalCost = ( $price * ($licenseAmount/100) ) + $price;
-				break;
-			}
-
-			$Tpl->setvar("lbtotalcost","$ ".number_format($totalCost,2));
-			*/
-
 			$Tpl->setvar("lbgranttype",$license["granttype_name"]);
 
 			$Tpl->setvar("lblicense_for",$license["sector_name"]);
@@ -320,11 +300,24 @@ function licensing_customerscontent_alm_customers_BeforeShow(& $sender)
 			$Tpl->setvar("lbexpiration",$expirDate);
 			$Tpl->setvar("lbserialnumber",$license["serial_number"]);
 
+			//Generate renew link only when license has status of expired (3).
+			$linkrenew_license = "";
+			if ( ($license["id_license_status"] == "3") && ($license["isarchived"] == "0") ) {
+				$licenseGuid = $license["guid"];
+				global $CCSLocales;
+				$renewCaption = $CCSLocales->GetText("renewlicense");
+				$linkrenew_license = "<li><a href='licensing_customers.php?o=renew&guid=$guid&dguid=$licenseGuid&tab=licensing'>$renewCaption</a></li>";
+			}
+			$Tpl->setvar("linkrenew_license",$linkrenew_license);
+
+
 			//Generate link to delete license only for admins
 			$linkdelete_license = "";
 			if (CCGetGroupID() == "4") {
 				$licenseGuid = $license["guid"];
-				$linkdelete_license = "<a href='licensing_customers.php?guid=$guid&o=delfulllicense&license_guid=$licenseGuid' class='dellicense'><li class='icon-trash bigger-150 red'></li></a>";
+				global $CCSLocales;
+				$deleteCaption = $CCSLocales->GetText("deletelicense");
+				$linkdelete_license = "<a href='licensing_customers.php?guid=$guid&o=delfulllicense&license_guid=$licenseGuid' class='dellicense'>$deleteCaption</a>";
 			}
 			$Tpl->setvar("linkdelete_license",$linkdelete_license);
 
@@ -409,6 +402,152 @@ function licensing_customerscontent_alm_customers_BeforeShow(& $sender)
 
 			$Tpl->parse("license_list",true);
 		}
+
+
+		//********************************
+		//Displaying the archived licenses
+		//********************************
+		$products = new \Alm\Products();
+		//Will make the method return only the archived ones
+		$params["isArchived"] = 1;
+		$licenses = $products->getCustomerUniqueLicenses($params);
+		$allLicenses = $licenses["licenses"];
+		foreach($allLicenses as $license) {
+			$Tpl->setvar("lbguid_archived",$guid);
+			$Tpl->setvar("lblicense_guid_archived",$license["guid"]);						
+			$Tpl->setvar("lbsuite_code_archived",$license["suite_code"]);
+			$Tpl->setvar("lbsuite_description_archived",$license["suite_description"]);
+			$Tpl->setvar("lbdescription_archived",$license["description"]);
+			$Tpl->setvar("lbproduct_typeicon_archived",$license["type_icon_name"]);
+			$Tpl->setvar("lblicense_name_archived",$license["license_name"]);
+			$Tpl->setvar("lblicensedby_name_archived",$license["licensedby_name"]);
+			$Tpl->setvar("lblicense_status_archived",$license["license_status_name"]);
+			$Tpl->setvar("lblicense_status_css_archived",$license["alm_license_status_css_color"]);
+
+			if ($license["id_licensed_by"] == "1")
+				$Tpl->setvar("lbnodes_qty_archived",$license["nodes"]);
+			else 
+				$Tpl->setvar("lbnodes_qty_archived",$license["licensed_amount"]);
+
+			//Total cost of license
+			$price = $license["msrp_price"];
+			$licenseBy = $license["id_licensed_by"];
+			$nodes = $license["nodes"];
+			$licenseAmount = $license["licensed_amount"];
+
+			$Tpl->setvar("lbgranttype_archived",$license["granttype_name"]);
+
+			$Tpl->setvar("lblicense_for_archived",$license["sector_name"]);
+			$Tpl->setvar("lbgrantnumber_archived",$license["grant_number"]);
+
+			if ( strlen($license["expedition_date"]) <= 0 )
+				$expDate = "";
+			else	
+				$expDate = date("m/d/Y",strtotime($license["expedition_date"]));
+
+			$Tpl->setvar("lbexpedition_archived",$expDate);
+
+			if ( strlen($license["expiration_date"]) <= 0 )
+				$expirDate = "";
+			else	
+				$expirDate = date("m/d/Y",strtotime($license["expiration_date"]));
+
+			$Tpl->setvar("lbexpiration_archived",$expirDate);
+			$Tpl->setvar("lbserialnumber_archived",$license["serial_number"]);
+
+			//Generate link to delete license only for admins
+			$linkdelete_license = "";
+			if (CCGetGroupID() == "4") {
+				$licenseGuid = $license["guid"];
+				global $CCSLocales;
+				$deleteCaption = $CCSLocales->GetText("deletelicense");
+				$linkdelete_license = "<a href='licensing_customers.php?guid=$guid&o=delfulllicense&license_guid=$licenseGuid' class='dellicense'>$deleteCaption</a>";
+			}
+			$Tpl->setvar("linkdelete_license_archived",$linkdelete_license);
+
+
+	        $parentPath = $Tpl->block_path;
+	        $Tpl->block_path = $Tpl->block_path."/licensearchived_list";		
+			$Tpl->SetBlockVar("license_popup_archived","");
+			
+			//Displaying popup table for licenses with the same grant number
+			$grantNumber =  $license["grant_number"];
+			$licenseID = $license["id"];
+
+			$params["grant_number"] = $grantNumber;
+			$params["license_id"] = $licenseID;
+			//Will make the method return only the archived ones
+			$params["isArchived"] = 1;
+			$licensesPopup = $products->getCustomerRelatedLicenses($params);
+			$allLicensesPopup = $licensesPopup["licenses"];
+			$totalShared = 0;
+			foreach($allLicensesPopup as $licensePopup) {
+				$Tpl->setvar("lbguid_popup_archived",$guid);
+				$Tpl->setvar("lblicense_guid_popup_archived",$licensePopup["guid"]);						
+				$Tpl->setvar("lbsuite_code_popup_archived",$licensePopup["suite_code"]);
+				$Tpl->setvar("lbsuite_description_popup_archived",$licensePopup["suite_description"]);
+				$Tpl->setvar("lbdescription_popup_archived",$licensePopup["description"]);
+				$Tpl->setvar("lbproduct_typeicon_popup_archived",$licensePopup["type_icon_name"]);
+				$Tpl->setvar("lblicense_name_popup_archived",$licensePopup["license_name"]);
+				$Tpl->setvar("lblicensedby_name_popup_archived",$licensePopup["licensedby_name"]);
+				$Tpl->setvar("lblicense_status_popup_archived",$licensePopup["license_status_name"]);
+				$Tpl->setvar("lblicense_status_css_popup_archived",$licensePopup["alm_license_status_css_color"]);
+
+				if ($licensePopup["id_licensed_by"] == "1")
+					$Tpl->setvar("lbnodes_qty_popup_archived",$licensePopup["nodes"]);
+				else 
+					$Tpl->setvar("lbnodes_qty_popup_archived",$licensePopup["licensed_amount"]);
+
+				//Total cost of license
+				$price = $licensePopup["msrp_price"];
+				$licenseBy = $licensePopup["id_licensed_by"];
+				$nodes = $licensePopup["nodes"];
+				$licenseAmount = $licensePopup["licensed_amount"];
+
+				$Tpl->setvar("lbgranttype_popup_archived",$licensePopup["granttype_name"]);
+				$Tpl->setvar("lblicense_for_popup_archived",$licensePopup["sector_name"]);
+				$Tpl->setvar("lbgrantnumber_popup_archived",$licensePopup["grant_number"]);
+
+				if ( strlen($licensePopup["expedition_date"]) <= 0 )
+					$expDate = "";
+				else	
+					$expDate = date("m/d/Y",strtotime($licensePopup["expedition_date"]));
+
+				$Tpl->setvar("lbexpedition_popup_archived",$expDate);
+
+				if ( strlen($licensePopup["expiration_date"]) <= 0 )
+					$expirDate = "";
+				else	
+					$expirDate = date("m/d/Y",strtotime($licensePopup["expiration_date"]));
+
+				$Tpl->setvar("lbexpiration_popup_archived",$expirDate);
+				$Tpl->setvar("lbserialnumber_popup_archived",$licensePopup["serial_number"]);
+
+				//Generate link to delete license only for admins
+				$linkdelete_license = "";
+				if (CCGetGroupID() == "4") {
+					$licenseGuid = $licensePopup["guid"];
+					$linkdelete_license = "<a href='licensing_customers.php?guid=$guid&o=delfulllicense&license_guid=$licenseGuid' class='dellicense'><li class='icon-trash bigger-150 red'></li></a>";
+				}
+				$Tpl->setvar("linkdelete_license_popup_archived",$linkdelete_license);
+
+				$Tpl->parse("license_popup_archived", true);
+
+				$totalShared++;
+			
+			} //foreach licenses group into a popup for those with same grant number
+
+			$table_detail = $Tpl->GetVar("license_popup_archived");
+			$Tpl->block_path = $parentPath;
+			$Tpl->SetBlockVar("license_popup_archived",$table_detail);
+
+
+			//Displaying total licenses sharing grant number
+			$Tpl->setvar("lbtotalshared_archived","+$totalShared");
+
+			$Tpl->parse("licensearchived_list",true);
+		}
+
 
 		$db->close();
 	}
@@ -814,6 +953,42 @@ function licensing_customerscontent_licensing_pnaddsupport_BeforeShow(& $sender)
 }
 //End Close licensing_customerscontent_licensing_pnaddsupport_BeforeShow
 
+//licensing_customerscontent_licensing_hido_BeforeShow @226-AA199BD8
+function licensing_customerscontent_licensing_hido_BeforeShow(& $sender)
+{
+ $licensing_customerscontent_licensing_hido_BeforeShow = true;
+ $Component = & $sender;
+ $Container = & CCGetParentContainer($sender);
+ global $licensing_customerscontent; //Compatibility
+//End licensing_customerscontent_licensing_hido_BeforeShow
+
+//Retrieve Value for Control @227-E68DB893
+ $Container->hido->SetValue(CCGetFromGet("o", ""));
+//End Retrieve Value for Control
+
+//Close licensing_customerscontent_licensing_hido_BeforeShow @226-F67D72E8
+ return $licensing_customerscontent_licensing_hido_BeforeShow;
+}
+//End Close licensing_customerscontent_licensing_hido_BeforeShow
+
+//licensing_customerscontent_licensing_hiddguid_BeforeShow @228-751ACE87
+function licensing_customerscontent_licensing_hiddguid_BeforeShow(& $sender)
+{
+ $licensing_customerscontent_licensing_hiddguid_BeforeShow = true;
+ $Component = & $sender;
+ $Container = & CCGetParentContainer($sender);
+ global $licensing_customerscontent; //Compatibility
+//End licensing_customerscontent_licensing_hiddguid_BeforeShow
+
+//Retrieve Value for Control @229-08CAA933
+ $Container->hiddguid->SetValue(CCGetFromGet("dguid", ""));
+//End Retrieve Value for Control
+
+//Close licensing_customerscontent_licensing_hiddguid_BeforeShow @228-A3B4A5B0
+ return $licensing_customerscontent_licensing_hiddguid_BeforeShow;
+}
+//End Close licensing_customerscontent_licensing_hiddguid_BeforeShow
+
 //Used because the last_user_id query on afterinsert was not working
 $lastguid = "";
 
@@ -843,7 +1018,6 @@ function licensing_customerscontent_licensing_BeforeInsert(& $sender)
 	$db->close();
 	$licensing_customerscontent->licensing->hidcustomer_id->SetValue($customer_id);
 
-
 	//Changing license status to active when inactive and grant,expdate,expirdate are present
 	$grantNo = trim($licensing_customerscontent->licensing->grant_number->GetValue());
 	$expDate = $licensing_customerscontent->licensing->expedition_date->GetValue();
@@ -851,18 +1025,41 @@ function licensing_customerscontent_licensing_BeforeInsert(& $sender)
 	$licenseStatus = (int)$licensing_customerscontent->licensing->hidlicensestatus->GetValue();
 	$licenseType = (int)$licensing_customerscontent->licensing->id_license_type->GetValue();
 
+
+	$o = trim($licensing_customerscontent->licensing->hido->GetValue());
+	$dguid = trim($licensing_customerscontent->licensing->hiddguid->GetValue());
+
+	$params = array();
+	$params["guid"] = $dguid;
+
+	if ($o == "renew") {
+		//Keeps the expired license guid reference on the new renewed license
+		$licensing_customerscontent->licensing->hidexpired_license_guid->SetValue($dguid);	
+	}
+
 	//Making sure that perpetual licenses dont get expiration date values
+	//And change status to active if grantnumber, expiration date have values
 	if ( ($licenseStatus == 1) && (strlen($grantNo) > 0) && (count($expDate) > 1) && (count($expirDate) > 1) ) {
 
 		if ( ($licenseType == 7) || ($licenseType == 12) )
 			$licensing_customerscontent->licensing->expiration_date->SetValue("");
+
 		$licensing_customerscontent->licensing->hidlicensestatus->SetValue("2");
 
+		//If renewing and new license is activated, sets expired license as archived
+		if ($o == "renew") {
+			$products = new Alm\Products();
+			$products->setLicenseArchivedByGuid($params);
+		}
+
 	} else {
+		//Its a perpetual license
 		if ( ($licenseStatus == 1) && (strlen($grantNo) > 0) && (count($expDate) > 1) && 
-		( ( ($licenseType == 7) || ($licenseType == 12) ) ) )
-			$licensing_customerscontent->licensing->hidlicensestatus->SetValue("2");
+		( ( ($licenseType == 7) || ($licenseType == 12) ) ) ) {
 			$licensing_customerscontent->licensing->expiration_date->SetValue("");
+			$licensing_customerscontent->licensing->hidlicensestatus->SetValue("2");
+		}
+		
 	}
 
 // -------------------------
@@ -947,14 +1144,33 @@ function licensing_customerscontent_licensing_BeforeUpdate(& $sender)
 
 		if ( ($licenseType == 7) || ($licenseType == 12) )
 			$licensing_customerscontent->licensing->expiration_date->SetValue("");
+
 		$licensing_customerscontent->licensing->hidlicensestatus->SetValue("2");
+
+		//If the renewal was not activated when created, then will use the expired_license_guid to identify 
+		//a renewal not activeated yet and the expired license was not archived as well.
+		$expiredLicenseGuid = trim($licensing_customerscontent->licensing->hidexpired_license_guid->GetValue());
+
+		if ( strlen($expiredLicenseGuid) > 0 ) {
+			$params = array();
+			$params["guid"] = $expiredLicenseGuid;
+
+			//A renewal not activeated yet and the expired license was not archived as well, 
+			//sets expired license as archived
+			$products = new Alm\Products();
+			$products->setLicenseArchivedByGuid($params);
+
+		}
+
 
 	} else {
 		if ( ($licenseStatus == 1) && (strlen($grantNo) > 0) && (count($expDate) > 1) && 
-		( ( ($licenseType == 7) || ($licenseType == 12) ) ) )
-			$licensing_customerscontent->licensing->hidlicensestatus->SetValue("2");
+		( ( ($licenseType == 7) || ($licenseType == 12) ) ) ) {
 			$licensing_customerscontent->licensing->expiration_date->SetValue("");
+			$licensing_customerscontent->licensing->hidlicensestatus->SetValue("2");
+		}
 	}
+
 
 // -------------------------
 //End Custom Code
@@ -1030,46 +1246,70 @@ function licensing_customerscontent_licensing_BeforeShow(& $sender)
 	$dguid = trim(CCGetFromGet("dguid",""));
 	$customer_guid = trim(CCGetFromGet("guid",""));
 	$querystring = CCGetQueryString("QueryString",array("o","dguid"));
-	if ($o == "addsupport"){
-		$params = array();
-		$params["guid"] = $dguid;
-		$products = new Alm\Products();
-		$license = $products->getLicenseByGuid($params);
-		$license = $license["licenses"];
-		$license = $license[0]; //Returns an array, but this case will always return 1 record only
-		if (count($license) >= 1) {
-			$licensing_customerscontent->licensing->manufacturer->SetValue($license["id_manufacturer"]);
-			$licensing_customerscontent->licensing->suite_code->SetValue($license["id_suite"]);
-			$licensing_customerscontent->licensing->id_product_type->SetValue($license["id_product_type"]);
-			$licensing_customerscontent->licensing->id_license_sector->SetValue($license["id_license_sector"]);
+	switch ($o) {
+		case "addsupport" :
+			$params = array();
+			$params["guid"] = $dguid;
+			$products = new Alm\Products();
+			$license = $products->getLicenseByGuid($params);
+			$license = $license["licenses"];
+			$license = $license[0]; //Returns an array, but this case will always return 1 record only
+			if (count($license) >= 1) {
+				$licensing_customerscontent->licensing->manufacturer->SetValue($license["id_manufacturer"]);
+				$licensing_customerscontent->licensing->suite_code->SetValue($license["id_suite"]);
+				$licensing_customerscontent->licensing->id_product_type->SetValue($license["id_product_type"]);
+				$licensing_customerscontent->licensing->id_license_sector->SetValue($license["id_license_sector"]);
 
-			//Product type 2 = hardware, 1 software, 3 and 4 not yet defined for this rule
-			if ($license["id_product_type"] == 2)
-				$licensing_customerscontent->licensing->id_license_type->SetValue("11"); //11 Code for product type hardware support
-			else 
-				$licensing_customerscontent->licensing->id_license_type->SetValue("10"); //11 Code for product type software support
+				//Product type 2 = hardware, 1 software, 3 and 4 not yet defined for this rule
+				if ($license["id_product_type"] == 2)
+					$licensing_customerscontent->licensing->id_license_type->SetValue("11"); //11 Code for product type hardware support
+				else 
+					$licensing_customerscontent->licensing->id_license_type->SetValue("10"); //11 Code for product type software support
 
-			$licensing_customerscontent->licensing->suitedescription->SetValue($license["suite_description"]);
-			$licensing_customerscontent->licensing->id_reseller->SetValue($license["id_reseller"]);
-			$licensing_customerscontent->licensing->id_licensed_by->SetValue($license["id_licensed_by"]);
-			$licensing_customerscontent->licensing->licensed_amount->SetValue($license["licensed_amount"]);
-			$licensing_customerscontent->licensing->nodes->SetValue($license["nodes"]);
-			$licensing_customerscontent->licensing->granttype->SetValue($license["id_license_granttype"]);
-			$licensing_customerscontent->licensing->grant_number->SetValue($license["grant_number"]);
+				$licensing_customerscontent->licensing->suitedescription->SetValue($license["suite_description"]);
+				$licensing_customerscontent->licensing->id_reseller->SetValue($license["id_reseller"]);
+				$licensing_customerscontent->licensing->id_licensed_by->SetValue($license["id_licensed_by"]);
+				$licensing_customerscontent->licensing->licensed_amount->SetValue($license["licensed_amount"]);
+				$licensing_customerscontent->licensing->nodes->SetValue($license["nodes"]);
+				$licensing_customerscontent->licensing->granttype->SetValue($license["id_license_granttype"]);
+				$licensing_customerscontent->licensing->grant_number->SetValue($license["grant_number"]);
 
-			//Show general alert with duplication info taking place
-			//global $CCSLocales;
-			//CCSetSession("showglobal_alert","show");
-			//$licensing_customerscontent->licensing->showglobal_alert->SetValue("show");
-			//$licensing_customerscontent->licensing->lbtitle->SetValue($CCSLocales->GetText("duplicate_product"));
-			//$licensing_customerscontent->licensing->lbmessage->SetValue($CCSLocales->GetText("duplicate_message"));
+				//Show general alert with duplication info taking place
+				//global $CCSLocales;
+				//CCSetSession("showglobal_alert","show");
+				//$licensing_customerscontent->licensing->showglobal_alert->SetValue("show");
+				//$licensing_customerscontent->licensing->lbtitle->SetValue($CCSLocales->GetText("duplicate_product"));
+				//$licensing_customerscontent->licensing->lbmessage->SetValue($CCSLocales->GetText("duplicate_message"));
+			}
 
-		}
-		//$licensing_customerscontent->alm_products->querystring->SetValue($querystring);
+		break;
+		case "renew" :
+			$params = array();
+			$params["guid"] = $dguid;
+			$products = new Alm\Products();
+			$license = $products->getLicenseByGuid($params);
+			$license = $license["licenses"];
+			$license = $license[0]; //Returns an array, but this case will always return 1 record only
+			if (count($license) >= 1) {
+				$licensing_customerscontent->licensing->manufacturer->SetValue($license["id_manufacturer"]);
+				$licensing_customerscontent->licensing->suite_code->SetValue($license["id_suite"]);
+				$licensing_customerscontent->licensing->id_product_type->SetValue($license["id_product_type"]);
+				$licensing_customerscontent->licensing->id_license_sector->SetValue($license["id_license_sector"]);
+				$licensing_customerscontent->licensing->id_license_type->SetValue($license["id_license_type"]);
+				$licensing_customerscontent->licensing->channel_sku->SetValue($license["channel_sku"]);
+				$licensing_customerscontent->licensing->msrp_price->SetValue($license["msrp_price"]);
+				$licensing_customerscontent->licensing->suitedescription->SetValue($license["suite_description"]);
+				$licensing_customerscontent->licensing->id_reseller->SetValue($license["id_reseller"]);
+				$licensing_customerscontent->licensing->id_licensed_by->SetValue($license["id_licensed_by"]);
+				$licensing_customerscontent->licensing->licensed_amount->SetValue($license["licensed_amount"]);
+				$licensing_customerscontent->licensing->nodes->SetValue($license["nodes"]);
+				$licensing_customerscontent->licensing->granttype->SetValue($license["id_license_granttype"]);
+				$licensing_customerscontent->licensing->id_product->SetValue($license["id_product"]);
+			}
 		
-	} else {
-		//CCSetSession("showglobal_alert","hide");
-	}
+		break;		
+
+	} 
 
 // -------------------------
 //End Custom Code
