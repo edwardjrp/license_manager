@@ -1,5 +1,6 @@
 # config valid only for Capistrano 3.1
 lock '3.2.1'
+#lock '3.3.5'
 
 set :application, 'alm'
 set :repo_url, 'ssh://edward@lab.capa3.net:8022/home/edward/alm.git'
@@ -10,7 +11,7 @@ set :repo_url, 'ssh://edward@lab.capa3.net:8022/home/edward/alm.git'
 
 # Default deploy_to directory is /var/www/my_app
 set :deploy_to, '/home/edward/alm'
-set :keep_releases, 5
+set :keep_releases, 4
 
 # Default value for :scm is :git
  set :scm, :git
@@ -60,6 +61,19 @@ end
 
 namespace :deploy do
 
+=begin
+  desc "Resymlink"
+  task :resymlink do
+    on roles(:app), in: :sequence, wait: 5 do
+      run "rm -f #{current_path} && ln -s #{release_path} #{current_path}"
+      run "rm /home/edward/alm/current/Common.php"
+      run "ln -s /home/edward/alm/shared/Common.php /home/edward/alm/current/Common.php"
+      run "ln -s /home/edward/alm/shared/licenses/ /home/edward/alm/current/assets/licenses"
+      run "ln -s /home/edward/alm/shared/vendor/ /home/edward/alm/current/vendor"
+    end
+  end
+
+=end
   desc 'Restart application'
   task :restart do
     on roles(:app), in: :sequence, wait: 5 do

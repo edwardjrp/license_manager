@@ -530,7 +530,7 @@ class Products {
 	             ,"expiration_date","serial_number","granttype_name","isarchived");
 	             $fields = implode(",",$fields_array);
 	             $sql = "select $fields from v_alm_licenses where id_customer = $customer_id and isarchived = $isArchived
-						 and id in (select id from v_alm_licenses where id_customer = $customer_id group by grant_number) ";
+						 and id in (select id from v_alm_licenses where id_customer = $customer_id group by IFNULL(grant_number,RAND()) ) ";
 	             $db->query($sql);
 
 	             while ($db->next_record()) {
