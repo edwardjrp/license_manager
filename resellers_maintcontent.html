@@ -1,0 +1,111 @@
+<div class="widget-box">
+	<div class="widget-header">
+		<h4>{res:addeditreseller}</h4>
+	</div>
+	<div class="widget-body">
+
+		<!-- BEGIN Record alm_resellers -->
+		<form id="alm_resellers" method="post" action="{Action}" name="{HTMLFormName}">
+			<div class="row widget-main">
+				<!-- BEGIN Error -->
+				<div class="alert alert-block alert-danger">
+					<button class="close" data-dismiss="alert"><i class="icon-remove"></i></button><strong>
+					<li class="icon-remove"></strong>{Error}</li>
+				</div>
+				<!-- END Error -->
+				<div class="row col-md-12 col-xs-12">
+					<div class="row col-xs-12">
+						<div class="col-md-1 col-xs-0"></div>
+						<div class="col-md-10 col-xs-12">
+							<div class="alert alert-block alert-success {page:showalert}">
+								<button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button>
+								<p><strong><i class="icon-ok"></i>{res:saved}</strong>&nbsp;{res:savedmessage}</p>
+							</div>
+						</div>
+					</div>
+					<!-- row -->
+					<div class="row col-xs-12">
+						<div class="col-md-1 col-xs-0"></div>
+						<div class="col-md-8 col-xs-12">
+							<label class="control-label blue">{res:reseller}</label><br>
+							<input type="text" name="{reseller_name_Name}" value="{reseller_name}" id="reseller_name" class="col-md-12 col-xs-12" data-validation="required" data-validation-error-msg="{res:invalidreseller}">
+						</div>
+					</div>
+					<!-- row -->
+
+					<div class="row col-xs-12">
+						<div class="col-md-1 col-xs-0"></div>
+						<div class="col-md-4 col-xs-12">
+							<label class="control-label blue">{res:contact}</label><br>
+							<input type="text" name="{contact_Name}" value="{contact}" id="contact" class="col-md-12 col-xs-12">
+						</div>
+						<div class="col-md-4 col-xs-12">
+							<label class="control-label blue">{res:contactemail}</label><br>
+							<input type="text" name="{contact_email_Name}" value="{contact_email}" id="contact" class="col-md-12 col-xs-12" data-validation="email" data-validation-error-msg="{res:invalidemail}" data-validation-optional="true">
+						</div>
+					</div>
+					<!-- row -->
+
+					<div class="row col-xs-12">
+						<div class="col-md-1 col-xs-0">
+						</div>
+						<div class="col-md-4 col-xs-12">
+							<label class="control-label blue">{res:contactphone}</label><br>
+							<input type="text" name="{contact_phone_Name}" value="{contact_phone}" id="contact" class="col-md-12 col-xs-12" data-validation="custom" data-validation-regexp="^([0-9-?]+)$" data-validation-optional="true" data-validation-error-msg="{res:invalidphone}">
+						</div>
+						<div class="col-md-4 col-xs-12">
+							<label class="control-label blue">{res:contactmobile}</label><br>
+							<input type="text" name="{contact_mobile_Name}" value="{contact_mobile}" id="contact" class="col-md-12 col-xs-12" data-validation="custom" data-validation-regexp="^([0-9-?]+)$" data-validation-optional="true" data-validation-error-msg="{res:invalidmobile}">
+						</div>
+					</div>
+					<!-- row -->
+
+				</div>
+				<!-- main row -->
+				<div class="row">
+					<div class="col-md-12 col-xs-12">
+						<div class="form-actions center">
+							<a href="resellers.php{lbgoback}" role="button" id="goback" class="btn btn-sm btn-success"><li class="icon-arrow-left"></li>&nbsp;{res:buttongoback}</a>&nbsp;&nbsp;
+							<!-- BEGIN Button Button_Insert --><button name="{Button_Name}" type="submit" value="{res:buttonsave}" id="Button_Insert" class="btn btn-sm btn-success"><li class="icon-save"></li>&nbsp; {res:buttonsave}</button><!-- END Button Button_Insert -->
+							<!-- BEGIN Button Button_Update --><button name="{Button_Name}" type="submit" value="{res:buttonsave}" id="Button_Update" class="btn btn-sm btn-success"><li class="icon-save"></li>&nbsp; {res:buttonsave}</button><!-- END Button Button_Update -->
+							<input id="modified_iduser" type="hidden" value="{modified_iduser}" name="{modified_iduser_Name}">
+							<input id="created_iduser" type="hidden" value="{created_iduser}" name="{created_iduser_Name}">
+							<input id="hidguid" type="hidden" value="{hidguid}" name="{hidguid_Name}">
+						</div>
+						<!-- form-actions  -->
+					</div>
+				</div>
+			</div>
+			<!-- row box -->
+		</form>
+		<!-- END Record alm_resellers -->	
+	
+	</div>
+	<!-- widget-body -->
+</div>
+<!-- widget-box -->
+<link rel="stylesheet" href="assets/css/datepicker.css" />
+<link rel="stylesheet" href="assets/css/colorbox.css" />
+<link rel="stylesheet" href="assets/css/chosen.css" />
+<!-- included here to not mess with too much js in the main page -->
+<script src="assets/js/jquery-2.0.3.min.js"></script>
+<script src="assets/js/json3.min.js"></script>
+<script src="assets/js/form-validator/jquery.form-validator.min.js"></script>
+<script src="assets/js/jquery.colorbox-min.js"></script>
+<script src="assets/js/date-time/bootstrap-datepicker.min.js"></script>
+<script src="assets/js/bootbox.min.js"></script>
+<script src="assets/js/jquery-ui-1.10.3.custom.min.js"></script>
+<script src="assets/js/jquery.ui.touch-punch.min.js"></script>
+<script src="assets/js/jquery.colorbox-min.js"></script>
+<script src="assets/js/chosen.jquery.min.js"></script>
+<script>
+$(function(){
+        
+    $("#reseller_name").focus();
+    $.validate({
+            form : "#alm_resellers"
+    });
+
+});
+
+</script>

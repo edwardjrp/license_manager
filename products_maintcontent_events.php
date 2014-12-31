@@ -132,6 +132,32 @@ function products_maintcontent_alm_products_pnduplicate_BeforeShow(& $sender)
 }
 //End Close products_maintcontent_alm_products_pnduplicate_BeforeShow
 
+//products_maintcontent_alm_products_pnsaveadd_BeforeShow @79-6C793A41
+function products_maintcontent_alm_products_pnsaveadd_BeforeShow(& $sender)
+{
+ $products_maintcontent_alm_products_pnsaveadd_BeforeShow = true;
+ $Component = & $sender;
+ $Container = & CCGetParentContainer($sender);
+ global $products_maintcontent; //Compatibility
+//End products_maintcontent_alm_products_pnsaveadd_BeforeShow
+
+//Custom Code @80-2A29BDB7
+// -------------------------
+ // Write your own code here.
+ 	$guid = trim(CCGetFromGet("guid",""));
+	if (strlen($guid) > 0)
+		$products_maintcontent->alm_products->pnsaveadd->Visible = false;
+	else
+		$products_maintcontent->alm_products->pnsaveadd->Visible = true;
+
+// -------------------------
+//End Custom Code
+
+//Close products_maintcontent_alm_products_pnsaveadd_BeforeShow @79-FC8E08D0
+ return $products_maintcontent_alm_products_pnsaveadd_BeforeShow;
+}
+//End Close products_maintcontent_alm_products_pnsaveadd_BeforeShow
+
 //Used because the last_user_id query on afterinsert was not working
 $lastguid = "";
 
@@ -217,8 +243,13 @@ function products_maintcontent_alm_products_AfterInsert(& $sender)
 	} 
 
 	//Getting querystring parameter to include in redirect when a duplicate operation takes place
-	$querystring = CCGetFromPost("querystring","");
-	$Redirect = $FileName."?guid=$lastguid&$querystring";
+	$buttoninsert2 = trim(CCGetFromPost("buttoninsert2",""));
+	if ($buttoninsert2 == "saveadd") {
+		$Redirect = $FileName;
+	} else {
+		$querystring = CCGetFromPost("querystring","");
+		$Redirect = $FileName."?guid=$lastguid&$querystring";
+	}
 
 // -------------------------
 //End Custom Code

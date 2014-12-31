@@ -1072,6 +1072,32 @@ class Products {
 	}
 
 
+	public function deleteResellerByGuid($params = array()) {
+		$result = array("status" => false, "message" => "");
+
+		$guid = $params["del_guid"];
+		if (strlen($guid) > 0) {
+			$db = new \clsDBdbConnection();
+			$sql = "delete from alm_resellers where guid = '$guid' ";
+			$db->query($sql);
+			$db->close();
+
+			$result["status"] = true;
+			$result["message"] = "Command executed successfully.";
+
+			return $result;
+
+		} else {
+
+			$result["status"] = false;
+			$result["message"] = "Invalid GUID.";
+
+			return $result;
+
+		}
+
+    }
+
 
 }
 

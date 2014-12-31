@@ -121,33 +121,42 @@
 
 					<div class="row col-xs-12">
 						<div class="col-md-1 col-xs-0"></div>
-						<div class="col-md-3 col-xs-12">
-							<label class="control-label blue">{res:product_type}</label><br>
-							<!-- BEGIN RadioButton id_product_type --><input {Check} type="radio" name="{id_product_type_Name}" value="{Value}" id="id_product_type_{id_product_type:optionNumber}" class="ace"><span class="lbl">&nbsp;&nbsp;{Description}&nbsp;&nbsp;&nbsp;</span><!-- END RadioButton id_product_type -->
+						<div class="col-md-4 col-xs-12">
+							<div class="row col-md-12 col-xs-12">
+								<label class="control-label blue">{res:product_type}</label><br>
+								<select name="{id_product_type_Name}" id="id_product_type" class="width-90 chosen-select">
+									<option value="">{res:option_na}</option>
+									{id_product_type_Options}
+								</select>
+							</div>
+
+							<div class="row col-md-12 col-xs-12">
+								<label class="control-label blue">{res:licensetype}</label><br>
+								<select name="{id_license_type_Name}" id="id_license_type" class="width-90 chosen-select">
+									<option value="">{res:option_na}</option>
+									{id_license_type_Options}
+								</select>
+							</div>
+
 						</div>
-						<div class="col-md-3 col-xs-12">
-							<div class="row">
+
+						<div class="col-md-4 col-xs-12">
+							<div class="row col-md-12 col-xs-12">
 								<label class="control-label blue">{res:product_tag}</label><br>
 								<select name="{id_product_tag_Name}" id="id_product_tag" class="width-90 chosen-select">
 									<option value="">{res:option_na}</option>
 									{id_product_tag_Options}
 								</select>
 							</div>
-							<div class="row">
+							<div class="row col-md-12 col-xs-12">
 								<label class="control-label blue">{res:granttype}</label><br>
 								<select name="{id_license_granttype_Name}" id="id_license_granttype" class="width-90 chosen-select">
 									<option value="">{res:option_na}</option>
-									{id_license_granttype_Options}
+									
+{id_license_granttype_Options}
 								</select>
 
 							</div>
-						</div>
-						<div class="col-md-3 col-xs-12">
-							<label class="control-label blue">{res:licensetype}</label><br>
-							<select name="{id_license_type_Name}" id="id_license_type" class="width-90 chosen-select">
-								<option value="">{res:option_na}</option>
-								{id_license_type_Options}
-							</select>
 						</div>
 
 					</div><!-- row -->
@@ -184,6 +193,14 @@
 							<div class="inline">
 								<!-- BEGIN Button Button_Insert --><button name="{Button_Name}" type="submit" value="{res:buttonsave}" id="Button_Insert" class="btn btn-sm btn-success"><li class="icon-save"></li>&nbsp; {res:buttonsave}</button><!-- END Button Button_Insert -->
 							</div>
+							
+							<!-- BEGIN Panel pnsaveadd -->
+								<div class="inline">
+									&nbsp;&nbsp;
+									<button name="buttoninsert2" type="submit" value="saveadd" id="buttoninsert2" class="btn btn-sm btn-info"><li class="icon-save"></li>&nbsp; {res:buttonsaveadd}</button>
+								</div>							
+							<!-- END Panel pnsaveadd -->
+
 							<div class="inline">														
 								&nbsp;&nbsp;<!-- BEGIN Panel pnduplicate --><a href="products_maint.php?o=duplicate{params}" role="button" id="duplicate" class="btn btn-sm btn-success"><li class="icon-copy"></li>&nbsp;{res:duplicate}</a><!-- END Panel pnduplicate -->
 							</div>
