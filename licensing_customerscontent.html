@@ -18,10 +18,14 @@
 					<div class="col-md-10 col-xs-10">
 						<div class="alert alert-block alert-success {page:showalert}">
 							<button class="close" data-dismiss="alert"><i class="icon-remove"></i></button> 
-							<p><strong><i class="icon-ok"></i>{res:saved}</strong>{res:savedmessage}</p>
+							<p><strong><i class="icon-ok"></i>{res:saved}</strong>&nbsp;{res:savedmessage}</p>
 						</div>
 						<div class="alert alert-block alert-danger {page:showalert_contacterror}">
-							<p><strong><i class="icon-warning-sign"></i>{res:contacterror}</strong>{res:contacterrormessage}</p>
+							<p><strong><i class="icon-warning-sign"></i>{res:contacterror}</strong>&nbsp;{res:contacterrormessage}</p>
+						</div>
+						<div class="alert alert-block alert-danger {page:showalert_addsupport}">
+							<button class="close" data-dismiss="alert"><i class="icon-remove"></i></button>
+							<p><strong><i class="icon-warning-sign"></i>{res:addsupport}</strong>&nbsp;{res:addsupportmessage}</p>
 						</div>
 					</div>
 				</div>
@@ -29,7 +33,8 @@
 				<div class="tabbable">
 					<ul id="myTab" class="nav nav-tabs">
 						<li class="{tab1_active}"><a href="#customerdetails" data-toggle="tab">{res:tabcust_title}</a> 
-						<li class="{tab2_active}"><a href="#licensingtab" data-toggle="tab">{res:tablicensing_titleadd}</a> </li>
+						<li class="{tab2_active}"><a href="#licensingtab" data-toggle="tab">
+{res:tablicensing_titleadd}</a> </li>
 						<li class="{tab3_active}"><a href="#activelicenses" data-toggle="tab">{res:licenses}</a></li>
 					 	<li class="{tab4_active}"><a href="#archivedlicenses" data-toggle="tab">{res:archivedlicenses}</a></li>
 					</ul>
@@ -146,7 +151,17 @@
 					<div id="licensingtab" class="tab-pane {tab2_active}">
 						<!-- BEGIN Record licensing -->
 						<form id="licensing" method="post" name="{HTMLFormName}" action="{Action}">
-							<!-- BEGIN Error -->{Error} <!-- END Error -->
+							<!-- BEGIN Error -->
+								<div class="row">
+									<div class="col-xs-1"></div>
+									<div class="col-md-10 col-xs-10">
+										<div class="alert alert-block alert-danger">
+											<button class="close" data-dismiss="alert"><i class="icon-remove"></i></button>
+											<strong>{res:error}</strong>&nbsp;{Error} </li>
+										</div>
+									</div>
+								</div>
+							 <!-- END Error -->
 							<div class="row col-xs-12">
 								<div class="col-md-1 col-xs-0">
 								</div>
@@ -165,7 +180,6 @@
 										{suite_code_Options}
 									</select>
 								</div>
-
 								<div class="col-md-3 col-xs-12">
 									<label class="control-label blue">{res:product_type}</label><br>
 									<select name="{id_product_type_Name}" id="id_product_type" class="width-90 chosen-select licensefilter">
@@ -267,8 +281,7 @@
 								<div class="col-md-1 col-xs-0"></div>
 								<div class="col-md-4 col-xs-12">
 									<label class="control-label blue">{res:licensedby}</label><br>
-									<!-- BEGIN RadioButton id_licensed_by --><input id="id_licensed_by_{Value}" class="ace id_licensed_by" type="radio" value="{Value}" name="{id_licensed_by_Name}" {Check}><span class="lbl">
-&nbsp;&nbsp;{Description}&nbsp;&nbsp;&nbsp;</span><!-- END RadioButton id_licensed_by -->
+									<!-- BEGIN RadioButton id_licensed_by --><input id="id_licensed_by_{Value}" class="ace id_licensed_by" type="radio" value="{Value}" name="{id_licensed_by_Name}" {Check}><span class="lbl">&nbsp;&nbsp;{Description}&nbsp;&nbsp;&nbsp;</span><!-- END RadioButton id_licensed_by -->
 								</div>
 								<div id="amounts" class="col-md-2 col-xs-12 hide">
 									<label class="control-label blue">{res:amount_percentage}</label><br>
@@ -301,8 +314,7 @@
 											<label class="control-label blue">{res:granttype}</label><br>
 											<select name="{granttype_Name}" class="width-90 chosen-select" id="license_granttype">
 												<option selected value="">{res:selectoption}</option>
-												
-{granttype_Options}
+												{granttype_Options}
 											</select>
 											<input type="text" class="col-md-11 col-xs-12" value="{grant_number}" name="{grant_number_Name}">
 										</div>
@@ -368,6 +380,7 @@
 										<input type="hidden" name="{hido_Name}" value="{hido}">
 										<input type="hidden" name="{hiddguid_Name}" value="{hiddguid}">
 										<input type="hidden" name="{hidexpired_license_guid_Name}" value="{hidexpired_license_guid}">
+										<input type="hidden" name="{hidparent_license_guid_Name}" value="{hidparent_license_guid}">
 									</div>
 								</div>
 								<!-- col -->
@@ -459,9 +472,18 @@
 																				<div class='inline'>
 																					<a href='licensing_customers.php?guid={lbguid_popup}&license_guid={lblicense_guid_popup}&tab=licensing' class='green'><i class='icon-pencil bigger-180'></i></a>
 																				</div>
+																				<br>
 																				<div class='inline'>
-																					{linkdelete_license_popup}
+																					<div class='btn-group dropup'>
+																						<button data-toggle='dropdown' class='btn btn-xs btn-info dropdown-toggle'>{res:options}<span class='icon-caret-down icon-only'></span></button>
+																						<ul class='dropdown-menu dropdown-danger'>
+																							<li>{linkdelete_license_popup}</li>
+																							<li class='divider'></li>
+																							{linkrenew_license_popup}
+																						</ul>
+																					</div>
 																				</div>
+
 																			</div>
 																		</td>
 																		<td class='text-center'>{lbsuite_code_popup}<br>
@@ -500,6 +522,7 @@
 																</ul>
 															</div>
 														</div><!-- inline dropdown option button -->
+
 													</div>
 												</td> 
 												<td class="text-center">{lbsuite_code}<br>

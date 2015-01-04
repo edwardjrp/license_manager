@@ -261,7 +261,7 @@ class clsGridproducts_listv_alm_products { //v_alm_products class @12-34EC6C64
  public $Sorter_id_product_type;
 //End Variables
 
-//Class_Initialize Event @12-47E5CA25
+//Class_Initialize Event @12-EDF8212D
  function clsGridproducts_listv_alm_products($RelativePath, & $Parent)
  {
   global $FileName;
@@ -307,6 +307,8 @@ class clsGridproducts_listv_alm_products { //v_alm_products class @12-34EC6C64
   $this->qtypercentage = new clsControl(ccsLabel, "qtypercentage", "qtypercentage", ccsText, "", CCGetRequestParam("qtypercentage", ccsGet, NULL), $this);
   $this->licensedby_name = new clsControl(ccsLabel, "licensedby_name", "licensedby_name", ccsText, "", CCGetRequestParam("licensedby_name", ccsGet, NULL), $this);
   $this->hidlicensedby = new clsControl(ccsHidden, "hidlicensedby", "hidlicensedby", ccsText, "", CCGetRequestParam("hidlicensedby", ccsGet, NULL), $this);
+  $this->suite_status_name = new clsControl(ccsLabel, "suite_status_name", "suite_status_name", ccsText, "", CCGetRequestParam("suite_status_name", ccsGet, NULL), $this);
+  $this->suite_status_css_color = new clsControl(ccsLabel, "suite_status_css_color", "suite_status_css_color", ccsText, "", CCGetRequestParam("suite_status_css_color", ccsGet, NULL), $this);
   $this->Sorter_guid = new clsSorter($this->ComponentName, "Sorter_guid", $FileName, $this);
   $this->Sorter_suite_code = new clsSorter($this->ComponentName, "Sorter_suite_code", $FileName, $this);
   $this->Sorter_range_min = new clsSorter($this->ComponentName, "Sorter_range_min", $FileName, $this);
@@ -334,7 +336,7 @@ class clsGridproducts_listv_alm_products { //v_alm_products class @12-34EC6C64
  }
 //End Initialize Method
 
-//Show Method @12-5D679B62
+//Show Method @12-CF0C4E9C
  function Show()
  {
   global $Tpl;
@@ -382,6 +384,8 @@ class clsGridproducts_listv_alm_products { //v_alm_products class @12-34EC6C64
    $this->ControlsVisible["qtypercentage"] = $this->qtypercentage->Visible;
    $this->ControlsVisible["licensedby_name"] = $this->licensedby_name->Visible;
    $this->ControlsVisible["hidlicensedby"] = $this->hidlicensedby->Visible;
+   $this->ControlsVisible["suite_status_name"] = $this->suite_status_name->Visible;
+   $this->ControlsVisible["suite_status_css_color"] = $this->suite_status_css_color->Visible;
    while ($this->ForceIteration || (($this->RowNumber < $this->PageSize) &&  ($this->HasRecord = $this->DataSource->has_next_record()))) {
     $this->RowNumber++;
     if ($this->HasRecord) {
@@ -403,6 +407,8 @@ class clsGridproducts_listv_alm_products { //v_alm_products class @12-34EC6C64
     $this->qtypercentage->SetValue($this->DataSource->qtypercentage->GetValue());
     $this->licensedby_name->SetValue($this->DataSource->licensedby_name->GetValue());
     $this->hidlicensedby->SetValue($this->DataSource->hidlicensedby->GetValue());
+    $this->suite_status_name->SetValue($this->DataSource->suite_status_name->GetValue());
+    $this->suite_status_css_color->SetValue($this->DataSource->suite_status_css_color->GetValue());
     $this->Attributes->SetValue("rowNumber", $this->RowNumber);
     $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeShowRow", $this);
     $this->Attributes->Show();
@@ -422,6 +428,8 @@ class clsGridproducts_listv_alm_products { //v_alm_products class @12-34EC6C64
     $this->qtypercentage->Show();
     $this->licensedby_name->Show();
     $this->hidlicensedby->Show();
+    $this->suite_status_name->Show();
+    $this->suite_status_css_color->Show();
     $Tpl->block_path = $ParentPath . "/" . $GridBlock;
     $Tpl->parse("Row", true);
    }
@@ -463,7 +471,7 @@ class clsGridproducts_listv_alm_products { //v_alm_products class @12-34EC6C64
  }
 //End Show Method
 
-//GetErrors Method @12-FAEC978D
+//GetErrors Method @12-FFA6D131
  function GetErrors()
  {
   $errors = "";
@@ -483,6 +491,8 @@ class clsGridproducts_listv_alm_products { //v_alm_products class @12-34EC6C64
   $errors = ComposeStrings($errors, $this->qtypercentage->Errors->ToString());
   $errors = ComposeStrings($errors, $this->licensedby_name->Errors->ToString());
   $errors = ComposeStrings($errors, $this->hidlicensedby->Errors->ToString());
+  $errors = ComposeStrings($errors, $this->suite_status_name->Errors->ToString());
+  $errors = ComposeStrings($errors, $this->suite_status_css_color->Errors->ToString());
   $errors = ComposeStrings($errors, $this->Errors->ToString());
   $errors = ComposeStrings($errors, $this->DataSource->Errors->ToString());
   return $errors;
@@ -493,7 +503,7 @@ class clsGridproducts_listv_alm_products { //v_alm_products class @12-34EC6C64
 
 class clsproducts_listv_alm_productsDataSource extends clsDBdbConnection {  //v_alm_productsDataSource Class @12-FDE3D33F
 
-//DataSource Variables @12-9D1339C9
+//DataSource Variables @12-2F76F367
  public $Parent = "";
  public $CCSEvents = "";
  public $CCSEventResult;
@@ -519,9 +529,11 @@ class clsproducts_listv_alm_productsDataSource extends clsDBdbConnection {  //v_
  public $qtypercentage;
  public $licensedby_name;
  public $hidlicensedby;
+ public $suite_status_name;
+ public $suite_status_css_color;
 //End DataSource Variables
 
-//DataSourceClass_Initialize Event @12-35A20688
+//DataSourceClass_Initialize Event @12-09C4C8F3
  function clsproducts_listv_alm_productsDataSource(& $Parent)
  {
   $this->Parent = & $Parent;
@@ -554,6 +566,10 @@ class clsproducts_listv_alm_productsDataSource extends clsDBdbConnection {  //v_
   $this->licensedby_name = new clsField("licensedby_name", ccsText, "");
   
   $this->hidlicensedby = new clsField("hidlicensedby", ccsText, "");
+  
+  $this->suite_status_name = new clsField("suite_status_name", ccsText, "");
+  
+  $this->suite_status_css_color = new clsField("suite_status_css_color", ccsText, "");
   
 
  }
@@ -630,7 +646,7 @@ class clsproducts_listv_alm_productsDataSource extends clsDBdbConnection {  //v_
  }
 //End Open Method
 
-//SetValues Method @12-39599701
+//SetValues Method @12-93DC2018
  function SetValues()
  {
   $this->guid->SetDBValue($this->f("guid"));
@@ -647,6 +663,8 @@ class clsproducts_listv_alm_productsDataSource extends clsDBdbConnection {  //v_
   $this->qtypercentage->SetDBValue($this->f("licensed_amount"));
   $this->licensedby_name->SetDBValue($this->f("licensedby_name"));
   $this->hidlicensedby->SetDBValue($this->f("id_licensed_by"));
+  $this->suite_status_name->SetDBValue($this->f("suite_status_name"));
+  $this->suite_status_css_color->SetDBValue($this->f("suite_status_css_color"));
  }
 //End SetValues Method
 

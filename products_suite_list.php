@@ -203,7 +203,7 @@ function GetPrimaryKey($keyName)
 
 class clsGridproducts_suite_listv_alm_product_suites { //v_alm_product_suites class @11-F8980F8E
 
-//Variables @11-537E0DFE
+//Variables @11-4CE7E78A
 
  // Public variables
  public $ComponentType = "Grid";
@@ -237,9 +237,10 @@ class clsGridproducts_suite_listv_alm_product_suites { //v_alm_product_suites cl
  public $Sorter_suite_code;
  public $Sorter_suite_description;
  public $Sorter_dateupdated;
+ public $Sorter_id_suite_status;
 //End Variables
 
-//Class_Initialize Event @11-33064650
+//Class_Initialize Event @11-15836701
  function clsGridproducts_suite_listv_alm_product_suites($RelativePath, & $Parent)
  {
   global $FileName;
@@ -276,6 +277,8 @@ class clsGridproducts_suite_listv_alm_product_suites { //v_alm_product_suites cl
   $this->params = new clsControl(ccsLabel, "params", "params", ccsText, "", CCGetRequestParam("params", ccsGet, NULL), $this);
   $this->pndeletebutton = new clsPanel("pndeletebutton", $this);
   $this->lbdelete = new clsControl(ccsLabel, "lbdelete", "lbdelete", ccsText, "", CCGetRequestParam("lbdelete", ccsGet, NULL), $this);
+  $this->suite_status_name = new clsControl(ccsLabel, "suite_status_name", "suite_status_name", ccsText, "", CCGetRequestParam("suite_status_name", ccsGet, NULL), $this);
+  $this->suites_status_css_color = new clsControl(ccsLabel, "suites_status_css_color", "suites_status_css_color", ccsText, "", CCGetRequestParam("suites_status_css_color", ccsGet, NULL), $this);
   $this->Sorter_guid = new clsSorter($this->ComponentName, "Sorter_guid", $FileName, $this);
   $this->Sorter_manufacturer = new clsSorter($this->ComponentName, "Sorter_manufacturer", $FileName, $this);
   $this->Sorter_suite_code = new clsSorter($this->ComponentName, "Sorter_suite_code", $FileName, $this);
@@ -284,6 +287,7 @@ class clsGridproducts_suite_listv_alm_product_suites { //v_alm_product_suites cl
   $this->Navigator = new clsNavigator($this->ComponentName, "Navigator", $FileName, 10, tpCentered, $this);
   $this->Navigator->PageSizes = array("1", "5", "10", "25", "50");
   $this->alm_customers_TotalRecords = new clsControl(ccsLabel, "alm_customers_TotalRecords", "alm_customers_TotalRecords", ccsInteger, array(False, 0, Null, " ", False, "", "", 1, True, ""), CCGetRequestParam("alm_customers_TotalRecords", ccsGet, NULL), $this);
+  $this->Sorter_id_suite_status = new clsSorter($this->ComponentName, "Sorter_id_suite_status", $FileName, $this);
   $this->pndeletebutton->Visible = false;
   $this->pndeletebutton->AddComponent("lbdelete", $this->lbdelete);
  }
@@ -300,7 +304,7 @@ class clsGridproducts_suite_listv_alm_product_suites { //v_alm_product_suites cl
  }
 //End Initialize Method
 
-//Show Method @11-98360BD9
+//Show Method @11-8A38F4E6
  function Show()
  {
   global $Tpl;
@@ -338,6 +342,8 @@ class clsGridproducts_suite_listv_alm_product_suites { //v_alm_product_suites cl
    $this->ControlsVisible["params"] = $this->params->Visible;
    $this->ControlsVisible["pndeletebutton"] = $this->pndeletebutton->Visible;
    $this->ControlsVisible["lbdelete"] = $this->lbdelete->Visible;
+   $this->ControlsVisible["suite_status_name"] = $this->suite_status_name->Visible;
+   $this->ControlsVisible["suites_status_css_color"] = $this->suites_status_css_color->Visible;
    while ($this->ForceIteration || (($this->RowNumber < $this->PageSize) &&  ($this->HasRecord = $this->DataSource->has_next_record()))) {
     $this->RowNumber++;
     if ($this->HasRecord) {
@@ -350,6 +356,8 @@ class clsGridproducts_suite_listv_alm_product_suites { //v_alm_product_suites cl
     $this->suite_code->SetValue($this->DataSource->suite_code->GetValue());
     $this->suite_description->SetValue($this->DataSource->suite_description->GetValue());
     $this->dateupdated->SetValue($this->DataSource->dateupdated->GetValue());
+    $this->suite_status_name->SetValue($this->DataSource->suite_status_name->GetValue());
+    $this->suites_status_css_color->SetValue($this->DataSource->suites_status_css_color->GetValue());
     $this->Attributes->SetValue("rowNumber", $this->RowNumber);
     $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeShowRow", $this);
     $this->Attributes->Show();
@@ -360,6 +368,8 @@ class clsGridproducts_suite_listv_alm_product_suites { //v_alm_product_suites cl
     $this->dateupdated->Show();
     $this->params->Show();
     $this->pndeletebutton->Show();
+    $this->suite_status_name->Show();
+    $this->suites_status_css_color->Show();
     $Tpl->block_path = $ParentPath . "/" . $GridBlock;
     $Tpl->parse("Row", true);
    }
@@ -392,13 +402,14 @@ class clsGridproducts_suite_listv_alm_product_suites { //v_alm_product_suites cl
   $this->Sorter_dateupdated->Show();
   $this->Navigator->Show();
   $this->alm_customers_TotalRecords->Show();
+  $this->Sorter_id_suite_status->Show();
   $Tpl->parse();
   $Tpl->block_path = $ParentPath;
   $this->DataSource->close();
  }
 //End Show Method
 
-//GetErrors Method @11-F9CB3AAF
+//GetErrors Method @11-002B6254
  function GetErrors()
  {
   $errors = "";
@@ -409,6 +420,8 @@ class clsGridproducts_suite_listv_alm_product_suites { //v_alm_product_suites cl
   $errors = ComposeStrings($errors, $this->dateupdated->Errors->ToString());
   $errors = ComposeStrings($errors, $this->params->Errors->ToString());
   $errors = ComposeStrings($errors, $this->lbdelete->Errors->ToString());
+  $errors = ComposeStrings($errors, $this->suite_status_name->Errors->ToString());
+  $errors = ComposeStrings($errors, $this->suites_status_css_color->Errors->ToString());
   $errors = ComposeStrings($errors, $this->Errors->ToString());
   $errors = ComposeStrings($errors, $this->DataSource->Errors->ToString());
   return $errors;
@@ -419,7 +432,7 @@ class clsGridproducts_suite_listv_alm_product_suites { //v_alm_product_suites cl
 
 class clsproducts_suite_listv_alm_product_suitesDataSource extends clsDBdbConnection {  //v_alm_product_suitesDataSource Class @11-418ACC01
 
-//DataSource Variables @11-F3E11578
+//DataSource Variables @11-619585EB
  public $Parent = "";
  public $CCSEvents = "";
  public $CCSEventResult;
@@ -436,9 +449,11 @@ class clsproducts_suite_listv_alm_product_suitesDataSource extends clsDBdbConnec
  public $suite_code;
  public $suite_description;
  public $dateupdated;
+ public $suite_status_name;
+ public $suites_status_css_color;
 //End DataSource Variables
 
-//DataSourceClass_Initialize Event @11-AF640C69
+//DataSourceClass_Initialize Event @11-754748B8
  function clsproducts_suite_listv_alm_product_suitesDataSource(& $Parent)
  {
   $this->Parent = & $Parent;
@@ -454,11 +469,15 @@ class clsproducts_suite_listv_alm_product_suitesDataSource extends clsDBdbConnec
   
   $this->dateupdated = new clsField("dateupdated", ccsDate, array("yyyy", "-", "mm", "-", "dd", " ", "HH", ":", "nn", ":", "ss"));
   
+  $this->suite_status_name = new clsField("suite_status_name", ccsText, "");
+  
+  $this->suites_status_css_color = new clsField("suites_status_css_color", ccsText, "");
+  
 
  }
 //End DataSourceClass_Initialize Event
 
-//SetOrder Method @11-87FAC2F8
+//SetOrder Method @11-65E55AA1
  function SetOrder($SorterName, $SorterDirection)
  {
   $this->Order = "";
@@ -467,7 +486,8 @@ class clsproducts_suite_listv_alm_product_suitesDataSource extends clsDBdbConnec
    "Sorter_manufacturer" => array("manufacturer", ""), 
    "Sorter_suite_code" => array("suite_code", ""), 
    "Sorter_suite_description" => array("suite_description", ""), 
-   "Sorter_dateupdated" => array("dateupdated", "")));
+   "Sorter_dateupdated" => array("dateupdated", ""), 
+   "Sorter_id_suite_status" => array("id_suite_status", "")));
  }
 //End SetOrder Method
 
@@ -514,7 +534,7 @@ class clsproducts_suite_listv_alm_product_suitesDataSource extends clsDBdbConnec
  }
 //End Open Method
 
-//SetValues Method @11-BDC3FAE4
+//SetValues Method @11-2369C8C2
  function SetValues()
  {
   $this->guid->SetDBValue($this->f("guid"));
@@ -522,6 +542,8 @@ class clsproducts_suite_listv_alm_product_suitesDataSource extends clsDBdbConnec
   $this->suite_code->SetDBValue($this->f("suite_code"));
   $this->suite_description->SetDBValue($this->f("suite_description"));
   $this->dateupdated->SetDBValue(trim($this->f("dateupdated")));
+  $this->suite_status_name->SetDBValue($this->f("suite_status_name"));
+  $this->suites_status_css_color->SetDBValue($this->f("suites_status_css_color"));
  }
 //End SetValues Method
 

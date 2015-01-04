@@ -29,7 +29,7 @@
 
 					<div class="row col-xs-12">
 						<div class="col-md-1 col-xs-0"></div>
-						<div class="col-md-2 col-xs-12">
+						<div class="col-md-3 col-xs-12">
 							<label class="control-label blue">{res:manufacturer}</label><br>
 							<select name="{manufacturer_Name}" id="manufacturer" class="width-90 chosen-select" data-validation="required" data-validation-error-msg="{res:invalidmanufacturer}">
 								{manufacturer_Options}
@@ -39,12 +39,32 @@
 							<label class="control-label blue">{res:suite_code}</label><br>
 							<input type="text" name="{suite_code_Name}" value="{suite_code}" id="suite_code" class="col-md-12 col-xs-12">
 						</div>
-						<div class="col-md-6 col-xs-12">
-							<label class="control-label blue">{res:suite}</label><br>
-							<input type="text" name="{suite_description_Name}" value="{suite_description}" id="suite_description" class="col-md-12 col-xs-12" data-validation="required" data-validation-error-msg="{res:invaliddescription}">
+						<div class="col-md-2 col-xs-12">
+							<label class="control-label blue">
+{res:suitestatus}</label><br>
+							<select name="{id_suite_status_Name}" id="suitestatus" class="width-90 chosen-select" data-validation="required" data-validation-error-msg="{res:invalidsuitestatus}">
+								{id_suite_status_Options}
+							</select>
+						</div>
+
+						<div class="col-md-2 col-xs-12" id="legacy_expiration">
+							<label class="control-label blue">{res:legacyexpiredate}</label><br>
+							<div class="input-group">
+								<input type="text" name="{legacy_expire_date_Name}" value="{legacy_expire_date}" id="legacy_expire_date" class="col-md-12 col-xs-12 date-picker" data-date-format="mm/dd/yyyy">
+								<span class="input-group-addon"><i class="icon-calendar bigger-110"></i></span>
+							</div>
 						</div>
 
 					</div><!-- row -->
+
+					<div class="row col-xs-12">
+						<div class="col-md-1 col-xs-0"></div>
+						<div class="col-md-10 col-xs-12">
+							<label class="control-label blue">{res:suite}</label><br>
+							<input type="text" name="{suite_description_Name}" value="{suite_description}" id="suite_description" class="col-md-12 col-xs-12" data-validation="required" data-validation-error-msg="{res:invaliddescription}">
+						</div>
+					</div>
+
 					<div class="row col-xs-12">
 						<div class="col-md-1 col-xs-0"></div>
 						<div class="col-md-10 col-xs-12">
@@ -93,13 +113,37 @@
 <script>
 $(function(){
         
-        $("#suite_code").focus();
-        $.validate({
-                form : "#alm_product_suites"
-        });
+    $("#suite_code").focus();
+    $.validate({
+            form : "#alm_product_suites"
+    });
+
+    $(".date-picker").datepicker({
+		orientation: "bottom auto",
+		autoclose:true,
+		todayHighlight: true
+    });
 
 	$(".chosen-select").chosen(); 
 
+
+	//Hiding or showing legacy expiration date, only applys to legacy status (2)
+	var suiteStatus = $("#suitestatus").val();
+	if (suiteStatus == 2) {
+		$("#legacy_expiration").show();
+	} else {
+		$("#legacy_expiration").hide();		
+	}
+
+	$("#suitestatus").chosen().change(function() {
+		suiteStatus = $(this).val();
+		if (suiteStatus == 2) {
+			$("#legacy_expiration").show();
+		} else {
+			$("#legacy_expiration").hide();		
+		}
+
+	});
 
 });
 

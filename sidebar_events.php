@@ -149,6 +149,11 @@ function sidebar_BeforeShow(& $sender)
 			$Tpl->setvar("settings_menu_show","show");
 			$Tpl->setvar("users_changepassword_active","active");
 		break;
+		case "resellers.php" :
+		case "resellers_maint.php" :
+			$Tpl->setvar("settings_menu_show","show");
+			$Tpl->setvar("resellers_active","active");
+		break;
 		case "settings.php" :
 		case "settings_maint.php" :
 			$Tpl->setvar("settings_menu_show","show");

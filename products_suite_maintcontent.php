@@ -36,7 +36,7 @@ class clsRecordproducts_suite_maintcontentalm_product_suites { //alm_product_sui
  // Class variables
 //End Variables
 
-//Class_Initialize Event @2-0B38B79B
+//Class_Initialize Event @2-703E9009
  function clsRecordproducts_suite_maintcontentalm_product_suites($RelativePath, & $Parent)
  {
 
@@ -80,7 +80,19 @@ class clsRecordproducts_suite_maintcontentalm_product_suites { //alm_product_sui
    list($this->manufacturer->BoundColumn, $this->manufacturer->TextColumn, $this->manufacturer->DBFormat) = array("id", "manufacturer", "");
    $this->suite_code = new clsControl(ccsTextBox, "suite_code", $CCSLocales->GetText("suite"), ccsText, "", CCGetRequestParam("suite_code", $Method, NULL), $this);
    $this->suite_long_description = new clsControl(ccsTextArea, "suite_long_description", $CCSLocales->GetText("details"), ccsText, "", CCGetRequestParam("suite_long_description", $Method, NULL), $this);
+   $this->id_suite_status = new clsControl(ccsListBox, "id_suite_status", $CCSLocales->GetText("suitestatus"), ccsText, "", CCGetRequestParam("id_suite_status", $Method, NULL), $this);
+   $this->id_suite_status->DSType = dsTable;
+   $this->id_suite_status->DataSource = new clsDBdbConnection();
+   $this->id_suite_status->ds = & $this->id_suite_status->DataSource;
+   $this->id_suite_status->DataSource->SQL = "SELECT * \n" .
+"FROM alm_product_suites_status {SQL_Where} {SQL_OrderBy}";
+   list($this->id_suite_status->BoundColumn, $this->id_suite_status->TextColumn, $this->id_suite_status->DBFormat) = array("id", "status_name", "");
    $this->suite_description = new clsControl(ccsTextBox, "suite_description", $CCSLocales->GetText("description"), ccsText, "", CCGetRequestParam("suite_description", $Method, NULL), $this);
+   $this->legacy_expire_date = new clsControl(ccsTextBox, "legacy_expire_date", $CCSLocales->GetText("legacyexpiredate"), ccsDate, $DefaultDateFormat, CCGetRequestParam("legacy_expire_date", $Method, NULL), $this);
+   if(!$this->FormSubmitted) {
+    if(!is_array($this->id_suite_status->Value) && !strlen($this->id_suite_status->Value) && $this->id_suite_status->Value !== false)
+     $this->id_suite_status->SetText(1);
+   }
   }
  }
 //End Class_Initialize Event
@@ -96,7 +108,7 @@ class clsRecordproducts_suite_maintcontentalm_product_suites { //alm_product_sui
  }
 //End Initialize Method
 
-//Validate Method @2-5A7BEBAB
+//Validate Method @2-EFC0E47B
  function Validate()
  {
   global $CCSLocales;
@@ -108,7 +120,9 @@ class clsRecordproducts_suite_maintcontentalm_product_suites { //alm_product_sui
   $Validation = ($this->manufacturer->Validate() && $Validation);
   $Validation = ($this->suite_code->Validate() && $Validation);
   $Validation = ($this->suite_long_description->Validate() && $Validation);
+  $Validation = ($this->id_suite_status->Validate() && $Validation);
   $Validation = ($this->suite_description->Validate() && $Validation);
+  $Validation = ($this->legacy_expire_date->Validate() && $Validation);
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "OnValidate", $this);
   $Validation =  $Validation && ($this->hidguid->Errors->Count() == 0);
   $Validation =  $Validation && ($this->modified_iduser->Errors->Count() == 0);
@@ -116,12 +130,14 @@ class clsRecordproducts_suite_maintcontentalm_product_suites { //alm_product_sui
   $Validation =  $Validation && ($this->manufacturer->Errors->Count() == 0);
   $Validation =  $Validation && ($this->suite_code->Errors->Count() == 0);
   $Validation =  $Validation && ($this->suite_long_description->Errors->Count() == 0);
+  $Validation =  $Validation && ($this->id_suite_status->Errors->Count() == 0);
   $Validation =  $Validation && ($this->suite_description->Errors->Count() == 0);
+  $Validation =  $Validation && ($this->legacy_expire_date->Errors->Count() == 0);
   return (($this->Errors->Count() == 0) && $Validation);
  }
 //End Validate Method
 
-//CheckErrors Method @2-DFCAC2C5
+//CheckErrors Method @2-62EFF84E
  function CheckErrors()
  {
   $errors = false;
@@ -132,7 +148,9 @@ class clsRecordproducts_suite_maintcontentalm_product_suites { //alm_product_sui
   $errors = ($errors || $this->manufacturer->Errors->Count());
   $errors = ($errors || $this->suite_code->Errors->Count());
   $errors = ($errors || $this->suite_long_description->Errors->Count());
+  $errors = ($errors || $this->id_suite_status->Errors->Count());
   $errors = ($errors || $this->suite_description->Errors->Count());
+  $errors = ($errors || $this->legacy_expire_date->Errors->Count());
   $errors = ($errors || $this->Errors->Count());
   $errors = ($errors || $this->DataSource->Errors->Count());
   return $errors;
@@ -196,7 +214,7 @@ function GetPrimaryKey($keyName)
  }
 //End Operation Method
 
-//InsertRow Method @2-C801F87C
+//InsertRow Method @2-C9424480
  function InsertRow()
  {
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeInsert", $this);
@@ -208,14 +226,16 @@ function GetPrimaryKey($keyName)
   $this->DataSource->manufacturer->SetValue($this->manufacturer->GetValue(true));
   $this->DataSource->suite_code->SetValue($this->suite_code->GetValue(true));
   $this->DataSource->suite_long_description->SetValue($this->suite_long_description->GetValue(true));
+  $this->DataSource->id_suite_status->SetValue($this->id_suite_status->GetValue(true));
   $this->DataSource->suite_description->SetValue($this->suite_description->GetValue(true));
+  $this->DataSource->legacy_expire_date->SetValue($this->legacy_expire_date->GetValue(true));
   $this->DataSource->Insert();
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "AfterInsert", $this);
   return (!$this->CheckErrors());
  }
 //End InsertRow Method
 
-//UpdateRow Method @2-A97BDAE0
+//UpdateRow Method @2-00C3AA99
  function UpdateRow()
  {
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeUpdate", $this);
@@ -227,14 +247,16 @@ function GetPrimaryKey($keyName)
   $this->DataSource->manufacturer->SetValue($this->manufacturer->GetValue(true));
   $this->DataSource->suite_code->SetValue($this->suite_code->GetValue(true));
   $this->DataSource->suite_long_description->SetValue($this->suite_long_description->GetValue(true));
+  $this->DataSource->id_suite_status->SetValue($this->id_suite_status->GetValue(true));
   $this->DataSource->suite_description->SetValue($this->suite_description->GetValue(true));
+  $this->DataSource->legacy_expire_date->SetValue($this->legacy_expire_date->GetValue(true));
   $this->DataSource->Update();
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "AfterUpdate", $this);
   return (!$this->CheckErrors());
  }
 //End UpdateRow Method
 
-//Show Method @2-AAB269B3
+//Show Method @2-38846538
  function Show()
  {
   global $CCSUseAmp;
@@ -249,6 +271,7 @@ function GetPrimaryKey($keyName)
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeSelect", $this);
 
   $this->manufacturer->Prepare();
+  $this->id_suite_status->Prepare();
 
   $RecordBlock = "Record " . $this->ComponentName;
   $ParentPath = $Tpl->block_path;
@@ -269,7 +292,9 @@ function GetPrimaryKey($keyName)
      $this->manufacturer->SetValue($this->DataSource->manufacturer->GetValue());
      $this->suite_code->SetValue($this->DataSource->suite_code->GetValue());
      $this->suite_long_description->SetValue($this->DataSource->suite_long_description->GetValue());
+     $this->id_suite_status->SetValue($this->DataSource->id_suite_status->GetValue());
      $this->suite_description->SetValue($this->DataSource->suite_description->GetValue());
+     $this->legacy_expire_date->SetValue($this->DataSource->legacy_expire_date->GetValue());
     }
    } else {
     $this->EditMode = false;
@@ -285,7 +310,9 @@ function GetPrimaryKey($keyName)
    $Error = ComposeStrings($Error, $this->manufacturer->Errors->ToString());
    $Error = ComposeStrings($Error, $this->suite_code->Errors->ToString());
    $Error = ComposeStrings($Error, $this->suite_long_description->Errors->ToString());
+   $Error = ComposeStrings($Error, $this->id_suite_status->Errors->ToString());
    $Error = ComposeStrings($Error, $this->suite_description->Errors->ToString());
+   $Error = ComposeStrings($Error, $this->legacy_expire_date->Errors->ToString());
    $Error = ComposeStrings($Error, $this->Errors->ToString());
    $Error = ComposeStrings($Error, $this->DataSource->Errors->ToString());
    $Tpl->SetVar("Error", $Error);
@@ -315,7 +342,9 @@ function GetPrimaryKey($keyName)
   $this->manufacturer->Show();
   $this->suite_code->Show();
   $this->suite_long_description->Show();
+  $this->id_suite_status->Show();
   $this->suite_description->Show();
+  $this->legacy_expire_date->Show();
   $Tpl->parse();
   $Tpl->block_path = $ParentPath;
   $this->DataSource->close();
@@ -326,7 +355,7 @@ function GetPrimaryKey($keyName)
 
 class clsproducts_suite_maintcontentalm_product_suitesDataSource extends clsDBdbConnection {  //alm_product_suitesDataSource Class @2-FA67FB1F
 
-//DataSource Variables @2-28F6DEAD
+//DataSource Variables @2-ADBB4058
  public $Parent = "";
  public $CCSEvents = "";
  public $CCSEventResult;
@@ -349,10 +378,12 @@ class clsproducts_suite_maintcontentalm_product_suitesDataSource extends clsDBdb
  public $manufacturer;
  public $suite_code;
  public $suite_long_description;
+ public $id_suite_status;
  public $suite_description;
+ public $legacy_expire_date;
 //End DataSource Variables
 
-//DataSourceClass_Initialize Event @2-433A6EEC
+//DataSourceClass_Initialize Event @2-57CCC942
  function clsproducts_suite_maintcontentalm_product_suitesDataSource(& $Parent)
  {
   $this->Parent = & $Parent;
@@ -372,7 +403,11 @@ class clsproducts_suite_maintcontentalm_product_suitesDataSource extends clsDBdb
   
   $this->suite_long_description = new clsField("suite_long_description", ccsText, "");
   
+  $this->id_suite_status = new clsField("id_suite_status", ccsText, "");
+  
   $this->suite_description = new clsField("suite_description", ccsText, "");
+  
+  $this->legacy_expire_date = new clsField("legacy_expire_date", ccsDate, array("yyyy", "-", "mm", "-", "dd"));
   
 
   $this->InsertFields["guid"] = array("Name" => "guid", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
@@ -381,14 +416,18 @@ class clsproducts_suite_maintcontentalm_product_suitesDataSource extends clsDBdb
   $this->InsertFields["id_manufacturer"] = array("Name" => "id_manufacturer", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->InsertFields["suite_code"] = array("Name" => "suite_code", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->InsertFields["suite_long_description"] = array("Name" => "suite_long_description", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
+  $this->InsertFields["id_suite_status"] = array("Name" => "id_suite_status", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->InsertFields["suite_description"] = array("Name" => "suite_description", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
+  $this->InsertFields["legacy_expire_date"] = array("Name" => "legacy_expire_date", "Value" => "", "DataType" => ccsDate, "OmitIfEmpty" => 1);
   $this->UpdateFields["guid"] = array("Name" => "guid", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->UpdateFields["modified_iduser"] = array("Name" => "modified_iduser", "Value" => "", "DataType" => ccsInteger, "OmitIfEmpty" => 1);
   $this->UpdateFields["created_iduser"] = array("Name" => "created_iduser", "Value" => "", "DataType" => ccsInteger, "OmitIfEmpty" => 1);
   $this->UpdateFields["id_manufacturer"] = array("Name" => "id_manufacturer", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->UpdateFields["suite_code"] = array("Name" => "suite_code", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->UpdateFields["suite_long_description"] = array("Name" => "suite_long_description", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
+  $this->UpdateFields["id_suite_status"] = array("Name" => "id_suite_status", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->UpdateFields["suite_description"] = array("Name" => "suite_description", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
+  $this->UpdateFields["legacy_expire_date"] = array("Name" => "legacy_expire_date", "Value" => "", "DataType" => ccsDate, "OmitIfEmpty" => 1);
  }
 //End DataSourceClass_Initialize Event
 
@@ -419,7 +458,7 @@ class clsproducts_suite_maintcontentalm_product_suitesDataSource extends clsDBdb
  }
 //End Open Method
 
-//SetValues Method @2-98EB70C1
+//SetValues Method @2-DDA97C3B
  function SetValues()
  {
   $this->hidguid->SetDBValue($this->f("guid"));
@@ -428,11 +467,13 @@ class clsproducts_suite_maintcontentalm_product_suitesDataSource extends clsDBdb
   $this->manufacturer->SetDBValue($this->f("id_manufacturer"));
   $this->suite_code->SetDBValue($this->f("suite_code"));
   $this->suite_long_description->SetDBValue($this->f("suite_long_description"));
+  $this->id_suite_status->SetDBValue($this->f("id_suite_status"));
   $this->suite_description->SetDBValue($this->f("suite_description"));
+  $this->legacy_expire_date->SetDBValue(trim($this->f("legacy_expire_date")));
  }
 //End SetValues Method
 
-//Insert Method @2-A931161B
+//Insert Method @2-2B11DD6A
  function Insert()
  {
   global $CCSLocales;
@@ -445,7 +486,9 @@ class clsproducts_suite_maintcontentalm_product_suitesDataSource extends clsDBdb
   $this->InsertFields["id_manufacturer"]["Value"] = $this->manufacturer->GetDBValue(true);
   $this->InsertFields["suite_code"]["Value"] = $this->suite_code->GetDBValue(true);
   $this->InsertFields["suite_long_description"]["Value"] = $this->suite_long_description->GetDBValue(true);
+  $this->InsertFields["id_suite_status"]["Value"] = $this->id_suite_status->GetDBValue(true);
   $this->InsertFields["suite_description"]["Value"] = $this->suite_description->GetDBValue(true);
+  $this->InsertFields["legacy_expire_date"]["Value"] = $this->legacy_expire_date->GetDBValue(true);
   $this->SQL = CCBuildInsert("alm_product_suites", $this->InsertFields, $this);
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeExecuteInsert", $this->Parent);
   if($this->Errors->Count() == 0 && $this->CmdExecution) {
@@ -455,7 +498,7 @@ class clsproducts_suite_maintcontentalm_product_suitesDataSource extends clsDBdb
  }
 //End Insert Method
 
-//Update Method @2-C847E125
+//Update Method @2-C1DBB79B
  function Update()
  {
   global $CCSLocales;
@@ -468,7 +511,9 @@ class clsproducts_suite_maintcontentalm_product_suitesDataSource extends clsDBdb
   $this->UpdateFields["id_manufacturer"]["Value"] = $this->manufacturer->GetDBValue(true);
   $this->UpdateFields["suite_code"]["Value"] = $this->suite_code->GetDBValue(true);
   $this->UpdateFields["suite_long_description"]["Value"] = $this->suite_long_description->GetDBValue(true);
+  $this->UpdateFields["id_suite_status"]["Value"] = $this->id_suite_status->GetDBValue(true);
   $this->UpdateFields["suite_description"]["Value"] = $this->suite_description->GetDBValue(true);
+  $this->UpdateFields["legacy_expire_date"]["Value"] = $this->legacy_expire_date->GetDBValue(true);
   $this->SQL = CCBuildUpdate("alm_product_suites", $this->UpdateFields, $this);
   $this->SQL .= strlen($this->Where) ? " WHERE " . $this->Where : $this->Where;
   if (!strlen($this->Where) && $this->Errors->Count() == 0) 

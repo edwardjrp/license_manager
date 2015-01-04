@@ -173,12 +173,29 @@ function products_maintcontent_alm_products_BeforeInsert(& $sender)
 //Custom Code @34-2A29BDB7
 // -------------------------
  // Write your own code here.
- 	$guid = uuid_create();
-	global $lastguid;
-	$lastguid = $guid;
 
-	$products_maintcontent->alm_products->created_iduser->SetValue(CCGetUserID());
-	$products_maintcontent->alm_products->hidguid->SetValue($guid);
+	//Check if the suite is active before adding a product for it
+	$suiteId = $products_maintcontent->alm_products->suite_code->GetValue();
+	$params = array();
+	$params["suite_id"] = $suiteId;
+	$products = new Alm\Products();
+	$suiteStatus = $products->getSuiteStatusById($params);
+	//Check if suite status is active before adding any new product for it
+	if ($suiteStatus["suiteStatus"] == "1") {
+	 	$guid = uuid_create();
+		global $lastguid;
+		$lastguid = $guid;
+
+		$products_maintcontent->alm_products->created_iduser->SetValue(CCGetUserID());
+		$products_maintcontent->alm_products->hidguid->SetValue($guid);
+
+	} else {
+		global $CCSLocales;
+		$products_maintcontent->alm_products->InsertAllowed = false;
+		$products_maintcontent->alm_products->Errors->clear();
+		$products_maintcontent->alm_products->Errors->addError($CCSLocales->GetText("suite_status_notactive"));
+	}
+
 // -------------------------
 //End Custom Code
 

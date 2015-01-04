@@ -468,8 +468,8 @@ class Products {
 	         if ($customer_id > 0) {
 	             $fields_array = array("id","guid","suite_description","suite_code","type_icon_name","license_name","id_licensed_by",
 	             "licensedby_name","sector_name","reseller_name","description","nodes","licensed_amount","channel_sku"
-	             ,"msrp_price","dateupdated","license_status_name","alm_license_status_css_color","grant_number","expedition_date"
-	             ,"expiration_date","serial_number","granttype_name");
+	             ,"msrp_price","dateupdated","id_license_status","license_status_name","alm_license_status_css_color","grant_number","expedition_date"
+	             ,"expiration_date","serial_number","granttype_name","isarchived");
 	             $fields = implode(",",$fields_array);
 	             $sql = "select $fields from v_alm_licenses where id_customer = $customer_id
  						 and grant_number = '$grantNumber' and id != $licenseID  and isarchived = $isArchived";
@@ -1097,6 +1097,97 @@ class Products {
 		}
 
     }
+
+	public function licenseHasSupport($params = array()) {
+		$result = array("status" => false, "message" => "","hasSupport" => 0);
+
+		$license_guid = $params["license_guid"];
+	    if (strlen($license_guid) > 0) {
+			$hasSupport = 0;
+		    $db         = new \clsDBdbConnection();
+		    $licenseType = CCDLookUp("id_license_type","alm_licensing"," guid = '$license_guid' ",$db);
+
+		    if ( ($licenseType == "7") || ($licenseType == "12") ) {
+			    $sql = "select 1 as hassupport from alm_licensing where id_license_status = 2 and parent_license_guid = '$license_guid' limit 1";
+			    $db->query( $sql );
+			    $db->next_record();
+			    $hasSupport = (int)$db->f( "hassupport" );
+			    $db->close();
+		    } else {
+			    $hasSupport = 1;
+		    }
+
+		    $result[ "status" ]     = true;
+		    $result[ "hasSupport" ] = $hasSupport;
+		    $result[ "message" ]    = "Command executed successfully.";
+
+		    return $result;
+
+	    } else {
+		    $result["status"] = false;
+	        $result["message"] = "Invalid GUID";
+	        return $result;
+	    }
+
+	}
+
+	public function licenseIsPerpetual($params = array()) {
+		$result = array( "status" => false, "message" => "", "isPerpetual" => 0 );
+
+		$license_guid = $params[ "license_guid" ];
+		if ( strlen( $license_guid ) > 0 ) {
+			$db          = new \clsDBdbConnection();
+			$licenseType = CCDLookUp( "id_license_type", "alm_licensing", " guid = '$license_guid' ", $db );
+
+			if ( ( $licenseType == "7" ) || ( $licenseType == "12" ) ) {
+				$isPerpetual = 1;
+		    } else {
+				$isPerpetual = 0;
+			}
+
+			$db->close();
+
+			$result[ "status" ]      = true;
+			$result[ "isPerpetual" ] = $isPerpetual;
+			$result[ "message" ]     = "Command executed successfully.";
+
+			return $result;
+
+		} else {
+			$result[ "status" ]  = false;
+			$result[ "message" ] = "Invalid GUID";
+
+			return $result;
+		}
+
+	}
+
+
+	public function getSuiteStatusById($params = array()) {
+		$result = array( "status" => false, "message" => "", "suiteStatus" => 3 ); //suiteStatus default to discontinued (3)
+
+		$suiteId = (int)$params[ "suite_id" ];
+
+		if ( $suiteId > 0 ) {
+			$db          = new \clsDBdbConnection();
+			$suiteStatus = (int)CCDLookUp( "id_suite_status", "v_alm_product_suites", " id = $suiteId ", $db );
+
+			$db->close();
+
+			$result[ "status" ]      = true;
+			$result[ "suiteStatus" ] = $suiteStatus;
+			$result[ "message" ]     = "Command executed successfully.";
+
+			return $result;
+
+		} else {
+			$result[ "status" ]  = false;
+			$result[ "message" ] = "Invalid GUID";
+
+			return $result;
+		}
+
+	}
 
 
 }

@@ -648,10 +648,22 @@ function licensing_customerscontent_licensing_pnaddsupport_BeforeShow(& $sender)
 //Custom Code @224-2A29BDB7
 // -------------------------
  // Write your own code here.
+ 	//Will only show addsupport button to perpetual license types (7,12) and doesnt have support added
  	$guid = trim(CCGetFromGet("license_guid",""));
-	if (strlen($guid) > 0)
-		$licensing_customerscontent->licensing->pnaddsupport->Visible = true;
-	else
+	if (strlen($guid) > 0) {
+		$products = new Alm\Products();
+		$params = array();
+		$params["license_guid"] = $guid;
+		$isPerpetual = $products->licenseIsPerpetual($params);
+		if ($isPerpetual["isPerpetual"] == 1) {
+			$hasSupport = $products->licenseHasSupport($params);
+			if ($hasSupport["hasSupport"] == 1)
+				$licensing_customerscontent->licensing->pnaddsupport->Visible = false;
+			else
+				$licensing_customerscontent->licensing->pnaddsupport->Visible = true;
+		} else
+			$licensing_customerscontent->licensing->pnaddsupport->Visible = false;
+	} else
 		$licensing_customerscontent->licensing->pnaddsupport->Visible = false;
 
 // -------------------------
@@ -713,62 +725,88 @@ function licensing_customerscontent_licensing_BeforeInsert(& $sender)
 //Custom Code @188-2A29BDB7
 // -------------------------
  // Write your own code here.
- 	$guid = uuid_create();
-	global $lastguid;
-	$lastguid = $guid;
 
-	$licensing_customerscontent->licensing->created_iduser->SetValue(CCGetUserID());
-	$licensing_customerscontent->licensing->hidguid->SetValue($guid);	
-
-	//Customer ID for the license
-	$customer_guid = trim($licensing_customerscontent->licensing->hidcustomer_guid->GetValue());
-	$db = new clsDBdbConnection();
-	$customer_id = CCDLookup("id","alm_customers","guid = '$customer_guid'",$db);
-	$db->close();
-	$licensing_customerscontent->licensing->hidcustomer_id->SetValue($customer_id);
-
-	//Changing license status to active when inactive and grant,expdate,expirdate are present
-	$grantNo = trim($licensing_customerscontent->licensing->grant_number->GetValue());
-	$expDate = $licensing_customerscontent->licensing->expedition_date->GetValue();
-	$expirDate = $licensing_customerscontent->licensing->expiration_date->GetValue();
-	$licenseStatus = (int)$licensing_customerscontent->licensing->hidlicensestatus->GetValue();
-	$licenseType = (int)$licensing_customerscontent->licensing->id_license_type->GetValue();
-
-
-	$o = trim($licensing_customerscontent->licensing->hido->GetValue());
-	$dguid = trim($licensing_customerscontent->licensing->hiddguid->GetValue());
-
+ 	$suiteId = $licensing_customerscontent->licensing->suite_code->GetValue();
 	$params = array();
-	$params["guid"] = $dguid;
+	$params["suite_id"] = $suiteId;
+	$products = new Alm\Products();
+	$suiteStatus = $products->getSuiteStatusById($params);
 
-	if ($o == "renew") {
-		//Keeps the expired license guid reference on the new renewed license
-		$licensing_customerscontent->licensing->hidexpired_license_guid->SetValue($dguid);	
-	}
+	//Check if suite status is active or legacy before adding any new licenses to a customer
+	if ( ($suiteStatus["suiteStatus"] == "1") || ($suiteStatus["suiteStatus"] == "2") ) {
 
-	//Making sure that perpetual licenses dont get expiration date values
-	//And change status to active if grantnumber, expiration date have values
-	if ( ($licenseStatus == 1) && (strlen($grantNo) > 0) && (count($expDate) > 1) && (count($expirDate) > 1) ) {
+	 	$guid = uuid_create();
+		global $lastguid;
+		$lastguid = $guid;
 
-		if ( ($licenseType == 7) || ($licenseType == 12) )
-			$licensing_customerscontent->licensing->expiration_date->SetValue("");
+		$licensing_customerscontent->licensing->created_iduser->SetValue(CCGetUserID());
+		$licensing_customerscontent->licensing->hidguid->SetValue($guid);	
 
-		$licensing_customerscontent->licensing->hidlicensestatus->SetValue("2");
+		//Customer ID for the license
+		$customer_guid = trim($licensing_customerscontent->licensing->hidcustomer_guid->GetValue());
+		$db = new clsDBdbConnection();
+		$customer_id = CCDLookup("id","alm_customers","guid = '$customer_guid'",$db);
+		$db->close();
+		$licensing_customerscontent->licensing->hidcustomer_id->SetValue($customer_id);
 
-		//If renewing and new license is activated, sets expired license as archived
+		//Changing license status to active when inactive and grant,expdate,expirdate are present
+		$grantNo = trim($licensing_customerscontent->licensing->grant_number->GetValue());
+		$expDate = $licensing_customerscontent->licensing->expedition_date->GetValue();
+		$expirDate = $licensing_customerscontent->licensing->expiration_date->GetValue();
+		$licenseStatus = (int)$licensing_customerscontent->licensing->hidlicensestatus->GetValue();
+		$licenseType = (int)$licensing_customerscontent->licensing->id_license_type->GetValue();
+
+
+		$o = trim($licensing_customerscontent->licensing->hido->GetValue());
+		$dguid = trim($licensing_customerscontent->licensing->hiddguid->GetValue());
+
+		$params = array();
+		$params["guid"] = $dguid;
+
 		if ($o == "renew") {
-			$products = new Alm\Products();
-			$products->setLicenseArchivedByGuid($params);
+			//Keeps the expired license guid reference on the new renewed license
+			$licensing_customerscontent->licensing->hidexpired_license_guid->SetValue($dguid);	
+		}
+
+		//Making sure that perpetual licenses dont get expiration date values
+		//And change status to active if grantnumber, expiration date have values
+		if ( ($licenseStatus == 1) && (strlen($grantNo) > 0) && (count($expDate) > 1) && (count($expirDate) > 1) ) {
+
+			if ( ($licenseType == 7) || ($licenseType == 12) )
+				$licensing_customerscontent->licensing->expiration_date->SetValue("");
+
+			$licensing_customerscontent->licensing->hidlicensestatus->SetValue("2");
+
+			//If renewing and new license is activated, sets expired license as archived
+			if ($o == "renew") {
+				$products = new Alm\Products();
+				$products->setLicenseArchivedByGuid($params);
+			}
+
+		} else {
+			//Its a perpetual license
+			if ( ($licenseStatus == 1) && (strlen($grantNo) > 0) && (count($expDate) > 1) && 
+			( ( ($licenseType == 7) || ($licenseType == 12) ) ) ) {
+				$licensing_customerscontent->licensing->expiration_date->SetValue("");
+				$licensing_customerscontent->licensing->hidlicensestatus->SetValue("2");
+			}
+		
+		}
+
+		//Checking if its an addsupport operation to set the support parent perpetual license
+		$parentLicenseGuid = trim($licensing_customerscontent->licensing->hiddguid->GetValue());
+		$o = trim($licensing_customerscontent->licensing->hido->GetValue());
+		if ( ($o == "addsupport") && (strlen($parentLicenseGuid) > 0) ) {
+			$licensing_customerscontent->licensing->hidparent_license_guid->SetValue($parentLicenseGuid);
 		}
 
 	} else {
-		//Its a perpetual license
-		if ( ($licenseStatus == 1) && (strlen($grantNo) > 0) && (count($expDate) > 1) && 
-		( ( ($licenseType == 7) || ($licenseType == 12) ) ) ) {
-			$licensing_customerscontent->licensing->expiration_date->SetValue("");
-			$licensing_customerscontent->licensing->hidlicensestatus->SetValue("2");
-		}
-		
+	
+		global $CCSLocales;
+		$licensing_customerscontent->licensing->InsertAllowed = false;
+		$licensing_customerscontent->licensing->Errors->clear();
+		$licensing_customerscontent->licensing->Errors->addError($CCSLocales->GetText("suite_status_notactivelegacy"));		
+
 	}
 
 // -------------------------
@@ -814,7 +852,6 @@ function licensing_customerscontent_licensing_AfterInsert(& $sender)
 	} 
 
 	$customer_guid = trim($licensing_customerscontent->licensing->hidcustomer_guid->GetValue());
-
 
 	//Getting querystring parameter to include in redirect, redirect will set licensing to add mode even when editing
 	//$querystring = CCGetFromPost("querystring","");
@@ -925,8 +962,12 @@ function licensing_customerscontent_licensing_AfterUpdate(& $sender)
 
 	$customer_guid = trim($licensing_customerscontent->licensing->hidcustomer_guid->GetValue());
 
+	$licenseGuid = $licensing_customerscontent->licensing->hidguid->GetValue();
+
 	//Getting querystring parameter to include in redirect, redirect will set licensing to add mode even when editing
 	//$querystring = CCGetFromPost("querystring","");
+
+
 	$Redirect = $FileName."?guid=$customer_guid&tab=licenselist";
 
 // -------------------------
@@ -1089,6 +1130,16 @@ function licensing_customerscontent_BeforeShow(& $sender)
 		break;
 	}
 
+	//Setting the active tab for licensing when the cssForm is present and has licensing as the form submitted
+	$cssForm = trim(CCGetFromGet("ccsForm",""));
+	if ($cssForm == "licensing") {
+		//Whichever tab set will be reset to avoid more than 1 tab active
+		$Tpl->setvar("tab1_active","");
+		$Tpl->setvar("tab2_active","active");
+		$Tpl->setvar("tab3_active","");
+		$Tpl->setvar("tab4_active","");
+	}
+
 	//Settingup saved message popup
 	global $MainPage;
 	$showalert = CCGetSession("showalert","hide");
@@ -1107,6 +1158,21 @@ function licensing_customerscontent_BeforeShow(& $sender)
 	else
 		$MainPage->Attributes->SetValue("showalert_contacterror","show");
 
+
+	//Setting up alerts to let user know the license may need support	
+	$license_guid = trim(CCGetFromGet("license_guid",""));
+	if (strlen($license_guid) > 0) {
+		$products = new Alm\Products();
+		$params = array();
+		$params["license_guid"] = $license_guid;
+		$hasSupport = $products->licenseHasSupport($params);
+		if ($hasSupport["hasSupport"] == "1")
+			$MainPage->Attributes->SetValue("showalert_addsupport","hide");
+		else
+			$MainPage->Attributes->SetValue("showalert_addsupport","show");
+	} else {
+		$MainPage->Attributes->SetValue("showalert_addsupport","hide");	
+	}
 
 	//Procesing file uploading
 	$hidlicense_guid = trim(CCGetFromPost("hidlicense_guid",""));
@@ -1323,11 +1389,23 @@ function licensing_customerscontent_BeforeShow(& $sender)
 				$Tpl->setvar("lbexpiration_popup",$expirDate);
 				$Tpl->setvar("lbserialnumber_popup",$licensePopup["serial_number"]);
 
+				//Generate renew link only when license has status of expired (3).
+				$linkrenew_license = "";
+				if ( ($licensePopup["id_license_status"] == "3") && ($licensePopup["isarchived"] == "0") ) {
+					$licenseGuid = $licensePopup["guid"];
+					global $CCSLocales;
+					$renewCaption = $CCSLocales->GetText("renewlicense");
+					$linkrenew_license = "<li><a href='licensing_customers.php?o=renew&guid=$guid&dguid=$licenseGuid&tab=licensing'>$renewCaption</a></li>";
+				}
+				$Tpl->setvar("linkrenew_license_popup",$linkrenew_license);
+
 				//Generate link to delete license only for admins
 				$linkdelete_license = "";
 				if (CCGetGroupID() == "4") {
 					$licenseGuid = $licensePopup["guid"];
-					$linkdelete_license = "<a href='licensing_customers.php?guid=$guid&o=delfulllicense&license_guid=$licenseGuid' class='dellicense'><li class='icon-trash bigger-150 red'></li></a>";
+					global $CCSLocales;
+					$deleteCaption = $CCSLocales->GetText("deletelicense");
+					$linkdelete_license = "<a href='licensing_customers.php?guid=$guid&o=delfulllicense&license_guid=$licenseGuid' class='dellicense'>$deleteCaption</a>";
 				}
 				$Tpl->setvar("linkdelete_license_popup",$linkdelete_license);
 

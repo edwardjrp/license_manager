@@ -81,6 +81,10 @@
 		<!-- BEGIN Asc_On --><img border="0" src="Styles/None/Images/Asc.gif"><!-- END Asc_On -->
 		<!-- BEGIN Desc_On --><img border="0" src="Styles/None/Images/Desc.gif"><!-- END Desc_On --><!-- END Sorter Sorter_suite_description --></th>
 		<th>
+		<!-- BEGIN Sorter Sorter_id_suite_status --><a href="{Sort_URL}" id="Sorter_suite_description">{res:suitestatus}</a>
+		<!-- BEGIN Asc_On --><img border="0" src="Styles/None/Images/Asc.gif"><!-- END Asc_On -->
+		<!-- BEGIN Desc_On --><img border="0" src="Styles/None/Images/Desc.gif"><!-- END Desc_On --><!-- END Sorter Sorter_id_suite_status --></th>
+		<th>
 		<!-- BEGIN Sorter Sorter_dateupdated --><a href="{Sort_URL}" id="Sorter_dateupdated">{res:dateupdated}</a>
 		<!-- BEGIN Asc_On --><img border="0" src="Styles/None/Images/Asc.gif"><!-- END Asc_On -->
 		<!-- BEGIN Desc_On --><img border="0" src="Styles/None/Images/Desc.gif"><!-- END Desc_On --><!-- END Sorter Sorter_dateupdated --></th>
@@ -107,6 +111,7 @@
 		<td>{manufacturer}&nbsp;</td>
 		<td>{suite_code}&nbsp;</td>
 		<td>{suite_description}&nbsp;</td>
+		<td><span class="{suites_status_css_color} arrowed-in">{suite_status_name}</span>&nbsp;</td>
 		<td>{dateupdated}&nbsp;</td>
 	</tr>
 	<!-- END Row -->
