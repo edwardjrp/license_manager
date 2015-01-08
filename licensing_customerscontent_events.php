@@ -1288,6 +1288,13 @@ function licensing_customerscontent_BeforeShow(& $sender)
 				$Tpl->setvar("lbgrantnumber",$license["grant_number"]);			
 			}
 
+			if (strlen(trim($license["serial_number"])) <= 0 ) {
+				$Tpl->setvar("lbserial_class","hide");		
+			} else {
+				$Tpl->setvar("lbserial_class","");
+				$Tpl->setvar("lbserialnumber",$license["serial_number"]);			
+			}
+
 			$Tpl->setvar("lblicense_for",$license["sector_name"]);
 
 			if ( strlen($license["expedition_date"]) <= 0 )
@@ -1303,7 +1310,6 @@ function licensing_customerscontent_BeforeShow(& $sender)
 				$expirDate = date("m/d/Y",strtotime($license["expiration_date"]));
 
 			$Tpl->setvar("lbexpiration",$expirDate);
-			$Tpl->setvar("lbserialnumber",$license["serial_number"]);
 
 			//Generate renew link only when license has status of expired (3).
 			$linkrenew_license = "";
@@ -1372,6 +1378,13 @@ function licensing_customerscontent_BeforeShow(& $sender)
 					$Tpl->setvar("lbgrantnumber_popup",$licensePopup["grant_number"]);
 				}
 
+				if (strlen(trim($licensePopup["serial_number"])) <= 0 ) {
+					$Tpl->setvar("lbserial_popup_class","hide");		
+				} else {
+					$Tpl->setvar("lbserial_popup_class","");
+					$Tpl->setvar("lbserialnumber_popup",$licensePopup["serial_number"]);
+				}
+
 				$Tpl->setvar("lblicense_for_popup",$licensePopup["sector_name"]);
 
 				if ( strlen($licensePopup["expedition_date"]) <= 0 )
@@ -1387,7 +1400,6 @@ function licensing_customerscontent_BeforeShow(& $sender)
 					$expirDate = date("m/d/Y",strtotime($licensePopup["expiration_date"]));
 
 				$Tpl->setvar("lbexpiration_popup",$expirDate);
-				$Tpl->setvar("lbserialnumber_popup",$licensePopup["serial_number"]);
 
 				//Generate renew link only when license has status of expired (3).
 				$linkrenew_license = "";
@@ -1460,11 +1472,20 @@ function licensing_customerscontent_BeforeShow(& $sender)
 
 			//Hides the granttype info if not value present
 			if ( strlen(trim($license["grant_number"])) <= 0 ) {
+
 				$Tpl->setvar("lbgranttype_archived_class","hide");
 			} else {
 				$Tpl->setvar("lbgranttype_archived_class","");
 				$Tpl->setvar("lbgranttype_archived",$license["granttype_name"]);
 				$Tpl->setvar("lbgrantnumber_archived",$license["grant_number"]);
+			}
+
+
+			if (strlen(trim($license["serial_number"])) <= 0 ) {
+				$Tpl->setvar("lbserial_archived_class","hide");		
+			} else {
+				$Tpl->setvar("lbserial_archived_class","");
+				$Tpl->setvar("lbserialnumber_archived",$license["serial_number"]);
 			}
 
 			$Tpl->setvar("lblicense_for_archived",$license["sector_name"]);
@@ -1482,7 +1503,6 @@ function licensing_customerscontent_BeforeShow(& $sender)
 				$expirDate = date("m/d/Y",strtotime($license["expiration_date"]));
 
 			$Tpl->setvar("lbexpiration_archived",$expirDate);
-			$Tpl->setvar("lbserialnumber_archived",$license["serial_number"]);
 
 			//Generate link to delete license only for admins
 			$linkdelete_license = "";
@@ -1542,6 +1562,13 @@ function licensing_customerscontent_BeforeShow(& $sender)
 					$Tpl->setvar("lbgrantnumber_popup_archived",$licensePopup["grant_number"]);
 				}
 
+				if (strlen(trim($licensePopup["serial_number"])) <= 0 ) {
+					$Tpl->setvar("lbserial_popup_archived_class","hide");
+				} else {
+					$Tpl->setvar("lbserial_popup_archived_class","");
+					$Tpl->setvar("lbserialnumber_popup_archived",$licensePopup["serial_number"]);
+				}
+
 				$Tpl->setvar("lblicense_for_popup_archived",$licensePopup["sector_name"]);
 
 				if ( strlen($licensePopup["expedition_date"]) <= 0 )
@@ -1557,7 +1584,6 @@ function licensing_customerscontent_BeforeShow(& $sender)
 					$expirDate = date("m/d/Y",strtotime($licensePopup["expiration_date"]));
 
 				$Tpl->setvar("lbexpiration_popup_archived",$expirDate);
-				$Tpl->setvar("lbserialnumber_popup_archived",$licensePopup["serial_number"]);
 
 				//Generate link to delete license only for admins
 				$linkdelete_license = "";
