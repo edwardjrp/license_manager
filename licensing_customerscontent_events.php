@@ -710,6 +710,33 @@ function licensing_customerscontent_licensing_hiddguid_BeforeShow(& $sender)
 }
 //End Close licensing_customerscontent_licensing_hiddguid_BeforeShow
 
+//licensing_customerscontent_licensing_renew_businesspartner_date_BeforeShow @236-069EFBE8
+function licensing_customerscontent_licensing_renew_businesspartner_date_BeforeShow(& $sender)
+{
+ $licensing_customerscontent_licensing_renew_businesspartner_date_BeforeShow = true;
+ $Component = & $sender;
+ $Container = & CCGetParentContainer($sender);
+ global $licensing_customerscontent; //Compatibility
+//End licensing_customerscontent_licensing_renew_businesspartner_date_BeforeShow
+
+//Custom Code @237-2A29BDB7
+// -------------------------
+ // Write your own code here.
+ 	$licenseType = $licensing_customerscontent->licensing->id_license_type->GetValue();
+	//Checking if licenseType is perpetual to disabled expirationDate input
+	//There is alsi a js code for clientside behavior
+ 	if ( ( $licenseType == "7" ) || ($licenseType == "12") ) {
+		global $Tpl;
+		$Tpl->setvar("expirationDisabled","disabled");
+	}
+// -------------------------
+//End Custom Code
+
+//Close licensing_customerscontent_licensing_renew_businesspartner_date_BeforeShow @236-3C2113A8
+ return $licensing_customerscontent_licensing_renew_businesspartner_date_BeforeShow;
+}
+//End Close licensing_customerscontent_licensing_renew_businesspartner_date_BeforeShow
+
 //licensing_customerscontent_licensing_pnrenewcompetitor_BeforeShow @234-8BAA8F54
 function licensing_customerscontent_licensing_pnrenewcompetitor_BeforeShow(& $sender)
 {
