@@ -311,11 +311,9 @@
 								<div class="col-md-4 col-xs-12">
 									<div class="row col-xs-12">
 										<div class="col-md-12 col-xs-12">
-											<label class="control-label blue">{res:granttype}</label><br>
-											<select name="{granttype_Name}" class="width-90 chosen-select" id="license_granttype">
-												<option selected value="">{res:selectoption}</option>
+											<select name="{granttype_Name}" id="license_granttype" class="width-90 chosen-select" disabled>
 												{granttype_Options}
-											</select>
+											</select><br>
 											<input type="text" class="col-md-11 col-xs-12" value="{grant_number}" name="{grant_number_Name}">
 										</div>
 									</div>
@@ -346,6 +344,28 @@
 									</div>
 								</div>
 							</div><!-- row -->
+
+							<div class="row col-xs-12 space"></div>
+
+							<!-- BEGIN Panel pnrenewcompetitor -->
+							<div class="row col-xs-12">
+								<div class="col-md-1 col-xs-1"></div>
+								<div class="col-md-12 col-xs-12">
+									<div class="alert alert-warning">{res:renewcompetitor}</div>
+								</div>
+							</div>
+
+							<div class="row col-xs-12">
+								<div class="col-md-1 col-xs-0"></div>
+								<div class="col-md-4 col-xs-12">
+									<label class="control-label blue">{res:competitor}</label><br>
+									<select id="reseller" class="width-90 chosen-select" name="{renew_businesspartner_id_Name}">
+										<option selected value="">{res:selectoption}</option>
+										{renew_businesspartner_id_Options}
+									</select>
+								</div>
+							</div>
+							<!-- END Panel pnrenewcompetitor -->
 
 							<div class="row col-xs-12 space hr"></div>
 
@@ -480,6 +500,7 @@
 																							<li>{linkdelete_license_popup}</li>
 																							<li class='divider'></li>
 																							{linkrenew_license_popup}
+																							{linkrenew_license_competitor_popup}
 																						</ul>
 																					</div>
 																				</div>
@@ -519,6 +540,7 @@
 																	<li>{linkdelete_license}</li>
 																	<li class="divider"></li>
 																	{linkrenew_license}
+																	{linkrenew_license_competitor}
 																</ul>
 															</div>
 														</div><!-- inline dropdown option button -->
@@ -617,7 +639,8 @@
 																					<td nowrap><span class='orange'>{lbsuite_description_popup_archived}</span> <br>
 																						<span class=''>{lbdescription_popup_archived}</span> <br>
 																						<span class='green'>{lblicense_name_popup_archived}</span> <br>
-																						<span class='blue'>{res:licensedby}:&nbsp;{lblicensedby_name_popup_archived}</span>																		
+																						<span class='blue'>{res:licensedby}:&nbsp;{lblicensedby_name_popup_archived}</span><br>
+																						<span class='red {renewlicense_competitor_show_popup_archived}'>{res:renewlicense_competitor}:&nbsp;{renewlicense_competitor_popup_archived}</span>
 																					</td>
 																					<td class='text-right'>{lbnodes_qty_popup_archived}</td>
 																					<td class='green'>{lbexpedition_popup_archived}</td>
@@ -658,11 +681,12 @@
 															<td nowrap><span class="orange">{lbsuite_description_archived}</span> <br>
 																<span class="">{lbdescription_archived}</span> <br>
 																<span class="green">{lblicense_name_archived}</span> <br>
-																<span class="blue">{res:licensedby}:&nbsp;{lblicensedby_name_archived}</span>
+																<span class="blue">{res:licensedby}:&nbsp;{lblicensedby_name_archived}</span><br>
+																<span class="red {renewlicense_competitor_show_archived}">
+{res:renewlicense_competitor}:&nbsp;{renewlicense_competitor_archived}</span>
 															</td> 
 															<td class="text-right">{lbnodes_qty_archived}</td> 
-															<td class="green">
-{lbexpedition_archived}</td> 
+															<td class="green">{lbexpedition_archived}</td> 
 															<td class="red">{lbexpiration_archived}</td> 
 															<td>{lblicense_for_archived}</td> 
 															<td nowrap>
@@ -818,7 +842,7 @@ $(function(){
 						id_license_type.val(0);
 						id_license_type.trigger("chosen:updated");
 						suitedescription.val("");
-						license_granttype.val(0);
+						license_granttype.val(1);
 						license_granttype.trigger("chosen:updated");
 
                         $("#id_licensed_by_1").click();      
@@ -867,7 +891,7 @@ $(function(){
 						id_license_type.trigger("chosen:updated");
 
 						var licenseGrantType = this.id_license_granttype;
-						licenseGrantType = licenseGrantType || 0;
+						licenseGrantType = licenseGrantType || 1;
 						license_granttype.val(licenseGrantType);
 						license_granttype.trigger("chosen:updated");
 

@@ -203,7 +203,7 @@ function GetPrimaryKey($keyName)
 
 class clsGridproducts_suite_listv_alm_product_suites { //v_alm_product_suites class @11-F8980F8E
 
-//Variables @11-4CE7E78A
+//Variables @11-B6E5B1D5
 
  // Public variables
  public $ComponentType = "Grid";
@@ -238,9 +238,10 @@ class clsGridproducts_suite_listv_alm_product_suites { //v_alm_product_suites cl
  public $Sorter_suite_description;
  public $Sorter_dateupdated;
  public $Sorter_id_suite_status;
+ public $Sorter_legacy_expire_date;
 //End Variables
 
-//Class_Initialize Event @11-15836701
+//Class_Initialize Event @11-317EC68F
  function clsGridproducts_suite_listv_alm_product_suites($RelativePath, & $Parent)
  {
   global $FileName;
@@ -279,6 +280,7 @@ class clsGridproducts_suite_listv_alm_product_suites { //v_alm_product_suites cl
   $this->lbdelete = new clsControl(ccsLabel, "lbdelete", "lbdelete", ccsText, "", CCGetRequestParam("lbdelete", ccsGet, NULL), $this);
   $this->suite_status_name = new clsControl(ccsLabel, "suite_status_name", "suite_status_name", ccsText, "", CCGetRequestParam("suite_status_name", ccsGet, NULL), $this);
   $this->suites_status_css_color = new clsControl(ccsLabel, "suites_status_css_color", "suites_status_css_color", ccsText, "", CCGetRequestParam("suites_status_css_color", ccsGet, NULL), $this);
+  $this->legacy_expire_date = new clsControl(ccsLabel, "legacy_expire_date", "legacy_expire_date", ccsDate, array("mm", "/", "dd", "/", "yyyy"), CCGetRequestParam("legacy_expire_date", ccsGet, NULL), $this);
   $this->Sorter_guid = new clsSorter($this->ComponentName, "Sorter_guid", $FileName, $this);
   $this->Sorter_manufacturer = new clsSorter($this->ComponentName, "Sorter_manufacturer", $FileName, $this);
   $this->Sorter_suite_code = new clsSorter($this->ComponentName, "Sorter_suite_code", $FileName, $this);
@@ -288,6 +290,7 @@ class clsGridproducts_suite_listv_alm_product_suites { //v_alm_product_suites cl
   $this->Navigator->PageSizes = array("1", "5", "10", "25", "50");
   $this->alm_customers_TotalRecords = new clsControl(ccsLabel, "alm_customers_TotalRecords", "alm_customers_TotalRecords", ccsInteger, array(False, 0, Null, " ", False, "", "", 1, True, ""), CCGetRequestParam("alm_customers_TotalRecords", ccsGet, NULL), $this);
   $this->Sorter_id_suite_status = new clsSorter($this->ComponentName, "Sorter_id_suite_status", $FileName, $this);
+  $this->Sorter_legacy_expire_date = new clsSorter($this->ComponentName, "Sorter_legacy_expire_date", $FileName, $this);
   $this->pndeletebutton->Visible = false;
   $this->pndeletebutton->AddComponent("lbdelete", $this->lbdelete);
  }
@@ -304,7 +307,7 @@ class clsGridproducts_suite_listv_alm_product_suites { //v_alm_product_suites cl
  }
 //End Initialize Method
 
-//Show Method @11-8A38F4E6
+//Show Method @11-2C0B5598
  function Show()
  {
   global $Tpl;
@@ -344,6 +347,7 @@ class clsGridproducts_suite_listv_alm_product_suites { //v_alm_product_suites cl
    $this->ControlsVisible["lbdelete"] = $this->lbdelete->Visible;
    $this->ControlsVisible["suite_status_name"] = $this->suite_status_name->Visible;
    $this->ControlsVisible["suites_status_css_color"] = $this->suites_status_css_color->Visible;
+   $this->ControlsVisible["legacy_expire_date"] = $this->legacy_expire_date->Visible;
    while ($this->ForceIteration || (($this->RowNumber < $this->PageSize) &&  ($this->HasRecord = $this->DataSource->has_next_record()))) {
     $this->RowNumber++;
     if ($this->HasRecord) {
@@ -358,6 +362,7 @@ class clsGridproducts_suite_listv_alm_product_suites { //v_alm_product_suites cl
     $this->dateupdated->SetValue($this->DataSource->dateupdated->GetValue());
     $this->suite_status_name->SetValue($this->DataSource->suite_status_name->GetValue());
     $this->suites_status_css_color->SetValue($this->DataSource->suites_status_css_color->GetValue());
+    $this->legacy_expire_date->SetValue($this->DataSource->legacy_expire_date->GetValue());
     $this->Attributes->SetValue("rowNumber", $this->RowNumber);
     $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeShowRow", $this);
     $this->Attributes->Show();
@@ -370,6 +375,7 @@ class clsGridproducts_suite_listv_alm_product_suites { //v_alm_product_suites cl
     $this->pndeletebutton->Show();
     $this->suite_status_name->Show();
     $this->suites_status_css_color->Show();
+    $this->legacy_expire_date->Show();
     $Tpl->block_path = $ParentPath . "/" . $GridBlock;
     $Tpl->parse("Row", true);
    }
@@ -403,13 +409,14 @@ class clsGridproducts_suite_listv_alm_product_suites { //v_alm_product_suites cl
   $this->Navigator->Show();
   $this->alm_customers_TotalRecords->Show();
   $this->Sorter_id_suite_status->Show();
+  $this->Sorter_legacy_expire_date->Show();
   $Tpl->parse();
   $Tpl->block_path = $ParentPath;
   $this->DataSource->close();
  }
 //End Show Method
 
-//GetErrors Method @11-002B6254
+//GetErrors Method @11-F33EF31E
  function GetErrors()
  {
   $errors = "";
@@ -422,6 +429,7 @@ class clsGridproducts_suite_listv_alm_product_suites { //v_alm_product_suites cl
   $errors = ComposeStrings($errors, $this->lbdelete->Errors->ToString());
   $errors = ComposeStrings($errors, $this->suite_status_name->Errors->ToString());
   $errors = ComposeStrings($errors, $this->suites_status_css_color->Errors->ToString());
+  $errors = ComposeStrings($errors, $this->legacy_expire_date->Errors->ToString());
   $errors = ComposeStrings($errors, $this->Errors->ToString());
   $errors = ComposeStrings($errors, $this->DataSource->Errors->ToString());
   return $errors;
@@ -432,7 +440,7 @@ class clsGridproducts_suite_listv_alm_product_suites { //v_alm_product_suites cl
 
 class clsproducts_suite_listv_alm_product_suitesDataSource extends clsDBdbConnection {  //v_alm_product_suitesDataSource Class @11-418ACC01
 
-//DataSource Variables @11-619585EB
+//DataSource Variables @11-B6B00AA2
  public $Parent = "";
  public $CCSEvents = "";
  public $CCSEventResult;
@@ -451,9 +459,10 @@ class clsproducts_suite_listv_alm_product_suitesDataSource extends clsDBdbConnec
  public $dateupdated;
  public $suite_status_name;
  public $suites_status_css_color;
+ public $legacy_expire_date;
 //End DataSource Variables
 
-//DataSourceClass_Initialize Event @11-754748B8
+//DataSourceClass_Initialize Event @11-C33308C3
  function clsproducts_suite_listv_alm_product_suitesDataSource(& $Parent)
  {
   $this->Parent = & $Parent;
@@ -473,11 +482,13 @@ class clsproducts_suite_listv_alm_product_suitesDataSource extends clsDBdbConnec
   
   $this->suites_status_css_color = new clsField("suites_status_css_color", ccsText, "");
   
+  $this->legacy_expire_date = new clsField("legacy_expire_date", ccsDate, array("yyyy", "-", "mm", "-", "dd", " ", "HH", ":", "nn", ":", "ss"));
+  
 
  }
 //End DataSourceClass_Initialize Event
 
-//SetOrder Method @11-65E55AA1
+//SetOrder Method @11-5818E050
  function SetOrder($SorterName, $SorterDirection)
  {
   $this->Order = "";
@@ -487,7 +498,8 @@ class clsproducts_suite_listv_alm_product_suitesDataSource extends clsDBdbConnec
    "Sorter_suite_code" => array("suite_code", ""), 
    "Sorter_suite_description" => array("suite_description", ""), 
    "Sorter_dateupdated" => array("dateupdated", ""), 
-   "Sorter_id_suite_status" => array("id_suite_status", "")));
+   "Sorter_id_suite_status" => array("id_suite_status", ""), 
+   "Sorter_legacy_expire_date" => array("legacy_expire_date", "")));
  }
 //End SetOrder Method
 
@@ -534,7 +546,7 @@ class clsproducts_suite_listv_alm_product_suitesDataSource extends clsDBdbConnec
  }
 //End Open Method
 
-//SetValues Method @11-2369C8C2
+//SetValues Method @11-5609A350
  function SetValues()
  {
   $this->guid->SetDBValue($this->f("guid"));
@@ -544,6 +556,7 @@ class clsproducts_suite_listv_alm_product_suitesDataSource extends clsDBdbConnec
   $this->dateupdated->SetDBValue(trim($this->f("dateupdated")));
   $this->suite_status_name->SetDBValue($this->f("suite_status_name"));
   $this->suites_status_css_color->SetDBValue($this->f("suites_status_css_color"));
+  $this->legacy_expire_date->SetDBValue(trim($this->f("legacy_expire_date")));
  }
 //End SetValues Method
 

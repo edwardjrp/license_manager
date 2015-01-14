@@ -181,7 +181,7 @@ function products_maintcontent_alm_products_BeforeInsert(& $sender)
 	$products = new Alm\Products();
 	$suiteStatus = $products->getSuiteStatusById($params);
 	//Check if suite status is active before adding any new product for it
-	if ($suiteStatus["suiteStatus"] == "1") {
+	if ( ($suiteStatus["suiteStatus"] == "1") || ($suiteStatus["suiteStatus"] == "2") ) {
 	 	$guid = uuid_create();
 		global $lastguid;
 		$lastguid = $guid;

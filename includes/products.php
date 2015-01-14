@@ -240,9 +240,9 @@ class Products {
 
 			$fields_array = array("id_suite","id_product_type","range_min","range_max","msrp_price","description","id_license_type",
 								  "id_product_tag","id_licensed_by","id_license_sector","licensed_amount","id","channel_sku",
-								  "short_description","id_license_granttype");
+								  "short_description","id_license_granttype","granttype_name");
 			$fields = implode(",",$fields_array);
-			$sql = "select $fields from alm_products where channel_sku = '$channel_sku' ";
+			$sql = "select $fields from v_alm_products where channel_sku = '$channel_sku' ";
 			$db->query($sql);
 
 			$products = array();
@@ -458,8 +458,7 @@ class Products {
 		$isArchived = 0;
 		if (array_key_exists("isArchived",$params))
 			$isArchived = (int)$params["isArchived"];
-
-
+		
 	     if (strlen($customer_guid) > 0) {
 	         $db = new \clsDBdbConnection();
 	         $licenses = array();
@@ -469,7 +468,7 @@ class Products {
 	             $fields_array = array("id","guid","suite_description","suite_code","type_icon_name","license_name","id_licensed_by",
 	             "licensedby_name","sector_name","reseller_name","description","nodes","licensed_amount","channel_sku"
 	             ,"msrp_price","dateupdated","id_license_status","license_status_name","alm_license_status_css_color","grant_number","expedition_date"
-	             ,"expiration_date","serial_number","granttype_name","isarchived");
+	             ,"expiration_date","serial_number","granttype_name","isarchived","renew_businesspartner");
 	             $fields = implode(",",$fields_array);
 	             $sql = "select $fields from v_alm_licenses where id_customer = $customer_id
  						 and grant_number = '$grantNumber' and id != $licenseID  and isarchived = $isArchived";
@@ -527,7 +526,7 @@ class Products {
 	             $fields_array = array("id","guid","suite_description","suite_code","type_icon_name","license_name","id_licensed_by",
 	             "licensedby_name","sector_name","reseller_name","description","nodes","licensed_amount","channel_sku"
 	             ,"msrp_price","dateupdated","id_license_status","license_status_name","alm_license_status_css_color","grant_number","expedition_date"
-	             ,"expiration_date","serial_number","granttype_name","isarchived");
+	             ,"expiration_date","serial_number","granttype_name","isarchived","renew_businesspartner");
 	             $fields = implode(",",$fields_array);
 	             $sql = "select $fields from v_alm_licenses where id_customer = $customer_id and isarchived = $isArchived
 						 and id in (select id from v_alm_licenses where id_customer = $customer_id group by IFNULL(grant_number,RAND()) ) ";

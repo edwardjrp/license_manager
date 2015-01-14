@@ -710,6 +710,33 @@ function licensing_customerscontent_licensing_hiddguid_BeforeShow(& $sender)
 }
 //End Close licensing_customerscontent_licensing_hiddguid_BeforeShow
 
+//licensing_customerscontent_licensing_pnrenewcompetitor_BeforeShow @234-8BAA8F54
+function licensing_customerscontent_licensing_pnrenewcompetitor_BeforeShow(& $sender)
+{
+ $licensing_customerscontent_licensing_pnrenewcompetitor_BeforeShow = true;
+ $Component = & $sender;
+ $Container = & CCGetParentContainer($sender);
+ global $licensing_customerscontent; //Compatibility
+//End licensing_customerscontent_licensing_pnrenewcompetitor_BeforeShow
+
+//Custom Code @235-2A29BDB7
+// -------------------------
+ // Write your own code here.
+ 	$licenseStatus = (int)$licensing_customerscontent->licensing->hidlicensestatus->GetValue();
+	$o = CCGetFromGet("o","");
+	if ( ($licenseStatus == 3) && ($o == "renew_competitor") )
+		$licensing_customerscontent->licensing->pnrenewcompetitor->Visible = true;
+	else
+		$licensing_customerscontent->licensing->pnrenewcompetitor->Visible = false;
+
+// -------------------------
+//End Custom Code
+
+//Close licensing_customerscontent_licensing_pnrenewcompetitor_BeforeShow @234-1349357A
+ return $licensing_customerscontent_licensing_pnrenewcompetitor_BeforeShow;
+}
+//End Close licensing_customerscontent_licensing_pnrenewcompetitor_BeforeShow
+
 //Used because the last_user_id query on afterinsert was not working
 $lastguid = "";
 
@@ -770,11 +797,12 @@ function licensing_customerscontent_licensing_BeforeInsert(& $sender)
 
 		//Making sure that perpetual licenses dont get expiration date values
 		//And change status to active if grantnumber, expiration date have values
+		//This changed, perpetuals will be autoactivated and user redirected to add the support license automatically
 		if ( ($licenseStatus == 1) && (strlen($grantNo) > 0) && (count($expDate) > 1) && (count($expirDate) > 1) ) {
-
+			
 			if ( ($licenseType == 7) || ($licenseType == 12) )
 				$licensing_customerscontent->licensing->expiration_date->SetValue("");
-
+			
 			$licensing_customerscontent->licensing->hidlicensestatus->SetValue("2");
 
 			//If renewing and new license is activated, sets expired license as archived
@@ -785,8 +813,7 @@ function licensing_customerscontent_licensing_BeforeInsert(& $sender)
 
 		} else {
 			//Its a perpetual license
-			if ( ($licenseStatus == 1) && (strlen($grantNo) > 0) && (count($expDate) > 1) && 
-			( ( ($licenseType == 7) || ($licenseType == 12) ) ) ) {
+			if ( ($licenseStatus == 1) && ( ( ($licenseType == 7) || ($licenseType == 12) ) ) ) {
 				$licensing_customerscontent->licensing->expiration_date->SetValue("");
 				$licensing_customerscontent->licensing->hidlicensestatus->SetValue("2");
 			}
@@ -834,11 +861,16 @@ function licensing_customerscontent_licensing_AfterInsert(& $sender)
 	global $lastguid;	
 	global $FileName;
 	global $Redirect;
+	global $MainPage;
 
 	//Checking if there was a duplicity error
 	$errors = (Array)$sender->DataSource->Errors;
 	$errorcount = (int)$errors["ErrorsCount"];
-	$error = $errors["Errors"][0];
+	if (count($errors["Errors"]) > 0)
+		$error = $errors["Errors"][0];
+	else
+		$error = "";
+
 	if ($errorcount >= 1) {
 		$position = strpos($error,"Duplicate entry");
 		if ( !($position === false)) {
@@ -856,6 +888,13 @@ function licensing_customerscontent_licensing_AfterInsert(& $sender)
 	//Getting querystring parameter to include in redirect, redirect will set licensing to add mode even when editing
 	//$querystring = CCGetFromPost("querystring","");
 	$Redirect = $FileName."?guid=$customer_guid&tab=licenselist";
+
+	//If perpetual, will redirect user to add support inmediatly
+	$licenseType = (int)$licensing_customerscontent->licensing->id_license_type->GetValue();
+	if ( ($licenseType == "7") || ($licenseType == "12") ) {
+		CCSetSession("showalert_addsupport","show");
+		$Redirect = $FileName."?o=addsupport&dguid=$lastguid&guid=$customer_guid&tab=licensing";
+	}
 
 // -------------------------
 //End Custom Code
@@ -887,7 +926,7 @@ function licensing_customerscontent_licensing_BeforeUpdate(& $sender)
 	$licenseType = (int)$licensing_customerscontent->licensing->id_license_type->GetValue();
 
 	if ( ($licenseStatus == 1) && (strlen($grantNo) > 0) && (count($expDate) > 1) && (count($expirDate) > 1) ) {
-
+	
 		if ( ($licenseType == 7) || ($licenseType == 12) )
 			$licensing_customerscontent->licensing->expiration_date->SetValue("");
 
@@ -908,15 +947,27 @@ function licensing_customerscontent_licensing_BeforeUpdate(& $sender)
 
 		}
 
-
 	} else {
-		if ( ($licenseStatus == 1) && (strlen($grantNo) > 0) && (count($expDate) > 1) && 
-		( ( ($licenseType == 7) || ($licenseType == 12) ) ) ) {
+		//if ( ($licenseStatus == 1) && (strlen($grantNo) > 0) && (count($expDate) > 1) && 
+		if ( ($licenseStatus == 1) && ( ($licenseType == 7) || ($licenseType == 12) ) ) {
 			$licensing_customerscontent->licensing->expiration_date->SetValue("");
 			$licensing_customerscontent->licensing->hidlicensestatus->SetValue("2");
 		}
 	}
+	
 
+	//Setting expired license to archived when renewed with competitor operation takes place
+	$o = $licensing_customerscontent->licensing->hido->GetValue();
+	if ( ($licenseStatus == 3) && ($o == "renew_competitor") ) {
+		$params = array();
+		$params["guid"] = $licensing_customerscontent->licensing->hidguid->GetValue();
+
+		//A renewal not activeated yet and the expired license was not archived as well, 
+		//sets expired license as archived
+		$products = new Alm\Products();
+		$products->setLicenseArchivedByGuid($params);
+	
+	}
 
 // -------------------------
 //End Custom Code
@@ -1158,7 +1209,6 @@ function licensing_customerscontent_BeforeShow(& $sender)
 	else
 		$MainPage->Attributes->SetValue("showalert_contacterror","show");
 
-
 	//Setting up alerts to let user know the license may need support	
 	$license_guid = trim(CCGetFromGet("license_guid",""));
 	if (strlen($license_guid) > 0) {
@@ -1172,6 +1222,13 @@ function licensing_customerscontent_BeforeShow(& $sender)
 			$MainPage->Attributes->SetValue("showalert_addsupport","show");
 	} else {
 		$MainPage->Attributes->SetValue("showalert_addsupport","hide");	
+	}
+
+	//Check if session variable showalert_addsupport has a show value
+	$showalert_addsupport = CCGetSession("showalert_addsupport","");
+	if ($showalert_addsupport == "show") {
+		CCSetSession("showalert_addsupport","hide");
+		$MainPage->Attributes->SetValue("showalert_addsupport",$showalert);
 	}
 
 	//Procesing file uploading
@@ -1220,13 +1277,13 @@ function licensing_customerscontent_BeforeShow(& $sender)
 		$products = new \Alm\Products();
 		$licenseFiles = $products->getLicenseFiles($params);
 		$licenseFiles = $licenseFiles["licensefiles"];
- 		$querystring = CCGetQueryString("QueryString",array("o","licensefile_guid"));
+ 		$querystring = CCGetQueryString("QueryString",array("o","licensefile_guid","tab"));
 		foreach ($licenseFiles as $licenseFile) {
 			$licensefile_guid = $licenseFile["guid"];
 			$linkdelete = "";
 			if (CCGetGroupID() == "4") {
 				//Moved linkdelete to code because issues displaying panels inside custom template blocks
-				$linkdelete = "<a href='licensing_customers.php?o=dellicense&licensefile_guid=$licensefile_guid&$querystring' class='dellicense' ><li class='icon-trash bigger-150 red'></li></a>";
+				$linkdelete = "<a href='licensing_customers.php?o=dellicense&licensefile_guid=$licensefile_guid&tab=licenselist&$querystring' class='dellicense' ><li class='icon-trash bigger-150 red'></li></a>";
 			}
 			$Tpl->setvar("linkdelete",$linkdelete);
 			$Tpl->setvar("licensefile_guid",$licensefile_guid);
@@ -1321,6 +1378,16 @@ function licensing_customerscontent_BeforeShow(& $sender)
 			}
 			$Tpl->setvar("linkrenew_license",$linkrenew_license);
 
+			$linkrenew_license_competitor = "";
+			if ( ($license["id_license_status"] == "3") && ($license["isarchived"] == "0") ) {
+				$licenseGuid = $license["guid"];
+				global $CCSLocales;
+				$renewCaption_competitor = $CCSLocales->GetText("renewlicense_competitor");
+				$linkrenew_license_competitor = "<li><a href='licensing_customers.php?o=renew_competitor&guid=$guid&license_guid=$licenseGuid&tab=licensing'>$renewCaption_competitor</a></li>";
+			}
+			$Tpl->setvar("linkrenew_license_competitor",$linkrenew_license_competitor);
+
+
 
 			//Generate link to delete license only for admins
 			$linkdelete_license = "";
@@ -1328,7 +1395,7 @@ function licensing_customerscontent_BeforeShow(& $sender)
 				$licenseGuid = $license["guid"];
 				global $CCSLocales;
 				$deleteCaption = $CCSLocales->GetText("deletelicense");
-				$linkdelete_license = "<a href='licensing_customers.php?guid=$guid&o=delfulllicense&license_guid=$licenseGuid' class='dellicense'>$deleteCaption</a>";
+				$linkdelete_license = "<a href='licensing_customers.php?guid=$guid&o=delfulllicense&license_guid=$licenseGuid&tab=licenselist' class='dellicense'>$deleteCaption</a>";
 			}
 			$Tpl->setvar("linkdelete_license",$linkdelete_license);
 
@@ -1411,13 +1478,23 @@ function licensing_customerscontent_BeforeShow(& $sender)
 				}
 				$Tpl->setvar("linkrenew_license_popup",$linkrenew_license);
 
+				$linkrenew_license = "";
+				if ( ($licensePopup["id_license_status"] == "3") && ($licensePopup["isarchived"] == "0") ) {
+					$licenseGuid = $licensePopup["guid"];
+					global $CCSLocales;
+					$renewCaption = $CCSLocales->GetText("renewlicense_competitor");
+					$linkrenew_license = "<li><a href='licensing_customers.php?o=renew_competitor&guid=$guid&license_guid=$licenseGuid&tab=licensing'>$renewCaption</a></li>";
+				}
+				$Tpl->setvar("linkrenew_license_competitor_popup",$linkrenew_license);
+
+
 				//Generate link to delete license only for admins
 				$linkdelete_license = "";
 				if (CCGetGroupID() == "4") {
 					$licenseGuid = $licensePopup["guid"];
 					global $CCSLocales;
 					$deleteCaption = $CCSLocales->GetText("deletelicense");
-					$linkdelete_license = "<a href='licensing_customers.php?guid=$guid&o=delfulllicense&license_guid=$licenseGuid' class='dellicense'>$deleteCaption</a>";
+					$linkdelete_license = "<a href='licensing_customers.php?guid=$guid&o=delfulllicense&license_guid=$licenseGuid&tab=licenselist' class='dellicense'>$deleteCaption</a>";
 				}
 				$Tpl->setvar("linkdelete_license_popup",$linkdelete_license);
 
@@ -1458,6 +1535,12 @@ function licensing_customerscontent_BeforeShow(& $sender)
 			$Tpl->setvar("lblicensedby_name_archived",$license["licensedby_name"]);
 			$Tpl->setvar("lblicense_status_archived",$license["license_status_name"]);
 			$Tpl->setvar("lblicense_status_css_archived",$license["alm_license_status_css_color"]);
+			
+			$Tpl->setvar("renewlicense_competitor_show_archived","hide");			
+			if (strlen($license["renew_businesspartner"]) > 0 ) {
+				$Tpl->setvar("renewlicense_competitor_archived",$license["renew_businesspartner"]);
+				$Tpl->setvar("renewlicense_competitor_show_archived","show");
+			}
 
 			if ($license["id_licensed_by"] == "1")
 				$Tpl->setvar("lbnodes_qty_archived",$license["nodes"]);
@@ -1510,7 +1593,7 @@ function licensing_customerscontent_BeforeShow(& $sender)
 				$licenseGuid = $license["guid"];
 				global $CCSLocales;
 				$deleteCaption = $CCSLocales->GetText("deletelicense");
-				$linkdelete_license = "<a href='licensing_customers.php?guid=$guid&o=delfulllicense&license_guid=$licenseGuid' class='dellicense'>$deleteCaption</a>";
+				$linkdelete_license = "<a href='licensing_customers.php?guid=$guid&o=delfulllicense&license_guid=$licenseGuid&tab=licenselist' class='dellicense'>$deleteCaption</a>";
 			}
 			$Tpl->setvar("linkdelete_license_archived",$linkdelete_license);
 
@@ -1541,6 +1624,12 @@ function licensing_customerscontent_BeforeShow(& $sender)
 				$Tpl->setvar("lblicensedby_name_popup_archived",$licensePopup["licensedby_name"]);
 				$Tpl->setvar("lblicense_status_popup_archived",$licensePopup["license_status_name"]);
 				$Tpl->setvar("lblicense_status_css_popup_archived",$licensePopup["alm_license_status_css_color"]);
+
+				$Tpl->setvar("renewlicense_competitor_show_popup_archived","hide");			
+				if (strlen($licensePopup["renew_businesspartner"]) > 0 ) {
+					$Tpl->setvar("renewlicense_competitor_popup_archived",$licensePopup["renew_businesspartner"]);
+					$Tpl->setvar("renewlicense_competitor_show_popup_archived","show");
+				}
 
 				if ($licensePopup["id_licensed_by"] == "1")
 					$Tpl->setvar("lbnodes_qty_popup_archived",$licensePopup["nodes"]);
@@ -1589,7 +1678,7 @@ function licensing_customerscontent_BeforeShow(& $sender)
 				$linkdelete_license = "";
 				if (CCGetGroupID() == "4") {
 					$licenseGuid = $licensePopup["guid"];
-					$linkdelete_license = "<a href='licensing_customers.php?guid=$guid&o=delfulllicense&license_guid=$licenseGuid' class='dellicense'><li class='icon-trash bigger-150 red'></li></a>";
+					$linkdelete_license = "<a href='licensing_customers.php?guid=$guid&o=delfulllicense&license_guid=$licenseGuid&tab=licenselist' class='dellicense'><li class='icon-trash bigger-150 red'></li></a>";
 				}
 				$Tpl->setvar("linkdelete_license_popup_archived",$linkdelete_license);
 
