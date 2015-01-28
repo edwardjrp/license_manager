@@ -639,7 +639,7 @@ class clsRecordlicensing_customerscontentlicensing { //licensing Class @154-009C
  // Class variables
 //End Variables
 
-//Class_Initialize Event @154-1FA177B5
+//Class_Initialize Event @154-8A201E52
  function clsRecordlicensing_customerscontentlicensing($RelativePath, & $Parent)
  {
 
@@ -774,7 +774,7 @@ class clsRecordlicensing_customerscontentlicensing { //licensing Class @154-009C
 "FROM alm_business_partners {SQL_Where} {SQL_OrderBy}";
    list($this->renew_businesspartner_id->BoundColumn, $this->renew_businesspartner_id->TextColumn, $this->renew_businesspartner_id->DBFormat) = array("id", "partner", "");
    $this->pnrenewcompetitor = new clsPanel("pnrenewcompetitor", $this);
-   $this->renew_businesspartner_date = new clsControl(ccsTextBox, "renew_businesspartner_date", $CCSLocales->GetText("renewcompetitor_date"), ccsDate, $DefaultDateFormat, CCGetRequestParam("renew_businesspartner_date", $Method, NULL), $this);
+   $this->renew_businesspartner_date = new clsControl(ccsTextBox, "renew_businesspartner_date", $CCSLocales->GetText("renewcompetitor_date"), ccsDate, array("mm", "/", "dd", "/", "yyyy"), CCGetRequestParam("renew_businesspartner_date", $Method, NULL), $this);
    $this->pncanceledit->Visible = false;
    $this->pncanceledit->AddComponent("params", $this->params);
    $this->pnaddsupport->Visible = false;
@@ -1626,6 +1626,18 @@ class clslicensing_customerscontentlicensingDataSource extends clsDBdbConnection
 
 } //End licensingDataSource Class @154-FCB6E20C
 
+//Include Page implementation @238-8588F3B9
+include_once(RelativePath . "/licensing_competitor_renewals.php");
+//End Include Page implementation
+
+//Include Page implementation @239-BBCF05BD
+include_once(RelativePath . "/licensing_archived_tab.php");
+//End Include Page implementation
+
+//Include Page implementation @240-482A13D8
+include_once(RelativePath . "/licensing_activelicense_tab.php");
+//End Include Page implementation
+
 class clslicensing_customerscontent { //licensing_customerscontent class @1-EBAC1FA2
 
 //Variables @1-51D7F06F
@@ -1665,12 +1677,18 @@ class clslicensing_customerscontent { //licensing_customerscontent class @1-EBAC
  }
 //End Class_Initialize Event
 
-//Class_Terminate Event @1-7CDA8FD6
+//Class_Terminate Event @1-90CDD33B
  function Class_Terminate()
  {
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeUnload", $this);
   unset($this->alm_customers);
   unset($this->licensing);
+  $this->licensing_competitor_renewals->Class_Terminate();
+  unset($this->licensing_competitor_renewals);
+  $this->licensing_archived_tab->Class_Terminate();
+  unset($this->licensing_archived_tab);
+  $this->licensing_activelicense_tab->Class_Terminate();
+  unset($this->licensing_activelicense_tab);
  }
 //End Class_Terminate Event
 
@@ -1715,7 +1733,7 @@ class clslicensing_customerscontent { //licensing_customerscontent class @1-EBAC
  }
 //End BindEvents Method
 
-//Operations Method @1-11FF0D8D
+//Operations Method @1-8364E972
  function Operations()
  {
   global $Redirect;
@@ -1723,10 +1741,13 @@ class clslicensing_customerscontent { //licensing_customerscontent class @1-EBAC
    return "";
   $this->alm_customers->Operation();
   $this->licensing->Operation();
+  $this->licensing_competitor_renewals->Operations();
+  $this->licensing_archived_tab->Operations();
+  $this->licensing_activelicense_tab->Operations();
  }
 //End Operations Method
 
-//Initialize Method @1-D5B3EE77
+//Initialize Method @1-EAF2D600
  function Initialize()
  {
   global $FileName;
@@ -1752,6 +1773,12 @@ class clslicensing_customerscontent { //licensing_customerscontent class @1-EBAC
   $this->licensing = new clsRecordlicensing_customerscontentlicensing($this->RelativePath, $this);
   $this->pndropzone = new clsPanel("pndropzone", $this);
   $this->pndropzonejs = new clsPanel("pndropzonejs", $this);
+  $this->licensing_competitor_renewals = new clslicensing_competitor_renewals($this->RelativePath, "licensing_competitor_renewals", $this);
+  $this->licensing_competitor_renewals->Initialize();
+  $this->licensing_archived_tab = new clslicensing_archived_tab($this->RelativePath, "licensing_archived_tab", $this);
+  $this->licensing_archived_tab->Initialize();
+  $this->licensing_activelicense_tab = new clslicensing_activelicense_tab($this->RelativePath, "licensing_activelicense_tab", $this);
+  $this->licensing_activelicense_tab->Initialize();
   $this->pndropzone->Visible = false;
   $this->pndropzonejs->Visible = false;
   if(!is_array($this->id_product_type->Value) && !strlen($this->id_product_type->Value) && $this->id_product_type->Value !== false)
@@ -1763,7 +1790,7 @@ class clslicensing_customerscontent { //licensing_customerscontent class @1-EBAC
  }
 //End Initialize Method
 
-//Show Method @1-8530022D
+//Show Method @1-7FE57B69
  function Show()
  {
   global $Tpl;
@@ -1782,6 +1809,9 @@ class clslicensing_customerscontent { //licensing_customerscontent class @1-EBAC
   $this->alm_customers->Show();
   $this->id_product_type->Show();
   $this->licensing->Show();
+  $this->licensing_competitor_renewals->Show();
+  $this->licensing_archived_tab->Show();
+  $this->licensing_activelicense_tab->Show();
   $this->pndropzone->Show();
   $this->pndropzonejs->Show();
   $Tpl->Parse();

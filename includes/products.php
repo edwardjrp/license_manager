@@ -458,7 +458,16 @@ class Products {
 		$isArchived = 0;
 		if (array_key_exists("isArchived",$params))
 			$isArchived = (int)$params["isArchived"];
-		
+
+		//Enable returning competitor renewals licenses only
+		$isCompetitor = "";
+		if (array_key_exists("isCompetitor",$params))
+		{
+			$isCompetitor = (int)$params[ "isCompetitor" ];
+			if ($isCompetitor == 1)
+				$isCompetitor = " and renew_businesspartner_id > 0 ";
+		}
+
 	     if (strlen($customer_guid) > 0) {
 	         $db = new \clsDBdbConnection();
 	         $licenses = array();
@@ -468,10 +477,11 @@ class Products {
 	             $fields_array = array("id","guid","suite_description","suite_code","type_icon_name","license_name","id_licensed_by",
 	             "licensedby_name","sector_name","reseller_name","description","nodes","licensed_amount","channel_sku"
 	             ,"msrp_price","dateupdated","id_license_status","license_status_name","alm_license_status_css_color","grant_number","expedition_date"
-	             ,"expiration_date","serial_number","granttype_name","isarchived","renew_businesspartner");
+	             ,"expiration_date","serial_number","granttype_name","isarchived","renew_businesspartner", "renew_businesspartner_date"
+	             ,"renew_businesspartner_id");
 	             $fields = implode(",",$fields_array);
 	             $sql = "select $fields from v_alm_licenses where id_customer = $customer_id
- 						 and grant_number = '$grantNumber' and id != $licenseID  and isarchived = $isArchived";
+ 						 and grant_number = '$grantNumber' and id != $licenseID  and isarchived = $isArchived $isCompetitor";
 
 	             $db->query($sql);
 
@@ -515,7 +525,20 @@ class Products {
 		//Enable returning archived or non archived licenses
 		$isArchived = 0;
 		if (array_key_exists("isArchived",$params))
-			$isArchived = (int)$params["isArchived"];
+			$isArchived = (int)$params[ "isArchived" ];
+
+		//Enable returning competitor renewals licenses only
+		$isCompetitor = "";
+		if (array_key_exists("isCompetitor",$params))
+		{
+			$isCompetitor = (int)$params[ "isCompetitor" ];
+			if ($isCompetitor == 1)
+				$isCompetitor = " and renew_businesspartner_id > 0 ";
+		} else
+		{
+			//Will avoid display competitor renewal licenses on active licenses tab
+			$isCompetitor = " and renew_businesspartner_id <= 0 ";
+		}
 
 	     if (strlen($customer_guid) > 0) {
 	         $db = new \clsDBdbConnection();
@@ -526,12 +549,14 @@ class Products {
 	             $fields_array = array("id","guid","suite_description","suite_code","type_icon_name","license_name","id_licensed_by",
 	             "licensedby_name","sector_name","reseller_name","description","nodes","licensed_amount","channel_sku"
 	             ,"msrp_price","dateupdated","id_license_status","license_status_name","alm_license_status_css_color","grant_number","expedition_date"
-	             ,"expiration_date","serial_number","granttype_name","isarchived","renew_businesspartner");
+	             ,"expiration_date","serial_number","granttype_name","isarchived","renew_businesspartner", "renew_businesspartner_date"
+	             ,"renew_businesspartner_id");
 	             $fields = implode(",",$fields_array);
-	             $sql = "select $fields from v_alm_licenses where id_customer = $customer_id and isarchived = $isArchived
-						 and id in (select id from v_alm_licenses where id_customer = $customer_id group by IFNULL(grant_number,RAND()) ) ";
-	             $db->query($sql);
 
+	             $sql = "select $fields from v_alm_licenses where id_customer = $customer_id and isarchived = $isArchived $isCompetitor
+						 and id in (select id from v_alm_licenses where id_customer = $customer_id and isarchived = $isArchived group by IFNULL(grant_number,RAND()) ) ";
+	             $db->query($sql);
+		         
 	             while ($db->next_record()) {
 	                 $row = array();
 	                 foreach($fields_array as $field) {
