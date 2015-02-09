@@ -101,6 +101,8 @@ function licensing_activelicense_tab_BeforeShow(& $sender)
 
 			$linkrenew_license_competitor = "";
 			$linkarchive_only = "";
+			$linkupgrade_license = "";
+			$linkproduct_displacement = "";
 			if ( ($license["id_license_status"] == "3") && ($license["isarchived"] == "0") ) {
 				$licenseGuid = $license["guid"];
 				global $CCSLocales;
@@ -110,8 +112,19 @@ function licensing_activelicense_tab_BeforeShow(& $sender)
 				//Add archive only link used when the license is upgraded which just add a new license.				
 				$archiveOnlyCaption = $CCSLocales->GetText("archive_only");
 				$linkarchive_only = "<li><a href='licensing_customers.php?o=archive_only&guid=$guid&license_guid=$licenseGuid&tab=licensing'>$archiveOnlyCaption</a></li>";
+
+				//Upgrade to new license which is a new license but will archive the expired one.				
+				$upgradeLicenseCaption = $CCSLocales->GetText("upgrade_license");
+				$linkupgrade_license = "<li><a href='licensing_customers.php?o=upgrade_license&guid=$guid&dguid=$licenseGuid&tab=licensing'>$upgradeLicenseCaption</a></li>";
+
+				//Product Displacement
+				$productDisplacementCaption = $CCSLocales->GetText("product_displacement");
+				$linkproduct_displacement = "<li><a href='licensing_customers.php?o=product_displacement&guid=$guid&license_guid=$licenseGuid&tab=licensing'>$productDisplacementCaption</a></li>";
+
 			}
 			$Tpl->setvar("linkarchive_only",$linkarchive_only);
+			$Tpl->setvar("linkupgrade_license",$linkupgrade_license);
+			$Tpl->setvar("linkproduct_displacement",$linkproduct_displacement);
 			$Tpl->setvar("linkrenew_license_competitor",$linkrenew_license_competitor);
 
 			//Generate link to delete license only for admins
@@ -204,6 +217,8 @@ function licensing_activelicense_tab_BeforeShow(& $sender)
 
 				$linkrenew_license = "";
 				$linkarchive_only_popup = "";
+				$linkupgrade_license_popup = "";
+				$linkproduct_displacement_popup = "";
 				if ( ($licensePopup["id_license_status"] == "3") && ($licensePopup["isarchived"] == "0") ) {
 					$licenseGuid = $licensePopup["guid"];
 					global $CCSLocales;
@@ -213,8 +228,19 @@ function licensing_activelicense_tab_BeforeShow(& $sender)
 					//Add archive only link used when the license is upgraded which just add a new license.				
 					$archiveOnlyCaption = $CCSLocales->GetText("archive_only");
 					$linkarchive_only_popup = "<li><a href='licensing_customers.php?o=archive_only&guid=$guid&license_guid=$licenseGuid&tab=licensing'>$archiveOnlyCaption</a></li>";
+
+					//Upgrade to new license which is a new license but will archive the expired one.				
+					$upgradeLicenseCaption = $CCSLocales->GetText("upgrade_license");
+					$linkupgrade_license_popup = "<li><a href='licensing_customers.php?o=upgrade_license&guid=$guid&dguid=$licenseGuid&tab=licensing'>$upgradeLicenseCaption</a></li>";
+
+					//Product Displacement
+					$productDisplacementCaption = $CCSLocales->GetText("product_displacement");
+					$linkproduct_displacement_popup = "<li><a href='licensing_customers.php?o=product_displacement&guid=$guid&license_guid=$licenseGuid&tab=licensing'>$productDisplacementCaption</a></li>";
+
 				}
 				$Tpl->setvar("linkarchive_only_popup",$linkarchive_only_popup);
+				$Tpl->setvar("linkupgrade_license_popup",$linkupgrade_license_popup);
+				$Tpl->setvar("linkproduct_displacement_popup",$linkproduct_displacement_popup);
 				$Tpl->setvar("linkrenew_license_competitor_popup",$linkrenew_license);
 
 

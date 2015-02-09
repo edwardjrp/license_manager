@@ -461,11 +461,20 @@ class Products {
 
 		//Enable returning competitor renewals licenses only
 		$isCompetitor = "";
+		$isDisplacement = "";
 		if (array_key_exists("isCompetitor",$params))
 		{
 			$isCompetitor = (int)$params[ "isCompetitor" ];
 			if ($isCompetitor == 1)
-				$isCompetitor = " and renew_businesspartner_id > 0 ";
+				$isCompetitor = " and renew_businesspartner_id > 0 and competitor_product_id <= 0 ";
+		} else
+		{
+			if (array_key_exists("isDisplacement",$params))
+			{
+				$isDisplacement = (int)$params[ "isDisplacement" ];
+				if ($isDisplacement == 1)
+					$isDisplacement = " and renew_businesspartner_id <= 0 and competitor_product_id > 0 ";
+			}
 		}
 
 	     if (strlen($customer_guid) > 0) {
@@ -478,10 +487,10 @@ class Products {
 	             "licensedby_name","sector_name","reseller_name","description","nodes","licensed_amount","channel_sku"
 	             ,"msrp_price","dateupdated","id_license_status","license_status_name","alm_license_status_css_color","grant_number","expedition_date"
 	             ,"expiration_date","serial_number","granttype_name","isarchived","renew_businesspartner", "renew_businesspartner_date"
-	             ,"renew_businesspartner_id");
+	             ,"renew_businesspartner_id", "competitor_product_id", "competitor_product_name", "competitor_date");
 	             $fields = implode(",",$fields_array);
 	             $sql = "select $fields from v_alm_licenses where id_customer = $customer_id
- 						 and grant_number = '$grantNumber' and id != $licenseID  and isarchived = $isArchived $isCompetitor";
+ 						 and grant_number = '$grantNumber' and id != $licenseID  and isarchived = $isArchived $isCompetitor $isDisplacement";
 
 	             $db->query($sql);
 
@@ -529,15 +538,26 @@ class Products {
 
 		//Enable returning competitor renewals licenses only
 		$isCompetitor = "";
+		$isDisplacement = "";
 		if (array_key_exists("isCompetitor",$params))
 		{
 			$isCompetitor = (int)$params[ "isCompetitor" ];
 			if ($isCompetitor == 1)
-				$isCompetitor = " and renew_businesspartner_id > 0 ";
+				$isCompetitor = " and renew_businesspartner_id > 0 and competitor_product_id <= 0 ";
 		} else
 		{
-			//Will avoid display competitor renewal licenses on active licenses tab
-			$isCompetitor = " and renew_businesspartner_id <= 0 ";
+			if (array_key_exists("isDisplacement",$params))
+			{
+				$isDisplacement = (int)$params[ "isDisplacement" ];
+				if ($isDisplacement == 1)
+					$isDisplacement = " and renew_businesspartner_id <= 0 and competitor_product_id > 0 ";
+
+			} else
+			{
+				//Will avoid display competitor renewal licenses on active licenses tab
+				$isCompetitor = " and renew_businesspartner_id <= 0 and competitor_product_id <= 0";
+			}
+
 		}
 
 	     if (strlen($customer_guid) > 0) {
@@ -550,13 +570,13 @@ class Products {
 	             "licensedby_name","sector_name","reseller_name","description","nodes","licensed_amount","channel_sku"
 	             ,"msrp_price","dateupdated","id_license_status","license_status_name","alm_license_status_css_color","grant_number","expedition_date"
 	             ,"expiration_date","serial_number","granttype_name","isarchived","renew_businesspartner", "renew_businesspartner_date"
-	             ,"renew_businesspartner_id");
+	             ,"renew_businesspartner_id", "competitor_product_id", "competitor_product_name", "competitor_date");
 	             $fields = implode(",",$fields_array);
 
-	             $sql = "select $fields from v_alm_licenses where id_customer = $customer_id and isarchived = $isArchived $isCompetitor
+	             $sql = "select $fields from v_alm_licenses where id_customer = $customer_id and isarchived = $isArchived $isCompetitor $isDisplacement
 						 and id in (select id from v_alm_licenses where id_customer = $customer_id and isarchived = $isArchived group by IFNULL(grant_number,RAND()) ) ";
 	             $db->query($sql);
-		         
+
 	             while ($db->next_record()) {
 	                 $row = array();
 	                 foreach($fields_array as $field) {

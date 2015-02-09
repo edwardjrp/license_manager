@@ -639,7 +639,7 @@ class clsRecordlicensing_customerscontentlicensing { //licensing Class @154-009C
  // Class variables
 //End Variables
 
-//Class_Initialize Event @154-8A201E52
+//Class_Initialize Event @154-A99E79D0
  function clsRecordlicensing_customerscontentlicensing($RelativePath, & $Parent)
  {
 
@@ -775,12 +775,23 @@ class clsRecordlicensing_customerscontentlicensing { //licensing Class @154-009C
    list($this->renew_businesspartner_id->BoundColumn, $this->renew_businesspartner_id->TextColumn, $this->renew_businesspartner_id->DBFormat) = array("id", "partner", "");
    $this->pnrenewcompetitor = new clsPanel("pnrenewcompetitor", $this);
    $this->renew_businesspartner_date = new clsControl(ccsTextBox, "renew_businesspartner_date", $CCSLocales->GetText("renewcompetitor_date"), ccsDate, array("mm", "/", "dd", "/", "yyyy"), CCGetRequestParam("renew_businesspartner_date", $Method, NULL), $this);
+   $this->pnproduct_displacement = new clsPanel("pnproduct_displacement", $this);
+   $this->competitor_date = new clsControl(ccsTextBox, "competitor_date", $CCSLocales->GetText("renewcompetitor_date"), ccsDate, array("mm", "/", "dd", "/", "yyyy"), CCGetRequestParam("competitor_date", $Method, NULL), $this);
+   $this->competitor_product = new clsControl(ccsListBox, "competitor_product", "competitor_product", ccsText, "", CCGetRequestParam("competitor_product", $Method, NULL), $this);
+   $this->competitor_product->DSType = dsTable;
+   $this->competitor_product->DataSource = new clsDBdbConnection();
+   $this->competitor_product->ds = & $this->competitor_product->DataSource;
+   $this->competitor_product->DataSource->SQL = "SELECT * \n" .
+"FROM alm_competitor_products {SQL_Where} {SQL_OrderBy}";
+   list($this->competitor_product->BoundColumn, $this->competitor_product->TextColumn, $this->competitor_product->DBFormat) = array("id", "product_name", "");
    $this->pncanceledit->Visible = false;
    $this->pncanceledit->AddComponent("params", $this->params);
    $this->pnaddsupport->Visible = false;
    $this->pnaddsupport->AddComponent("params1", $this->params1);
    $this->pnrenewcompetitor->Visible = false;
    $this->pnrenewcompetitor->AddComponent("renew_businesspartner_date", $this->renew_businesspartner_date);
+   $this->pnproduct_displacement->AddComponent("competitor_product", $this->competitor_product);
+   $this->pnproduct_displacement->AddComponent("competitor_date", $this->competitor_date);
    if(!$this->FormSubmitted) {
     if(!is_array($this->id_licensed_by->Value) && !strlen($this->id_licensed_by->Value) && $this->id_licensed_by->Value !== false)
      $this->id_licensed_by->SetText(1);
@@ -810,7 +821,7 @@ class clsRecordlicensing_customerscontentlicensing { //licensing Class @154-009C
  }
 //End Initialize Method
 
-//Validate Method @154-28574F7A
+//Validate Method @154-7994BDE3
  function Validate()
  {
   global $CCSLocales;
@@ -850,6 +861,8 @@ class clsRecordlicensing_customerscontentlicensing { //licensing Class @154-009C
   $Validation = ($this->granttype->Validate() && $Validation);
   $Validation = ($this->renew_businesspartner_id->Validate() && $Validation);
   $Validation = ($this->renew_businesspartner_date->Validate() && $Validation);
+  $Validation = ($this->competitor_date->Validate() && $Validation);
+  $Validation = ($this->competitor_product->Validate() && $Validation);
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "OnValidate", $this);
   $Validation =  $Validation && ($this->manufacturer->Errors->Count() == 0);
   $Validation =  $Validation && ($this->suite_code->Errors->Count() == 0);
@@ -885,11 +898,13 @@ class clsRecordlicensing_customerscontentlicensing { //licensing Class @154-009C
   $Validation =  $Validation && ($this->granttype->Errors->Count() == 0);
   $Validation =  $Validation && ($this->renew_businesspartner_id->Errors->Count() == 0);
   $Validation =  $Validation && ($this->renew_businesspartner_date->Errors->Count() == 0);
+  $Validation =  $Validation && ($this->competitor_date->Errors->Count() == 0);
+  $Validation =  $Validation && ($this->competitor_product->Errors->Count() == 0);
   return (($this->Errors->Count() == 0) && $Validation);
  }
 //End Validate Method
 
-//CheckErrors Method @154-A2331932
+//CheckErrors Method @154-0970A117
  function CheckErrors()
  {
   $errors = false;
@@ -932,6 +947,8 @@ class clsRecordlicensing_customerscontentlicensing { //licensing Class @154-009C
   $errors = ($errors || $this->granttype->Errors->Count());
   $errors = ($errors || $this->renew_businesspartner_id->Errors->Count());
   $errors = ($errors || $this->renew_businesspartner_date->Errors->Count());
+  $errors = ($errors || $this->competitor_date->Errors->Count());
+  $errors = ($errors || $this->competitor_product->Errors->Count());
   $errors = ($errors || $this->Errors->Count());
   $errors = ($errors || $this->DataSource->Errors->Count());
   return $errors;
@@ -995,7 +1012,7 @@ function GetPrimaryKey($keyName)
  }
 //End Operation Method
 
-//InsertRow Method @154-9D39477D
+//InsertRow Method @154-1C3F75FE
  function InsertRow()
  {
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeInsert", $this);
@@ -1039,13 +1056,15 @@ function GetPrimaryKey($keyName)
   $this->DataSource->granttype->SetValue($this->granttype->GetValue(true));
   $this->DataSource->renew_businesspartner_id->SetValue($this->renew_businesspartner_id->GetValue(true));
   $this->DataSource->renew_businesspartner_date->SetValue($this->renew_businesspartner_date->GetValue(true));
+  $this->DataSource->competitor_date->SetValue($this->competitor_date->GetValue(true));
+  $this->DataSource->competitor_product->SetValue($this->competitor_product->GetValue(true));
   $this->DataSource->Insert();
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "AfterInsert", $this);
   return (!$this->CheckErrors());
  }
 //End InsertRow Method
 
-//UpdateRow Method @154-46460C42
+//UpdateRow Method @154-F2FDD6C8
  function UpdateRow()
  {
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeUpdate", $this);
@@ -1089,13 +1108,15 @@ function GetPrimaryKey($keyName)
   $this->DataSource->granttype->SetValue($this->granttype->GetValue(true));
   $this->DataSource->renew_businesspartner_id->SetValue($this->renew_businesspartner_id->GetValue(true));
   $this->DataSource->renew_businesspartner_date->SetValue($this->renew_businesspartner_date->GetValue(true));
+  $this->DataSource->competitor_date->SetValue($this->competitor_date->GetValue(true));
+  $this->DataSource->competitor_product->SetValue($this->competitor_product->GetValue(true));
   $this->DataSource->Update();
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "AfterUpdate", $this);
   return (!$this->CheckErrors());
  }
 //End UpdateRow Method
 
-//Show Method @154-135DB225
+//Show Method @154-3A8978D1
  function Show()
  {
   global $CCSUseAmp;
@@ -1119,6 +1140,7 @@ function GetPrimaryKey($keyName)
   $this->id_product->Prepare();
   $this->granttype->Prepare();
   $this->renew_businesspartner_id->Prepare();
+  $this->competitor_product->Prepare();
 
   $RecordBlock = "Record " . $this->ComponentName;
   $ParentPath = $Tpl->block_path;
@@ -1160,6 +1182,8 @@ function GetPrimaryKey($keyName)
      $this->granttype->SetValue($this->DataSource->granttype->GetValue());
      $this->renew_businesspartner_id->SetValue($this->DataSource->renew_businesspartner_id->GetValue());
      $this->renew_businesspartner_date->SetValue($this->DataSource->renew_businesspartner_date->GetValue());
+     $this->competitor_date->SetValue($this->DataSource->competitor_date->GetValue());
+     $this->competitor_product->SetValue($this->DataSource->competitor_product->GetValue());
     }
    } else {
     $this->EditMode = false;
@@ -1209,6 +1233,8 @@ function GetPrimaryKey($keyName)
    $Error = ComposeStrings($Error, $this->granttype->Errors->ToString());
    $Error = ComposeStrings($Error, $this->renew_businesspartner_id->Errors->ToString());
    $Error = ComposeStrings($Error, $this->renew_businesspartner_date->Errors->ToString());
+   $Error = ComposeStrings($Error, $this->competitor_date->Errors->ToString());
+   $Error = ComposeStrings($Error, $this->competitor_product->Errors->ToString());
    $Error = ComposeStrings($Error, $this->Errors->ToString());
    $Error = ComposeStrings($Error, $this->DataSource->Errors->ToString());
    $Tpl->SetVar("Error", $Error);
@@ -1270,6 +1296,7 @@ function GetPrimaryKey($keyName)
   $this->granttype->Show();
   $this->renew_businesspartner_id->Show();
   $this->pnrenewcompetitor->Show();
+  $this->pnproduct_displacement->Show();
   $Tpl->parse();
   $Tpl->block_path = $ParentPath;
   $this->DataSource->close();
@@ -1280,7 +1307,7 @@ function GetPrimaryKey($keyName)
 
 class clslicensing_customerscontentlicensingDataSource extends clsDBdbConnection {  //licensingDataSource Class @154-180292B1
 
-//DataSource Variables @154-B6B1CE6E
+//DataSource Variables @154-4A6E42B3
  public $Parent = "";
  public $CCSEvents = "";
  public $CCSEventResult;
@@ -1335,9 +1362,11 @@ class clslicensing_customerscontentlicensingDataSource extends clsDBdbConnection
  public $granttype;
  public $renew_businesspartner_id;
  public $renew_businesspartner_date;
+ public $competitor_date;
+ public $competitor_product;
 //End DataSource Variables
 
-//DataSourceClass_Initialize Event @154-1254A124
+//DataSourceClass_Initialize Event @154-20B0A31A
  function clslicensing_customerscontentlicensingDataSource(& $Parent)
  {
   $this->Parent = & $Parent;
@@ -1421,6 +1450,10 @@ class clslicensing_customerscontentlicensingDataSource extends clsDBdbConnection
   
   $this->renew_businesspartner_date = new clsField("renew_businesspartner_date", ccsDate, array("yyyy", "-", "mm", "-", "dd"));
   
+  $this->competitor_date = new clsField("competitor_date", ccsDate, array("yyyy", "-", "mm", "-", "dd"));
+  
+  $this->competitor_product = new clsField("competitor_product", ccsText, "");
+  
 
   $this->InsertFields["id_suite"] = array("Name" => "id_suite", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->InsertFields["id_licensed_by"] = array("Name" => "id_licensed_by", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
@@ -1448,6 +1481,8 @@ class clslicensing_customerscontentlicensingDataSource extends clsDBdbConnection
   $this->InsertFields["id_license_granttype"] = array("Name" => "id_license_granttype", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->InsertFields["renew_businesspartner_id"] = array("Name" => "renew_businesspartner_id", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->InsertFields["renew_businesspartner_date"] = array("Name" => "renew_businesspartner_date", "Value" => "", "DataType" => ccsDate, "OmitIfEmpty" => 1);
+  $this->InsertFields["competitor_date"] = array("Name" => "competitor_date", "Value" => "", "DataType" => ccsDate, "OmitIfEmpty" => 1);
+  $this->InsertFields["competitor_product_id"] = array("Name" => "competitor_product_id", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->UpdateFields["id_suite"] = array("Name" => "id_suite", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->UpdateFields["id_licensed_by"] = array("Name" => "id_licensed_by", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->UpdateFields["licensed_amount"] = array("Name" => "licensed_amount", "Value" => "", "DataType" => ccsInteger, "OmitIfEmpty" => 1);
@@ -1474,6 +1509,8 @@ class clslicensing_customerscontentlicensingDataSource extends clsDBdbConnection
   $this->UpdateFields["id_license_granttype"] = array("Name" => "id_license_granttype", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->UpdateFields["renew_businesspartner_id"] = array("Name" => "renew_businesspartner_id", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->UpdateFields["renew_businesspartner_date"] = array("Name" => "renew_businesspartner_date", "Value" => "", "DataType" => ccsDate, "OmitIfEmpty" => 1);
+  $this->UpdateFields["competitor_date"] = array("Name" => "competitor_date", "Value" => "", "DataType" => ccsDate, "OmitIfEmpty" => 1);
+  $this->UpdateFields["competitor_product_id"] = array("Name" => "competitor_product_id", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
  }
 //End DataSourceClass_Initialize Event
 
@@ -1504,7 +1541,7 @@ class clslicensing_customerscontentlicensingDataSource extends clsDBdbConnection
  }
 //End Open Method
 
-//SetValues Method @154-4387DC7D
+//SetValues Method @154-FAB87C0A
  function SetValues()
  {
   $this->suite_code->SetDBValue($this->f("id_suite"));
@@ -1534,10 +1571,12 @@ class clslicensing_customerscontentlicensingDataSource extends clsDBdbConnection
   $this->granttype->SetDBValue($this->f("id_license_granttype"));
   $this->renew_businesspartner_id->SetDBValue($this->f("renew_businesspartner_id"));
   $this->renew_businesspartner_date->SetDBValue(trim($this->f("renew_businesspartner_date")));
+  $this->competitor_date->SetDBValue(trim($this->f("competitor_date")));
+  $this->competitor_product->SetDBValue($this->f("competitor_product_id"));
  }
 //End SetValues Method
 
-//Insert Method @154-12491467
+//Insert Method @154-C0817216
  function Insert()
  {
   global $CCSLocales;
@@ -1570,6 +1609,8 @@ class clslicensing_customerscontentlicensingDataSource extends clsDBdbConnection
   $this->InsertFields["id_license_granttype"]["Value"] = $this->granttype->GetDBValue(true);
   $this->InsertFields["renew_businesspartner_id"]["Value"] = $this->renew_businesspartner_id->GetDBValue(true);
   $this->InsertFields["renew_businesspartner_date"]["Value"] = $this->renew_businesspartner_date->GetDBValue(true);
+  $this->InsertFields["competitor_date"]["Value"] = $this->competitor_date->GetDBValue(true);
+  $this->InsertFields["competitor_product_id"]["Value"] = $this->competitor_product->GetDBValue(true);
   $this->SQL = CCBuildInsert("alm_licensing", $this->InsertFields, $this);
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeExecuteInsert", $this->Parent);
   if($this->Errors->Count() == 0 && $this->CmdExecution) {
@@ -1579,7 +1620,7 @@ class clslicensing_customerscontentlicensingDataSource extends clsDBdbConnection
  }
 //End Insert Method
 
-//Update Method @154-49A4C839
+//Update Method @154-3F9C34AF
  function Update()
  {
   global $CCSLocales;
@@ -1612,6 +1653,8 @@ class clslicensing_customerscontentlicensingDataSource extends clsDBdbConnection
   $this->UpdateFields["id_license_granttype"]["Value"] = $this->granttype->GetDBValue(true);
   $this->UpdateFields["renew_businesspartner_id"]["Value"] = $this->renew_businesspartner_id->GetDBValue(true);
   $this->UpdateFields["renew_businesspartner_date"]["Value"] = $this->renew_businesspartner_date->GetDBValue(true);
+  $this->UpdateFields["competitor_date"]["Value"] = $this->competitor_date->GetDBValue(true);
+  $this->UpdateFields["competitor_product_id"]["Value"] = $this->competitor_product->GetDBValue(true);
   $this->SQL = CCBuildUpdate("alm_licensing", $this->UpdateFields, $this);
   $this->SQL .= strlen($this->Where) ? " WHERE " . $this->Where : $this->Where;
   if (!strlen($this->Where) && $this->Errors->Count() == 0) 
@@ -1636,6 +1679,10 @@ include_once(RelativePath . "/licensing_archived_tab.php");
 
 //Include Page implementation @240-482A13D8
 include_once(RelativePath . "/licensing_activelicense_tab.php");
+//End Include Page implementation
+
+//Include Page implementation @246-1D4B8603
+include_once(RelativePath . "/licensing_product_displacement.php");
 //End Include Page implementation
 
 class clslicensing_customerscontent { //licensing_customerscontent class @1-EBAC1FA2
@@ -1677,7 +1724,7 @@ class clslicensing_customerscontent { //licensing_customerscontent class @1-EBAC
  }
 //End Class_Initialize Event
 
-//Class_Terminate Event @1-90CDD33B
+//Class_Terminate Event @1-D5E85180
  function Class_Terminate()
  {
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeUnload", $this);
@@ -1689,10 +1736,12 @@ class clslicensing_customerscontent { //licensing_customerscontent class @1-EBAC
   unset($this->licensing_archived_tab);
   $this->licensing_activelicense_tab->Class_Terminate();
   unset($this->licensing_activelicense_tab);
+  $this->licensing_product_displacement->Class_Terminate();
+  unset($this->licensing_product_displacement);
  }
 //End Class_Terminate Event
 
-//BindEvents Method @1-8DD02D30
+//BindEvents Method @1-170AC024
  function BindEvents()
  {
   $this->alm_customers->lbgoback->CCSEvents["BeforeShow"] = "licensing_customerscontent_alm_customers_lbgoback_BeforeShow";
@@ -1722,6 +1771,8 @@ class clslicensing_customerscontent { //licensing_customerscontent class @1-EBAC
   $this->licensing->hiddguid->CCSEvents["BeforeShow"] = "licensing_customerscontent_licensing_hiddguid_BeforeShow";
   $this->licensing->renew_businesspartner_date->CCSEvents["BeforeShow"] = "licensing_customerscontent_licensing_renew_businesspartner_date_BeforeShow";
   $this->licensing->pnrenewcompetitor->CCSEvents["BeforeShow"] = "licensing_customerscontent_licensing_pnrenewcompetitor_BeforeShow";
+  $this->licensing->competitor_date->CCSEvents["BeforeShow"] = "licensing_customerscontent_licensing_competitor_date_BeforeShow";
+  $this->licensing->pnproduct_displacement->CCSEvents["BeforeShow"] = "licensing_customerscontent_licensing_pnproduct_displacement_BeforeShow";
   $this->licensing->CCSEvents["BeforeInsert"] = "licensing_customerscontent_licensing_BeforeInsert";
   $this->licensing->CCSEvents["AfterInsert"] = "licensing_customerscontent_licensing_AfterInsert";
   $this->licensing->CCSEvents["BeforeUpdate"] = "licensing_customerscontent_licensing_BeforeUpdate";
@@ -1733,7 +1784,7 @@ class clslicensing_customerscontent { //licensing_customerscontent class @1-EBAC
  }
 //End BindEvents Method
 
-//Operations Method @1-8364E972
+//Operations Method @1-F89B1AF0
  function Operations()
  {
   global $Redirect;
@@ -1744,10 +1795,11 @@ class clslicensing_customerscontent { //licensing_customerscontent class @1-EBAC
   $this->licensing_competitor_renewals->Operations();
   $this->licensing_archived_tab->Operations();
   $this->licensing_activelicense_tab->Operations();
+  $this->licensing_product_displacement->Operations();
  }
 //End Operations Method
 
-//Initialize Method @1-EAF2D600
+//Initialize Method @1-73C936A7
  function Initialize()
  {
   global $FileName;
@@ -1779,6 +1831,8 @@ class clslicensing_customerscontent { //licensing_customerscontent class @1-EBAC
   $this->licensing_archived_tab->Initialize();
   $this->licensing_activelicense_tab = new clslicensing_activelicense_tab($this->RelativePath, "licensing_activelicense_tab", $this);
   $this->licensing_activelicense_tab->Initialize();
+  $this->licensing_product_displacement = new clslicensing_product_displacement($this->RelativePath, "licensing_product_displacement", $this);
+  $this->licensing_product_displacement->Initialize();
   $this->pndropzone->Visible = false;
   $this->pndropzonejs->Visible = false;
   if(!is_array($this->id_product_type->Value) && !strlen($this->id_product_type->Value) && $this->id_product_type->Value !== false)
@@ -1790,7 +1844,7 @@ class clslicensing_customerscontent { //licensing_customerscontent class @1-EBAC
  }
 //End Initialize Method
 
-//Show Method @1-7FE57B69
+//Show Method @1-9EBED88E
  function Show()
  {
   global $Tpl;
@@ -1812,6 +1866,7 @@ class clslicensing_customerscontent { //licensing_customerscontent class @1-EBAC
   $this->licensing_competitor_renewals->Show();
   $this->licensing_archived_tab->Show();
   $this->licensing_activelicense_tab->Show();
+  $this->licensing_product_displacement->Show();
   $this->pndropzone->Show();
   $this->pndropzonejs->Show();
   $Tpl->Parse();

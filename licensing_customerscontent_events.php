@@ -773,6 +773,69 @@ function licensing_customerscontent_licensing_pnrenewcompetitor_BeforeShow(& $se
 }
 //End Close licensing_customerscontent_licensing_pnrenewcompetitor_BeforeShow
 
+//licensing_customerscontent_licensing_competitor_date_BeforeShow @242-656654CF
+function licensing_customerscontent_licensing_competitor_date_BeforeShow(& $sender)
+{
+ $licensing_customerscontent_licensing_competitor_date_BeforeShow = true;
+ $Component = & $sender;
+ $Container = & CCGetParentContainer($sender);
+ global $licensing_customerscontent; //Compatibility
+//End licensing_customerscontent_licensing_competitor_date_BeforeShow
+
+//Custom Code @243-2A29BDB7
+// -------------------------
+ // Write your own code here.
+ 	$licenseType = $licensing_customerscontent->licensing->id_license_type->GetValue();
+	//Checking if licenseType is perpetual to disabled expirationDate input
+	//There is alsi a js code for clientside behavior
+ 	if ( ( $licenseType == "7" ) || ($licenseType == "12") ) {
+		global $Tpl;
+		$Tpl->setvar("expirationDisabled","disabled");
+	} else {
+		$businessPartnerDate = $licensing_customerscontent->licensing->renew_businesspartner_date->GetValue();
+		if (count($businessPartnerDate) <= 1 ) {
+			$today = date("Y-m-d");
+			$twoMonths = date("Y-m-d",strtotime("$today +2 months"));
+			//For default date values on text input, the date must be converted to a date array to avoid errors, see below
+			$twoMonths_array = CCParseDate($twoMonths,array("yyyy","-","mm","-","dd"," ","H",":","n",":","s"));
+			$licensing_customerscontent->licensing->renew_businesspartner_date->SetValue($twoMonths_array);
+		}
+	}
+// -------------------------
+//End Custom Code
+
+//Close licensing_customerscontent_licensing_competitor_date_BeforeShow @242-F359297C
+ return $licensing_customerscontent_licensing_competitor_date_BeforeShow;
+}
+//End Close licensing_customerscontent_licensing_competitor_date_BeforeShow
+
+//licensing_customerscontent_licensing_pnproduct_displacement_BeforeShow @241-F81975C3
+function licensing_customerscontent_licensing_pnproduct_displacement_BeforeShow(& $sender)
+{
+ $licensing_customerscontent_licensing_pnproduct_displacement_BeforeShow = true;
+ $Component = & $sender;
+ $Container = & CCGetParentContainer($sender);
+ global $licensing_customerscontent; //Compatibility
+//End licensing_customerscontent_licensing_pnproduct_displacement_BeforeShow
+
+//Custom Code @245-2A29BDB7
+// -------------------------
+ // Write your own code here.
+ 	$licenseStatus = (int)$licensing_customerscontent->licensing->hidlicensestatus->GetValue();
+	$o = CCGetFromGet("o","");
+	if ( ($licenseStatus == 3) && ($o == "product_displacement") )
+		$licensing_customerscontent->licensing->pnproduct_displacement->Visible = true;
+	else
+		$licensing_customerscontent->licensing->pnproduct_displacement->Visible = false;
+
+// -------------------------
+//End Custom Code
+
+//Close licensing_customerscontent_licensing_pnproduct_displacement_BeforeShow @241-F369AC9B
+ return $licensing_customerscontent_licensing_pnproduct_displacement_BeforeShow;
+}
+//End Close licensing_customerscontent_licensing_pnproduct_displacement_BeforeShow
+
 //Used because the last_user_id query on afterinsert was not working
 $lastguid = "";
 
@@ -861,6 +924,17 @@ function licensing_customerscontent_licensing_BeforeInsert(& $sender)
 		$o = trim($licensing_customerscontent->licensing->hido->GetValue());
 		if ( ($o == "addsupport") && (strlen($parentLicenseGuid) > 0) ) {
 			$licensing_customerscontent->licensing->hidparent_license_guid->SetValue($parentLicenseGuid);
+		}
+
+		//Upgrade licensing
+		$o = $licensing_customerscontent->licensing->hido->GetValue();
+		if ( (strlen($dguid) > 0) && ($o == "upgrade_license") ) {
+			//Keeps the expired license guid reference on the new renewed license
+			$licensing_customerscontent->licensing->hidexpired_license_guid->SetValue($dguid);
+			$params = array();
+			$params["guid"] = $dguid;
+			$products = new Alm\Products();
+			$products->setLicenseArchivedByGuid($params);
 		}
 
 	} else {
@@ -1213,6 +1287,9 @@ function licensing_customerscontent_BeforeShow(& $sender)
 		case "competitor_renewals" :
 			$Tpl->setvar("tab5_active","active");
 		break;
+		case "product_displacement" :
+			$Tpl->setvar("tab6_active","active");
+		break;
 	}
 
 	//Setting the active tab for licensing when the cssForm is present and has licensing as the form submitted
@@ -1224,6 +1301,7 @@ function licensing_customerscontent_BeforeShow(& $sender)
 		$Tpl->setvar("tab3_active","");
 		$Tpl->setvar("tab4_active","");
 		$Tpl->setvar("tab5_active","");
+		$Tpl->setvar("tab6_active","");
 	}
 
 	//Settingup saved message popup
