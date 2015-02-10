@@ -577,6 +577,10 @@ class Customers {
 					$fields_array = array( "id", "guid", "granttype_name as title" );
 					$table = "alm_license_granttypes";
 				break;
+                case "competitor_products" :
+                    $fields_array = array( "id", "guid", "product_name as title" );
+                    $table = "alm_competitor_products";
+                break;
 				case "city" :
 				default :
 					$fields_array = array( "id", "guid", "city as title" );
@@ -665,6 +669,9 @@ class Customers {
 				case "license_granttypes" :
 					$table = "alm_license_granttypes";
 				break;
+                case "competitor_products" :
+                    $table = "alm_competitor_products";
+                break;
 				case "city" :
 				default :
 					$table = "alm_city";
@@ -751,6 +758,10 @@ class Customers {
 					$fields_array = array( "id", "guid", "granttype_name as title" );
 					$table = "alm_license_granttypes";
 				break;
+                case "competitor_products" :
+                    $fields_array = array( "id", "guid", "product_name as title" );
+                    $table = "alm_competitor_products";
+                break;
 				case "city" :
 				default :
 					$fields_array = array( "id", "guid", "city as title" );
@@ -849,6 +860,10 @@ class Customers {
 					$fields_array = array( "guid", "granttype_name", "created_iduser" );
 					$table = "alm_license_granttypes";
 				break;
+                case "competitor_products" :
+                    $fields_array = array( "guid", "product_name", "created_iduser" );
+                    $table = "alm_competitor_products";
+                break;
 				case "city" :
 				default :
 					$fields_array = array( "guid", "city", "created_iduser" );
@@ -945,6 +960,10 @@ class Customers {
 					$fields_array = array( "granttype_name = '$title' ", "modified_iduser = $userid" );
 					$table = "alm_license_granttypes";
 				break;
+                case "competitor_products" :
+                    $fields_array = array( "product_name = '$title' ", "modified_iduser = $userid" );
+                    $table = "alm_competitor_products";
+                break;
 				case "city" :
 				default :
 					$fields_array = array( "city = '$title' ", "modified_iduser = $userid" );

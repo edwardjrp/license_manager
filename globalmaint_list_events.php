@@ -100,6 +100,11 @@ function globalmaint_list_BeforeShow(& $sender)
 			$globalmaint_list->lbmodule->setvalue($m_title);
 			$Tpl->setvar("module",$m);
 		break;
+		case "competitor_products" :
+			$m_title = $CCSLocales->GetText("competitor_products");
+			$globalmaint_list->lbmodule->setvalue($m_title);
+			$Tpl->setvar("module",$m);
+		break;
 
 	}
 
@@ -117,6 +122,7 @@ function globalmaint_list_BeforeShow(& $sender)
 		case "producttags" :
 		case "resellers" :
 		case "license_granttypes" :
+		case "competitor_products" :
 			$params["m"] = $m;
 			$moduleContent = $customers->getAllByModule($params);
 			$moduleContent = $moduleContent["maint"];

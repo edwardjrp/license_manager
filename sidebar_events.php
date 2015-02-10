@@ -119,6 +119,10 @@ function sidebar_BeforeShow(& $sender)
 					$Tpl->setvar("settings_menu_show","show");
 					$Tpl->setvar("jobposition_active","active");
   				break;
+				case "competitor_products" :
+					$Tpl->setvar("settings_menu_show","show");
+					$Tpl->setvar("competitor_products_active","active");
+				break;
 
 			}
 		break;

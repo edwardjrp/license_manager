@@ -416,3 +416,4 @@ product_displacement=Product Displacement
 competitor_product=COMPETITOR PRODUCT
 product_displacement_license=PRODUCT DISPLACEMENT
 competitor_product_title=Competitor Product
+competitor_products=Competitor Products
