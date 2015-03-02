@@ -61,6 +61,7 @@ function sidebar_BeforeShow(& $sender)
 
 	//For global maintenance modules
 	$m = CCGetFromGet("m");
+	$mr = CCGetFromGet("mr","");
 
 	switch ($FileName) {
 		case "products.php" :
@@ -123,6 +124,18 @@ function sidebar_BeforeShow(& $sender)
 					$Tpl->setvar("settings_menu_show","show");
 					$Tpl->setvar("competitor_products_active","active");
 				break;
+				case "contacts_colors" :
+					$Tpl->setvar("contacts_menu_show","show");
+					$Tpl->setvar("contacts_colors_active","active");
+				break;
+				case "contacts_hobbies" :
+					$Tpl->setvar("contacts_menu_show","show");
+					$Tpl->setvar("contacts_hobbies_active","active");
+				break;
+				case "contacts_holidays" :
+					$Tpl->setvar("contacts_menu_show","show");
+					$Tpl->setvar("contacts_holidays_active","active");
+				break;
 
 			}
 		break;
@@ -133,7 +146,15 @@ function sidebar_BeforeShow(& $sender)
 		case "customers.php" :
 		case "customers_maint.php" :
 		case "customers_view.php" :
-			$Tpl->setvar("itassestment_active","active");
+			switch ($mr) {
+				case "contacts" :
+					$Tpl->setvar("contacts_menu_show","show");
+					$Tpl->setvar("contacts_active","active");
+				break;
+				default:
+					$Tpl->setvar("itassestment_active","active");
+				break;
+			}
 		break;
 		case "customers_assessment.php" :
 		case "customers_assessment_maint.php" :
@@ -162,6 +183,10 @@ function sidebar_BeforeShow(& $sender)
 		case "settings_maint.php" :
 			$Tpl->setvar("settings_menu_show","show");
 			$Tpl->setvar("settings_active","active");
+		break;
+		case "contacts.php" :
+			$Tpl->setvar("contacts_menu_show","show");
+			$Tpl->setvar("contacts_active","active");
 		break;
 
 	}

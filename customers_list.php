@@ -227,7 +227,7 @@ class clsGridcustomers_listalm_customers { //alm_customers class @10-4791CF9B
  public $Sorter_dateupdated;
 //End Variables
 
-//Class_Initialize Event @10-06BCD767
+//Class_Initialize Event @10-56110B68
  function clsGridcustomers_listalm_customers($RelativePath, & $Parent)
  {
   global $FileName;
@@ -265,6 +265,7 @@ class clsGridcustomers_listalm_customers { //alm_customers class @10-4791CF9B
   $this->phone = new clsControl(ccsLabel, "phone", "phone", ccsText, "", CCGetRequestParam("phone", ccsGet, NULL), $this);
   $this->pndeletebutton = new clsPanel("pndeletebutton", $this);
   $this->lbdelete = new clsControl(ccsLabel, "lbdelete", "lbdelete", ccsText, "", CCGetRequestParam("lbdelete", ccsGet, NULL), $this);
+  $this->lbmr = new clsControl(ccsLabel, "lbmr", "lbmr", ccsText, "", CCGetRequestParam("lbmr", ccsGet, NULL), $this);
   $this->alm_customers_TotalRecords = new clsControl(ccsLabel, "alm_customers_TotalRecords", "alm_customers_TotalRecords", ccsText, "", CCGetRequestParam("alm_customers_TotalRecords", ccsGet, NULL), $this);
   $this->Sorter_guid = new clsSorter($this->ComponentName, "Sorter_guid", $FileName, $this);
   $this->Sorter_name = new clsSorter($this->ComponentName, "Sorter_name", $FileName, $this);
@@ -290,7 +291,7 @@ class clsGridcustomers_listalm_customers { //alm_customers class @10-4791CF9B
  }
 //End Initialize Method
 
-//Show Method @10-2314A0F0
+//Show Method @10-72AB6213
  function Show()
  {
   global $Tpl;
@@ -328,6 +329,7 @@ class clsGridcustomers_listalm_customers { //alm_customers class @10-4791CF9B
    $this->ControlsVisible["phone"] = $this->phone->Visible;
    $this->ControlsVisible["pndeletebutton"] = $this->pndeletebutton->Visible;
    $this->ControlsVisible["lbdelete"] = $this->lbdelete->Visible;
+   $this->ControlsVisible["lbmr"] = $this->lbmr->Visible;
    while ($this->ForceIteration || (($this->RowNumber < $this->PageSize) &&  ($this->HasRecord = $this->DataSource->has_next_record()))) {
     $this->RowNumber++;
     if ($this->HasRecord) {
@@ -353,6 +355,7 @@ class clsGridcustomers_listalm_customers { //alm_customers class @10-4791CF9B
     $this->dateupdated->Show();
     $this->phone->Show();
     $this->pndeletebutton->Show();
+    $this->lbmr->Show();
     $Tpl->block_path = $ParentPath . "/" . $GridBlock;
     $Tpl->parse("Row", true);
    }
@@ -392,7 +395,7 @@ class clsGridcustomers_listalm_customers { //alm_customers class @10-4791CF9B
  }
 //End Show Method
 
-//GetErrors Method @10-12C9EAE3
+//GetErrors Method @10-42D5F1F5
  function GetErrors()
  {
   $errors = "";
@@ -404,6 +407,7 @@ class clsGridcustomers_listalm_customers { //alm_customers class @10-4791CF9B
   $errors = ComposeStrings($errors, $this->dateupdated->Errors->ToString());
   $errors = ComposeStrings($errors, $this->phone->Errors->ToString());
   $errors = ComposeStrings($errors, $this->lbdelete->Errors->ToString());
+  $errors = ComposeStrings($errors, $this->lbmr->Errors->ToString());
   $errors = ComposeStrings($errors, $this->Errors->ToString());
   $errors = ComposeStrings($errors, $this->DataSource->Errors->ToString());
   return $errors;
@@ -605,7 +609,7 @@ class clscustomers_list { //customers_list class @1-1C898CDC
  }
 //End Operations Method
 
-//Initialize Method @1-A80791E7
+//Initialize Method @1-32B3C62F
  function Initialize()
  {
   global $FileName;
@@ -621,13 +625,14 @@ class clscustomers_list { //customers_list class @1-1C898CDC
   // Create Components
   $this->search = new clsRecordcustomers_listsearch($this->RelativePath, $this);
   $this->alm_customers = new clsGridcustomers_listalm_customers($this->RelativePath, $this);
+  $this->lbtitle = new clsControl(ccsLabel, "lbtitle", "lbtitle", ccsText, "", CCGetRequestParam("lbtitle", ccsGet, NULL), $this);
   $this->alm_customers->Initialize();
   $this->BindEvents();
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "OnInitializeView", $this);
  }
 //End Initialize Method
 
-//Show Method @1-985CEC34
+//Show Method @1-F402D7CE
  function Show()
  {
   global $Tpl;
@@ -644,6 +649,7 @@ class clscustomers_list { //customers_list class @1-1C898CDC
   $this->Attributes->Show();
   $this->search->Show();
   $this->alm_customers->Show();
+  $this->lbtitle->Show();
   $Tpl->Parse();
   $Tpl->block_path = $block_path;
    $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeOutput", $this);

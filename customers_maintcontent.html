@@ -38,7 +38,8 @@
 					<ul id="myTab" class="nav nav-tabs">
 						<li class="{tab1_active}"><a href="#customerdetails" data-toggle="tab">{res:tabcust_title}</a> 
 						<li class="{tab2_active}"><a href="#customer_addcontact" data-toggle="tab">{res:tabcust_addcontact}</a> </li>
-						<li class="{tab3_active}"><a href="#customerevaluation" data-toggle="tab">{res:tabcust_eval}</a> </li>
+						<li class="{tab3_active} {mr_show}"><a href="#customerevaluation" data-toggle="tab">
+{res:tabcust_eval}</a> </li>
 					</ul>
 					<div class="tab-content col-md-12 col-xs-12">
 						<div id="customerdetails" class="tab-pane {tab1_active}">
@@ -232,6 +233,12 @@
 									<!-- BEGIN CheckBoxList networking --><input {Check} type="checkbox" name="{networking_Name}" value="{Value}" id="networking_{networking:optionNumber}" class="ace ace-checkbox-2"><span class="lbl">&nbsp;&nbsp;{Description}</span><br><!-- END CheckBoxList networking -->
 								</div>
 
+								<div class="col-md-2 col-xs-12">
+									<label class="control-label blue" for="databases">{res:databases}</label><br>								
+									<!-- BEGIN CheckBoxList databases --><input {Check} type="checkbox" name="{databases_Name}" value="{Value}" id="databases_{databases:optionNumber}" class="ace ace-checkbox-2"><span class="lbl">&nbsp;&nbsp;{Description}</span><br>
+									<!-- END CheckBoxList databases -->
+								</div>
+
 							</div><!-- row -->
 							
 							<div class="row col-xs-12">
@@ -388,8 +395,7 @@
 									<label class="control-label blue" for="contact_jobposition">{res:contact_jobposition}</label><br>
 									<select name="{contact_jobposition_Name}" id="contact_jobposition" class="col-md-12 col-xs-12">
 										<option value="">{res:CCS_SelectValue}</option>
-										
-{contact_jobposition_Options}
+										{contact_jobposition_Options}
 									</select>
 								</div>
 
@@ -431,6 +437,39 @@
 								</div>
 							</div><!-- row -->
 							
+							<!-- Special contact info, to show only on contacts module-->
+							<div class="row col-xs-12 {contact_show}">
+								<div class="col-md-1 col-xs-0"></div>
+								<div class="col-md-2 col-xs-12">
+									<label class="control-label blue" for="contact_birthday">{res:birthday}</label><br>
+									<div class="input-group">
+										<input type="text" id="contact_dob" maxlength="200" value="{contact_dob}" name="{contact_dob_Name}" class="col-md-12 col-xs-12 date-picker">
+										<span class="input-group-addon"><i class="icon-calendar bigger-110"></i></span>
+									</div>
+								</div>
+								<div class="col-md-3 col-xs-12">
+									<label class="control-label blue" for="preferredcolor">{res:preferredcolor}</label><br>
+									<label>
+									<!-- BEGIN CheckBoxList contact_preferred_color --><input id="preferredcolor_{contact_preferred_color:optionNumber}" type="checkbox" value="{Value}" name="{contact_preferred_color_Name}" {Check} class="ace ace-checkbox-2"><span class="lbl">&nbsp;&nbsp;{Description}</span><br>
+									<!-- END CheckBoxList contact_preferred_color --></label>
+								</div>
+
+								<div class="col-md-3 col-xs-12">
+									<label class="control-label blue" for="hobbies">{res:hobbies}</label><br>
+									<label>
+									<!-- BEGIN CheckBoxList contact_hobbies --><input id="preferredcolor_{contact_hobbies:optionNumber}" type="checkbox" value="{Value}" name="{contact_hobbies_Name}" {Check} class="ace ace-checkbox-2"><span class="lbl">&nbsp;&nbsp;{Description}</span><br>
+									<!-- END CheckBoxList contact_hobbies --></label>
+								</div>
+
+								<div class="col-md-3 col-xs-12">
+									<label class="control-label blue" for="holidays">{res:notifyholidays}</label><br>
+									<label>
+									<!-- BEGIN CheckBoxList contact_notify_holidays --><input id="preferredcolor_{contact_notify_holidays:optionNumber}" type="checkbox" value="{Value}" name="{contact_notify_holidays_Name}" {Check} class="ace ace-checkbox-2"><span class="lbl">&nbsp;&nbsp;{Description}</span><br>
+									<!-- END CheckBoxList contact_notify_holidays --></label>
+								</div>
+
+							</div><!-- row -->
+
 						</div> <!--  customer_addcontact tab -->
 					</div>
 					<!-- tabcontent -->

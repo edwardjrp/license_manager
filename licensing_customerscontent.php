@@ -36,7 +36,7 @@ class clsRecordlicensing_customerscontentalm_customers { //alm_customers Class @
  // Class variables
 //End Variables
 
-//Class_Initialize Event @2-96C3EFC8
+//Class_Initialize Event @2-7DD4ECAF
  function clsRecordlicensing_customerscontentalm_customers($RelativePath, & $Parent)
  {
 
@@ -108,6 +108,8 @@ class clsRecordlicensing_customerscontentalm_customers { //alm_customers Class @
 "FROM alm_product_manufaturers {SQL_Where} {SQL_OrderBy}";
    list($this->manufacturer->BoundColumn, $this->manufacturer->TextColumn, $this->manufacturer->DBFormat) = array("id", "manufacturer", "");
    $this->created_iduser = new clsControl(ccsHidden, "created_iduser", $CCSLocales->GetText("created_iduser"), ccsInteger, "", CCGetRequestParam("created_iduser", $Method, NULL), $this);
+   $this->lbname = new clsControl(ccsLabel, "lbname", "lbname", ccsText, "", CCGetRequestParam("lbname", $Method, NULL), $this);
+   $this->lbphone = new clsControl(ccsLabel, "lbphone", "lbphone", ccsText, "", CCGetRequestParam("lbphone", $Method, NULL), $this);
    if(!$this->FormSubmitted) {
     if(!is_array($this->city->Value) && !strlen($this->city->Value) && $this->city->Value !== false)
      $this->city->SetText(1);
@@ -164,7 +166,7 @@ class clsRecordlicensing_customerscontentalm_customers { //alm_customers Class @
  }
 //End Validate Method
 
-//CheckErrors Method @2-C0294F18
+//CheckErrors Method @2-4C0F79F7
  function CheckErrors()
  {
   $errors = false;
@@ -182,6 +184,8 @@ class clsRecordlicensing_customerscontentalm_customers { //alm_customers Class @
   $errors = ($errors || $this->businesspartner->Errors->Count());
   $errors = ($errors || $this->manufacturer->Errors->Count());
   $errors = ($errors || $this->created_iduser->Errors->Count());
+  $errors = ($errors || $this->lbname->Errors->Count());
+  $errors = ($errors || $this->lbphone->Errors->Count());
   $errors = ($errors || $this->Errors->Count());
   $errors = ($errors || $this->DataSource->Errors->Count());
   return $errors;
@@ -245,7 +249,7 @@ function GetPrimaryKey($keyName)
  }
 //End Operation Method
 
-//InsertRow Method @2-33876818
+//InsertRow Method @2-66EAD97B
  function InsertRow()
  {
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeInsert", $this);
@@ -264,13 +268,15 @@ function GetPrimaryKey($keyName)
   $this->DataSource->businesspartner->SetValue($this->businesspartner->GetValue(true));
   $this->DataSource->manufacturer->SetValue($this->manufacturer->GetValue(true));
   $this->DataSource->created_iduser->SetValue($this->created_iduser->GetValue(true));
+  $this->DataSource->lbname->SetValue($this->lbname->GetValue(true));
+  $this->DataSource->lbphone->SetValue($this->lbphone->GetValue(true));
   $this->DataSource->Insert();
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "AfterInsert", $this);
   return (!$this->CheckErrors());
  }
 //End InsertRow Method
 
-//UpdateRow Method @2-96A33F34
+//UpdateRow Method @2-F855A9E2
  function UpdateRow()
  {
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeUpdate", $this);
@@ -289,13 +295,15 @@ function GetPrimaryKey($keyName)
   $this->DataSource->businesspartner->SetValue($this->businesspartner->GetValue(true));
   $this->DataSource->manufacturer->SetValue($this->manufacturer->GetValue(true));
   $this->DataSource->created_iduser->SetValue($this->created_iduser->GetValue(true));
+  $this->DataSource->lbname->SetValue($this->lbname->GetValue(true));
+  $this->DataSource->lbphone->SetValue($this->lbphone->GetValue(true));
   $this->DataSource->Update();
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "AfterUpdate", $this);
   return (!$this->CheckErrors());
  }
 //End UpdateRow Method
 
-//Show Method @2-E0C23428
+//Show Method @2-0B65DFE9
  function Show()
  {
   global $CCSUseAmp;
@@ -326,6 +334,8 @@ function GetPrimaryKey($keyName)
    $this->DataSource->Open();
    if($this->DataSource->Errors->Count() == 0 && $this->DataSource->next_record()) {
     $this->DataSource->SetValues();
+    $this->lbname->SetValue($this->DataSource->lbname->GetValue());
+    $this->lbphone->SetValue($this->DataSource->lbphone->GetValue());
     if(!$this->FormSubmitted){
      $this->name->SetValue($this->DataSource->name->GetValue());
      $this->taxid->SetValue($this->DataSource->taxid->GetValue());
@@ -362,6 +372,8 @@ function GetPrimaryKey($keyName)
    $Error = ComposeStrings($Error, $this->businesspartner->Errors->ToString());
    $Error = ComposeStrings($Error, $this->manufacturer->Errors->ToString());
    $Error = ComposeStrings($Error, $this->created_iduser->Errors->ToString());
+   $Error = ComposeStrings($Error, $this->lbname->Errors->ToString());
+   $Error = ComposeStrings($Error, $this->lbphone->Errors->ToString());
    $Error = ComposeStrings($Error, $this->Errors->ToString());
    $Error = ComposeStrings($Error, $this->DataSource->Errors->ToString());
    $Tpl->SetVar("Error", $Error);
@@ -398,6 +410,8 @@ function GetPrimaryKey($keyName)
   $this->businesspartner->Show();
   $this->manufacturer->Show();
   $this->created_iduser->Show();
+  $this->lbname->Show();
+  $this->lbphone->Show();
   $Tpl->parse();
   $Tpl->block_path = $ParentPath;
   $this->DataSource->close();
@@ -408,7 +422,7 @@ function GetPrimaryKey($keyName)
 
 class clslicensing_customerscontentalm_customersDataSource extends clsDBdbConnection {  //alm_customersDataSource Class @2-A16DF851
 
-//DataSource Variables @2-7ED33386
+//DataSource Variables @2-520BC3A8
  public $Parent = "";
  public $CCSEvents = "";
  public $CCSEventResult;
@@ -438,9 +452,11 @@ class clslicensing_customerscontentalm_customersDataSource extends clsDBdbConnec
  public $businesspartner;
  public $manufacturer;
  public $created_iduser;
+ public $lbname;
+ public $lbphone;
 //End DataSource Variables
 
-//DataSourceClass_Initialize Event @2-C8DD5E73
+//DataSourceClass_Initialize Event @2-11666F1E
  function clslicensing_customerscontentalm_customersDataSource(& $Parent)
  {
   $this->Parent = & $Parent;
@@ -473,6 +489,10 @@ class clslicensing_customerscontentalm_customersDataSource extends clsDBdbConnec
   $this->manufacturer = new clsField("manufacturer", ccsText, "");
   
   $this->created_iduser = new clsField("created_iduser", ccsInteger, "");
+  
+  $this->lbname = new clsField("lbname", ccsText, "");
+  
+  $this->lbphone = new clsField("lbphone", ccsText, "");
   
 
   $this->InsertFields["name"] = array("Name" => "name", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
@@ -527,7 +547,7 @@ class clslicensing_customerscontentalm_customersDataSource extends clsDBdbConnec
  }
 //End Open Method
 
-//SetValues Method @2-D5199B1F
+//SetValues Method @2-1337FE68
  function SetValues()
  {
   $this->name->SetDBValue($this->f("name"));
@@ -541,6 +561,8 @@ class clslicensing_customerscontentalm_customersDataSource extends clsDBdbConnec
   $this->address->SetDBValue($this->f("address"));
   $this->businesspartner->SetDBValue($this->f("businesspartner"));
   $this->created_iduser->SetDBValue(trim($this->f("created_iduser")));
+  $this->lbname->SetDBValue($this->f("name"));
+  $this->lbphone->SetDBValue($this->f("phone"));
  }
 //End SetValues Method
 

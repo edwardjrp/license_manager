@@ -1,8 +1,8 @@
 <?php
-//Include Common Files @1-18A39555
+//Include Common Files @1-8EABDCD3
 define("RelativePath", ".");
 define("PathToCurrentPage", "/");
-define("FileName", "customers_maint.php");
+define("FileName", "licensing_bulkrenewal.php");
 include_once(RelativePath . "/Common.php");
 include_once(RelativePath . "/Template.php");
 include_once(RelativePath . "/Sorter.php");
@@ -29,11 +29,11 @@ include_once(RelativePath . "/./footer.php");
 include_once(RelativePath . "/./meta_head.php");
 //End Include Page implementation
 
-//Include Page implementation @11-8EACDBB7
-include_once(RelativePath . "/customers_maintcontent.php");
+//Include Page implementation @12-7D31D369
+include_once(RelativePath . "/licensing_bulkrenewalcontent.php");
 //End Include Page implementation
 
-//Initialize Page @1-0D3A78F2
+//Initialize Page @1-9410832C
 // Variables
 $FileName = "";
 $Redirect = "";
@@ -49,26 +49,26 @@ $CCSEventResult = "";
 
 $FileName = FileName;
 $Redirect = "";
-$TemplateFileName = "customers_maint.html";
+$TemplateFileName = "licensing_bulkrenewal.html";
 $BlockToParse = "main";
 $TemplateEncoding = "CP1252";
 $ContentType = "text/html";
 $PathToRoot = "./";
 //End Initialize Page
 
-//Authenticate User @1-BF95B68F
-CCSecurityRedirect("1;2;3;4", "");
+//Authenticate User @1-DF5080B6
+CCSecurityRedirect("2;3;4", "");
 //End Authenticate User
 
-//Include events file @1-C8A773D1
-include_once("./customers_maint_events.php");
+//Include events file @1-B4618A02
+include_once("./licensing_bulkrenewal_events.php");
 //End Include events file
 
 //Before Initialize @1-E870CEBC
 $CCSEventResult = CCGetEvent($CCSEvents, "BeforeInitialize", $MainPage);
 //End Before Initialize
 
-//Initialize Objects @1-CA17594E
+//Initialize Objects @1-6C2B4925
 $Attributes = new clsAttributes("page:");
 $MainPage->Attributes = & $Attributes;
 
@@ -83,18 +83,16 @@ $footer = new clsfooter("./", "footer", $MainPage);
 $footer->Initialize();
 $meta_head = new clsmeta_head("./", "meta_head", $MainPage);
 $meta_head->Initialize();
-$customers_maintcontent = new clscustomers_maintcontent("", "customers_maintcontent", $MainPage);
-$customers_maintcontent->Initialize();
-$lbtitle = new clsControl(ccsLabel, "lbtitle", "lbtitle", ccsText, "", CCGetRequestParam("lbtitle", ccsGet, NULL), $MainPage);
-$lburl = new clsControl(ccsLabel, "lburl", "lburl", ccsText, "", CCGetRequestParam("lburl", ccsGet, NULL), $MainPage);
+$lblicenselink = new clsControl(ccsLabel, "lblicenselink", "lblicenselink", ccsText, "", CCGetRequestParam("lblicenselink", ccsGet, NULL), $MainPage);
+$licensing_bulkrenewalcontent = new clslicensing_bulkrenewalcontent("", "licensing_bulkrenewalcontent", $MainPage);
+$licensing_bulkrenewalcontent->Initialize();
 $MainPage->header = & $header;
 $MainPage->sidebar = & $sidebar;
 $MainPage->ace_settings = & $ace_settings;
 $MainPage->footer = & $footer;
 $MainPage->meta_head = & $meta_head;
-$MainPage->customers_maintcontent = & $customers_maintcontent;
-$MainPage->lbtitle = & $lbtitle;
-$MainPage->lburl = & $lburl;
+$MainPage->lblicenselink = & $lblicenselink;
+$MainPage->licensing_bulkrenewalcontent = & $licensing_bulkrenewalcontent;
 
 BindEvents();
 
@@ -117,16 +115,16 @@ $Attributes->SetValue("pathToRoot", "");
 $Attributes->Show();
 //End Initialize HTML Template
 
-//Execute Components @1-F95AC3DF
+//Execute Components @1-BEE9F559
 $header->Operations();
 $sidebar->Operations();
 $ace_settings->Operations();
 $footer->Operations();
 $meta_head->Operations();
-$customers_maintcontent->Operations();
+$licensing_bulkrenewalcontent->Operations();
 //End Execute Components
 
-//Go to destination page @1-01F7353D
+//Go to destination page @1-1F84FC0D
 if($Redirect)
 {
  $CCSEventResult = CCGetEvent($CCSEvents, "BeforeUnload", $MainPage);
@@ -141,22 +139,21 @@ if($Redirect)
  unset($footer);
  $meta_head->Class_Terminate();
  unset($meta_head);
- $customers_maintcontent->Class_Terminate();
- unset($customers_maintcontent);
+ $licensing_bulkrenewalcontent->Class_Terminate();
+ unset($licensing_bulkrenewalcontent);
  unset($Tpl);
  exit;
 }
 //End Go to destination page
 
-//Show Page @1-36CEF614
+//Show Page @1-45D092D0
 $header->Show();
 $sidebar->Show();
 $ace_settings->Show();
 $footer->Show();
 $meta_head->Show();
-$customers_maintcontent->Show();
-$lbtitle->Show();
-$lburl->Show();
+$licensing_bulkrenewalcontent->Show();
+$lblicenselink->Show();
 $Tpl->block_path = "";
 $Tpl->Parse($BlockToParse, false);
 if (!isset($main_block)) $main_block = $Tpl->GetVar($BlockToParse);
@@ -164,7 +161,7 @@ $CCSEventResult = CCGetEvent($CCSEvents, "BeforeOutput", $MainPage);
 if ($CCSEventResult) echo $main_block;
 //End Show Page
 
-//Unload Page @1-4313705C
+//Unload Page @1-5BA0B518
 $CCSEventResult = CCGetEvent($CCSEvents, "BeforeUnload", $MainPage);
 $header->Class_Terminate();
 unset($header);
@@ -176,8 +173,8 @@ $footer->Class_Terminate();
 unset($footer);
 $meta_head->Class_Terminate();
 unset($meta_head);
-$customers_maintcontent->Class_Terminate();
-unset($customers_maintcontent);
+$licensing_bulkrenewalcontent->Class_Terminate();
+unset($licensing_bulkrenewalcontent);
 unset($Tpl);
 //End Unload Page
 

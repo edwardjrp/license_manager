@@ -135,10 +135,15 @@ function customers_list_alm_customers_BeforeShowRow(& $sender)
 // -------------------------
  // Write your own code here.
  	global $FileName;
+
+	$mr = CCGetFromGet("mr","customers");
+
  	$querystring = CCGetQueryString("QueryString",array());
 	$guid = $customers_list->alm_customers->guid->GetValue();
 	$deleteurl = $FileName."?$querystring&del_guid=$guid&o=delrecord";
 	$customers_list->alm_customers->lbdelete->SetValue($deleteurl);
+
+	$customers_list->alm_customers->lbmr->SetValue($mr);
 
 // -------------------------
 //End Custom Code
@@ -220,9 +225,11 @@ function customers_list_BeforeShow(& $sender)
 // -------------------------
  // Write your own code here.
 	//Delete record operation
+
 	$del_guid = CCGetFromGet("del_guid","");
 	$o = CCGetFromGet("o","");
-
+	$mr = CCGetFromGet("mr","customers");
+	
 	if ( ($o == "delrecord") && (strlen($del_guid) > 0) )  {
 		global $FileName;
 		$params["guid"] = $del_guid;
@@ -232,6 +239,15 @@ function customers_list_BeforeShow(& $sender)
 		//Forcing redirect
 		header("Location: $FileName?$querystring");
 	}
+
+	if ($mr == "contacts") {
+		global $CCSLocales;
+		$customers_list->lbtitle->SetValue($CCSLocales->GetText("contacts"));
+	} else {
+		global $CCSLocales;
+		$customers_list->lbtitle->SetValue($CCSLocales->GetText("itassestment"));	
+	}
+
 
 // -------------------------
 //End Custom Code

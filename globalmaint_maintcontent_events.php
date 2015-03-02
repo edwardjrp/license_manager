@@ -138,6 +138,18 @@ function globalmaint_maintcontent_lbmodule_BeforeShow(& $sender)
 			$m_title = $CCSLocales->GetText("competitor_products");
 			$globalmaint_maintcontent->lbmodule->setvalue($m_title);
 		break;
+		case "contacts_colors" :
+			$m_title = $CCSLocales->GetText("contacts_colors");
+			$globalmaint_maintcontent->lbmodule->setvalue($m_title);
+		break;
+		case "contacts_hobbies" :
+			$m_title = $CCSLocales->GetText("contacts_hobbies");
+			$globalmaint_maintcontent->lbmodule->setvalue($m_title);
+		break;
+		case "contacts_holidays" :
+			$m_title = $CCSLocales->GetText("contacts_holidays");
+			$globalmaint_maintcontent->lbmodule->setvalue($m_title);
+		break;
 
 	}
 
@@ -229,8 +241,11 @@ function globalmaint_maintcontent_BeforeShow(& $sender)
 			case "producttags" :
 			case "resellers" :
 			case "license_granttypes" :	
-			case "competitor_products" :		
-
+			case "competitor_products" :
+			case "contacts_colors" :
+			case "contacts_hobbies" :
+			case "contacts_holidays" :
+					
 				$moduleContent = $customers->getAllModuleByGuid($params);
 				$moduleContent = $moduleContent["details"];
 

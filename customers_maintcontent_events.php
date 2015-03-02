@@ -133,7 +133,7 @@ function customers_maintcontent_alm_customers_lbgoback_BeforeShow(& $sender)
 //Custom Code @7-2A29BDB7
 // -------------------------
     // Write your own code here.
-	$remove = array("guid","tab","mr");
+	$remove = array("guid","tab");
 	$querystring = CCGetQueryString("QueryString",$remove);
 	if (strlen($querystring) > 0)
 		$newlink = "?".$querystring;
@@ -822,6 +822,30 @@ function customers_maintcontent_alm_customers_lbreturn_BeforeShow(& $sender)
 }
 //End Close customers_maintcontent_alm_customers_lbreturn_BeforeShow
 
+//customers_maintcontent_alm_customers_databases_BeforeShow @247-23EE01D0
+function customers_maintcontent_alm_customers_databases_BeforeShow(& $sender)
+{
+ $customers_maintcontent_alm_customers_databases_BeforeShow = true;
+ $Component = & $sender;
+ $Container = & CCGetParentContainer($sender);
+ global $customers_maintcontent; //Compatibility
+//End customers_maintcontent_alm_customers_databases_BeforeShow
+
+//Custom Code @248-2A29BDB7
+// -------------------------
+    // Write your own code here.
+ 	$databases = explode(",",$customers_maintcontent->alm_customers->databases->GetValue());
+	$customers_maintcontent->alm_customers->databases->Multiple = true;
+	$customers_maintcontent->alm_customers->databases->SetValue($databases);
+
+// -------------------------
+//End Custom Code
+
+//Close customers_maintcontent_alm_customers_databases_BeforeShow @247-530714CF
+ return $customers_maintcontent_alm_customers_databases_BeforeShow;
+}
+//End Close customers_maintcontent_alm_customers_databases_BeforeShow
+
 //Used because the last_user_id query on afterinsert was not working
 $lastguid = "";
 
@@ -1028,6 +1052,12 @@ function customers_maintcontent_alm_customers_BeforeInsert(& $sender)
 		$networking_list .= $networking_item.",";
 	}	
 
+	$databases = CCGetFromPost("databases",array());
+	$databases_list = "";
+	foreach($databases as $databases_item) {
+		$databases_list .= $databases_item.",";
+	}	
+
 	$customers_maintcontent->alm_customers->os_workstations->SetValue($os_workstations_list);
 	$customers_maintcontent->alm_customers->os_servers->SetValue($os_servers_list);
 	$customers_maintcontent->alm_customers->servers_type->SetValue($servers_type_list);
@@ -1073,6 +1103,8 @@ function customers_maintcontent_alm_customers_BeforeInsert(& $sender)
 	$customers_maintcontent->alm_customers->socialmedia_security->SetValue($socialmedia_security_list);
 
 	$customers_maintcontent->alm_customers->networking->SetValue($networking_list);
+
+	$customers_maintcontent->alm_customers->databases->SetValue($databases_list);
 
 	$customers_maintcontent->alm_customers->created_iduser->SetValue($userid);
 	$customers_maintcontent->alm_customers->hidguid->SetValue($guid);
@@ -1135,7 +1167,6 @@ function customers_maintcontent_alm_customers_AfterInsert(& $sender)
 		$customers = new Customers();
 		
 		$params["contact"] = trim(CCGetFromPost("contact",""));
-		$params["contact_dob"] = trim(CCGetFromPost("contact_dob",""));
 		$params["contact_jobposition"] = trim(CCGetFromPost("contact_jobposition",""));
 		$params["contact_phone"] = trim(CCGetFromPost("contact_phone",""));
 		$params["contact_extension"] = trim(CCGetFromPost("contact_extension",""));
@@ -1144,6 +1175,11 @@ function customers_maintcontent_alm_customers_AfterInsert(& $sender)
 		$params["contact_personalemail"] = trim(CCGetFromPost("contact_personalemail",""));
 		$params["hidcontact_guid"] = trim(CCGetFromPost("hidcontact_guid",""));
 		$params["contact_maincontact"] = trim(CCGetFromPost("contact_maincontact",""));
+
+		$params["contact_dob"] = trim(CCGetFromPost("contact_dob",""));
+		$params["contact_preferred_color"] = CCGetFromPost("contact_preferred_color",array());
+		$params["contact_hobbies"] = CCGetFromPost("contact_hobbies",array());
+		$params["contact_notify_holidays"] = CCGetFromPost("contact_notify_holidays",array());
 
 		$customers->addContact($params);
 
@@ -1384,6 +1420,12 @@ function customers_maintcontent_alm_customers_BeforeUpdate(& $sender)
 		$networking_list .= $networking_item.",";
 	}	
 
+	$databases = CCGetFromPost("databases",array());
+	$databases_list = "";
+	foreach($databases as $databases_item) {
+		$databases_list .= $databases_item.",";
+	}	
+
 	$customers_maintcontent->alm_customers->os_workstations->SetValue($os_workstations_list);
 	$customers_maintcontent->alm_customers->os_servers->SetValue($os_servers_list);
 	$customers_maintcontent->alm_customers->servers_type->SetValue($servers_type_list);
@@ -1429,6 +1471,8 @@ function customers_maintcontent_alm_customers_BeforeUpdate(& $sender)
 	$customers_maintcontent->alm_customers->socialmedia_security->SetValue($socialmedia_security_list);
 	
 	$customers_maintcontent->alm_customers->networking->SetValue($networking_list);
+
+	$customers_maintcontent->alm_customers->databases->SetValue($databases_list);
 	
 	$customers_maintcontent->alm_customers->modified_iduser->SetValue($userid);
 
@@ -1495,7 +1539,6 @@ function customers_maintcontent_alm_customers_AfterUpdate(& $sender)
 		$customers = new Customers();
 
 		$params["contact"] = trim(CCGetFromPost("contact",""));
-		$params["contact_dob"] = trim(CCGetFromPost("contact_dob",""));
 		$params["contact_jobposition"] = trim(CCGetFromPost("contact_jobposition",""));
 		$params["contact_phone"] = trim(CCGetFromPost("contact_phone",""));
 		$params["contact_extension"] = trim(CCGetFromPost("contact_extension",""));
@@ -1504,6 +1547,11 @@ function customers_maintcontent_alm_customers_AfterUpdate(& $sender)
 		$params["contact_personalemail"] = trim(CCGetFromPost("contact_personalemail",""));
 		$params["hidcontact_guid"] = trim(CCGetFromPost("hidcontact_guid",""));
 		$params["contact_maincontact"] = trim(CCGetFromPost("contact_maincontact",""));
+
+		$params["contact_dob"] = trim(CCGetFromPost("contact_dob",""));
+		$params["contact_preferred_color"] = CCGetFromPost("contact_preferred_color",array());	
+		$params["contact_hobbies"] = CCGetFromPost("contact_hobbies",array());
+		$params["contact_notify_holidays"] = CCGetFromPost("contact_notify_holidays",array());
 
 		$customers->addContact($params);
 
@@ -1633,6 +1681,26 @@ function customers_maintcontent_alm_customers_BeforeShow(& $sender)
 			$customers_maintcontent->alm_customers->contact_personalemail->SetValue($contacts[0]["personalemail"]);
 			$customers_maintcontent->alm_customers->contact_maincontact->SetValue($contacts[0]["maincontact"]);
 
+			$contact_dob = $contacts[0]["contact_dob"];
+			$contact_dob_array = CCParseDate($contact_dob,array("yyyy","-","mm","-","dd"));
+
+			if ($contact_dob_array[1] == "0000")
+				$contact_dob_array = null;
+
+			$customers_maintcontent->alm_customers->contact_dob->SetValue($contact_dob_array);
+
+		 	$contact_preferred_color = explode(",", $contacts[0]["preferred_color"]);
+			$customers_maintcontent->alm_customers->contact_preferred_color->Multiple = true;
+			$customers_maintcontent->alm_customers->contact_preferred_color->SetValue($contact_preferred_color);
+
+			$contact_hobbies = explode(",", $contacts[0]["hobbies"]);
+			$customers_maintcontent->alm_customers->contact_hobbies->Multiple = true;
+			$customers_maintcontent->alm_customers->contact_hobbies->SetValue($contact_hobbies);
+
+			$contact_holidays = explode(",", $contacts[0]["notify_holidays"]);
+			$customers_maintcontent->alm_customers->contact_notify_holidays->Multiple = true;
+			$customers_maintcontent->alm_customers->contact_notify_holidays->SetValue($contact_holidays);
+
 		}
 	}
 
@@ -1660,6 +1728,7 @@ function customers_maintcontent_BeforeShow(& $sender)
 	global $Tpl;
 
 	$tab = CCGetFromGet("tab","tab1_active");
+	$mr = CCGetFromGet("mr","customers");
 		
 	switch ($tab) {
 		default:
@@ -1672,6 +1741,14 @@ function customers_maintcontent_BeforeShow(& $sender)
 		case "addcontact" :
 			$Tpl->setvar("tab2_active","active");
 		break;
+	}
+
+	if ($mr == "contacts") {
+		$Tpl->setvar("mr_show","hide");
+		$Tpl->setvar("contact_show","show");
+	} else {
+		$Tpl->setvar("mr_show","show");
+		$Tpl->setvar("contact_show","hide");	
 	}
 
 	//Settingup saved message popup

@@ -105,6 +105,21 @@ function globalmaint_list_BeforeShow(& $sender)
 			$globalmaint_list->lbmodule->setvalue($m_title);
 			$Tpl->setvar("module",$m);
 		break;
+		case "contacts_colors" :
+			$m_title = $CCSLocales->GetText("contacts_colors");
+			$globalmaint_list->lbmodule->setvalue($m_title);
+			$Tpl->setvar("module",$m);
+		break;
+		case "contacts_hobbies" :
+			$m_title = $CCSLocales->GetText("contacts_hobbies");
+			$globalmaint_list->lbmodule->setvalue($m_title);
+			$Tpl->setvar("module",$m);
+		break;
+		case "contacts_holidays" :
+			$m_title = $CCSLocales->GetText("contacts_holidays");
+			$globalmaint_list->lbmodule->setvalue($m_title);
+			$Tpl->setvar("module",$m);
+		break;
 
 	}
 
@@ -123,6 +138,10 @@ function globalmaint_list_BeforeShow(& $sender)
 		case "resellers" :
 		case "license_granttypes" :
 		case "competitor_products" :
+		case "contacts_colors" :
+		case "contacts_hobbies" :
+		case "contacts_holidays" :
+
 			$params["m"] = $m;
 			$moduleContent = $customers->getAllByModule($params);
 			$moduleContent = $moduleContent["maint"];

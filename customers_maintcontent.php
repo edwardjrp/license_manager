@@ -36,7 +36,7 @@ class clsRecordcustomers_maintcontentalm_customers { //alm_customers Class @8-2A
  // Class variables
 //End Variables
 
-//Class_Initialize Event @8-7AF7308C
+//Class_Initialize Event @8-F5BA13AD
  function clsRecordcustomers_maintcontentalm_customers($RelativePath, & $Parent)
  {
 
@@ -578,6 +578,49 @@ class clsRecordcustomers_maintcontentalm_customers { //alm_customers Class @8-2A
      $this->networking->DataSource->wp->Criterion[1];
    $this->networking->HTML = true;
    $this->lbreturn = new clsControl(ccsLabel, "lbreturn", "lbreturn", ccsText, "", CCGetRequestParam("lbreturn", $Method, NULL), $this);
+   $this->contact_dob = new clsControl(ccsTextBox, "contact_dob", $CCSLocales->GetText("contact_birthday"), ccsDate, array("mm", "/", "dd", "/", "yyyy"), CCGetRequestParam("contact_dob", $Method, NULL), $this);
+   $this->contact_preferred_color = new clsControl(ccsCheckBoxList, "contact_preferred_color", $CCSLocales->GetText("preferredcolor"), ccsText, "", CCGetRequestParam("contact_preferred_color", $Method, NULL), $this);
+   $this->contact_preferred_color->Multiple = true;
+   $this->contact_preferred_color->DSType = dsTable;
+   $this->contact_preferred_color->DataSource = new clsDBdbConnection();
+   $this->contact_preferred_color->ds = & $this->contact_preferred_color->DataSource;
+   $this->contact_preferred_color->DataSource->SQL = "SELECT * \n" .
+"FROM alm_customers_contacts_colors {SQL_Where} {SQL_OrderBy}";
+   list($this->contact_preferred_color->BoundColumn, $this->contact_preferred_color->TextColumn, $this->contact_preferred_color->DBFormat) = array("id", "color", "");
+   $this->contact_preferred_color->HTML = true;
+   $this->contact_hobbies = new clsControl(ccsCheckBoxList, "contact_hobbies", $CCSLocales->GetText("hobbies"), ccsText, "", CCGetRequestParam("contact_hobbies", $Method, NULL), $this);
+   $this->contact_hobbies->Multiple = true;
+   $this->contact_hobbies->DSType = dsTable;
+   $this->contact_hobbies->DataSource = new clsDBdbConnection();
+   $this->contact_hobbies->ds = & $this->contact_hobbies->DataSource;
+   $this->contact_hobbies->DataSource->SQL = "SELECT * \n" .
+"FROM alm_customers_contacts_hobbies {SQL_Where} {SQL_OrderBy}";
+   list($this->contact_hobbies->BoundColumn, $this->contact_hobbies->TextColumn, $this->contact_hobbies->DBFormat) = array("id", "hobbies", "");
+   $this->contact_hobbies->HTML = true;
+   $this->contact_notify_holidays = new clsControl(ccsCheckBoxList, "contact_notify_holidays", $CCSLocales->GetText("notifyholidays"), ccsText, "", CCGetRequestParam("contact_notify_holidays", $Method, NULL), $this);
+   $this->contact_notify_holidays->Multiple = true;
+   $this->contact_notify_holidays->DSType = dsTable;
+   $this->contact_notify_holidays->DataSource = new clsDBdbConnection();
+   $this->contact_notify_holidays->ds = & $this->contact_notify_holidays->DataSource;
+   $this->contact_notify_holidays->DataSource->SQL = "SELECT * \n" .
+"FROM alm_customers_contacts_holidays {SQL_Where} {SQL_OrderBy}";
+   list($this->contact_notify_holidays->BoundColumn, $this->contact_notify_holidays->TextColumn, $this->contact_notify_holidays->DBFormat) = array("id", "holidays", "");
+   $this->contact_notify_holidays->HTML = true;
+   $this->databases = new clsControl(ccsCheckBoxList, "databases", $CCSLocales->GetText("databases"), ccsText, "", CCGetRequestParam("databases", $Method, NULL), $this);
+   $this->databases->Multiple = true;
+   $this->databases->DSType = dsTable;
+   $this->databases->DataSource = new clsDBdbConnection();
+   $this->databases->ds = & $this->databases->DataSource;
+   $this->databases->DataSource->SQL = "SELECT * \n" .
+"FROM alm_evaluation_options {SQL_Where} {SQL_OrderBy}";
+   list($this->databases->BoundColumn, $this->databases->TextColumn, $this->databases->DBFormat) = array("id", "title", "");
+   $this->databases->DataSource->Parameters["expr249"] = "30";
+   $this->databases->DataSource->wp = new clsSQLParameters();
+   $this->databases->DataSource->wp->AddParameter("1", "expr249", ccsInteger, "", "", $this->databases->DataSource->Parameters["expr249"], "", false);
+   $this->databases->DataSource->wp->Criterion[1] = $this->databases->DataSource->wp->Operation(opEqual, "type_id", $this->databases->DataSource->wp->GetDBValue("1"), $this->databases->DataSource->ToSQL($this->databases->DataSource->wp->GetDBValue("1"), ccsInteger),false);
+   $this->databases->DataSource->Where = 
+     $this->databases->DataSource->wp->Criterion[1];
+   $this->databases->HTML = true;
    if(!$this->FormSubmitted) {
     if(!is_array($this->city->Value) && !strlen($this->city->Value) && $this->city->Value !== false)
      $this->city->SetText(1);
@@ -599,7 +642,7 @@ class clsRecordcustomers_maintcontentalm_customers { //alm_customers Class @8-2A
  }
 //End Initialize Method
 
-//Validate Method @8-8E0F34A6
+//Validate Method @8-02CF4D81
  function Validate()
  {
   global $CCSLocales;
@@ -663,6 +706,11 @@ class clsRecordcustomers_maintcontentalm_customers { //alm_customers Class @8-2A
   $Validation = ($this->customertype_id->Validate() && $Validation);
   $Validation = ($this->shortname->Validate() && $Validation);
   $Validation = ($this->networking->Validate() && $Validation);
+  $Validation = ($this->contact_dob->Validate() && $Validation);
+  $Validation = ($this->contact_preferred_color->Validate() && $Validation);
+  $Validation = ($this->contact_hobbies->Validate() && $Validation);
+  $Validation = ($this->contact_notify_holidays->Validate() && $Validation);
+  $Validation = ($this->databases->Validate() && $Validation);
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "OnValidate", $this);
   $Validation =  $Validation && ($this->name->Errors->Count() == 0);
   $Validation =  $Validation && ($this->taxid->Errors->Count() == 0);
@@ -722,11 +770,16 @@ class clsRecordcustomers_maintcontentalm_customers { //alm_customers Class @8-2A
   $Validation =  $Validation && ($this->customertype_id->Errors->Count() == 0);
   $Validation =  $Validation && ($this->shortname->Errors->Count() == 0);
   $Validation =  $Validation && ($this->networking->Errors->Count() == 0);
+  $Validation =  $Validation && ($this->contact_dob->Errors->Count() == 0);
+  $Validation =  $Validation && ($this->contact_preferred_color->Errors->Count() == 0);
+  $Validation =  $Validation && ($this->contact_hobbies->Errors->Count() == 0);
+  $Validation =  $Validation && ($this->contact_notify_holidays->Errors->Count() == 0);
+  $Validation =  $Validation && ($this->databases->Errors->Count() == 0);
   return (($this->Errors->Count() == 0) && $Validation);
  }
 //End Validate Method
 
-//CheckErrors Method @8-0AD6E1A9
+//CheckErrors Method @8-9E8B49FF
  function CheckErrors()
  {
   $errors = false;
@@ -790,6 +843,11 @@ class clsRecordcustomers_maintcontentalm_customers { //alm_customers Class @8-2A
   $errors = ($errors || $this->shortname->Errors->Count());
   $errors = ($errors || $this->networking->Errors->Count());
   $errors = ($errors || $this->lbreturn->Errors->Count());
+  $errors = ($errors || $this->contact_dob->Errors->Count());
+  $errors = ($errors || $this->contact_preferred_color->Errors->Count());
+  $errors = ($errors || $this->contact_hobbies->Errors->Count());
+  $errors = ($errors || $this->contact_notify_holidays->Errors->Count());
+  $errors = ($errors || $this->databases->Errors->Count());
   $errors = ($errors || $this->Errors->Count());
   $errors = ($errors || $this->DataSource->Errors->Count());
   return $errors;
@@ -865,7 +923,7 @@ function GetPrimaryKey($keyName)
  }
 //End Operation Method
 
-//InsertRow Method @8-B28D2237
+//InsertRow Method @8-33C2FD53
  function InsertRow()
  {
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeInsert", $this);
@@ -930,13 +988,18 @@ function GetPrimaryKey($keyName)
   $this->DataSource->shortname->SetValue($this->shortname->GetValue(true));
   $this->DataSource->networking->SetValue($this->networking->GetValue(true));
   $this->DataSource->lbreturn->SetValue($this->lbreturn->GetValue(true));
+  $this->DataSource->contact_dob->SetValue($this->contact_dob->GetValue(true));
+  $this->DataSource->contact_preferred_color->SetValue($this->contact_preferred_color->GetValue(true));
+  $this->DataSource->contact_hobbies->SetValue($this->contact_hobbies->GetValue(true));
+  $this->DataSource->contact_notify_holidays->SetValue($this->contact_notify_holidays->GetValue(true));
+  $this->DataSource->databases->SetValue($this->databases->GetValue(true));
   $this->DataSource->Insert();
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "AfterInsert", $this);
   return (!$this->CheckErrors());
  }
 //End InsertRow Method
 
-//UpdateRow Method @8-BD02AB94
+//UpdateRow Method @8-EF6C4930
  function UpdateRow()
  {
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeUpdate", $this);
@@ -1001,13 +1064,18 @@ function GetPrimaryKey($keyName)
   $this->DataSource->shortname->SetValue($this->shortname->GetValue(true));
   $this->DataSource->networking->SetValue($this->networking->GetValue(true));
   $this->DataSource->lbreturn->SetValue($this->lbreturn->GetValue(true));
+  $this->DataSource->contact_dob->SetValue($this->contact_dob->GetValue(true));
+  $this->DataSource->contact_preferred_color->SetValue($this->contact_preferred_color->GetValue(true));
+  $this->DataSource->contact_hobbies->SetValue($this->contact_hobbies->GetValue(true));
+  $this->DataSource->contact_notify_holidays->SetValue($this->contact_notify_holidays->GetValue(true));
+  $this->DataSource->databases->SetValue($this->databases->GetValue(true));
   $this->DataSource->Update();
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "AfterUpdate", $this);
   return (!$this->CheckErrors());
  }
 //End UpdateRow Method
 
-//Show Method @8-8D447895
+//Show Method @8-5CF55741
  function Show()
  {
   global $CCSUseAmp;
@@ -1055,6 +1123,10 @@ function GetPrimaryKey($keyName)
   $this->network_monitor->Prepare();
   $this->customertype_id->Prepare();
   $this->networking->Prepare();
+  $this->contact_preferred_color->Prepare();
+  $this->contact_hobbies->Prepare();
+  $this->contact_notify_holidays->Prepare();
+  $this->databases->Prepare();
 
   $RecordBlock = "Record " . $this->ComponentName;
   $ParentPath = $Tpl->block_path;
@@ -1117,6 +1189,7 @@ function GetPrimaryKey($keyName)
      $this->customertype_id->SetValue($this->DataSource->customertype_id->GetValue());
      $this->shortname->SetValue($this->DataSource->shortname->GetValue());
      $this->networking->SetValue($this->DataSource->networking->GetValue());
+     $this->databases->SetValue($this->DataSource->databases->GetValue());
     }
    } else {
     $this->EditMode = false;
@@ -1187,6 +1260,11 @@ function GetPrimaryKey($keyName)
    $Error = ComposeStrings($Error, $this->shortname->Errors->ToString());
    $Error = ComposeStrings($Error, $this->networking->Errors->ToString());
    $Error = ComposeStrings($Error, $this->lbreturn->Errors->ToString());
+   $Error = ComposeStrings($Error, $this->contact_dob->Errors->ToString());
+   $Error = ComposeStrings($Error, $this->contact_preferred_color->Errors->ToString());
+   $Error = ComposeStrings($Error, $this->contact_hobbies->Errors->ToString());
+   $Error = ComposeStrings($Error, $this->contact_notify_holidays->Errors->ToString());
+   $Error = ComposeStrings($Error, $this->databases->Errors->ToString());
    $Error = ComposeStrings($Error, $this->Errors->ToString());
    $Error = ComposeStrings($Error, $this->DataSource->Errors->ToString());
    $Tpl->SetVar("Error", $Error);
@@ -1273,6 +1351,11 @@ function GetPrimaryKey($keyName)
   $this->shortname->Show();
   $this->networking->Show();
   $this->lbreturn->Show();
+  $this->contact_dob->Show();
+  $this->contact_preferred_color->Show();
+  $this->contact_hobbies->Show();
+  $this->contact_notify_holidays->Show();
+  $this->databases->Show();
   $Tpl->parse();
   $Tpl->block_path = $ParentPath;
   $this->DataSource->close();
@@ -1283,7 +1366,7 @@ function GetPrimaryKey($keyName)
 
 class clscustomers_maintcontentalm_customersDataSource extends clsDBdbConnection {  //alm_customersDataSource Class @8-59CEC076
 
-//DataSource Variables @8-5BEE53E6
+//DataSource Variables @8-D5E3067B
  public $Parent = "";
  public $CCSEvents = "";
  public $CCSEventResult;
@@ -1359,9 +1442,14 @@ class clscustomers_maintcontentalm_customersDataSource extends clsDBdbConnection
  public $shortname;
  public $networking;
  public $lbreturn;
+ public $contact_dob;
+ public $contact_preferred_color;
+ public $contact_hobbies;
+ public $contact_notify_holidays;
+ public $databases;
 //End DataSource Variables
 
-//DataSourceClass_Initialize Event @8-2392FB87
+//DataSourceClass_Initialize Event @8-6C26DE6E
  function clscustomers_maintcontentalm_customersDataSource(& $Parent)
  {
   $this->Parent = & $Parent;
@@ -1487,6 +1575,16 @@ class clscustomers_maintcontentalm_customersDataSource extends clsDBdbConnection
   
   $this->lbreturn = new clsField("lbreturn", ccsText, "");
   
+  $this->contact_dob = new clsField("contact_dob", ccsDate, array("yyyy", "-", "mm", "-", "dd"));
+  
+  $this->contact_preferred_color = new clsField("contact_preferred_color", ccsText, "");
+  
+  $this->contact_hobbies = new clsField("contact_hobbies", ccsText, "");
+  
+  $this->contact_notify_holidays = new clsField("contact_notify_holidays", ccsText, "");
+  
+  $this->databases = new clsField("databases", ccsText, "");
+  
 
   $this->InsertFields["name"] = array("Name" => "name", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->InsertFields["taxid"] = array("Name" => "taxid", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
@@ -1536,6 +1634,7 @@ class clscustomers_maintcontentalm_customersDataSource extends clsDBdbConnection
   $this->InsertFields["customertype_id"] = array("Name" => "customertype_id", "Value" => "", "DataType" => ccsInteger, "OmitIfEmpty" => 1);
   $this->InsertFields["shortname"] = array("Name" => "shortname", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->InsertFields["networking"] = array("Name" => "networking", "Value" => "", "DataType" => ccsText);
+  $this->InsertFields["databases"] = array("Name" => "`databases`", "Value" => "", "DataType" => ccsText);
   $this->UpdateFields["name"] = array("Name" => "name", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->UpdateFields["taxid"] = array("Name" => "taxid", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->UpdateFields["website"] = array("Name" => "website", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
@@ -1584,6 +1683,7 @@ class clscustomers_maintcontentalm_customersDataSource extends clsDBdbConnection
   $this->UpdateFields["customertype_id"] = array("Name" => "customertype_id", "Value" => "", "DataType" => ccsInteger, "OmitIfEmpty" => 1);
   $this->UpdateFields["shortname"] = array("Name" => "shortname", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->UpdateFields["networking"] = array("Name" => "networking", "Value" => "", "DataType" => ccsText);
+  $this->UpdateFields["databases"] = array("Name" => "`databases`", "Value" => "", "DataType" => ccsText);
  }
 //End DataSourceClass_Initialize Event
 
@@ -1614,7 +1714,7 @@ class clscustomers_maintcontentalm_customersDataSource extends clsDBdbConnection
  }
 //End Open Method
 
-//SetValues Method @8-A3543081
+//SetValues Method @8-0D1692C8
  function SetValues()
  {
   $this->name->SetDBValue($this->f("name"));
@@ -1665,10 +1765,11 @@ class clscustomers_maintcontentalm_customersDataSource extends clsDBdbConnection
   $this->customertype_id->SetDBValue(trim($this->f("customertype_id")));
   $this->shortname->SetDBValue($this->f("shortname"));
   $this->networking->SetDBValue($this->f("networking"));
+  $this->databases->SetDBValue($this->f("databases"));
  }
 //End SetValues Method
 
-//Insert Method @8-6B540D17
+//Insert Method @8-850E897A
  function Insert()
  {
   global $CCSLocales;
@@ -1723,6 +1824,7 @@ class clscustomers_maintcontentalm_customersDataSource extends clsDBdbConnection
   $this->InsertFields["customertype_id"]["Value"] = $this->customertype_id->GetDBValue(true);
   $this->InsertFields["shortname"]["Value"] = $this->shortname->GetDBValue(true);
   $this->InsertFields["networking"]["Value"] = $this->networking->GetDBValue(true);
+  $this->InsertFields["databases"]["Value"] = $this->databases->GetDBValue(true);
   $this->SQL = CCBuildInsert("alm_customers", $this->InsertFields, $this);
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeExecuteInsert", $this->Parent);
   if($this->Errors->Count() == 0 && $this->CmdExecution) {
@@ -1732,7 +1834,7 @@ class clscustomers_maintcontentalm_customersDataSource extends clsDBdbConnection
  }
 //End Insert Method
 
-//Update Method @8-988CB014
+//Update Method @8-40532F58
  function Update()
  {
   global $CCSLocales;
@@ -1787,6 +1889,7 @@ class clscustomers_maintcontentalm_customersDataSource extends clsDBdbConnection
   $this->UpdateFields["customertype_id"]["Value"] = $this->customertype_id->GetDBValue(true);
   $this->UpdateFields["shortname"]["Value"] = $this->shortname->GetDBValue(true);
   $this->UpdateFields["networking"]["Value"] = $this->networking->GetDBValue(true);
+  $this->UpdateFields["databases"]["Value"] = $this->databases->GetDBValue(true);
   $this->SQL = CCBuildUpdate("alm_customers", $this->UpdateFields, $this);
   $this->SQL .= strlen($this->Where) ? " WHERE " . $this->Where : $this->Where;
   if (!strlen($this->Where) && $this->Errors->Count() == 0) 
@@ -1848,7 +1951,7 @@ class clscustomers_maintcontent { //customers_maintcontent class @1-407CA8C7
  }
 //End Class_Terminate Event
 
-//BindEvents Method @1-810F7F03
+//BindEvents Method @1-A8E9C93F
  function BindEvents()
  {
   $this->alm_customers->os_workstations->CCSEvents["BeforeShow"] = "customers_maintcontent_alm_customers_os_workstations_BeforeShow";
@@ -1885,6 +1988,7 @@ class clscustomers_maintcontent { //customers_maintcontent class @1-407CA8C7
   $this->alm_customers->network_monitor->CCSEvents["BeforeShow"] = "customers_maintcontent_alm_customers_network_monitor_BeforeShow";
   $this->alm_customers->networking->CCSEvents["BeforeShow"] = "customers_maintcontent_alm_customers_networking_BeforeShow";
   $this->alm_customers->lbreturn->CCSEvents["BeforeShow"] = "customers_maintcontent_alm_customers_lbreturn_BeforeShow";
+  $this->alm_customers->databases->CCSEvents["BeforeShow"] = "customers_maintcontent_alm_customers_databases_BeforeShow";
   $this->alm_customers->CCSEvents["BeforeInsert"] = "customers_maintcontent_alm_customers_BeforeInsert";
   $this->alm_customers->CCSEvents["AfterInsert"] = "customers_maintcontent_alm_customers_AfterInsert";
   $this->alm_customers->CCSEvents["BeforeUpdate"] = "customers_maintcontent_alm_customers_BeforeUpdate";

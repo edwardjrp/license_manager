@@ -23,6 +23,7 @@
 				{sidebar}
 
 				<div class="main-content">
+
 					<div class="breadcrumbs" id="breadcrumbs">
 						<script type="text/javascript">
 							try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
@@ -30,9 +31,10 @@
 						<ul class="breadcrumb">
 							<li>
 								<i class="icon-group blue bigger-150"></i>
-								<a href="{lburl}">{lbtitle}</a>
+								<a href="licensing.php">{res:licensing}</a>
 							</li>
-							<li class="active">{res:addeditcustomer}</li>
+							<li><a href="{lblicenselink}">{res:licensingcustomers}</a></li>
+							<li class="active">{res:bulkrenewal}</li>
 						</ul><!-- .breadcrumb -->
 
 					</div> <!-- breadcrumbs -->
@@ -41,7 +43,7 @@
 						<div class="row">
 							<div class="col-xs-12">
 								<!-- PAGE CONTENT BEGINS -->
-									{customers_maintcontent}									
+									{licensing_bulkrenewalcontent}
 								<!-- PAGE CONTENT ENDS -->
 							</div><!-- /.col -->
 						</div><!-- /.row -->

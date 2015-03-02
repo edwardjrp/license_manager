@@ -1233,6 +1233,183 @@ class Products {
 
 	}
 
+	/**
+	 * @param array $params
+	 * This method will be used to check if unique licenses from active grid has shared grant number and they are expire
+	 * which will allow block renewal on the menu.
+	 */
+	public function isBlockRenewal($params = array()) {
+		$result = array( "status" => false, "message" => "", "count" => 0); //suiteStatus default to discontinued (3)
+
+		$grantNumber = $params["grant_number"];
+		if (strlen($grantNumber) > 0) {
+			$db          = new \clsDBdbConnection();
+			$countLicense = (int)CCDLookUp("count(*)", "v_alm_licenses", "grant_number = '$grantNumber' and id_license_status = 3 ", $db);
+
+			$result["status"] = true;
+			$result["count"] = $countLicense;
+
+			return $result;
+
+		} else {
+			$result[ "status" ]  = false;
+			$result[ "message" ] = "Invalid grant number";
+
+			return $result;
+		}
+
+	}
+
+	public function getLicensesByGrantNumber($params = array()) {
+		$result = array("status" => false, "message" => "","licenses" => array());
+		$grantNumber = $params["grant_number"];
+
+		if (strlen($grantNumber) > 0) {
+
+			$db = new \clsDBdbConnection();
+			$licenses = array();
+
+			$fields_array = array("id","guid","suite_description","suite_code","type_icon_name","license_name","id_licensed_by",
+				"licensedby_name","sector_name","reseller_name","description","nodes","licensed_amount","channel_sku"
+			   ,"msrp_price","dateupdated","id_license_status","license_status_name","alm_license_status_css_color","grant_number","expedition_date"
+			   ,"expiration_date","serial_number","granttype_name","isarchived","renew_businesspartner", "renew_businesspartner_date"
+			   ,"renew_businesspartner_id", "competitor_product_id", "competitor_product_name", "competitor_date");
+
+			$fields = implode(",",$fields_array);
+			$sql = "select $fields from v_alm_licenses where grant_number = '$grantNumber' and id_license_status = 3";
+
+		    $db->query($sql);
+
+		    while ($db->next_record()) {
+			    $row = array();
+		        foreach($fields_array as $field) {
+		            $row[$field] = $db->f($field);
+		        }
+		     $licenses[] = $row;
+		    }
+
+			$db->close();
+
+		    $result["status"] = true;
+		    $result["licenses"] = $licenses;
+		    $result["message"] = "Command executed successfully.";
+
+		    return $result;
+
+		} else {
+			$result["status"] = false;
+		    $result["message"] = "Invalid grant number";
+
+		    return $result;
+		}
+
+
+	}
+
+	public function bulkRenew($params = array()) {
+		$result = array("status" => false, "message" => "");
+		$grantNumber = $params["grant_number"];
+		$newGrantNumber = $params["newgrant_number"];
+		$expedDate = $params["expedition_date"];
+		$expirDate = $params["expiration_date"];
+		$userId = $params["user_id"];
+
+
+		if ( (strlen($grantNumber) > 0) && (strlen($newGrantNumber) > 0) && (strlen($expedDate) > 0) && (strlen($expirDate) > 0) ) {
+
+			$db       = new \clsDBdbConnection();
+			$db2       = new \clsDBdbConnection();
+
+			$fields_array = array("id","guid","id_suite","id_product_type","id_licensed_by",
+				"id_license_type","id_product_tag","id_license_sector","id_reseller","id_customer","id_product","id_license_granttype"
+			   ,"msrp_price","nodes","id_license_status","licensed_amount","channel_sku","grant_number","registered_date"
+			   ,"serial_number", "currency");
+
+			$fields = implode(",",$fields_array);
+			$sql = "select $fields from alm_licensing where grant_number = '$grantNumber' ";
+
+		    $db->query($sql);
+
+			$parentGuid = CCDLookUp("guid","alm_licensing","grant_number = '$grantNumber' and id_license_status = 2 limit 1", $db2);
+
+		    while ($db->next_record()) {
+			    $licenseType = $db->f("id_license_type");
+			    $licenseStatus = $db->f("id_license_status");
+
+			    if ($licenseStatus == 3) {
+				    $guid = \uuid_create();
+
+				    /**
+				     * Only adds parent license guid to support licenses
+				     */
+				    $newParentGuid = "";
+				    if ( ($licenseType == 10) || ($licenseType == 11) || ($licenseType == 13) )
+					    $newParentGuid = $parentGuid;
+
+				    $nodes = $db->f('nodes');
+				    $licensedAmount = $db->f('licensed_amount');
+				    $channelSku = $db->f('channel_sku');
+				    $msrpPrince = $db->f('msrp_price');
+				    $registeredDate = $db->f('registered_date');
+				    if (strlen($registeredDate) <= 0)
+					    $registeredDate = null;
+
+				    $serialNumber = $db->f('serial_number');
+				    $currency = $db->f('currency');
+				    $expiredGuid = $db->f('guid');
+				    $idSuite = (int)$db->f('id_suite');
+				    $idProductType = (int)$db->f('id_product_type');
+				    $idLicenseType = (int)$db->f('id_license_type');
+				    $idProductTag = (int)$db->f('id_product_tag');
+				    $idLicenseBy = (int)$db->f('id_licensed_by');
+				    $idLicenseSector = (int)$db->f('id_license_sector');
+				    $idReseller = (int)$db->f('id_reseller');
+				    $idCustomer = (int)$db->f('id_customer');
+				    $idLicenseStatus = 2;
+				    $idProduct = (int)$db->f('id_product');
+				    $idLicenseGrantType = (int)$db->f('id_license_granttype');
+
+				    $sql2 = "insert into alm_licensing (id_suite,id_product_type,id_license_type,id_product_tag,id_licensed_by,id_license_sector,id_reseller,
+					id_customer,id_license_status,id_product,id_license_granttype,guid,nodes,licensed_amount,channel_sku,msrp_price,grant_number,expedition_date,
+					expiration_date,registered_date,serial_number,currency,created_iduser,expired_license_guid,parent_license_guid)
+					values($idSuite, $idProductType, $idLicenseType, $idProductTag, $idLicenseBy, $idLicenseSector, $idReseller, $idCustomer, $idLicenseStatus, $idProduct,
+					$idLicenseGrantType, '$guid', '$nodes', '$licensedAmount', '$channelSku', '$msrpPrince', '$newGrantNumber','$expedDate', '$expirDate',
+				    '$registeredDate', '$serialNumber', '$currency', $userId, '$expiredGuid', '$newParentGuid')";
+
+				    $db2->query($sql2);
+
+				    $this->setLicenseArchivedByGuid(array("guid" => $expiredGuid));
+
+			    } else {
+				    //If not expired might be a perpetual, which we update its grant number to match the new grant
+				    if ( ($licenseStatus == 2) && ( ($licenseType == 7) || ($licenseType == 12) ) )
+				    {
+					    $perpetualGuid = $db->f('guid');
+					    $sql3 = "update alm_licensing set grant_number = '$newGrantNumber' where guid = '$perpetualGuid' ";
+					    $db2->query($sql3);
+
+				    }
+			    }
+
+		    }
+
+			$db2->close();
+			$db->close();
+
+			$result["status"] = true;
+		    $result["message"] = "Bulk renewal executed successfully";
+
+		    return $result;
+
+		} else {
+			$result["status"] = false;
+		    $result["message"] = "Invalid fields";
+
+		    return $result;
+
+		}
+
+	}
 
 }
 

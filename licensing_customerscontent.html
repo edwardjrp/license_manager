@@ -1,9 +1,10 @@
+		<!-- BEGIN Record alm_customers -->
 <div class="widget-box">
 	<div class="widget-header">
-		<h4>{res:viewcustomerlicenses}</h4>
+		<h3 class="smaller lighter red">{lbname} &nbsp;&nbsp;<span class="icon-phone bigger-130"></span> {lbphone}</h3>
 	</div>
 	<div class="widget-body">
-		<!-- BEGIN Record alm_customers -->
+
 		<form id="alm_customers" method="post" name="{HTMLFormName}" action="{Action}">
 			<div class="row widget-main">
 				<!-- BEGIN Error -->
@@ -13,8 +14,7 @@
 				</div>
 				<!-- END Error -->
 				<div class="row">
-					<div class="col-xs-1">
-					</div>
+					<div class="col-xs-1"></div>
 					<div class="col-md-10 col-xs-10">
 						<div class="alert alert-block alert-success {page:showalert}">
 							<button class="close" data-dismiss="alert"><i class="icon-remove"></i></button> 
@@ -26,15 +26,14 @@
 						<div class="alert alert-block alert-danger {page:showalert_addsupport}">
 							<button class="close" data-dismiss="alert"><i class="icon-remove"></i></button>
 							<p><strong><i class="icon-warning-sign"></i>{res:addsupport}</strong>&nbsp;{res:addsupportmessage}</p>
-						</div>
+						</div>					
 					</div>
 				</div>
 				<!-- row -->
 				<div class="tabbable">
 					<ul id="myTab" class="nav nav-tabs">
 						<li class="{tab1_active}"><a href="#customerdetails" data-toggle="tab">{res:tabcust_title}</a> 
-						<li class="{tab2_active}"><a href="#licensingtab" data-toggle="tab">
-{res:tablicensing_titleadd}</a> </li>
+						<li class="{tab2_active}"><a href="#licensingtab" data-toggle="tab">{res:tablicensing_titleadd}</a> </li>
 						<li class="{tab3_active}"><a href="#activelicenses" data-toggle="tab">{res:licenses}</a></li>
 					 	<li class="{tab4_active}"><a href="#archivedlicenses" data-toggle="tab">{res:archivedlicenses}</a></li>
 					 	<li class="{tab5_active}"><a href="#competitor_renewals" data-toggle="tab">{res:competitor_renewals}</a></li>
@@ -179,7 +178,8 @@
 									<label class="control-label blue">{res:suite_code}</label><br>
 									<select id="suite" class="width-90 chosen-select licensefilter" name="{suite_code_Name}" data-validation="required" data-validation-error-msg="{res:invalidsuite}">
 										<option selected value="">{res:selectoption}</option>
-										{suite_code_Options}
+										
+{suite_code_Options}
 									</select>
 								</div>
 								<div class="col-md-3 col-xs-12">
@@ -408,7 +408,7 @@
 									<div class="form-actions action-buttons center inline col-xs-12">
 										<div class="inline"><a href="licensing.php{lbgoback}" role="button" id="goback" class="btn btn-sm btn-success"><li class="icon-arrow-left"></li>&nbsp;{res:buttongoback}</a> &nbsp;&nbsp;</div>
 										<div class="inline">
-											<!-- BEGIN Button Button_Insert --><button class="btn btn-sm btn-success" type="submit" name="{Button_Name}" value="{res:buttonsave}"><span class="icon-save"></li>&nbsp; {res:buttonsave}</button><!-- END Button Button_Insert -->
+											<!-- BEGIN Button Button_Insert --><button class="btn btn-sm btn-success" type="submit" name="{Button_Name}" value="{res:buttonsave}"><li class="icon-save"></li>&nbsp; {res:buttonsave}</button><!-- END Button Button_Insert -->
 										</div>
 										<div class="inline">
 											<!-- BEGIN Button Button_Update --><button class="btn btn-sm btn-success" type="submit" name="{Button_Name}" value="{res:buttonsave}"><li class="icon-save"></li>&nbsp; {res:buttonsave}</button><!-- END Button Button_Update -->

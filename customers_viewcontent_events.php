@@ -366,6 +366,37 @@ function customers_viewcontent_alm_customers_businesspartner_BeforeShow(& $sende
 }
 //End Close customers_viewcontent_alm_customers_businesspartner_BeforeShow
 
+//customers_viewcontent_alm_customers_businesspartner_ds_BeforeBuildSelect @88-1EB1FA54
+function customers_viewcontent_alm_customers_businesspartner_ds_BeforeBuildSelect(& $sender)
+{
+ $customers_viewcontent_alm_customers_businesspartner_ds_BeforeBuildSelect = true;
+ $Component = & $sender;
+ $Container = & CCGetParentContainer($sender);
+ global $customers_viewcontent; //Compatibility
+//End customers_viewcontent_alm_customers_businesspartner_ds_BeforeBuildSelect
+
+//Custom Code @166-2A29BDB7
+// -------------------------
+ // Write your own code here.
+	$guid = trim(CCGetFromGet("guid",""));
+	if (strlen($guid) > 0) {
+		$db = new clsDBdbConnection();
+		$businesspartners = trim(CCDLookup("businesspartner","alm_customers","guid = '$guid'",$db),",");
+		if (strlen($businesspartners) > 0)
+			$customers_viewcontent->alm_customers->businesspartner->ds->Where = "id in ($businesspartners)";
+		else
+			$customers_viewcontent->alm_customers->businesspartner->ds->Where = "id in (0)";
+		$db->close();
+	}
+
+// -------------------------
+//End Custom Code
+
+//Close customers_viewcontent_alm_customers_businesspartner_ds_BeforeBuildSelect @88-3CE9F00A
+ return $customers_viewcontent_alm_customers_businesspartner_ds_BeforeBuildSelect;
+}
+//End Close customers_viewcontent_alm_customers_businesspartner_ds_BeforeBuildSelect
+
 //customers_viewcontent_alm_customers_virtualization_BeforeShow @91-6DDEC55A
 function customers_viewcontent_alm_customers_virtualization_BeforeShow(& $sender)
 {
@@ -803,6 +834,30 @@ function customers_viewcontent_alm_customers_lbreturn_BeforeShow(& $sender)
  return $customers_viewcontent_alm_customers_lbreturn_BeforeShow;
 }
 //End Close customers_viewcontent_alm_customers_lbreturn_BeforeShow
+
+//customers_viewcontent_alm_customers_databases_BeforeShow @167-75C12D06
+function customers_viewcontent_alm_customers_databases_BeforeShow(& $sender)
+{
+ $customers_viewcontent_alm_customers_databases_BeforeShow = true;
+ $Component = & $sender;
+ $Container = & CCGetParentContainer($sender);
+ global $customers_viewcontent; //Compatibility
+//End customers_viewcontent_alm_customers_databases_BeforeShow
+
+//Custom Code @168-2A29BDB7
+// -------------------------
+    // Write your own code here.
+ 	$databases = explode(",",$customers_viewcontent->alm_customers->databases->GetValue());
+	$customers_viewcontent->alm_customers->databases->Multiple = true;
+	$customers_viewcontent->alm_customers->databases->SetValue($databases);
+
+// -------------------------
+//End Custom Code
+
+//Close customers_viewcontent_alm_customers_databases_BeforeShow @167-F930B8AA
+ return $customers_viewcontent_alm_customers_databases_BeforeShow;
+}
+//End Close customers_viewcontent_alm_customers_databases_BeforeShow
 
 //customers_viewcontent_alm_customers_BeforeInsert @2-6477422F
 function customers_viewcontent_alm_customers_BeforeInsert(& $sender)

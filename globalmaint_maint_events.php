@@ -95,6 +95,21 @@ function Page_BeforeShow(& $sender)
 			$MainPage->lbmodule->setvalue($m_title);
 			$Tpl->setvar("module",$m);
 		break;
+		case "contacts_colors" :
+			$m_title = $CCSLocales->GetText("contacts_colors");
+			$MainPage->lbmodule->setvalue($m_title);
+			$Tpl->setvar("module",$m);
+		break;
+		case "contacts_hobbies" :
+			$m_title = $CCSLocales->GetText("contacts_hobbies");
+			$MainPage->lbmodule->setvalue($m_title);
+			$Tpl->setvar("module",$m);
+		break;
+		case "contacts_holidays" :
+			$m_title = $CCSLocales->GetText("contacts_holidays");
+			$MainPage->lbmodule->setvalue($m_title);
+			$Tpl->setvar("module",$m);
+		break;
 
 	}
 

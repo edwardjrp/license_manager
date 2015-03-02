@@ -57,10 +57,11 @@ class Customers {
         $result = array("status" => false, "message" => "");
         $customer_guid = $params["customer_guid"];
         if (strlen($customer_guid) > 0) {
+
             $contact = $params["contact"];
             $contact_dob = $params["contact_dob"];
             if (strlen($contact_dob) > 0) {
-                $contact_dob_array = explode("-",$contact_dob);
+                $contact_dob_array = explode("/",$contact_dob);
                 $contact_dob = $contact_dob_array[2]."-".$contact_dob_array[0]."-".$contact_dob_array[1];
             } else {
                 $contact_dob = NULL;
@@ -75,6 +76,26 @@ class Customers {
             $contact_hidguid = $params["hidcontact_guid"];
 	        $contact_maincontact = $params["contact_maincontact"];
 
+			//Contact preferred colors
+			$contact_color = $params["contact_preferred_color"];;
+			$contact_color_list = "";
+			foreach($contact_color as $color) {
+				$contact_color_list .= $color.",";
+			}
+			//Contact hobbies
+			$contact_hobbies = $params["contact_hobbies"];
+			$contact_hobbies_list = "";
+			foreach($contact_hobbies as $hobbies) {
+				$contact_hobbies_list .= $hobbies.",";
+			}
+
+			//Contact notify holidays
+			$contact_holidays = $params["contact_notify_holidays"];
+			$contact_holidays_list = "";
+			foreach($contact_holidays as $holidays) {
+				$contact_holidays_list .= $holidays.",";
+			}
+
             if (strlen($contact) > 0) {
                 $db = new clsDBdbConnection();
                 $contact_jobposition = $db->esc($contact_jobposition);
@@ -85,7 +106,10 @@ class Customers {
                 $contact_personalemail = $db->esc($contact_personalemail);
                 $contact_hidguid = $db->esc($contact_hidguid);
 	            $contact_maincontact = (int)$contact_maincontact;
-
+	            $contact_dob = $db->esc($contact_dob);
+	            $contact_color_list = $db->esc($contact_color_list);
+	            $contact_hobbies_list = $db->esc($contact_hobbies_list);
+	            $contact_holidays_list = $db->esc($contact_holidays_list);
 
                 $customer_id = (int)CCDLookUp("id","alm_customers","guid = '$customer_guid' ",$db);
                 if ($customer_id > 0) {
@@ -94,14 +118,17 @@ class Customers {
                         $sql = "update alm_customers_contacts set contact = '$contact',contact_dob = '$contact_dob',
                         jobposition = '$contact_jobposition',phone = '$contact_phone',extension = '$contact_extension',
                         mobile = '$contact_mobile',workemail = '$contact_workemail',personalemail = '$contact_personalemail',
-                        maincontact = '$contact_maincontact'
+                        maincontact = '$contact_maincontact', preferred_color = '$contact_color_list', hobbies = '$contact_hobbies_list',
+                        notify_holidays = '$contact_holidays_list'
                         where id = $contact_id ";
                     } else {
                         $guid = uuid_create();
                         $sql = "insert into alm_customers_contacts(guid,customer_id,contact,contact_dob,jobposition,
-                        phone,extension,mobile,workemail,personalemail,maincontact)
+                        phone,extension,mobile,workemail,personalemail,maincontact,preferred_color,hobbies,notify_holidays)
                         values('$guid',$customer_id,'$contact','$contact_dob','$contact_jobposition',
-                        '$contact_phone','$contact_extension','$contact_mobile','$contact_workemail','$contact_personalemail','$contact_maincontact')";
+                        '$contact_phone','$contact_extension','$contact_mobile','$contact_workemail','$contact_personalemail','$contact_maincontact',
+                        '$contact_color_list','$contact_hobbies_list','$contact_holidays_list'
+                        )";
                     }
 
                     //Making sure only 1 unique maincontact,
@@ -181,7 +208,7 @@ class Customers {
             $contacts = array();
 
             $fields_array = array("guid","contact","contact_dob","jobposition","phone","extension","mobile",
-            "workemail","personalemail","maincontact");
+            "workemail","personalemail","maincontact", "preferred_color", "hobbies", "notify_holidays", "contact_dob");
             $fields = implode(",",$fields_array);
             $sql = "select $fields from alm_customers_contacts where guid = '$contact_guid' ";
             $db->query($sql);
@@ -581,6 +608,18 @@ class Customers {
                     $fields_array = array( "id", "guid", "product_name as title" );
                     $table = "alm_competitor_products";
                 break;
+				case "contacts_colors" :
+			        $fields_array = array( "id", "guid", "color as title" );
+			        $table = "alm_customers_contacts_colors";
+			    break;
+				case "contacts_hobbies" :
+			        $fields_array = array( "id", "guid", "hobbies as title" );
+			        $table = "alm_customers_contacts_hobbies";
+			    break;
+				case "contacts_holidays" :
+			        $fields_array = array( "id", "guid", "holidays as title" );
+			        $table = "alm_customers_contacts_holidays";
+			    break;
 				case "city" :
 				default :
 					$fields_array = array( "id", "guid", "city as title" );
@@ -672,6 +711,15 @@ class Customers {
                 case "competitor_products" :
                     $table = "alm_competitor_products";
                 break;
+				case "contacts_colors" :
+			        $table = "alm_customers_contacts_colors";
+			    break;
+				case "contacts_hobbies" :
+			        $table = "alm_customers_contacts_hobbies";
+			    break;
+				case "contacts_holidays" :
+			        $table = "alm_customers_contacts_holidays";
+			    break;
 				case "city" :
 				default :
 					$table = "alm_city";
@@ -762,6 +810,18 @@ class Customers {
                     $fields_array = array( "id", "guid", "product_name as title" );
                     $table = "alm_competitor_products";
                 break;
+				case "contacts_colors" :
+			        $fields_array = array( "id", "guid", "color as title" );
+			        $table = "alm_customers_contacts_colors";
+			    break;
+				case "contacts_hobbies" :
+			        $fields_array = array( "id", "guid", "hobbies as title" );
+			        $table = "alm_customers_contacts_hobbies";
+			    break;
+				case "contacts_holidays" :
+			        $fields_array = array( "id", "guid", "holidays as title" );
+			        $table = "alm_customers_contacts_holidays";
+			    break;
 				case "city" :
 				default :
 					$fields_array = array( "id", "guid", "city as title" );
@@ -864,6 +924,18 @@ class Customers {
                     $fields_array = array( "guid", "product_name", "created_iduser" );
                     $table = "alm_competitor_products";
                 break;
+				case "contacts_colors" :
+			        $fields_array = array( "guid", "color", "created_iduser" );
+			        $table = "alm_customers_contacts_colors";
+			    break;
+				case "contacts_hobbies" :
+			        $fields_array = array( "guid", "hobbies", "created_iduser" );
+			        $table = "alm_customers_contacts_hobbies";
+			    break;
+				case "contacts_holidays" :
+			        $fields_array = array( "guid", "holidays", "created_iduser" );
+			        $table = "alm_customers_contacts_holidays";
+			    break;
 				case "city" :
 				default :
 					$fields_array = array( "guid", "city", "created_iduser" );
@@ -964,6 +1036,18 @@ class Customers {
                     $fields_array = array( "product_name = '$title' ", "modified_iduser = $userid" );
                     $table = "alm_competitor_products";
                 break;
+				case "contacts_colors" :
+			        $fields_array = array( "color = '$title' ", "modified_iduser = $userid" );
+			        $table = "alm_customers_contacts_colors";
+			    break;
+				case "contacts_hobbies" :
+			        $fields_array = array( "hobbies = '$title' ", "modified_iduser = $userid" );
+			        $table = "alm_customers_contacts_hobbies";
+			    break;
+				case "contacts_holidays" :
+			        $fields_array = array( "holidays = '$title' ", "modified_iduser = $userid" );
+			        $table = "alm_customers_contacts_holidays";
+			    break;
 				case "city" :
 				default :
 					$fields_array = array( "city = '$title' ", "modified_iduser = $userid" );
