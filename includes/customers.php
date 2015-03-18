@@ -265,6 +265,36 @@ class Customers {
 
     }
 
+	public function deleteContactByGuid($params = array())
+	{
+		$result = array("status" => false, "message" => "");
+		$contact_guid = $params["contact_guid"];
+
+		if (strlen($contact_guid) > 0)
+		{
+	        $db = new clsDBdbConnection();
+	        $sql = "delete from alm_customers_contacts where guid = '$contact_guid'";
+	        $db->query($sql);
+	        $db->close();
+
+			$result["status"] = true;
+			$result["message"] = "Command executed successfully.";
+
+			return $result;
+
+	    } else
+		{
+			$result["status"] = false;
+			$result["message"] = "Invalid GUID";
+
+			return $result;
+		}
+
+    }
+
+
+
+
     public function customerHasContacts($params = array()) {
         $result = array("status" => false, "message" => "","hasContacts" => 0);
         $customer_guid = $params["customer_guid"];

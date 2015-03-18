@@ -1,8 +1,8 @@
 <?php
-//Include Common Files @1-21FFADC4
+//Include Common Files @1-BC7DD461
 define("RelativePath", ".");
 define("PathToCurrentPage", "/");
-define("FileName", "contacts.php");
+define("FileName", "contacts_maint.php");
 include_once(RelativePath . "/Common.php");
 include_once(RelativePath . "/Template.php");
 include_once(RelativePath . "/Sorter.php");
@@ -29,11 +29,11 @@ include_once(RelativePath . "/./footer.php");
 include_once(RelativePath . "/./meta_head.php");
 //End Include Page implementation
 
-//Include Page implementation @7-1F1DD28F
-include_once(RelativePath . "/contacts_list.php");
+//Include Page implementation @7-8ED343C5
+include_once(RelativePath . "/contacts_maintcontent.php");
 //End Include Page implementation
 
-//Initialize Page @1-AED80DF8
+//Initialize Page @1-7F43C347
 // Variables
 $FileName = "";
 $Redirect = "";
@@ -49,7 +49,7 @@ $CCSEventResult = "";
 
 $FileName = FileName;
 $Redirect = "";
-$TemplateFileName = "contacts.html";
+$TemplateFileName = "contacts_maint.html";
 $BlockToParse = "main";
 $TemplateEncoding = "CP1252";
 $ContentType = "text/html";
@@ -60,7 +60,7 @@ $PathToRoot = "./";
 $CCSEventResult = CCGetEvent($CCSEvents, "BeforeInitialize", $MainPage);
 //End Before Initialize
 
-//Initialize Objects @1-CB9AA24A
+//Initialize Objects @1-A4293E7D
 $Attributes = new clsAttributes("page:");
 $MainPage->Attributes = & $Attributes;
 
@@ -75,14 +75,14 @@ $footer = new clsfooter("./", "footer", $MainPage);
 $footer->Initialize();
 $meta_head = new clsmeta_head("./", "meta_head", $MainPage);
 $meta_head->Initialize();
-$contacts_list = new clscontacts_list("", "contacts_list", $MainPage);
-$contacts_list->Initialize();
+$contacts_maintcontent = new clscontacts_maintcontent("", "contacts_maintcontent", $MainPage);
+$contacts_maintcontent->Initialize();
 $MainPage->header = & $header;
 $MainPage->sidebar = & $sidebar;
 $MainPage->ace_settings = & $ace_settings;
 $MainPage->footer = & $footer;
 $MainPage->meta_head = & $meta_head;
-$MainPage->contacts_list = & $contacts_list;
+$MainPage->contacts_maintcontent = & $contacts_maintcontent;
 
 $CCSEventResult = CCGetEvent($CCSEvents, "AfterInitialize", $MainPage);
 
@@ -103,16 +103,16 @@ $Attributes->SetValue("pathToRoot", "");
 $Attributes->Show();
 //End Initialize HTML Template
 
-//Execute Components @1-101A8680
+//Execute Components @1-12049788
 $header->Operations();
 $sidebar->Operations();
 $ace_settings->Operations();
 $footer->Operations();
 $meta_head->Operations();
-$contacts_list->Operations();
+$contacts_maintcontent->Operations();
 //End Execute Components
 
-//Go to destination page @1-370225D3
+//Go to destination page @1-DA25C53C
 if($Redirect)
 {
  $CCSEventResult = CCGetEvent($CCSEvents, "BeforeUnload", $MainPage);
@@ -127,20 +127,20 @@ if($Redirect)
  unset($footer);
  $meta_head->Class_Terminate();
  unset($meta_head);
- $contacts_list->Class_Terminate();
- unset($contacts_list);
+ $contacts_maintcontent->Class_Terminate();
+ unset($contacts_maintcontent);
  unset($Tpl);
  exit;
 }
 //End Go to destination page
 
-//Show Page @1-86D13D99
+//Show Page @1-7211E441
 $header->Show();
 $sidebar->Show();
 $ace_settings->Show();
 $footer->Show();
 $meta_head->Show();
-$contacts_list->Show();
+$contacts_maintcontent->Show();
 $Tpl->block_path = "";
 $Tpl->Parse($BlockToParse, false);
 if (!isset($main_block)) $main_block = $Tpl->GetVar($BlockToParse);
@@ -148,7 +148,7 @@ $CCSEventResult = CCGetEvent($CCSEvents, "BeforeOutput", $MainPage);
 if ($CCSEventResult) echo $main_block;
 //End Show Page
 
-//Unload Page @1-E09BEE6F
+//Unload Page @1-E0579579
 $CCSEventResult = CCGetEvent($CCSEvents, "BeforeUnload", $MainPage);
 $header->Class_Terminate();
 unset($header);
@@ -160,8 +160,8 @@ $footer->Class_Terminate();
 unset($footer);
 $meta_head->Class_Terminate();
 unset($meta_head);
-$contacts_list->Class_Terminate();
-unset($contacts_list);
+$contacts_maintcontent->Class_Terminate();
+unset($contacts_maintcontent);
 unset($Tpl);
 //End Unload Page
 
