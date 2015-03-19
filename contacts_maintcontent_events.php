@@ -39,6 +39,7 @@ function contacts_maintcontent_alm_customers_contacts_hobbies_BeforeShow(& $send
 // -------------------------
  // Write your own code here.
  	$contact_hobbies = explode(",", $sender->GetValue());
+	
 	$contacts_maintcontent->alm_customers_contacts->hobbies->Multiple = true;
 	$contacts_maintcontent->alm_customers_contacts->hobbies->SetValue($contact_hobbies);
 
@@ -49,30 +50,6 @@ function contacts_maintcontent_alm_customers_contacts_hobbies_BeforeShow(& $send
  return $contacts_maintcontent_alm_customers_contacts_hobbies_BeforeShow;
 }
 //End Close contacts_maintcontent_alm_customers_contacts_hobbies_BeforeShow
-
-//contacts_maintcontent_alm_customers_contacts_notify_holidays_BeforeShow @20-E83F8577
-function contacts_maintcontent_alm_customers_contacts_notify_holidays_BeforeShow(& $sender)
-{
- $contacts_maintcontent_alm_customers_contacts_notify_holidays_BeforeShow = true;
- $Component = & $sender;
- $Container = & CCGetParentContainer($sender);
- global $contacts_maintcontent; //Compatibility
-//End contacts_maintcontent_alm_customers_contacts_notify_holidays_BeforeShow
-
-//Custom Code @34-2A29BDB7
-// -------------------------
- // Write your own code here.
- 	$notify_holidays = explode(",", $sender->GetValue());
-	$contacts_maintcontent->alm_customers_contacts->notify_holidays->Multiple = true;
-	$contacts_maintcontent->alm_customers_contacts->notify_holidays->SetValue($notify_holidays);
-
-// -------------------------
-//End Custom Code
-
-//Close contacts_maintcontent_alm_customers_contacts_notify_holidays_BeforeShow @20-54BF8435
- return $contacts_maintcontent_alm_customers_contacts_notify_holidays_BeforeShow;
-}
-//End Close contacts_maintcontent_alm_customers_contacts_notify_holidays_BeforeShow
 
 //contacts_maintcontent_alm_customers_contacts_lbgoback_BeforeShow @23-370A3A76
 function contacts_maintcontent_alm_customers_contacts_lbgoback_BeforeShow(& $sender)
@@ -128,6 +105,30 @@ function contacts_maintcontent_alm_customers_contacts_pnsaveadd_BeforeShow(& $se
  return $contacts_maintcontent_alm_customers_contacts_pnsaveadd_BeforeShow;
 }
 //End Close contacts_maintcontent_alm_customers_contacts_pnsaveadd_BeforeShow
+
+//contacts_maintcontent_alm_customers_contacts_notify_holidays_BeforeShow @20-E83F8577
+function contacts_maintcontent_alm_customers_contacts_notify_holidays_BeforeShow(& $sender)
+{
+ $contacts_maintcontent_alm_customers_contacts_notify_holidays_BeforeShow = true;
+ $Component = & $sender;
+ $Container = & CCGetParentContainer($sender);
+ global $contacts_maintcontent; //Compatibility
+//End contacts_maintcontent_alm_customers_contacts_notify_holidays_BeforeShow
+
+//Custom Code @34-2A29BDB7
+// -------------------------
+ // Write your own code here.
+ 	$notify_holidays = explode(",", $sender->GetValue());
+	$contacts_maintcontent->alm_customers_contacts->notify_holidays->Multiple = true;
+	$contacts_maintcontent->alm_customers_contacts->notify_holidays->SetValue($notify_holidays);
+
+// -------------------------
+//End Custom Code
+
+//Close contacts_maintcontent_alm_customers_contacts_notify_holidays_BeforeShow @20-54BF8435
+ return $contacts_maintcontent_alm_customers_contacts_notify_holidays_BeforeShow;
+}
+//End Close contacts_maintcontent_alm_customers_contacts_notify_holidays_BeforeShow
 
 //Used because the last_user_id query on afterinsert was not working
 $lastguid = "";
@@ -230,6 +231,7 @@ function contacts_maintcontent_alm_customers_contacts_BeforeUpdate(& $sender)
 //Custom Code @30-2A29BDB7
 // -------------------------
  // Write your own code here.
+
 	$contacts_maintcontent->alm_customers_contacts->modified_iduser->SetValue(CCGetUserID());
 
 	$preferred_color = CCGetFromPost("preferred_color",array());
@@ -284,6 +286,26 @@ function contacts_maintcontent_alm_customers_contacts_AfterUpdate(& $sender)
  return $contacts_maintcontent_alm_customers_contacts_AfterUpdate;
 }
 //End Close contacts_maintcontent_alm_customers_contacts_AfterUpdate
+
+//contacts_maintcontent_alm_customers_contacts_BeforeShow @2-D61A0897
+function contacts_maintcontent_alm_customers_contacts_BeforeShow(& $sender)
+{
+ $contacts_maintcontent_alm_customers_contacts_BeforeShow = true;
+ $Component = & $sender;
+ $Container = & CCGetParentContainer($sender);
+ global $contacts_maintcontent; //Compatibility
+//End contacts_maintcontent_alm_customers_contacts_BeforeShow
+
+//Custom Code @37-2A29BDB7
+// -------------------------
+ // Write your own code here.
+// -------------------------
+//End Custom Code
+
+//Close contacts_maintcontent_alm_customers_contacts_BeforeShow @2-DACA5085
+ return $contacts_maintcontent_alm_customers_contacts_BeforeShow;
+}
+//End Close contacts_maintcontent_alm_customers_contacts_BeforeShow
 
 //contacts_maintcontent_BeforeShow @1-47A0446D
 function contacts_maintcontent_BeforeShow(& $sender)

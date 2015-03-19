@@ -127,20 +127,31 @@
 					<!-- BEGIN CheckBoxList preferred_color --><input {Check} type="checkbox" name="{preferred_color_Name}" value="{Value}" class="ace ace-checkbox-2"><span class="lbl">&nbsp;&nbsp;{Description}</span><br><!-- END CheckBoxList preferred_color -->
 				</label>
 			</div>
-			<div class="col-md-3 col-xs-12">
+			<div class="col-md-6 col-xs-12">
 				<label class="control-label blue" for="hobbies">{res:hobbies}</label><br>
 				<label>
-					<!-- BEGIN CheckBoxList hobbies --><input {Check} type="checkbox" name="{hobbies_Name}" value="{Value}" class="ace ace-checkbox-2"><span class="lbl">&nbsp;&nbsp;{Description}</span><br><!-- END CheckBoxList hobbies -->
-				</label>
-			</div>
-			<div class="col-md-3 col-xs-12">
-				<label class="control-label blue" for="holidays">{res:notifyholidays}</label><br>
-				<label>
-					<!-- BEGIN CheckBoxList notify_holidays --><input {Check} type="checkbox" name="{notify_holidays_Name}" value="{Value}" class="ace ace-checkbox-2"><span class="lbl">&nbsp;&nbsp;{Description}</span><br><!-- END CheckBoxList notify_holidays -->
+					<!-- BEGIN CheckBoxList hobbies -->					
+							<div class="col-md-5 col-xs-12">
+								<input {Check} type="checkbox" name="{hobbies_Name}" value="{Value}" class="ace ace-checkbox-2"><span class="lbl">&nbsp;&nbsp;{Description}</span>
+							</div>
+					<!-- END CheckBoxList hobbies -->
 				</label>
 			</div>
 
 		</div><!-- row -->
+
+		<div class="row col-xs-12 space"></div>
+
+		<div class="row col-xs-12">
+			<div class="col-md-1 col-xs-0"></div>
+			<div class="col-md-3 col-xs-12">
+				<label class="control-label blue" for="holidays">{res:notifyholidays}</label><br>
+				<label>
+				<!-- BEGIN CheckBoxList notify_holidays --><input {Check} type="checkbox" name="{notify_holidays_Name}" value="{Value}" class="ace ace-checkbox-2"><span class="lbl">&nbsp;&nbsp;{Description}</span><br>
+				<!-- END CheckBoxList notify_holidays --></label>
+			</div>
+
+		</div>
 
 		<div class="row col-xs-12 space"></div>
 
