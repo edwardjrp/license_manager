@@ -188,6 +188,11 @@ function sidebar_BeforeShow(& $sender)
 			$Tpl->setvar("contacts_menu_show","show");
 			$Tpl->setvar("contacts_active","active");
 		break;
+		case "contacts_subhobbies.php" :
+		case "contacts_subhobbies_maint.php" :
+			$Tpl->setvar("contacts_menu_show","show");
+			$Tpl->setvar("contacts_subhobbies_active","active");
+		break;
 
 	}
 

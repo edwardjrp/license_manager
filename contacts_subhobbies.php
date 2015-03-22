@@ -1,8 +1,8 @@
 <?php
-//Include Common Files @1-BC7DD461
+//Include Common Files @1-2983CFF5
 define("RelativePath", ".");
 define("PathToCurrentPage", "/");
-define("FileName", "contacts_maint.php");
+define("FileName", "contacts_subhobbies.php");
 include_once(RelativePath . "/Common.php");
 include_once(RelativePath . "/Template.php");
 include_once(RelativePath . "/Sorter.php");
@@ -29,11 +29,11 @@ include_once(RelativePath . "/./footer.php");
 include_once(RelativePath . "/./meta_head.php");
 //End Include Page implementation
 
-//Include Page implementation @7-8ED343C5
-include_once(RelativePath . "/contacts_maintcontent.php");
+//Include Page implementation @11-31738506
+include_once(RelativePath . "/contacts_subhobbies_list.php");
 //End Include Page implementation
 
-//Initialize Page @1-7F43C347
+//Initialize Page @1-AD973C59
 // Variables
 $FileName = "";
 $Redirect = "";
@@ -49,22 +49,22 @@ $CCSEventResult = "";
 
 $FileName = FileName;
 $Redirect = "";
-$TemplateFileName = "contacts_maint.html";
+$TemplateFileName = "contacts_subhobbies.html";
 $BlockToParse = "main";
 $TemplateEncoding = "CP1252";
 $ContentType = "text/html";
 $PathToRoot = "./";
 //End Initialize Page
 
-//Authenticate User @1-DF5080B6
-CCSecurityRedirect("2;3;4", "");
+//Authenticate User @1-BF95B68F
+CCSecurityRedirect("1;2;3;4", "");
 //End Authenticate User
 
 //Before Initialize @1-E870CEBC
 $CCSEventResult = CCGetEvent($CCSEvents, "BeforeInitialize", $MainPage);
 //End Before Initialize
 
-//Initialize Objects @1-A4293E7D
+//Initialize Objects @1-1B651BCB
 $Attributes = new clsAttributes("page:");
 $MainPage->Attributes = & $Attributes;
 
@@ -79,14 +79,14 @@ $footer = new clsfooter("./", "footer", $MainPage);
 $footer->Initialize();
 $meta_head = new clsmeta_head("./", "meta_head", $MainPage);
 $meta_head->Initialize();
-$contacts_maintcontent = new clscontacts_maintcontent("", "contacts_maintcontent", $MainPage);
-$contacts_maintcontent->Initialize();
+$contacts_subhobbies_list = new clscontacts_subhobbies_list("", "contacts_subhobbies_list", $MainPage);
+$contacts_subhobbies_list->Initialize();
 $MainPage->header = & $header;
 $MainPage->sidebar = & $sidebar;
 $MainPage->ace_settings = & $ace_settings;
 $MainPage->footer = & $footer;
 $MainPage->meta_head = & $meta_head;
-$MainPage->contacts_maintcontent = & $contacts_maintcontent;
+$MainPage->contacts_subhobbies_list = & $contacts_subhobbies_list;
 
 $CCSEventResult = CCGetEvent($CCSEvents, "AfterInitialize", $MainPage);
 
@@ -107,16 +107,16 @@ $Attributes->SetValue("pathToRoot", "");
 $Attributes->Show();
 //End Initialize HTML Template
 
-//Execute Components @1-12049788
+//Execute Components @1-439A4B7A
 $header->Operations();
 $sidebar->Operations();
 $ace_settings->Operations();
 $footer->Operations();
 $meta_head->Operations();
-$contacts_maintcontent->Operations();
+$contacts_subhobbies_list->Operations();
 //End Execute Components
 
-//Go to destination page @1-DA25C53C
+//Go to destination page @1-2E4992F5
 if($Redirect)
 {
  $CCSEventResult = CCGetEvent($CCSEvents, "BeforeUnload", $MainPage);
@@ -131,20 +131,20 @@ if($Redirect)
  unset($footer);
  $meta_head->Class_Terminate();
  unset($meta_head);
- $contacts_maintcontent->Class_Terminate();
- unset($contacts_maintcontent);
+ $contacts_subhobbies_list->Class_Terminate();
+ unset($contacts_subhobbies_list);
  unset($Tpl);
  exit;
 }
 //End Go to destination page
 
-//Show Page @1-7211E441
+//Show Page @1-407A5325
 $header->Show();
 $sidebar->Show();
 $ace_settings->Show();
 $footer->Show();
 $meta_head->Show();
-$contacts_maintcontent->Show();
+$contacts_subhobbies_list->Show();
 $Tpl->block_path = "";
 $Tpl->Parse($BlockToParse, false);
 if (!isset($main_block)) $main_block = $Tpl->GetVar($BlockToParse);
@@ -152,7 +152,7 @@ $CCSEventResult = CCGetEvent($CCSEvents, "BeforeOutput", $MainPage);
 if ($CCSEventResult) echo $main_block;
 //End Show Page
 
-//Unload Page @1-E0579579
+//Unload Page @1-854B9E47
 $CCSEventResult = CCGetEvent($CCSEvents, "BeforeUnload", $MainPage);
 $header->Class_Terminate();
 unset($header);
@@ -164,8 +164,8 @@ $footer->Class_Terminate();
 unset($footer);
 $meta_head->Class_Terminate();
 unset($meta_head);
-$contacts_maintcontent->Class_Terminate();
-unset($contacts_maintcontent);
+$contacts_subhobbies_list->Class_Terminate();
+unset($contacts_subhobbies_list);
 unset($Tpl);
 //End Unload Page
 

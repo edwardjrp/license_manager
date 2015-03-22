@@ -26,31 +26,6 @@ function contacts_maintcontent_alm_customers_contacts_preferred_color_BeforeShow
 }
 //End Close contacts_maintcontent_alm_customers_contacts_preferred_color_BeforeShow
 
-//contacts_maintcontent_alm_customers_contacts_hobbies_BeforeShow @19-79C28017
-function contacts_maintcontent_alm_customers_contacts_hobbies_BeforeShow(& $sender)
-{
- $contacts_maintcontent_alm_customers_contacts_hobbies_BeforeShow = true;
- $Component = & $sender;
- $Container = & CCGetParentContainer($sender);
- global $contacts_maintcontent; //Compatibility
-//End contacts_maintcontent_alm_customers_contacts_hobbies_BeforeShow
-
-//Custom Code @33-2A29BDB7
-// -------------------------
- // Write your own code here.
- 	$contact_hobbies = explode(",", $sender->GetValue());
-	
-	$contacts_maintcontent->alm_customers_contacts->hobbies->Multiple = true;
-	$contacts_maintcontent->alm_customers_contacts->hobbies->SetValue($contact_hobbies);
-
-// -------------------------
-//End Custom Code
-
-//Close contacts_maintcontent_alm_customers_contacts_hobbies_BeforeShow @19-86E4F6C3
- return $contacts_maintcontent_alm_customers_contacts_hobbies_BeforeShow;
-}
-//End Close contacts_maintcontent_alm_customers_contacts_hobbies_BeforeShow
-
 //contacts_maintcontent_alm_customers_contacts_lbgoback_BeforeShow @23-370A3A76
 function contacts_maintcontent_alm_customers_contacts_lbgoback_BeforeShow(& $sender)
 {
@@ -173,7 +148,7 @@ function contacts_maintcontent_alm_customers_contacts_BeforeInsert(& $sender)
 	}
 
 	$contacts_maintcontent->alm_customers_contacts->preferred_color->SetValue($preferred_color_list);
-	$contacts_maintcontent->alm_customers_contacts->hobbies->SetValue($hobbies_list);
+	$contacts_maintcontent->alm_customers_contacts->hidhobbies->SetValue($hobbies_list);
 	$contacts_maintcontent->alm_customers_contacts->notify_holidays->SetValue($notify_holidays_list);
 
 // -------------------------
@@ -199,6 +174,21 @@ function contacts_maintcontent_alm_customers_contacts_AfterInsert(& $sender)
 	global $lastguid;	
  	global $FileName;
 	global $Redirect;
+
+	//Saving the subhobbies for the contact	
+	$hobbies = CCGetFromPost("hobbies",array());
+	foreach($hobbies as $hobbie_id) {
+		$parent_id = $hobbie_id;
+		$subhobbie = CCGetFromPost("subhobbies_$parent_id",array());
+
+		$params = array();
+		$params["subhobbie"] = $subhobbie;
+		$params["parent_id"] = $parent_id;
+		$params["contact_guid"] = $contact_guid = $contacts_maintcontent->alm_customers_contacts->hidguid->GetValue();
+
+		$customers = new Customers();
+		$customers->saveContactSubHobbies($params);		
+	}
 
 	CCSetSession("showalert","show");
 
@@ -253,7 +243,7 @@ function contacts_maintcontent_alm_customers_contacts_BeforeUpdate(& $sender)
 	}
 
 	$contacts_maintcontent->alm_customers_contacts->preferred_color->SetValue($preferred_color_list);
-	$contacts_maintcontent->alm_customers_contacts->hobbies->SetValue($hobbies_list);
+	$contacts_maintcontent->alm_customers_contacts->hidhobbies->SetValue($hobbies_list);
 	$contacts_maintcontent->alm_customers_contacts->notify_holidays->SetValue($notify_holidays_list);
 
 // -------------------------
@@ -277,6 +267,22 @@ function contacts_maintcontent_alm_customers_contacts_AfterUpdate(& $sender)
 // -------------------------
  // Write your own code here.
 	//Show message alert after saving information
+
+	//Saving the subhobbies for the contact	
+	$hobbies = CCGetFromPost("hobbies",array());
+	foreach($hobbies as $hobbie_id) {
+		$parent_id = $hobbie_id;
+		$subhobbie = CCGetFromPost("subhobbies_$parent_id",array());
+
+		$params = array();
+		$params["subhobbie"] = $subhobbie;
+		$params["parent_id"] = $parent_id;
+		$params["contact_guid"] = $contact_guid = $contacts_maintcontent->alm_customers_contacts->hidguid->GetValue();
+
+		$customers = new Customers();
+		$customers->saveContactSubHobbies($params);		
+	}
+
 	CCSetSession("showalert","show");
 
 // -------------------------
@@ -299,6 +305,66 @@ function contacts_maintcontent_alm_customers_contacts_BeforeShow(& $sender)
 //Custom Code @37-2A29BDB7
 // -------------------------
  // Write your own code here.
+	global $Tpl;
+
+	$guid = CCGetFromGet("guid","");
+	$db = new clsDBdbConnection();
+	$db2 = new clsDBdbConnection();
+	$db3 = new clsDBdbConnection();
+
+	$contact_hobbies = explode(",", trim($contacts_maintcontent->alm_customers_contacts->hidhobbies->GetValue(), ",") );
+
+	$sql = "select id,hobbies from alm_customers_contacts_hobbies";
+	$db->query($sql);
+	while ($db->next_record()){
+		$hobbie_id = $db->f("id");
+		$Tpl->setvar("hobbie_value", $hobbie_id);
+		$Tpl->setvar("hobbie_title", $db->f("hobbies"));
+
+		if (in_array($db->f("id"), $contact_hobbies))
+			$Tpl->setvar("hobbie_checked", "checked");
+		else 
+			$Tpl->setvar("hobbie_checked", "");
+
+
+        $parentPath = $Tpl->block_path;
+        $Tpl->block_path = $Tpl->block_path."/hobbies_list";		
+		$Tpl->SetBlockVar("subhobbies_list","");
+
+		$sql2 = "select id,subhobbi from alm_customers_contacts_subhobbies where hobbie_id = $hobbie_id";
+		$db2->query($sql2);
+		$contact_guid = $contacts_maintcontent->alm_customers_contacts->hidguid->GetValue();
+		$contact_id = CCDLookup("id","alm_customers_contacts","guid = '$contact_guid'",$db3);
+		$subhobbie = CCDLookup("subhobbies","alm_customers_contacts_subhobbies_details","contact_id = $contact_id and hobbie_id = $hobbie_id", $db3);
+		$subhobbie = explode(",", $subhobbie);
+
+		while($db2->next_record()) {
+			$subhubbie_id = $db2->f("id");
+			
+			if (in_array($subhubbie_id, $subhobbie))
+				$Tpl->setvar("subhobbie_checked", "checked");
+			else
+				$Tpl->setvar("subhobbie_checked", "");
+
+			$Tpl->setvar("parent_hobbie", $hobbie_id);
+			$Tpl->setvar("subhobbie_value", $subhubbie_id);
+			$Tpl->setvar("subhobbie_title", $db2->f("subhobbi"));
+			
+			$Tpl->Parse("subhobbies_list", true);
+		}
+
+
+		$table_detail = $Tpl->GetVar("subhobbies_list");
+		$Tpl->block_path = $parentPath;
+		$Tpl->SetBlockVar("subhobbies_list",$table_detail);
+
+		$Tpl->Parse("hobbies_list", true);
+	}
+
+	$db3->close();
+	$db2->close();
+	$db->close();
+
 // -------------------------
 //End Custom Code
 

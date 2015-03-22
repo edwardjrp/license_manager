@@ -1151,6 +1151,99 @@ class Customers {
 
 	}
 
+	public function saveContactSubHobbies($params = array()) {
+		$result = array("status" => false, "message" => "","result" => array());
+
+		$subhobbie = $params["subhobbie"];
+		$contact_guid = $params["contact_guid"];
+		$parent_id = $params["parent_id"];
+
+		if (strlen($contact_guid) > 0)
+		{
+
+			$db2 = new clsDBdbConnection();
+
+			$subhobbies_list = "";
+			foreach ( $subhobbie as $hobbie )
+			{
+				$subhobbies_list .= $hobbie . ",";
+			}
+
+			//Check if subhobbies for the parent_id has been added for the contact
+
+			$contact_id    = CCDLookup( "id", "alm_customers_contacts", "guid = '$contact_guid'", $db2 );
+			$parent_hobbie = (int)CCDLookup(
+				"1 as exist",
+				"alm_customers_contacts_subhobbies_details",
+				"contact_id = $contact_id and hobbie_id = $parent_id",
+				$db2
+			);
+
+			$contact_hobbies = CCDLookup( "hobbies", "alm_customers_contacts", "id = $contact_id", $db2 );
+			$contact_hobbies = trim( $contact_hobbies, "," );
+			$contact_hobbies = explode( ",", $contact_hobbies );
+
+			if ( !(in_array( $parent_id, $contact_hobbies ) ) )
+			{
+				$contact_hobbies[ ] = $parent_id;
+			}
+
+			$contact_hobbies = implode( ",", $contact_hobbies );
+			$sql2            = "update alm_customers_contacts set hobbies = '$contact_hobbies' where id = $contact_id ";
+			$db2->query( $sql2 );
+
+			if ( $parent_hobbie == 1 )
+			{
+				$sql2 = "update alm_customers_contacts_subhobbies_details set subhobbies = '$subhobbies_list' where contact_id = $contact_id and hobbie_id = $parent_id";
+				$db2->query( $sql2 );
+			} else
+			{
+				$guidDetail = uuid_create();
+				$sql2       = "insert into alm_customers_contacts_subhobbies_details(guid,contact_id, hobbie_id, subhobbies) values('$guidDetail',$contact_id, $parent_id, '$subhobbies_list')";
+				$db2->query( $sql2 );
+			}
+
+			$db2->close();
+
+			$result[ "status" ]  = true;
+			$result[ "message" ] = "Command executed successfully";
+
+			return $result;
+
+		}
+
+		return $result;
+
+	}
+
+	public function deleteSubHobbies($params = array()) {
+		$result = array("status" => false, "message" => "");
+	    $guid = $params["guid"];
+
+		if (strlen($guid) > 0) {
+			//This operation will also delete contacts associated to the customer
+			$db = new clsDBdbConnection();
+
+			$guid = $db->esc($guid);
+			$subhobbie_id = (int)CCDLookUp("id","alm_customers_contacts_subhobbies","guid = '$guid' ",$db);
+			if ($subhobbie_id > 0) {
+				//Deleting contacts
+				$sql = "delete from alm_customers_contacts_subhobbies where id = $subhobbie_id";
+				$db->query($sql);
+			}
+
+		     $result["status"] = true;
+		     $result["message"] = "Command executed successfully.";
+
+		     return $result;
+
+		 } else {
+		     $result["status"] = false;
+		     $result["message"] = "Invalid GUID";
+		     return $result;
+		 }
+
+	}
 
 }
 

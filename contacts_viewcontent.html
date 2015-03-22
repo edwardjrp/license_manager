@@ -1,0 +1,214 @@
+<div class="widget-box">
+	<div class="widget-header">
+		<h4>{res:addeditcontact}</h4>
+	</div>
+	<div class="widget-body">
+
+<!-- BEGIN Record alm_customers_contacts -->
+<form id="alm_customers_contacts" method="post" action="{Action}" name="{HTMLFormName}">
+	<div class="row widget-main">
+		<div class="row col-md-12 col-xs-12">
+			<!-- BEGIN Error -->
+			<div class="row col-xs-12">
+				<div class="col-md-1 col-xs-0">
+				</div>
+				<div class="col-md-10 col-xs-12">
+					<div class="alert alert-block alert-danger">
+						<button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button>
+						<p><strong><i class="icon-remove"></i>&nbsp;{res:error}</strong>&nbsp;{Error}</p>
+					</div>
+				</div>
+			</div>
+			<!-- row -->
+			<!-- END Error -->
+			<div class="row col-xs-12">
+				<div class="col-md-1 col-xs-0">
+				</div>
+				<div class="col-md-10 col-xs-12">
+					<div class="alert alert-block alert-success {page:showalert}">
+						<button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button>
+						<p><strong><i class="icon-ok"></i>{res:saved}</strong>{res:savedmessage}</p>
+					</div>
+				</div>
+			</div>
+			<!-- row -->
+			<div class="row col-xs-12">
+				<div class="col-md-1 col-xs-0">
+				</div>
+				<div class="col-md-4 col-xs-12">
+					<label class="control-label blue">{res:contact}</label><br>
+					<input type="text" name="{contact_Name}" value="{contact}" maxlength="250" size="50" id="contact_name" data-validation="required" data-validation-error-msg="{res:invalidcontact}" class="col-md-12 col-xs-12" disabled>
+				</div>
+				<div class="col-md-2 col-xs-12">
+					<label class="control-label blue">{res:contact_dob}</label><br>
+					<div class="input-group">
+						<input type="text" name="{contact_dob_Name}" value="{contact_dob}" maxlength="100" size="10" class="col-md-12 col-xs-12 date-picker" data-date-format="mm/dd/yyyy" disabled><span class="input-group-addon"><i class="icon-calendar bigger-110"></i></span>
+					</div>
+				</div>
+				<div class="col-md-2 col-xs-12">
+					<label class="control-label blue">{res:jobposition}</label><br>
+					<select name="{jobposition_Name}" class="width-90 chosen-select" disabled>
+						<option value="">{res:selectoption}</option>
+						{jobposition_Options}
+					</select>
+				</div>
+			</div>
+			<!-- row -->
+			<div class="row col-xs-12 space">
+			</div>
+			<div class="row col-xs-12">
+				<div class="col-md-1 col-xs-0">
+				</div>
+				<div class="col-md-2 col-xs-12">
+					<label class="control-label blue" for="contact_phone">{res:phone}</label><br>
+					<input type="text" name="{phone_Name}" value="{phone}" maxlength="20" data-validation="custom" data-validation-regexp="^([0-9-?]+)$" data-validation-optional="true" data-validation-error-msg="{res:invalidphone}" class="col-md-12 col-xs-12" disabled>
+				</div>
+				<div class="col-md-2 col-xs-12">
+					<label class="control-label blue" for="contact_extension">{res:extension}</label><br>
+					<input type="text" name="{extension_Name}" value="{extension}" maxlength="20" data-validation="number" data-validation-optional="true" data-validation-error-msg="{res:invalidextension}" class="col-md-12 col-xs-12" disabled>
+				</div>
+				<div class="col-md-2 col-xs-12">
+					<label class="control-label blue" for="contact_mobile">{res:mobile}</label><br>
+					<input type="text" name="{mobile_Name}" value="{mobile}" maxlength="20" data-validation="custom" data-validation-regexp="^([0-9-?]+)$" data-validation-optional="true" data-validation-error-msg="{res:invalidmobile}" class="col-md-12 col-xs-12" disabled>
+				</div>
+				<div class="col-md-2 col-xs-12">
+					<label class="control-label blue" for="contact_mobile">{res:twitter}</label><br>
+					<input type="text" name="{twitter_Name}" value="{twitter}" maxlength="20" class="col-md-12 col-xs-12" disabled>
+				</div>
+			</div>
+			<!-- row -->
+			<div class="row col-xs-12 space">
+			</div>
+			<div class="row col-xs-12">
+				<div class="col-md-1 col-xs-0">
+				</div>
+				<div class="col-md-5 col-xs-12">
+					<label class="control-label blue" for="contact_workemail">{res:workemail}</label><br>
+					<input type="text" name="{workemail_Name}" value="{workemail}" maxlength="250" data-validation="email" data-validation-error-msg="{res:invalidemail}" data-validation-optional="true" class="col-md-12 col-xs-12" disabled>
+				</div>
+				<div class="col-md-5 col-xs-12">
+					<label class="control-label blue" for="contact_personalemail">{res:personalemail}</label><br>
+					<input type="text" name="{personalemail_Name}" value="{personalemail}" maxlength="250" data-validation="email" data-validation-error-msg="{res:invalidemail}" data-validation-optional="true" class="col-md-12 col-xs-12" disabled>
+				</div>
+			</div>
+			<!-- row-->
+			<div class="row col-xs-12 space">
+			</div>
+			<div class="row col-xs-12">
+				<div class="col-md-1 col-xs-0">
+				</div>
+				<div class="col-md-5 col-xs-12">
+					<label class="control-label blue" for="contact_workemail">{res:customer}</label><br>
+					<select name="{customer_id_Name}" class="width-90 chosen-select" disabled>
+						<option value="0">{res:selectoption}</option>
+						{customer_id_Options}
+					</select>
+				</div>
+				<div class="col-md-3 col-xs-12">
+					<label class="control-label blue" for="contact_maincontact">{res:contact_maincontact}</label><br>
+					<input type="checkbox" name="{maincontact_Name}" value="1" {maincontact} id="contact_maincontact" class="ace ace-switch ace-switch-4" disabled><span class="lbl"></span>
+				</div>
+			</div>
+			<!-- row -->
+			<div class="row col-xs-12 space">
+			</div>
+ 
+			<div class="row col-xs-12">
+				<div class="col-md-1 col-xs-0">
+				</div>
+				<div class="col-md-3 col-xs-12">
+					<label class="control-label blue" for="preferredcolor">{res:preferredcolor}</label><br>
+					<label>
+					<!-- BEGIN CheckBoxList preferred_color --><input {Check} type="checkbox" name="{preferred_color_Name}" value="{Value}" class="ace ace-checkbox-2" disabled><span class="lbl">&nbsp;&nbsp;{Description}</span><br>
+					<!-- END CheckBoxList preferred_color --></label>
+				</div>
+				<div class="col-md-7 col-xs-12">
+					<label class="control-label blue" for="hobbies">{res:hobbies}</label><br>
+					<label>
+					<!-- BEGIN hobbies_list -->
+					<div class="col-md-4 col-xs-12">
+						<input {hobbie_checked} type="checkbox" name="hobbies[]" value="{hobbie_value}" class="ace ace-checkbox-2" disabled><span class="lbl">&nbsp;&nbsp;{hobbie_title}</span>
+						<div class="col-md-12 col-xs-12">
+							<!-- BEGIN subhobbies_list -->
+							<div class="col-md-12 col-xs-12">
+								<input {subhobbie_checked} type="checkbox" name="subhobbies_{parent_hobbie}[]" value="{subhobbie_value}" class="ace ace-checkbox-2" disabled><span class="lbl">
+&nbsp;&nbsp;{subhobbie_title}</span>
+							</div>
+							<!-- END subhobbies_list -->
+						</div>
+					</div>
+					<!-- END hobbies_list --></label><input type="hidden" name="{hidhobbies_Name}" value="{hidhobbies}" disabled>
+				</div>
+			</div>
+			<!-- row -->
+			<div class="row col-xs-12 space">
+			</div>
+			<div class="row col-xs-12">
+				<div class="col-md-1 col-xs-0">
+				</div>
+				<div class="col-md-3 col-xs-12">
+					<label class="control-label blue" for="holidays">{res:notifyholidays}</label><br>
+					<label>
+					<!-- BEGIN CheckBoxList notify_holidays --><input {Check} type="checkbox" name="{notify_holidays_Name}" value="{Value}" class="ace ace-checkbox-2" disabled><span class="lbl">&nbsp;&nbsp;{Description}</span><br>
+					<!-- END CheckBoxList notify_holidays --></label>
+				</div>
+			</div>
+			<div class="row col-xs-12 space">
+			</div>
+			<div class="row">
+				<div class="col-md-12 col-xs-12">
+					<div class="form-actions action-buttons center inline col-xs-12">
+						<div class="inline"><a href="contacts.php{lbgoback}" role="button" id="goback" class="btn btn-sm btn-success"><li class="icon-arrow-left"></li>&nbsp;{res:buttongoback}</a> &nbsp;&nbsp;</div>
+						<input type="hidden" name="{modified_iduser_Name}" value="{modified_iduser}">
+						<input type="hidden" name="{created_iduser_Name}" value="{created_iduser}"><input type="hidden" name="{hidguid_Name}" value="{hidguid}">
+					</div>
+					<!-- form-actions  -->
+				</div>
+			</div>
+			<!-- row-->
+		</div>
+	</div>
+	<!-- box row -->
+</form>
+<!-- END Record alm_customers_contacts -->
+
+	</div>
+	<!-- widget-body -->
+</div>
+<!-- widget-box -->
+<link rel="stylesheet" href="assets/css/datepicker.css" />
+<link rel="stylesheet" href="assets/css/colorbox.css" />
+<link rel="stylesheet" href="assets/css/chosen.css" />
+
+<!-- included here to not mess with too much js in the main page -->
+<script src="assets/js/jquery-2.0.3.min.js"></script>
+<script src="assets/js/json3.min.js"></script>
+<script src="assets/js/form-validator/jquery.form-validator.min.js"></script>
+<script src="assets/js/jquery.colorbox-min.js"></script>
+<script src="assets/js/date-time/bootstrap-datepicker.min.js"></script>
+<script src="assets/js/bootbox.min.js"></script>
+<script src="assets/js/jquery-ui-1.10.3.custom.min.js"></script>
+<script src="assets/js/jquery.ui.touch-punch.min.js"></script>
+<script src="assets/js/jquery.colorbox-min.js"></script>
+<script src="assets/js/chosen.jquery.min.js"></script>
+
+
+<script>
+$(function(){
+        
+    $("#contact").focus();
+    $.validate({
+            form : "#alm_customers_contacts"
+    });
+
+	$(".chosen-select").chosen(); 
+
+	$(".date-picker").datepicker({autoclose:true}).next().on(ace.click_event, function(){
+		$(this).prev().focus();
+	});
+
+
+
+});
+
+</script>

@@ -1,4 +1,4 @@
-<h3 class="row header smaller lighter blue"><span class="col-sm-3"><i class="icon-group bigger-160 blue"></i>&nbsp; {res:contacts}</span> </h3>
+<h3 class="row header smaller lighter blue"><span class="col-sm-3"><i class="icon-group bigger-160 blue"></i>&nbsp; {res:contacts_subhobbies}</span> </h3>
 <div class="widget-box col-xs-12 col-md-12">
 	<div class="widget-header widget-header-blue">
 		<h4 class="lighter">{res:search}</h4>
@@ -6,7 +6,7 @@
 	<div class="widget-body">
 		<div class="widget-main">
 			<!-- BEGIN Record search -->
-			<form id="contacts_listsearch" method="post" action="{Action}" name="{HTMLFormName}">
+			<form id="contacts_subhobbies_listsearch" method="post" action="{Action}" name="{HTMLFormName}">
 				<div class="row">
 					<div class="col-md-12 col-xs-12">
 						<div class="control-group padding">
@@ -17,8 +17,8 @@
 										<input type="text" name="{s_search_Name}" value="{s_search}" id="s_search" class="col-xs-12 col-md-12">&nbsp;
 									</div>
 									<div class="col-md-4 col-xs-12">
-										<!-- BEGIN Button Button_Search --><button class="btn btn-sm btn-success" name="{Button_Name}" type="submit" value="{res:search}"><i class="icon-search nav-search-icon"></i> &nbsp;{res:search}</button><!-- END Button Button_Search -->&nbsp;&nbsp;&nbsp;
-										 <a href="contacts_maint.php" role="button" class="btn btn-sm btn-success"><span class="icon-group white"></span> {res:addcontact}</a> 
+										<!-- BEGIN Button Button_Search --><button class="btn btn-sm btn-success" name="{Button_Name}" type="submit" value="{res:search}"><i class="icon-search nav-search-icon"></i> &nbsp;{res:search}</button><!-- END Button Button_Search -->&nbsp;&nbsp;&nbsp; 
+										<a href="contacts_subhobbies_maint.php" role="button" class="btn btn-sm btn-success"><span class="icon-group white"></span> {res:addcontactsubhobbies}</a> 
 									</div>
 								</div>
 							</div>
@@ -51,81 +51,54 @@
 <div class="table-responsive">
 
 
-<!-- BEGIN Grid alm_customers_contacts --> 
+<!-- BEGIN Grid alm_contacts_subhobbies -->
 <table class="table table-striped table-bordered table-hover">
 	<tr>
 		<th class="text-center">
-		<!-- BEGIN Sorter Sorter_guid --><a href="{Sort_URL}" id="contacts_listalm_customers_contactsSorter_guid"><li class="icon-cogs bigger-150"></li></a>
+		<!-- BEGIN Sorter Sorter_guid --><a href="{Sort_URL}"><li class="icon-cogs bigger-150"></li></a>
 		<!-- BEGIN Asc_On --><img border="0" src="Styles/None/Images/Asc.gif"><!-- END Asc_On -->
 		<!-- BEGIN Desc_On --><img border="0" src="Styles/None/Images/Desc.gif"><!-- END Desc_On --><!-- END Sorter Sorter_guid --></th>
 		<th>
-		<!-- BEGIN Sorter Sorter_contact --><a href="{Sort_URL}" id="contacts_listalm_customers_contactsSorter_contact">{res:contact}</a>
+		<!-- BEGIN Sorter Sorter_hobbie_id --><a href="{Sort_URL}">{res:hobbie}</a>
 		<!-- BEGIN Asc_On --><img border="0" src="Styles/None/Images/Asc.gif"><!-- END Asc_On -->
-		<!-- BEGIN Desc_On --><img border="0" src="Styles/None/Images/Desc.gif"><!-- END Desc_On --><!-- END Sorter Sorter_contact --></th>
+		<!-- BEGIN Desc_On --><img border="0" src="Styles/None/Images/Desc.gif"><!-- END Desc_On --><!-- END Sorter Sorter_hobbie_id --></th>
 		<th>
-		<!-- BEGIN Sorter Sorter_contact_dob --><a href="{Sort_URL}" id="contacts_listalm_customers_contactsSorter_contact_dob">{res:contact_dob}</a>
+		<!-- BEGIN Sorter Sorter_subhobbi --><a href="{Sort_URL}">{res:subhobbie}</a>
 		<!-- BEGIN Asc_On --><img border="0" src="Styles/None/Images/Asc.gif"><!-- END Asc_On -->
-		<!-- BEGIN Desc_On --><img border="0" src="Styles/None/Images/Desc.gif"><!-- END Desc_On --><!-- END Sorter Sorter_contact_dob --></th>
+		<!-- BEGIN Desc_On --><img border="0" src="Styles/None/Images/Desc.gif"><!-- END Desc_On --><!-- END Sorter Sorter_subhobbi --></th>
 		<th>
-		<!-- BEGIN Sorter Sorter_customer_id --><a href="{Sort_URL}" id="contacts_listalm_customers_contactsSorter_customer_id">{res:customer}</a>
-		<!-- BEGIN Asc_On --><img border="0" src="Styles/None/Images/Asc.gif"><!-- END Asc_On -->
-		<!-- BEGIN Desc_On --><img border="0" src="Styles/None/Images/Desc.gif"><!-- END Desc_On --><!-- END Sorter Sorter_customer_id --></th>
-		<th>
-		<!-- BEGIN Sorter Sorter_phone --><a href="{Sort_URL}" id="contacts_listalm_customers_contactsSorter_phone">{res:phone}</a>
-		<!-- BEGIN Asc_On --><img border="0" src="Styles/None/Images/Asc.gif"><!-- END Asc_On -->
-		<!-- BEGIN Desc_On --><img border="0" src="Styles/None/Images/Desc.gif"><!-- END Desc_On --><!-- END Sorter Sorter_phone --></th>
-		<th>
-		<!-- BEGIN Sorter Sorter_mobile --><a href="{Sort_URL}" id="contacts_listalm_customers_contactsSorter_mobile">{res:mobile}</a>
-		<!-- BEGIN Asc_On --><img border="0" src="Styles/None/Images/Asc.gif"><!-- END Asc_On -->
-		<!-- BEGIN Desc_On --><img border="0" src="Styles/None/Images/Desc.gif"><!-- END Desc_On --><!-- END Sorter Sorter_mobile --></th>
-		<th>
-		<!-- BEGIN Sorter Sorter_workemail --><a href="{Sort_URL}" id="contacts_listalm_customers_contactsSorter_workemail">{res:workemail}</a>
-		<!-- BEGIN Asc_On --><img border="0" src="Styles/None/Images/Asc.gif"><!-- END Asc_On -->
-		<!-- BEGIN Desc_On --><img border="0" src="Styles/None/Images/Desc.gif"><!-- END Desc_On --><!-- END Sorter Sorter_workemail --></th>
-		<th>
-		<!-- BEGIN Sorter Sorter_jobposition --><a href="{Sort_URL}" id="contacts_listalm_customers_contactsSorter_jobposition">{res:jobposition}</a>
-		<!-- BEGIN Asc_On --><img border="0" src="Styles/None/Images/Asc.gif"><!-- END Asc_On -->
-		<!-- BEGIN Desc_On --><img border="0" src="Styles/None/Images/Desc.gif"><!-- END Desc_On --><!-- END Sorter Sorter_jobposition --></th>
-		<th>
-		<!-- BEGIN Sorter Sorter_dateupdated --><a href="{Sort_URL}" id="contacts_listalm_customers_contactsSorter_dateupdated">{res:dateupdated}</a>
+		<!-- BEGIN Sorter Sorter_dateupdated --><a href="{Sort_URL}" >{res:dateupdated}</a>
 		<!-- BEGIN Asc_On --><img border="0" src="Styles/None/Images/Asc.gif"><!-- END Asc_On -->
 		<!-- BEGIN Desc_On --><img border="0" src="Styles/None/Images/Desc.gif"><!-- END Desc_On --><!-- END Sorter Sorter_dateupdated --></th>
 	</tr>
 	<!-- BEGIN Row -->
-	<tr {alm_customers_contacts:rowStyle}>
-		<td class="text-center" nowrap>
+	<tr {alm_contacts_subhobbies:rowStyle}>
+		<td class="text-center">
 			<div class="action-buttons inline">
 				<div id="edit" class="inline">
-					<a href="contacts_maint.php?guid={guid}" class="green"><i class="icon-pencil bigger-180"></i>&nbsp;</a>
+					<a href="contacts_subhobbies_maint.php?guid={guid}" class="green"><i class="icon-pencil bigger-180"></i>&nbsp;</a>
+					&nbsp;
 				</div>
-				<div class="inline">
-					<a href="contacts_view.php?guid={guid}" class="blue"><i class="icon-eye-open bigger-180"></i>&nbsp;</a>
-				</div>
-
 				<!-- BEGIN Panel pndeletebutton -->
 				<div id="delete" class="inline">
 					<a href="{lbdelete}" id="delrecord" class="delrecord"><span class="icon-trash bigger-150 red delcontact"></span>&nbsp;</a>
 				</div>
 				<!-- END Panel pndeletebutton -->
+
 			</div>
 		</td>
-		<td nowrap><span class="icon-asterisk bigger-120 orange {maincontact}"></span>&nbsp;{contact}&nbsp;</td>
-		<td>{contact_dob}&nbsp;</td>
-		<td>{customer_id}&nbsp;</td>
-		<td>{phone}&nbsp;</td>
-		<td>{mobile}&nbsp;</td>
-		<td>{workemail}&nbsp;</td>
-		<td>{jobposition}&nbsp;</td>
+		<td>{hobbie_id}&nbsp;</td>
+		<td>{subhobbi}&nbsp;</td>
 		<td>{dateupdated}&nbsp;</td>
 	</tr>
 	<!-- END Row -->
 	<!-- BEGIN NoRecords -->
 	<tr>
-		<td colspan="9">{res:CCS_NoRecords}</td>
+		<td colspan="4">{res:CCS_NoRecords}</td>
 	</tr>
 	<!-- END NoRecords -->
 	<tr>
-		<td colspan="9">
+		<td colspan="4">
 			<!-- BEGIN Navigator Navigator -->
 			<!-- BEGIN First_On --><a href="{First_URL}"><img border="0" src="Styles/None/Images/First.gif"></a> <!-- END First_On -->
 			<!-- BEGIN First_Off --><img border="0" src="Styles/None/Images/FirstOff.gif"><!-- END First_Off -->
@@ -140,7 +113,7 @@
 			<!-- BEGIN Last_Off --><img border="0" src="Styles/None/Images/LastOff.gif"><!-- END Last_Off --><!-- END Navigator Navigator -->&nbsp;</td>
 	</tr>
 </table>
-<!-- END Grid alm_customers_contacts --><br>
+<!-- END Grid alm_contacts_subhobbies --><br>
 
 
 </div>

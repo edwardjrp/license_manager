@@ -1,5 +1,6 @@
 <?php
-class clsRecordcontacts_maintcontentalm_customers_contacts { //alm_customers_contacts Class @2-3556FF71
+
+class clsRecordcontacts_viewcontentalm_customers_contacts { //alm_customers_contacts Class @2-0A3A4056
 
 //Variables @2-9E315808
 
@@ -35,8 +36,8 @@ class clsRecordcontacts_maintcontentalm_customers_contacts { //alm_customers_con
  // Class variables
 //End Variables
 
-//Class_Initialize Event @2-31798B48
- function clsRecordcontacts_maintcontentalm_customers_contacts($RelativePath, & $Parent)
+//Class_Initialize Event @2-251671E3
+ function clsRecordcontacts_viewcontentalm_customers_contacts($RelativePath, & $Parent)
  {
 
   global $FileName;
@@ -47,7 +48,7 @@ class clsRecordcontacts_maintcontentalm_customers_contacts { //alm_customers_con
   $this->RelativePath = $RelativePath;
   $this->Errors = new clsErrors();
   $this->ErrorBlock = "Record alm_customers_contacts/Error";
-  $this->DataSource = new clscontacts_maintcontentalm_customers_contactsDataSource($this);
+  $this->DataSource = new clscontacts_viewcontentalm_customers_contactsDataSource($this);
   $this->ds = & $this->DataSource;
   $this->InsertAllowed = true;
   $this->UpdateAllowed = true;
@@ -64,8 +65,6 @@ class clsRecordcontacts_maintcontentalm_customers_contacts { //alm_customers_con
    $this->FormEnctype = "application/x-www-form-urlencoded";
    $this->FormSubmitted = ($FormName == $this->ComponentName);
    $Method = $this->FormSubmitted ? ccsPost : ccsGet;
-   $this->Button_Insert = new clsButton("Button_Insert", $Method, $this);
-   $this->Button_Update = new clsButton("Button_Update", $Method, $this);
    $this->contact = new clsControl(ccsTextBox, "contact", $CCSLocales->GetText("contact"), ccsText, "", CCGetRequestParam("contact", $Method, NULL), $this);
    $this->contact->Required = true;
    $this->modified_iduser = new clsControl(ccsHidden, "modified_iduser", $CCSLocales->GetText("modified_iduser"), ccsInteger, "", CCGetRequestParam("modified_iduser", $Method, NULL), $this);
@@ -104,7 +103,6 @@ class clsRecordcontacts_maintcontentalm_customers_contacts { //alm_customers_con
    $this->preferred_color->HTML = true;
    $this->lbgoback = new clsControl(ccsLabel, "lbgoback", "lbgoback", ccsText, "", CCGetRequestParam("lbgoback", $Method, NULL), $this);
    $this->hidguid = new clsControl(ccsHidden, "hidguid", "guid", ccsText, "", CCGetRequestParam("hidguid", $Method, NULL), $this);
-   $this->pnsaveadd = new clsPanel("pnsaveadd", $this);
    $this->twitter = new clsControl(ccsTextBox, "twitter", $CCSLocales->GetText("twitter"), ccsText, "", CCGetRequestParam("twitter", $Method, NULL), $this);
    $this->notify_holidays = new clsControl(ccsCheckBoxList, "notify_holidays", $CCSLocales->GetText("notify_holidays"), ccsText, "", CCGetRequestParam("notify_holidays", $Method, NULL), $this);
    $this->notify_holidays->Multiple = true;
@@ -116,7 +114,6 @@ class clsRecordcontacts_maintcontentalm_customers_contacts { //alm_customers_con
    list($this->notify_holidays->BoundColumn, $this->notify_holidays->TextColumn, $this->notify_holidays->DBFormat) = array("id", "holidays", "");
    $this->notify_holidays->HTML = true;
    $this->hidhobbies = new clsControl(ccsHidden, "hidhobbies", "hidhobbies", ccsText, "", CCGetRequestParam("hidhobbies", $Method, NULL), $this);
-   $this->pnsaveadd->Visible = false;
    if(!$this->FormSubmitted) {
     if(!is_array($this->maincontact->Value) && !strlen($this->maincontact->Value) && $this->maincontact->Value !== false)
      $this->maincontact->SetValue(false);
@@ -224,7 +221,7 @@ function GetPrimaryKey($keyName)
 }
 //End MasterDetail
 
-//Operation Method @2-E955BD63
+//Operation Method @2-17DC9883
  function Operation()
  {
   if(!$this->Visible)
@@ -239,28 +236,7 @@ function GetPrimaryKey($keyName)
    return;
   }
 
-  if($this->FormSubmitted) {
-   $this->PressedButton = $this->EditMode ? "Button_Update" : "Button_Insert";
-   if($this->Button_Insert->Pressed) {
-    $this->PressedButton = "Button_Insert";
-   } else if($this->Button_Update->Pressed) {
-    $this->PressedButton = "Button_Update";
-   }
-  }
   $Redirect = $FileName . "?" . CCGetQueryString("QueryString", array("ccsForm"));
-  if($this->Validate()) {
-   if($this->PressedButton == "Button_Insert") {
-    if(!CCGetEvent($this->Button_Insert->CCSEvents, "OnClick", $this->Button_Insert) || !$this->InsertRow()) {
-     $Redirect = "";
-    }
-   } else if($this->PressedButton == "Button_Update") {
-    if(!CCGetEvent($this->Button_Update->CCSEvents, "OnClick", $this->Button_Update) || !$this->UpdateRow()) {
-     $Redirect = "";
-    }
-   }
-  } else {
-   $Redirect = "";
-  }
   if ($Redirect)
    $this->DataSource->close();
  }
@@ -324,7 +300,7 @@ function GetPrimaryKey($keyName)
  }
 //End UpdateRow Method
 
-//Show Method @2-F2917735
+//Show Method @2-4CB62663
  function Show()
  {
   global $CCSUseAmp;
@@ -409,8 +385,6 @@ function GetPrimaryKey($keyName)
   $Tpl->SetVar("Action", !$CCSUseAmp ? $this->HTMLFormAction : str_replace("&", "&amp;", $this->HTMLFormAction));
   $Tpl->SetVar("HTMLFormName", $this->ComponentName);
   $Tpl->SetVar("HTMLFormEnctype", $this->FormEnctype);
-  $this->Button_Insert->Visible = !$this->EditMode && $this->InsertAllowed;
-  $this->Button_Update->Visible = $this->EditMode && $this->UpdateAllowed;
 
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeShow", $this);
   $this->Attributes->Show();
@@ -419,8 +393,6 @@ function GetPrimaryKey($keyName)
    return;
   }
 
-  $this->Button_Insert->Show();
-  $this->Button_Update->Show();
   $this->contact->Show();
   $this->modified_iduser->Show();
   $this->created_iduser->Show();
@@ -436,7 +408,6 @@ function GetPrimaryKey($keyName)
   $this->preferred_color->Show();
   $this->lbgoback->Show();
   $this->hidguid->Show();
-  $this->pnsaveadd->Show();
   $this->twitter->Show();
   $this->notify_holidays->Show();
   $this->hidhobbies->Show();
@@ -448,7 +419,7 @@ function GetPrimaryKey($keyName)
 
 } //End alm_customers_contacts Class @2-FCB6E20C
 
-class clscontacts_maintcontentalm_customers_contactsDataSource extends clsDBdbConnection {  //alm_customers_contactsDataSource Class @2-6B409F76
+class clscontacts_viewcontentalm_customers_contactsDataSource extends clsDBdbConnection {  //alm_customers_contactsDataSource Class @2-D9B132D5
 
 //DataSource Variables @2-988C65AE
  public $Parent = "";
@@ -486,8 +457,8 @@ class clscontacts_maintcontentalm_customers_contactsDataSource extends clsDBdbCo
  public $hidhobbies;
 //End DataSource Variables
 
-//DataSourceClass_Initialize Event @2-AC097D34
- function clscontacts_maintcontentalm_customers_contactsDataSource(& $Parent)
+//DataSourceClass_Initialize Event @2-ECCC7F4E
+ function clscontacts_viewcontentalm_customers_contactsDataSource(& $Parent)
  {
   $this->Parent = & $Parent;
   $this->ErrorBlock = "Record alm_customers_contacts/Error";
@@ -687,7 +658,7 @@ class clscontacts_maintcontentalm_customers_contactsDataSource extends clsDBdbCo
 
 } //End alm_customers_contactsDataSource Class @2-FCB6E20C
 
-class clscontacts_maintcontent { //contacts_maintcontent class @1-A9CE0072
+class clscontacts_viewcontent { //contacts_viewcontent class @1-3462DB33
 
 //Variables @1-51D7F06F
  public $ComponentType = "IncludablePage";
@@ -708,8 +679,8 @@ class clscontacts_maintcontent { //contacts_maintcontent class @1-A9CE0072
  public $Parent;
 //End Variables
 
-//Class_Initialize Event @1-76E6AB33
- function clscontacts_maintcontent($RelativePath, $ComponentName, & $Parent)
+//Class_Initialize Event @1-1415C7E8
+ function clscontacts_viewcontent($RelativePath, $ComponentName, & $Parent)
  {
   global $CCSLocales;
   global $DefaultDateFormat;
@@ -717,9 +688,9 @@ class clscontacts_maintcontent { //contacts_maintcontent class @1-A9CE0072
   $this->RelativePath = $RelativePath;
   $this->Visible = true;
   $this->Parent = & $Parent;
-  $this->FileName = "contacts_maintcontent.php";
+  $this->FileName = "contacts_viewcontent.php";
   $this->Redirect = "";
-  $this->TemplateFileName = "contacts_maintcontent.html";
+  $this->TemplateFileName = "contacts_viewcontent.html";
   $this->BlockToParse = "main";
   $this->TemplateEncoding = "UTF-8";
   $this->ContentType = "text/html";
@@ -734,19 +705,20 @@ class clscontacts_maintcontent { //contacts_maintcontent class @1-A9CE0072
  }
 //End Class_Terminate Event
 
-//BindEvents Method @1-DE9CA554
+//BindEvents Method @1-8BFE0F0D
  function BindEvents()
  {
-  $this->alm_customers_contacts->preferred_color->CCSEvents["BeforeShow"] = "contacts_maintcontent_alm_customers_contacts_preferred_color_BeforeShow";
-  $this->alm_customers_contacts->lbgoback->CCSEvents["BeforeShow"] = "contacts_maintcontent_alm_customers_contacts_lbgoback_BeforeShow";
-  $this->alm_customers_contacts->pnsaveadd->CCSEvents["BeforeShow"] = "contacts_maintcontent_alm_customers_contacts_pnsaveadd_BeforeShow";
-  $this->alm_customers_contacts->notify_holidays->CCSEvents["BeforeShow"] = "contacts_maintcontent_alm_customers_contacts_notify_holidays_BeforeShow";
-  $this->alm_customers_contacts->CCSEvents["BeforeInsert"] = "contacts_maintcontent_alm_customers_contacts_BeforeInsert";
-  $this->alm_customers_contacts->CCSEvents["AfterInsert"] = "contacts_maintcontent_alm_customers_contacts_AfterInsert";
-  $this->alm_customers_contacts->CCSEvents["BeforeUpdate"] = "contacts_maintcontent_alm_customers_contacts_BeforeUpdate";
-  $this->alm_customers_contacts->CCSEvents["AfterUpdate"] = "contacts_maintcontent_alm_customers_contacts_AfterUpdate";
-  $this->alm_customers_contacts->CCSEvents["BeforeShow"] = "contacts_maintcontent_alm_customers_contacts_BeforeShow";
-  $this->CCSEvents["BeforeShow"] = "contacts_maintcontent_BeforeShow";
+  $this->alm_customers_contacts->preferred_color->CCSEvents["BeforeShow"] = "contacts_viewcontent_alm_customers_contacts_preferred_color_BeforeShow";
+  $this->alm_customers_contacts->preferred_color->ds->CCSEvents["BeforeBuildSelect"] = "contacts_viewcontent_alm_customers_contacts_preferred_color_ds_BeforeBuildSelect";
+  $this->alm_customers_contacts->lbgoback->CCSEvents["BeforeShow"] = "contacts_viewcontent_alm_customers_contacts_lbgoback_BeforeShow";
+  $this->alm_customers_contacts->notify_holidays->CCSEvents["BeforeShow"] = "contacts_viewcontent_alm_customers_contacts_notify_holidays_BeforeShow";
+  $this->alm_customers_contacts->notify_holidays->ds->CCSEvents["BeforeBuildSelect"] = "contacts_viewcontent_alm_customers_contacts_notify_holidays_ds_BeforeBuildSelect";
+  $this->alm_customers_contacts->CCSEvents["BeforeInsert"] = "contacts_viewcontent_alm_customers_contacts_BeforeInsert";
+  $this->alm_customers_contacts->CCSEvents["AfterInsert"] = "contacts_viewcontent_alm_customers_contacts_AfterInsert";
+  $this->alm_customers_contacts->CCSEvents["BeforeUpdate"] = "contacts_viewcontent_alm_customers_contacts_BeforeUpdate";
+  $this->alm_customers_contacts->CCSEvents["AfterUpdate"] = "contacts_viewcontent_alm_customers_contacts_AfterUpdate";
+  $this->alm_customers_contacts->CCSEvents["BeforeShow"] = "contacts_viewcontent_alm_customers_contacts_BeforeShow";
+  $this->CCSEvents["BeforeShow"] = "contacts_viewcontent_BeforeShow";
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "AfterInitialize", $this);
  }
 //End BindEvents Method
@@ -761,7 +733,7 @@ class clscontacts_maintcontent { //contacts_maintcontent class @1-A9CE0072
  }
 //End Operations Method
 
-//Initialize Method @1-AF3EB418
+//Initialize Method @1-8854D2BA
  function Initialize()
  {
   global $FileName;
@@ -775,7 +747,7 @@ class clscontacts_maintcontent { //contacts_maintcontent class @1-A9CE0072
   $this->Attributes = & $this->Parent->Attributes;
 
   // Create Components
-  $this->alm_customers_contacts = new clsRecordcontacts_maintcontentalm_customers_contacts($this->RelativePath, $this);
+  $this->alm_customers_contacts = new clsRecordcontacts_viewcontentalm_customers_contacts($this->RelativePath, $this);
   $this->alm_customers_contacts->Initialize();
   $this->BindEvents();
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "OnInitializeView", $this);
@@ -805,12 +777,10 @@ class clscontacts_maintcontent { //contacts_maintcontent class @1-A9CE0072
  }
 //End Show Method
 
-} //End contacts_maintcontent Class @1-FCB6E20C
+} //End contacts_viewcontent Class @1-FCB6E20C
 
-include_once("includes/customers.php");
-
-//Include Event File @1-C82C6D86
-include_once(RelativePath . "/contacts_maintcontent_events.php");
+//Include Event File @1-658EF600
+include_once(RelativePath . "/contacts_viewcontent_events.php");
 //End Include Event File
 
 

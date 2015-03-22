@@ -127,15 +127,23 @@
 					<!-- BEGIN CheckBoxList preferred_color --><input {Check} type="checkbox" name="{preferred_color_Name}" value="{Value}" class="ace ace-checkbox-2"><span class="lbl">&nbsp;&nbsp;{Description}</span><br><!-- END CheckBoxList preferred_color -->
 				</label>
 			</div>
-			<div class="col-md-6 col-xs-12">
+			<div class="col-md-7 col-xs-12">
 				<label class="control-label blue" for="hobbies">{res:hobbies}</label><br>
 				<label>
-					<!-- BEGIN CheckBoxList hobbies -->					
-							<div class="col-md-4 col-xs-12">
-								<input {Check} type="checkbox" name="{hobbies_Name}" value="{Value}" class="ace ace-checkbox-2"><span class="lbl">&nbsp;&nbsp;{Description}</span>
+					<!-- BEGIN hobbies_list -->
+						<div class="col-md-4 col-xs-12">						
+							<input {hobbie_checked} type="checkbox" name="hobbies[]" value="{hobbie_value}" class="ace ace-checkbox-2"><span class="lbl">&nbsp;&nbsp;{hobbie_title}</span>
+							<div class="col-md-12 col-xs-12">
+								<!-- BEGIN subhobbies_list -->
+									<div class="col-md-12 col-xs-12">
+										<input {subhobbie_checked} type="checkbox" name="subhobbies_{parent_hobbie}[]" value="{subhobbie_value}" class="ace ace-checkbox-2"><span class="lbl">&nbsp;&nbsp;{subhobbie_title}</span>
+									</div>
+								<!-- END subhobbies_list -->
 							</div>
-					<!-- END CheckBoxList hobbies -->
+						</div>
+					<!-- END hobbies_list -->
 				</label>
+				<input type="hidden" name="{hidhobbies_Name}" value="{hidhobbies}">
 			</div>
 
 		</div><!-- row -->

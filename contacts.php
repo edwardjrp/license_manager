@@ -56,6 +56,10 @@ $ContentType = "text/html";
 $PathToRoot = "./";
 //End Initialize Page
 
+//Authenticate User @1-BF95B68F
+CCSecurityRedirect("1;2;3;4", "");
+//End Authenticate User
+
 //Before Initialize @1-E870CEBC
 $CCSEventResult = CCGetEvent($CCSEvents, "BeforeInitialize", $MainPage);
 //End Before Initialize

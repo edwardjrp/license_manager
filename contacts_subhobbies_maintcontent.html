@@ -1,0 +1,112 @@
+<div class="widget-box">
+	<div class="widget-header">
+		<h4>{res:addeditcontactsubhobbies}</h4>
+	</div>
+	<div class="widget-body">
+
+
+<!-- BEGIN Record alm_customers_contacts_su -->
+<form id="contacts_subhobbies" method="post" action="{Action}" name="{HTMLFormName}"> 
+	<div class="row widget-main">
+		<div class="row col-md-12 col-xs-12">
+		<!-- BEGIN Error -->
+			<div class="row col-xs-12">
+				<div class="col-md-1 col-xs-0"></div>
+				<div class="col-md-10 col-xs-12">
+					<div class="alert alert-block alert-danger">
+						<button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button>
+						<p><strong><i class="icon-remove"></i>&nbsp;{res:error}</strong>&nbsp;{Error}</p>
+					</div>
+				</div>
+			</div><!-- row -->
+		<!-- END Error -->
+		<div class="row col-xs-12">
+			<div class="col-md-1 col-xs-0"></div>
+			<div class="col-md-4 col-xs-12">
+				<label class="control-label blue">{res:hobbie}</label><br>
+				<select name="{hobbie_id_Name}" class="width-90 chosen-select">
+					<option value="">{res:selectoption}</option>
+					{hobbie_id_Options}
+				</select>
+			</div>
+
+			<div class="col-md-4 col-xs-12">
+				<label class="control-label blue">{res:subhobbie}</label><br>
+				<input type="text" name="{subhobbi_Name}" value="{subhobbi}" maxlength="100" id="subhobbie" data-validation="required" data-validation-error-msg="{res:invalidsubhobbie}" class="col-md-12 col-xs-12">
+			</div>
+
+		</div><!-- row -->
+
+		<div class="row col-xs-12 space"></div>
+				
+		<div class="row">
+			<div class="col-md-12 col-xs-12">
+				<div class="form-actions action-buttons center inline col-xs-12">
+					<div class="inline"><a href="contacts_subhobbies.php{lbgoback}" role="button" id="goback" class="btn btn-sm btn-success"><li class="icon-arrow-left"></li>&nbsp;{res:buttongoback}</a> &nbsp;&nbsp;</div>
+
+					<div class="inline">
+						<!-- BEGIN Button Button_Insert --><button name="{Button_Name}" type="submit" value="{res:buttonsave}" class="btn btn-sm btn-success"><li class="icon-save"></li>&nbsp; {res:buttonsave}</button><!-- END Button Button_Insert -->
+					</div>
+					<div class="inline">
+						<!-- BEGIN Button Button_Update --><button name="{Button_Name}" type="submit" value="{res:buttonsave}" class="btn btn-sm btn-success"><li class="icon-save"></li>&nbsp; {res:buttonsave}</button><!-- END Button Button_Update -->
+
+						<input type="hidden" name="{hidguid_Name}" value="{hidguid}">
+						<input type="hidden" name="{modified_iduser_Name}" value="{modified_iduser}">
+						<input type="hidden" name="{created_iduser_Name}" value="{created_iduser}">
+					</div>
+
+				</div>
+				<!-- form-actions  -->
+		
+			</div>
+		</div><!-- row-->
+
+
+		</div>
+	</div>
+	<!-- box row -->
+
+</form>
+<!-- END Record alm_customers_contacts_su --><br>
+
+
+	</div>
+	<!-- widget-body -->
+</div>
+<!-- widget-box -->
+<link rel="stylesheet" href="assets/css/datepicker.css" />
+<link rel="stylesheet" href="assets/css/colorbox.css" />
+<link rel="stylesheet" href="assets/css/chosen.css" />
+
+<!-- included here to not mess with too much js in the main page -->
+<script src="assets/js/jquery-2.0.3.min.js"></script>
+<script src="assets/js/json3.min.js"></script>
+<script src="assets/js/form-validator/jquery.form-validator.min.js"></script>
+<script src="assets/js/jquery.colorbox-min.js"></script>
+<script src="assets/js/date-time/bootstrap-datepicker.min.js"></script>
+<script src="assets/js/bootbox.min.js"></script>
+<script src="assets/js/jquery-ui-1.10.3.custom.min.js"></script>
+<script src="assets/js/jquery.ui.touch-punch.min.js"></script>
+<script src="assets/js/jquery.colorbox-min.js"></script>
+<script src="assets/js/chosen.jquery.min.js"></script>
+
+
+<script>
+$(function(){
+        
+    $("#subhobbie").focus();
+    $.validate({
+            form : "#contacts_subhobbies"
+    });
+
+	$(".chosen-select").chosen(); 
+
+	$(".date-picker").datepicker({autoclose:true}).next().on(ace.click_event, function(){
+		$(this).prev().focus();
+	});
+
+
+
+});
+
+</script>
