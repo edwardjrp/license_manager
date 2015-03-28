@@ -523,6 +523,8 @@
 <script src="assets/js/jquery.colorbox-min.js"></script>
 <script src="assets/js/chosen.jquery.min.js"></script>
 <script src="assets/js/dropzone.min.js"></script>
+<script src="assets/js/jquery.dataTables.min.js"></script>
+<script src="assets/js/jquery.dataTables.bootstrap.js"></script>
 
 
 
@@ -532,6 +534,17 @@ $(function(){
 	    $.validate({
 	         form : "#licensing"
 	    });
+
+
+		//Preparing table responsive
+		var oTable1 = $("#activelicenses_table").dataTable( {
+			"aoColumns": [
+	      		//{ "bSortable": false },
+	      		null, null,null,null, null,null,null, null,null
+			],
+			"bAutoWidth" : true
+
+		});
 
         //Specified the width, for some weird reason, the width-90 class wasnt working
         $(".chosen-select").chosen({width: "90%"}); 

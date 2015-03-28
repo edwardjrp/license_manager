@@ -189,7 +189,7 @@ function GetPrimaryKey($keyName)
 
 class clsGridcontacts_listalm_customers_contacts { //alm_customers_contacts class @5-F167E55F
 
-//Variables @5-391961BD
+//Variables @5-9BE54435
 
  // Public variables
  public $ComponentType = "Grid";
@@ -226,10 +226,9 @@ class clsGridcontacts_listalm_customers_contacts { //alm_customers_contacts clas
  public $Sorter_mobile;
  public $Sorter_workemail;
  public $Sorter_jobposition;
- public $Sorter_dateupdated;
 //End Variables
 
-//Class_Initialize Event @5-64DEEFFC
+//Class_Initialize Event @5-C5463E5B
  function clsGridcontacts_listalm_customers_contacts($RelativePath, & $Parent)
  {
   global $FileName;
@@ -266,7 +265,6 @@ class clsGridcontacts_listalm_customers_contacts { //alm_customers_contacts clas
   $this->mobile = new clsControl(ccsLabel, "mobile", "mobile", ccsText, "", CCGetRequestParam("mobile", ccsGet, NULL), $this);
   $this->workemail = new clsControl(ccsLabel, "workemail", "workemail", ccsText, "", CCGetRequestParam("workemail", ccsGet, NULL), $this);
   $this->jobposition = new clsControl(ccsLabel, "jobposition", "jobposition", ccsText, "", CCGetRequestParam("jobposition", ccsGet, NULL), $this);
-  $this->dateupdated = new clsControl(ccsLabel, "dateupdated", "dateupdated", ccsDate, array("mm", "/", "dd", "/", "yyyy", " ", "h", ":", "nn", " ", "AM/PM"), CCGetRequestParam("dateupdated", ccsGet, NULL), $this);
   $this->pndeletebutton = new clsPanel("pndeletebutton", $this);
   $this->lbdelete = new clsControl(ccsLabel, "lbdelete", "lbdelete", ccsText, "", CCGetRequestParam("lbdelete", ccsGet, NULL), $this);
   $this->maincontact = new clsControl(ccsLabel, "maincontact", "maincontact", ccsText, "", CCGetRequestParam("maincontact", ccsGet, NULL), $this);
@@ -278,7 +276,6 @@ class clsGridcontacts_listalm_customers_contacts { //alm_customers_contacts clas
   $this->Sorter_mobile = new clsSorter($this->ComponentName, "Sorter_mobile", $FileName, $this);
   $this->Sorter_workemail = new clsSorter($this->ComponentName, "Sorter_workemail", $FileName, $this);
   $this->Sorter_jobposition = new clsSorter($this->ComponentName, "Sorter_jobposition", $FileName, $this);
-  $this->Sorter_dateupdated = new clsSorter($this->ComponentName, "Sorter_dateupdated", $FileName, $this);
   $this->Navigator = new clsNavigator($this->ComponentName, "Navigator", $FileName, 10, tpCentered, $this);
   $this->Navigator->PageSizes = array("1", "5", "10", "25", "50");
   $this->pndeletebutton->Visible = false;
@@ -297,7 +294,7 @@ class clsGridcontacts_listalm_customers_contacts { //alm_customers_contacts clas
  }
 //End Initialize Method
 
-//Show Method @5-96636622
+//Show Method @5-C0C0D443
  function Show()
  {
   global $Tpl;
@@ -334,7 +331,6 @@ class clsGridcontacts_listalm_customers_contacts { //alm_customers_contacts clas
    $this->ControlsVisible["mobile"] = $this->mobile->Visible;
    $this->ControlsVisible["workemail"] = $this->workemail->Visible;
    $this->ControlsVisible["jobposition"] = $this->jobposition->Visible;
-   $this->ControlsVisible["dateupdated"] = $this->dateupdated->Visible;
    $this->ControlsVisible["pndeletebutton"] = $this->pndeletebutton->Visible;
    $this->ControlsVisible["lbdelete"] = $this->lbdelete->Visible;
    $this->ControlsVisible["maincontact"] = $this->maincontact->Visible;
@@ -353,7 +349,6 @@ class clsGridcontacts_listalm_customers_contacts { //alm_customers_contacts clas
     $this->mobile->SetValue($this->DataSource->mobile->GetValue());
     $this->workemail->SetValue($this->DataSource->workemail->GetValue());
     $this->jobposition->SetValue($this->DataSource->jobposition->GetValue());
-    $this->dateupdated->SetValue($this->DataSource->dateupdated->GetValue());
     $this->maincontact->SetValue($this->DataSource->maincontact->GetValue());
     $this->Attributes->SetValue("rowNumber", $this->RowNumber);
     $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeShowRow", $this);
@@ -366,7 +361,6 @@ class clsGridcontacts_listalm_customers_contacts { //alm_customers_contacts clas
     $this->mobile->Show();
     $this->workemail->Show();
     $this->jobposition->Show();
-    $this->dateupdated->Show();
     $this->pndeletebutton->Show();
     $this->maincontact->Show();
     $Tpl->block_path = $ParentPath . "/" . $GridBlock;
@@ -402,7 +396,6 @@ class clsGridcontacts_listalm_customers_contacts { //alm_customers_contacts clas
   $this->Sorter_mobile->Show();
   $this->Sorter_workemail->Show();
   $this->Sorter_jobposition->Show();
-  $this->Sorter_dateupdated->Show();
   $this->Navigator->Show();
   $Tpl->parse();
   $Tpl->block_path = $ParentPath;
@@ -410,7 +403,7 @@ class clsGridcontacts_listalm_customers_contacts { //alm_customers_contacts clas
  }
 //End Show Method
 
-//GetErrors Method @5-E933F7D4
+//GetErrors Method @5-B1134C5C
  function GetErrors()
  {
   $errors = "";
@@ -422,7 +415,6 @@ class clsGridcontacts_listalm_customers_contacts { //alm_customers_contacts clas
   $errors = ComposeStrings($errors, $this->mobile->Errors->ToString());
   $errors = ComposeStrings($errors, $this->workemail->Errors->ToString());
   $errors = ComposeStrings($errors, $this->jobposition->Errors->ToString());
-  $errors = ComposeStrings($errors, $this->dateupdated->Errors->ToString());
   $errors = ComposeStrings($errors, $this->lbdelete->Errors->ToString());
   $errors = ComposeStrings($errors, $this->maincontact->Errors->ToString());
   $errors = ComposeStrings($errors, $this->Errors->ToString());
@@ -435,7 +427,7 @@ class clsGridcontacts_listalm_customers_contacts { //alm_customers_contacts clas
 
 class clscontacts_listalm_customers_contactsDataSource extends clsDBdbConnection {  //alm_customers_contactsDataSource Class @5-1C0AE0A3
 
-//DataSource Variables @5-40460932
+//DataSource Variables @5-F932D369
  public $Parent = "";
  public $CCSEvents = "";
  public $CCSEventResult;
@@ -455,11 +447,10 @@ class clscontacts_listalm_customers_contactsDataSource extends clsDBdbConnection
  public $mobile;
  public $workemail;
  public $jobposition;
- public $dateupdated;
  public $maincontact;
 //End DataSource Variables
 
-//DataSourceClass_Initialize Event @5-FCFD714D
+//DataSourceClass_Initialize Event @5-32F2AA3B
  function clscontacts_listalm_customers_contactsDataSource(& $Parent)
  {
   $this->Parent = & $Parent;
@@ -481,15 +472,13 @@ class clscontacts_listalm_customers_contactsDataSource extends clsDBdbConnection
   
   $this->jobposition = new clsField("jobposition", ccsText, "");
   
-  $this->dateupdated = new clsField("dateupdated", ccsDate, array("yyyy", "-", "mm", "-", "dd", " ", "HH", ":", "nn", ":", "ss"));
-  
   $this->maincontact = new clsField("maincontact", ccsText, "");
   
 
  }
 //End DataSourceClass_Initialize Event
 
-//SetOrder Method @5-60908648
+//SetOrder Method @5-FD25E5BF
  function SetOrder($SorterName, $SorterDirection)
  {
   $this->Order = "contact";
@@ -501,8 +490,7 @@ class clscontacts_listalm_customers_contactsDataSource extends clsDBdbConnection
    "Sorter_phone" => array("phone", ""), 
    "Sorter_mobile" => array("mobile", ""), 
    "Sorter_workemail" => array("workemail", ""), 
-   "Sorter_jobposition" => array("jobposition", ""), 
-   "Sorter_dateupdated" => array("dateupdated", "")));
+   "Sorter_jobposition" => array("jobposition", "")));
  }
 //End SetOrder Method
 
@@ -553,7 +541,7 @@ class clscontacts_listalm_customers_contactsDataSource extends clsDBdbConnection
  }
 //End Open Method
 
-//SetValues Method @5-4F87112C
+//SetValues Method @5-F99D87B9
  function SetValues()
  {
   $this->guid->SetDBValue($this->f("guid"));
@@ -564,7 +552,6 @@ class clscontacts_listalm_customers_contactsDataSource extends clsDBdbConnection
   $this->mobile->SetDBValue($this->f("mobile"));
   $this->workemail->SetDBValue($this->f("workemail"));
   $this->jobposition->SetDBValue($this->f("jobposition"));
-  $this->dateupdated->SetDBValue(trim($this->f("dateupdated")));
   $this->maincontact->SetDBValue($this->f("maincontact"));
  }
 //End SetValues Method
