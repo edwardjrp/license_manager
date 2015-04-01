@@ -185,6 +185,8 @@ function sidebar_BeforeShow(& $sender)
 			$Tpl->setvar("settings_active","active");
 		break;
 		case "contacts.php" :
+		case "contacts_maint.php" :
+		case "contacts_view.php" :
 			$Tpl->setvar("contacts_menu_show","show");
 			$Tpl->setvar("contacts_active","active");
 		break;
@@ -192,6 +194,11 @@ function sidebar_BeforeShow(& $sender)
 		case "contacts_subhobbies_maint.php" :
 			$Tpl->setvar("contacts_menu_show","show");
 			$Tpl->setvar("contacts_subhobbies_active","active");
+		break;
+		case "companies.php" :
+		case "companies_maint.php" :
+			//$Tpl->setvar("contacts_menu_show","show");
+			$Tpl->setvar("companies_active","active");
 		break;
 
 	}

@@ -1,0 +1,182 @@
+<div class="widget-box">
+	<div class="widget-header">
+		<h4>{res:addeditcustomer}</h4>
+	</div>
+	<div class="widget-body">
+		<!-- BEGIN Record alm_customers -->
+		<form id="alm_customers" method="post" name="{HTMLFormName}" action="{Action}">
+			<div class="row widget-main">
+				<!-- BEGIN Error -->
+				<div class="alert alert-block alert-danger">
+					<button class="close" data-dismiss="alert"><i class="icon-remove"></i></button><strong>
+					<li class="icon-remove"></strong>{Error} </li>
+				</div>
+				<!-- END Error -->
+				<div class="row col-xs-12">
+					<div class="col-md-1 col-xs-0">
+					</div>
+					<div class="col-md-10 col-xs-12">
+						<div class="alert alert-block alert-success {page:showalert}">
+							<button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button>
+							<p><strong><i class="icon-ok"></i>{res:saved}</strong>{res:savedmessage}</p>
+						</div>
+					</div>
+				</div>
+				<!-- row -->
+				<div class="tabbable">
+					<ul id="myTab" class="nav nav-tabs">
+						<li class="{tab1_active}"><a href="#customerdetails" data-toggle="tab">{res:tabcust_title}</a> 
+					</ul>
+					<div class="tab-content col-md-12 col-xs-12">
+						<div id="customerdetails" class="tab-pane {tab1_active}">
+							<div class="row col-xs-12">
+								<div class="col-md-1 col-xs-0">
+								</div>
+								<div class="col-md-5 col-xs-12">
+									<label class="control-label blue" for="s_customer">{res:customer}</label><br>
+									<input type="text" id="s_customer" maxlength="250" class="col-md-10 col-xs-12" value="{name}" name="{name_Name}" data-validation-error-msg="{res:invalidcustomer}" data-validation="required" disabled>
+								</div>
+								<!-- col -->
+								<div class="col-md-2 col-xs-12">
+									<label class="control-label blue" for="s_customer">{res:taxid}</label><br>
+									<input type="text" id="s_taxid" maxlength="20" value="{taxid}" name="{taxid_Name}" class="col-md-10 col-xs-12" disabled>
+								</div>
+								<div class="col-md-3 col-xs-12">
+									<label class="control-label blue" for="s_type">{res:shortname}</label><br>
+									<input type="text" name="{shortname_Name}" value="{shortname}" id="shortname" maxlength="20" class="col-md-12 col-xs-12" disabled>
+								</div>
+							</div>
+							<!-- row-->
+							<div class="row col-xs-12">
+								<div class="col-md-1 col-xs-0">
+								</div>
+								<div class="col-md-5 col-xs-12">
+									<label class="control-label blue" for="s_phone">{res:phone}</label><br>
+									<input type="text" id="s_phone" maxlength="200" value="{phone}" name="{phone_Name}" class="col-md-10 col-xs-12" disabled>
+								</div>
+								<div class="col-md-2 col-xs-12">
+									<label class="control-label blue" for="budgetdate">{res:budgetdate}</label><br>
+									<div class="input-group">
+										<input type="text" id="budgetdate" value="{budgetdate}" name="{budgetdate_Name}" class="col-md-12 col-xs-12 date-picker" data-date-format="mm/dd/yyyy" disabled><span class="input-group-addon"><i class="icon-calendar bigger-110"></i></span>
+									</div>
+								</div>
+								<div class="col-md-3 col-xs-12">
+									<label class="control-label blue" for="s_website">{res:website}</label><br>
+									<input type="text" id="s_website" maxlength="250" value="{website}" name="{website_Name}" class="col-md-12 col-xs-12" disabled>
+								</div>
+							</div>
+							<!-- row -->
+							<div class="row col-xs-12">
+								<div class="col-md-1 col-xs-0">
+								</div>
+								<div class="col-md-5 col-xs-12">
+									<label class="control-label blue" for="s_phone">{res:address}</label><br>
+									<textarea id="s_address" rows="5" cols="49" name="{address_Name}" class="col-md-10 col-xs-12" disabled>{address}</textarea>
+								</div>
+								<div class="col-md-3 col-xs-12">
+									<div class="row">
+										<div class="col-xs-0">
+										</div>
+										<div class="col-md-12 col-xs-12">
+											<label class="control-label blue" for="city">{res:city}</label><br>
+											<select name="{city_Name}" id="city" class="col-md-12 col-xs-12" disabled>
+												{city_Options}
+											</select>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-xs-0">
+										</div>
+										<div class="col-md-12 col-xs-12">
+											<label class="control-label blue" for="s_type">{res:customertype}</label><br>
+											<select id="s_type" name="{customertype_id_Name}" class="col-md-12 col-xs-12" disabled>
+												<option selected value="">{res:CCS_SelectValue}</option>
+												{customertype_id_Options}
+											</select>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-3 col-xs-12">
+									<label class="control-label blue" for="businesspartner">{res:businesspartners}</label><br>
+									<label>
+									<!-- BEGIN CheckBoxList businesspartner --><input id="businesspartner_{businesspartner:optionNumber}" type="checkbox" value="{Value}" name="{businesspartner_Name}" {Check} class="ace ace-checkbox-2" disabled><span class="lbl">&nbsp;&nbsp;{Description}</span><br>
+									<!-- END CheckBoxList businesspartner --></label>
+								</div>
+							</div>
+							<!-- row -->
+						</div>
+						<!-- customerdetails tab -->
+					</div>
+					<!-- tabcontent -->
+				</div>
+				<!-- tabbable -->
+			</div>
+			<!-- row -->
+			<div class="row">
+				<div class="col-md-12 col-xs-12">
+					<div class="form-actions center">
+<a href="companies.php{lbgoback}" role="button" id="goback" class="btn btn-sm btn-success">
+						<li class="icon-arrow-left"></li>
+						&nbsp;{res:buttongoback}</a> &nbsp;&nbsp; 
+						
+						<input id="modified_iduser" type="hidden" value="{modified_iduser}" name="{modified_iduser_Name}"><input id="created_iduser" type="hidden" value="{created_iduser}" name="{created_iduser_Name}"><input id="hidguid" type="hidden" value="{hidguid}" name="{hidguid_Name}"><input type="hidden" name="{hidtab_Name}" value="{hidtab}" id="hidtab"><input type="hidden" name="{assigned_to_Name}" value="{assigned_to}" id="assigned_to">
+					</div>
+					<!-- form-actions  -->
+				</div>
+				<!-- col -->
+			</div>
+		</form>
+		<!-- END Record alm_customers --><br>
+		<!-- row -->
+	</div>
+	<!-- widget-body -->
+</div>
+<!-- widget-box -->
+<link rel="stylesheet" href="assets/css/datepicker.css" />
+<!-- included here to not mess with too much js in the main page -->
+<script src="assets/js/jquery-2.0.3.min.js"></script>
+<script src="assets/js/json3.min.js"></script>
+<script src="assets/js/form-validator/jquery.form-validator.min.js"></script>
+<script src="assets/js/jquery.colorbox-min.js"></script>
+<script src="assets/js/date-time/bootstrap-datepicker.min.js"></script>
+<script src="assets/js/bootbox.min.js"></script>
+<script src="assets/js/jquery-ui-1.10.3.custom.min.js"></script>
+<script src="assets/js/jquery.ui.touch-punch.min.js"></script>
+<script src="assets/js/jquery.slimscroll.min.js"></script>
+<script>
+$(function(){
+        
+        $("#s_customer").focus();
+        //validate coordinates
+        $.validate({
+                form : "#alm_customers"
+        });
+
+		$(".date-picker").datepicker({autoclose:true}).next().on(ace.click_event, function(){
+			$(this).prev().focus();
+		});
+
+		$("#myTab a").click(function (e) {
+		  e.preventDefault();
+		  $("#hidtab").val(e.target);
+		})
+
+
+		// scrollables
+		$(".slim-scroll").each(function () {
+			var $this = $(this);
+			$this.slimScroll({
+				height: $this.data("height") || 100,
+				color: "#87B87F",
+				size: "15px",
+				railOpacity: 0.1,
+				railVisible:true,
+				alwaysVisible: true,
+				allowPageScroll: true
+			});
+		});
+
+
+});
+
+</script>

@@ -444,3 +444,7 @@ website=Website
 welcome=Welcome
 wireless_security=Wireless Security
 workemail=Work Email
+companies=Companies
+addcompany=Add Company
+addeditcompany=Add/Edit Company
+viewcompany=Company Details
