@@ -70,8 +70,7 @@
 								<div class="col-md-1 col-xs-0">
 								</div>
 								<div class="col-md-5 col-xs-12">
-									<label class="control-label blue" for="s_phone">
-{res:address}</label><br>
+									<label class="control-label blue" for="s_phone">{res:address}</label><br>
 									<textarea id="s_address" rows="5" cols="49" name="{address_Name}" class="col-md-10 col-xs-12" disabled>{address}</textarea>
 								</div>
 								<div class="col-md-3 col-xs-12">
@@ -97,12 +96,7 @@
 										</div>
 									</div>
 								</div>
-								<div class="col-md-3 col-xs-12">
-									<label class="control-label blue" for="businesspartner">{res:businesspartners}</label><br>
-									<label>
-									<!-- BEGIN CheckBoxList businesspartner --><input id="businesspartner_{businesspartner:optionNumber}" type="checkbox" value="{Value}" name="{businesspartner_Name}" {Check} class="ace ace-checkbox-2" disabled><span class="lbl">&nbsp;&nbsp;{Description}</span><br>
-									<!-- END CheckBoxList businesspartner --></label>
-								</div>
+
 							</div>
 							<!-- row -->
 
@@ -116,6 +110,15 @@
 										{assigned_to_user_Options}
 									</select>
 								</div>
+
+								<div class="col-md-5 col-xs-12">
+									<label class="control-label blue" for="businesspartner">{res:businesspartners}</label><br>
+									<div class="col-md-12 col-xs-12">
+										<!-- BEGIN CheckBoxList businesspartner --><input id="businesspartner_{businesspartner:optionNumber}" type="checkbox" value="{Value}" name="{businesspartner_Name}" {Check} class="ace ace-checkbox-2" disabled><span class="lbl">&nbsp;&nbsp;{Description}</span><br>
+										<!-- END CheckBoxList businesspartner -->
+									</div>
+								</div>
+
 							</div> <!-- row -->
 
 						</div>

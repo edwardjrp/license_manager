@@ -99,23 +99,26 @@
 										</div>
 									</div>
 								</div>
-								<div class="col-md-3 col-xs-12">
-									<label class="control-label blue" for="businesspartner">{res:businesspartners}</label><br>
-									<label>
-									<!-- BEGIN CheckBoxList businesspartner --><input id="businesspartner_{businesspartner:optionNumber}" type="checkbox" value="{Value}" name="{businesspartner_Name}" {Check} class="ace ace-checkbox-2"><span class="lbl">&nbsp;&nbsp;{Description}</span><br>
-									<!-- END CheckBoxList businesspartner --></label>
-								</div>
 							</div>
 							<!-- row -->
 
 							<div class="row col-xs-12">
 								<div class="col-md-1 col-xs-0"></div>
+
 								<div class="col-md-5 col-xs-12">
 									<label class="control-label blue" for="s_phone">{res:assigned_to}</label><br>
 									<select id="s_type" name="{assigned_to_user_Name}" class="col-md-10 col-xs-12">
 										<option selected value="">{res:CCS_SelectValue}</option>
 										{assigned_to_user_Options}
 									</select>
+								</div>
+
+								<div class="col-md-5 col-xs-12">
+									<label class="control-label blue" for="businesspartner">{res:businesspartners}</label><br>								
+									<div class="col-md-12 col-xs-12">
+										<!-- BEGIN CheckBoxList businesspartner --><input type="checkbox" value="{Value}" name="{businesspartner_Name}" {Check} class="ace ace-checkbox-2"><span class="lbl">&nbsp;&nbsp;{Description}</span><br>
+										<!-- END CheckBoxList businesspartner -->
+									</div>								
 								</div>
 							</div> <!-- row -->
 
