@@ -36,7 +36,7 @@ class clsRecordcompanies_maintcontentalm_customers { //alm_customers Class @2-01
  // Class variables
 //End Variables
 
-//Class_Initialize Event @2-3ADFC6C9
+//Class_Initialize Event @2-B71CBCA1
  function clsRecordcompanies_maintcontentalm_customers($RelativePath, & $Parent)
  {
 
@@ -106,6 +106,13 @@ class clsRecordcompanies_maintcontentalm_customers { //alm_customers Class @2-01
    list($this->customertype_id->BoundColumn, $this->customertype_id->TextColumn, $this->customertype_id->DBFormat) = array("id", "customer_type", "");
    $this->shortname = new clsControl(ccsTextBox, "shortname", $CCSLocales->GetText("shortname"), ccsText, "", CCGetRequestParam("shortname", $Method, NULL), $this);
    $this->budgetdate = new clsControl(ccsTextBox, "budgetdate", $CCSLocales->GetText("budgetdate"), ccsDate, array("mm", "/", "dd", "/", "yyyy"), CCGetRequestParam("budgetdate", $Method, NULL), $this);
+   $this->assigned_to_user = new clsControl(ccsListBox, "assigned_to_user", $CCSLocales->GetText("customertype_id"), ccsText, "", CCGetRequestParam("assigned_to_user", $Method, NULL), $this);
+   $this->assigned_to_user->DSType = dsTable;
+   $this->assigned_to_user->DataSource = new clsDBdbConnection();
+   $this->assigned_to_user->ds = & $this->assigned_to_user->DataSource;
+   $this->assigned_to_user->DataSource->SQL = "SELECT * \n" .
+"FROM alm_users {SQL_Where} {SQL_OrderBy}";
+   list($this->assigned_to_user->BoundColumn, $this->assigned_to_user->TextColumn, $this->assigned_to_user->DBFormat) = array("id", "fullname", "");
    if(!$this->FormSubmitted) {
     if(!is_array($this->city->Value) && !strlen($this->city->Value) && $this->city->Value !== false)
      $this->city->SetText(1);
@@ -125,7 +132,7 @@ class clsRecordcompanies_maintcontentalm_customers { //alm_customers Class @2-01
  }
 //End Initialize Method
 
-//Validate Method @2-4E3DAA3D
+//Validate Method @2-D00D7CF9
  function Validate()
  {
   global $CCSLocales;
@@ -146,6 +153,7 @@ class clsRecordcompanies_maintcontentalm_customers { //alm_customers Class @2-01
   $Validation = ($this->customertype_id->Validate() && $Validation);
   $Validation = ($this->shortname->Validate() && $Validation);
   $Validation = ($this->budgetdate->Validate() && $Validation);
+  $Validation = ($this->assigned_to_user->Validate() && $Validation);
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "OnValidate", $this);
   $Validation =  $Validation && ($this->name->Errors->Count() == 0);
   $Validation =  $Validation && ($this->taxid->Errors->Count() == 0);
@@ -162,11 +170,12 @@ class clsRecordcompanies_maintcontentalm_customers { //alm_customers Class @2-01
   $Validation =  $Validation && ($this->customertype_id->Errors->Count() == 0);
   $Validation =  $Validation && ($this->shortname->Errors->Count() == 0);
   $Validation =  $Validation && ($this->budgetdate->Errors->Count() == 0);
+  $Validation =  $Validation && ($this->assigned_to_user->Errors->Count() == 0);
   return (($this->Errors->Count() == 0) && $Validation);
  }
 //End Validate Method
 
-//CheckErrors Method @2-79B67788
+//CheckErrors Method @2-71D6DDBD
  function CheckErrors()
  {
   $errors = false;
@@ -186,6 +195,7 @@ class clsRecordcompanies_maintcontentalm_customers { //alm_customers Class @2-01
   $errors = ($errors || $this->customertype_id->Errors->Count());
   $errors = ($errors || $this->shortname->Errors->Count());
   $errors = ($errors || $this->budgetdate->Errors->Count());
+  $errors = ($errors || $this->assigned_to_user->Errors->Count());
   $errors = ($errors || $this->Errors->Count());
   $errors = ($errors || $this->DataSource->Errors->Count());
   return $errors;
@@ -261,7 +271,7 @@ function GetPrimaryKey($keyName)
  }
 //End Operation Method
 
-//InsertRow Method @2-468DB351
+//InsertRow Method @2-8B983499
  function InsertRow()
  {
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeInsert", $this);
@@ -282,13 +292,14 @@ function GetPrimaryKey($keyName)
   $this->DataSource->customertype_id->SetValue($this->customertype_id->GetValue(true));
   $this->DataSource->shortname->SetValue($this->shortname->GetValue(true));
   $this->DataSource->budgetdate->SetValue($this->budgetdate->GetValue(true));
+  $this->DataSource->assigned_to_user->SetValue($this->assigned_to_user->GetValue(true));
   $this->DataSource->Insert();
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "AfterInsert", $this);
   return (!$this->CheckErrors());
  }
 //End InsertRow Method
 
-//UpdateRow Method @2-C57F43E4
+//UpdateRow Method @2-7FC540BC
  function UpdateRow()
  {
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeUpdate", $this);
@@ -309,13 +320,14 @@ function GetPrimaryKey($keyName)
   $this->DataSource->customertype_id->SetValue($this->customertype_id->GetValue(true));
   $this->DataSource->shortname->SetValue($this->shortname->GetValue(true));
   $this->DataSource->budgetdate->SetValue($this->budgetdate->GetValue(true));
+  $this->DataSource->assigned_to_user->SetValue($this->assigned_to_user->GetValue(true));
   $this->DataSource->Update();
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "AfterUpdate", $this);
   return (!$this->CheckErrors());
  }
 //End UpdateRow Method
 
-//Show Method @2-1D080DC6
+//Show Method @2-42D760DC
  function Show()
  {
   global $CCSUseAmp;
@@ -332,6 +344,7 @@ function GetPrimaryKey($keyName)
   $this->city->Prepare();
   $this->businesspartner->Prepare();
   $this->customertype_id->Prepare();
+  $this->assigned_to_user->Prepare();
 
   $RecordBlock = "Record " . $this->ComponentName;
   $ParentPath = $Tpl->block_path;
@@ -360,6 +373,7 @@ function GetPrimaryKey($keyName)
      $this->customertype_id->SetValue($this->DataSource->customertype_id->GetValue());
      $this->shortname->SetValue($this->DataSource->shortname->GetValue());
      $this->budgetdate->SetValue($this->DataSource->budgetdate->GetValue());
+     $this->assigned_to_user->SetValue($this->DataSource->assigned_to_user->GetValue());
     }
    } else {
     $this->EditMode = false;
@@ -386,6 +400,7 @@ function GetPrimaryKey($keyName)
    $Error = ComposeStrings($Error, $this->customertype_id->Errors->ToString());
    $Error = ComposeStrings($Error, $this->shortname->Errors->ToString());
    $Error = ComposeStrings($Error, $this->budgetdate->Errors->ToString());
+   $Error = ComposeStrings($Error, $this->assigned_to_user->Errors->ToString());
    $Error = ComposeStrings($Error, $this->Errors->ToString());
    $Error = ComposeStrings($Error, $this->DataSource->Errors->ToString());
    $Tpl->SetVar("Error", $Error);
@@ -428,6 +443,7 @@ function GetPrimaryKey($keyName)
   $this->customertype_id->Show();
   $this->shortname->Show();
   $this->budgetdate->Show();
+  $this->assigned_to_user->Show();
   $Tpl->parse();
   $Tpl->block_path = $ParentPath;
   $this->DataSource->close();
@@ -438,7 +454,7 @@ function GetPrimaryKey($keyName)
 
 class clscompanies_maintcontentalm_customersDataSource extends clsDBdbConnection {  //alm_customersDataSource Class @2-2B49B441
 
-//DataSource Variables @2-301DA030
+//DataSource Variables @2-347AA39E
  public $Parent = "";
  public $CCSEvents = "";
  public $CCSEventResult;
@@ -470,9 +486,10 @@ class clscompanies_maintcontentalm_customersDataSource extends clsDBdbConnection
  public $customertype_id;
  public $shortname;
  public $budgetdate;
+ public $assigned_to_user;
 //End DataSource Variables
 
-//DataSourceClass_Initialize Event @2-73D38DCB
+//DataSourceClass_Initialize Event @2-6078FC2A
  function clscompanies_maintcontentalm_customersDataSource(& $Parent)
  {
   $this->Parent = & $Parent;
@@ -510,6 +527,8 @@ class clscompanies_maintcontentalm_customersDataSource extends clsDBdbConnection
   
   $this->budgetdate = new clsField("budgetdate", ccsDate, array("yyyy", "-", "mm", "-", "dd"));
   
+  $this->assigned_to_user = new clsField("assigned_to_user", ccsText, "");
+  
 
   $this->InsertFields["name"] = array("Name" => "name", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->InsertFields["taxid"] = array("Name" => "taxid", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
@@ -525,6 +544,7 @@ class clscompanies_maintcontentalm_customersDataSource extends clsDBdbConnection
   $this->InsertFields["customertype_id"] = array("Name" => "customertype_id", "Value" => "", "DataType" => ccsInteger, "OmitIfEmpty" => 1);
   $this->InsertFields["shortname"] = array("Name" => "shortname", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->InsertFields["budgetdate"] = array("Name" => "budgetdate", "Value" => "", "DataType" => ccsDate, "OmitIfEmpty" => 1);
+  $this->InsertFields["assigned_to"] = array("Name" => "assigned_to", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->UpdateFields["name"] = array("Name" => "name", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->UpdateFields["taxid"] = array("Name" => "taxid", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->UpdateFields["website"] = array("Name" => "website", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
@@ -539,6 +559,7 @@ class clscompanies_maintcontentalm_customersDataSource extends clsDBdbConnection
   $this->UpdateFields["customertype_id"] = array("Name" => "customertype_id", "Value" => "", "DataType" => ccsInteger, "OmitIfEmpty" => 1);
   $this->UpdateFields["shortname"] = array("Name" => "shortname", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->UpdateFields["budgetdate"] = array("Name" => "budgetdate", "Value" => "", "DataType" => ccsDate, "OmitIfEmpty" => 1);
+  $this->UpdateFields["assigned_to"] = array("Name" => "assigned_to", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
  }
 //End DataSourceClass_Initialize Event
 
@@ -569,7 +590,7 @@ class clscompanies_maintcontentalm_customersDataSource extends clsDBdbConnection
  }
 //End Open Method
 
-//SetValues Method @2-A8F12058
+//SetValues Method @2-81246C1D
  function SetValues()
  {
   $this->name->SetDBValue($this->f("name"));
@@ -586,10 +607,11 @@ class clscompanies_maintcontentalm_customersDataSource extends clsDBdbConnection
   $this->customertype_id->SetDBValue(trim($this->f("customertype_id")));
   $this->shortname->SetDBValue($this->f("shortname"));
   $this->budgetdate->SetDBValue(trim($this->f("budgetdate")));
+  $this->assigned_to_user->SetDBValue($this->f("assigned_to"));
  }
 //End SetValues Method
 
-//Insert Method @2-3EA888CB
+//Insert Method @2-EFD8526A
  function Insert()
  {
   global $CCSLocales;
@@ -610,6 +632,7 @@ class clscompanies_maintcontentalm_customersDataSource extends clsDBdbConnection
   $this->InsertFields["customertype_id"]["Value"] = $this->customertype_id->GetDBValue(true);
   $this->InsertFields["shortname"]["Value"] = $this->shortname->GetDBValue(true);
   $this->InsertFields["budgetdate"]["Value"] = $this->budgetdate->GetDBValue(true);
+  $this->InsertFields["assigned_to"]["Value"] = $this->assigned_to_user->GetDBValue(true);
   $this->SQL = CCBuildInsert("alm_customers", $this->InsertFields, $this);
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeExecuteInsert", $this->Parent);
   if($this->Errors->Count() == 0 && $this->CmdExecution) {
@@ -619,7 +642,7 @@ class clscompanies_maintcontentalm_customersDataSource extends clsDBdbConnection
  }
 //End Insert Method
 
-//Update Method @2-F3A3AC1E
+//Update Method @2-9978FACA
  function Update()
  {
   global $CCSLocales;
@@ -640,6 +663,7 @@ class clscompanies_maintcontentalm_customersDataSource extends clsDBdbConnection
   $this->UpdateFields["customertype_id"]["Value"] = $this->customertype_id->GetDBValue(true);
   $this->UpdateFields["shortname"]["Value"] = $this->shortname->GetDBValue(true);
   $this->UpdateFields["budgetdate"]["Value"] = $this->budgetdate->GetDBValue(true);
+  $this->UpdateFields["assigned_to"]["Value"] = $this->assigned_to_user->GetDBValue(true);
   $this->SQL = CCBuildUpdate("alm_customers", $this->UpdateFields, $this);
   $this->SQL .= strlen($this->Where) ? " WHERE " . $this->Where : $this->Where;
   if (!strlen($this->Where) && $this->Errors->Count() == 0) 

@@ -70,7 +70,8 @@
 								<div class="col-md-1 col-xs-0">
 								</div>
 								<div class="col-md-5 col-xs-12">
-									<label class="control-label blue" for="s_phone">{res:address}</label><br>
+									<label class="control-label blue" for="s_phone">
+{res:address}</label><br>
 									<textarea id="s_address" rows="5" cols="49" name="{address_Name}" class="col-md-10 col-xs-12" disabled>{address}</textarea>
 								</div>
 								<div class="col-md-3 col-xs-12">
@@ -104,6 +105,19 @@
 								</div>
 							</div>
 							<!-- row -->
+
+							<div class="row col-xs-12">
+								<div class="col-md-1 col-xs-0">
+								</div>
+								<div class="col-md-5 col-xs-12">
+									<label class="control-label blue" for="s_phone">{res:assigned_to}</label><br>
+									<select id="s_type" name="{assigned_to_user_Name}" class="col-md-10 col-xs-12" disabled>
+										<option selected value="">{res:CCS_SelectValue}</option>
+										{assigned_to_user_Options}
+									</select>
+								</div>
+							</div> <!-- row -->
+
 						</div>
 						<!-- customerdetails tab -->
 					</div>
