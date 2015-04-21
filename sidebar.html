@@ -34,12 +34,32 @@
 	</div><!-- #sidebar-shortcuts -->
 
 	<ul class="nav nav-list">
-
-		<li class="{itassestment_active}"><a href="customers.php"><i class="icon-home bigger-160 orange"></i><i class="icon-group bigger-160 blue"></i>&nbsp;<span class="menu-text">{res:itassestment} </span></a></li>
+		<li>
+			<a href="#" class="dropdown-toggle">
+				<i class="icon-home bigger-160 orange"></i>
+				<span class="menu-text">{res:itassestment}</span>
+				<b class="arrow icon-angle-down"></b>
+			</a>
+			<ul class="submenu {itassestment_menu_show}">			
+				<li class="{itassestment_active}"><a href="customers.php"><i class="icon-home bigger-160 orange"></i><i class="icon-group bigger-160 blue"></i>&nbsp;<span class="menu-text">{res:itassestment} </span></a></li>
+				<li class="{customers_assessment_active}"><a href="customers_assessment.php"><i class="icon-double-angle-right"></i> {res:itassesment_maint} </a></li>
+			</ul>
+		</li>
 		<!-- BEGIN Panel pnsidebar -->
 		<li><a href="#"><i class="icon-dashboard bigger-160 red"></i><span class="menu-text">{res:dashboard} </span></a></li>
 		<li class="{licensing_active}"><a href="licensing.php"><i class="icon-briefcase bigger-160 purple"></i><i class="icon-group bigger-160 blue"></i>&nbsp;<span class="menu-text">{res:licensing} </span></a></li>
-		<li class="{companies_active}"><a href="companies.php"><i class="icon-group bigger-160 red"></i><span class="menu-text">{res:companies} </span></a></li>
+		<li>
+			<a href="#" class="dropdown-toggle">
+				<i class="icon-group bigger-160 red"></i>
+				<span class="menu-text">{res:companies}</span>
+				<b class="arrow icon-angle-down"></b>
+			</a>
+			<ul class="submenu {companies_menu_show}">			
+				<li class="{companies_active}"><a href="companies.php"><i class="icon-group bigger-160 red"></i><span class="menu-text">{res:companies} </span></a></li>
+				<li class="{business_partners_active}"><a href="globalmaint.php?m=business_partners"><i class="icon-double-angle-right"></i> {res:business_partners} </a></li>
+				<li class="{customers_type_active}"><a href="globalmaint.php?m=customers_type"><i class="icon-double-angle-right"></i> {res:customertype} </a></li>
+			</ul>
+		</li>
 		<li>
 			<a href="#" class="dropdown-toggle">
 				<i class="icon-group bigger-160 green"></i>
@@ -48,6 +68,7 @@
 			</a>
 			<ul class="submenu {contacts_menu_show}">
 				<li class="{contacts_active}"><a href="contacts.php"><i class="icon-group bigger-160 green"></i>{res:contacts}</a></li>
+				<li class="{jobposition_active}"><a href="globalmaint.php?m=jobposition"><i class="icon-double-angle-right"></i> {res:jobposition} </a></li>
 				<li class="{contacts_colors_active}"><a href="globalmaint.php?m=contacts_colors"><i class="icon-double-angle-right"></i> {res:contacts_colors} </a></li>
 				<li class="{contacts_hobbies_active}"><a href="globalmaint.php?m=contacts_hobbies"><i class="icon-double-angle-right"></i> {res:contacts_hobbies} </a></li>
 				<li class="{contacts_subhobbies_active}"><a href="contacts_subhobbies.php"><i class="icon-double-angle-right"></i> {res:contacts_subhobbies} </a></li>
@@ -63,6 +84,7 @@
 			<ul class="submenu {products_menu_show}">	
 				<li class="{products_active}"><a href="products.php"><i class="icon-th orange"></i>{res:products} </a></li>
 				<li class="{products_suite_active}"><a href="products_suite.php"><i class="icon-double-angle-right"></i> {res:suites} </a></li>
+				<li class="{competitor_products_active}"><a href="globalmaint.php?m=competitor_products"><i class="icon-double-angle-right"></i> {res:competitor_products} </a></li>
 				<li class="{license_granttypes_active}"><a href="globalmaint.php?m=license_granttypes"><i class="icon-briefcase purple"></i> {res:licensegranttypes} </a></li>
 				<li class="{license_types_active}"><a href="globalmaint.php?m=licensetypes"><i class="icon-double-angle-right"></i> {res:licensetypes} </a></li>
 				<li class="{product_types_active}"><a href="globalmaint.php?m=producttypes"><i class="icon-double-angle-right"></i> {res:producttypes} </a></li>
@@ -83,14 +105,8 @@
 
 			<ul class="submenu {settings_menu_show}">
 				<!-- BEGIN Panel pnmaintenance -->
-				<li class="{resellers_active}"><a href="resellers.php"><i class="icon-double-angle-right"></i> 
-{res:resellers} </a></li>
+				<li class="{resellers_active}"><a href="resellers.php"><i class="icon-double-angle-right"></i> {res:resellers} </a></li>
 				<li class="{city_active}"><a href="globalmaint.php?m=city"><i class="icon-double-angle-right"></i> {res:city} </a></li>
-				<li class="{competitor_products_active}"><a href="globalmaint.php?m=competitor_products"><i class="icon-double-angle-right"></i> {res:competitor_products} </a></li>
-				<li class="{business_partners_active}"><a href="globalmaint.php?m=business_partners"><i class="icon-double-angle-right"></i> {res:business_partners} </a></li>
-				<li class="{customers_type_active}"><a href="globalmaint.php?m=customers_type"><i class="icon-double-angle-right"></i> {res:customers_type} </a></li>
-				<li class="{jobposition_active}"><a href="globalmaint.php?m=jobposition"><i class="icon-double-angle-right"></i> {res:jobposition} </a></li>
-				<li class="{customers_assessment_active}"><a href="customers_assessment.php"><i class="icon-double-angle-right"></i> {res:itassesment_maint} </a></li>
 				<li class="{users_reassignuser_active}"><a href="users_reassignuser.php" class="green"><i class="icon-exchange"></i>&nbsp;{res:reassignuser}</a></li>
 				<li class="{users_active}"><a href="users.php"><i class="icon-user"></i> {res:users} </a></li>
 				<li class="{users_changepassword_active}"><a href="changepassword.php"><i class="icon-edit"></i>{res:changepassword}</a></li>

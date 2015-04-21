@@ -109,19 +109,19 @@ function sidebar_BeforeShow(& $sender)
 					$Tpl->setvar("city_active","active");
   				break;
 				case "business_partners" :
-					$Tpl->setvar("settings_menu_show","show");
+					$Tpl->setvar("companies_menu_show","show");
 					$Tpl->setvar("business_partners_active","active");
   				break;
 				case "customers_type" :
-					$Tpl->setvar("settings_menu_show","show");
+					$Tpl->setvar("companies_menu_show","show");
 					$Tpl->setvar("customers_type_active","active");
   				break;
 				case "jobposition" :
-					$Tpl->setvar("settings_menu_show","show");
+					$Tpl->setvar("contacts_menu_show","show");
 					$Tpl->setvar("jobposition_active","active");
   				break;
 				case "competitor_products" :
-					$Tpl->setvar("settings_menu_show","show");
+					$Tpl->setvar("products_menu_show","show");
 					$Tpl->setvar("competitor_products_active","active");
 				break;
 				case "contacts_colors" :
@@ -152,13 +152,14 @@ function sidebar_BeforeShow(& $sender)
 					$Tpl->setvar("contacts_active","active");
 				break;
 				default:
+					$Tpl->setvar("itassestment_menu_show","show");
 					$Tpl->setvar("itassestment_active","active");
 				break;
 			}
 		break;
 		case "customers_assessment.php" :
 		case "customers_assessment_maint.php" :
-			$Tpl->setvar("settings_menu_show","show");
+			$Tpl->setvar("itassestment_menu_show","show");
 			$Tpl->setvar("customers_assessment_active","active");
 		break;
 		case "users_reassignuser.php" :
@@ -197,7 +198,8 @@ function sidebar_BeforeShow(& $sender)
 		break;
 		case "companies.php" :
 		case "companies_maint.php" :
-			//$Tpl->setvar("contacts_menu_show","show");
+		case "companies_view.php" :
+			$Tpl->setvar("companies_menu_show","show");
 			$Tpl->setvar("companies_active","active");
 		break;
 

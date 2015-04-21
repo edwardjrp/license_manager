@@ -87,7 +87,7 @@ function globalmaint_maintcontent_lbmodule_BeforeShow(& $sender)
 			$globalmaint_maintcontent->lbmodule->setvalue($m_title);
 		break;
 		case "customers_type" :
-			$m_title = $CCSLocales->GetText("customers_type");
+			$m_title = $CCSLocales->GetText("customertype");
 			$globalmaint_maintcontent->lbmodule->setvalue($m_title);
 		break;
 		case "jobposition" :

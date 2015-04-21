@@ -46,7 +46,7 @@ function globalmaint_list_BeforeShow(& $sender)
 			$Tpl->setvar("module",$m);
 		break;
 		case "customers_type" :
-			$m_title = $CCSLocales->GetText("customers_type");
+			$m_title = $CCSLocales->GetText("customertype");
 			$globalmaint_list->lbmodule->setvalue($m_title);
 			$Tpl->setvar("module",$m);
 		break;

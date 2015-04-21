@@ -101,17 +101,24 @@
 
 		<div class="row col-xs-12">
 			<div class="col-md-1 col-xs-0"></div>
-			<div class="col-md-5 col-xs-12">
+			<div class="col-md-4 col-xs-12">
 				<label class="control-label blue" for="contact_workemail">{res:customer}</label><br>
 				<select name="{customer_id_Name}" class="width-90 chosen-select">
 					<option value="0">{res:selectoption}</option>
 					{customer_id_Options}
 				</select>
 			</div>
-			<div class="col-md-3 col-xs-12">
+			<div class="col-md-2 col-xs-12">
 				<label class="control-label blue" for="contact_maincontact">{res:contact_maincontact}</label><br>
 				<input type="checkbox" name="{maincontact_Name}" value="1" {maincontact} id="contact_maincontact" class="ace ace-switch ace-switch-4">
 				<span class="lbl"></span>
+			</div>
+			<div class="col-md-3 col-xs-12">
+				<label class="control-label border blue" for="contact_gender">{res:gender}</label><br>
+				<select name="{contact_gender_Name}">
+					<option value="">{res:selectoption}</option>
+					{contact_gender_Options}
+				</select>
 			</div>
 
 		</div><!-- row -->
@@ -122,8 +129,7 @@
 			<div class="col-md-1 col-xs-0"></div>
 
 			<div class="col-md-3 col-xs-12">
-				<label class="control-label blue" for="preferredcolor">
-{res:preferredcolor}</label><br>
+				<label class="control-label blue" for="preferredcolor">{res:preferredcolor}</label><br>
 				<label>
 					<!-- BEGIN CheckBoxList preferred_color --><input {Check} type="checkbox" name="{preferred_color_Name}" value="{Value}" class="ace ace-checkbox-2"><span class="lbl">&nbsp;&nbsp;{Description}</span><br><!-- END CheckBoxList preferred_color -->
 				</label>

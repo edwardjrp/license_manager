@@ -31,7 +31,7 @@ function Page_BeforeShow(& $sender)
 			$Tpl->setvar("module",$m);
 		break;
 		case "customers_type" :
-			$m_title = $CCSLocales->GetText("customers_type");
+			$m_title = $CCSLocales->GetText("customertype");
 			$MainPage->lbmodule->setvalue($m_title);
 			$Tpl->setvar("module",$m);
 		break;
