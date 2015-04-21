@@ -36,7 +36,7 @@ class clsRecordcontacts_viewcontentalm_customers_contacts { //alm_customers_cont
  // Class variables
 //End Variables
 
-//Class_Initialize Event @2-251671E3
+//Class_Initialize Event @2-F1FEAD0A
  function clsRecordcontacts_viewcontentalm_customers_contacts($RelativePath, & $Parent)
  {
 
@@ -104,6 +104,10 @@ class clsRecordcontacts_viewcontentalm_customers_contacts { //alm_customers_cont
    $this->lbgoback = new clsControl(ccsLabel, "lbgoback", "lbgoback", ccsText, "", CCGetRequestParam("lbgoback", $Method, NULL), $this);
    $this->hidguid = new clsControl(ccsHidden, "hidguid", "guid", ccsText, "", CCGetRequestParam("hidguid", $Method, NULL), $this);
    $this->twitter = new clsControl(ccsTextBox, "twitter", $CCSLocales->GetText("twitter"), ccsText, "", CCGetRequestParam("twitter", $Method, NULL), $this);
+   $this->contact_gender = new clsControl(ccsListBox, "contact_gender", $CCSLocales->GetText("gender"), ccsText, "", CCGetRequestParam("contact_gender", $Method, NULL), $this);
+   $this->contact_gender->DSType = dsListOfValues;
+   $this->contact_gender->Values = array(array("1", "Male"), array("0", "Female"));
+   $this->contact_gender->HTML = true;
    $this->notify_holidays = new clsControl(ccsCheckBoxList, "notify_holidays", $CCSLocales->GetText("notify_holidays"), ccsText, "", CCGetRequestParam("notify_holidays", $Method, NULL), $this);
    $this->notify_holidays->Multiple = true;
    $this->notify_holidays->DSType = dsTable;
@@ -133,7 +137,7 @@ class clsRecordcontacts_viewcontentalm_customers_contacts { //alm_customers_cont
  }
 //End Initialize Method
 
-//Validate Method @2-F44906F1
+//Validate Method @2-C3E568A6
  function Validate()
  {
   global $CCSLocales;
@@ -154,6 +158,7 @@ class clsRecordcontacts_viewcontentalm_customers_contacts { //alm_customers_cont
   $Validation = ($this->preferred_color->Validate() && $Validation);
   $Validation = ($this->hidguid->Validate() && $Validation);
   $Validation = ($this->twitter->Validate() && $Validation);
+  $Validation = ($this->contact_gender->Validate() && $Validation);
   $Validation = ($this->notify_holidays->Validate() && $Validation);
   $Validation = ($this->hidhobbies->Validate() && $Validation);
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "OnValidate", $this);
@@ -172,13 +177,14 @@ class clsRecordcontacts_viewcontentalm_customers_contacts { //alm_customers_cont
   $Validation =  $Validation && ($this->preferred_color->Errors->Count() == 0);
   $Validation =  $Validation && ($this->hidguid->Errors->Count() == 0);
   $Validation =  $Validation && ($this->twitter->Errors->Count() == 0);
+  $Validation =  $Validation && ($this->contact_gender->Errors->Count() == 0);
   $Validation =  $Validation && ($this->notify_holidays->Errors->Count() == 0);
   $Validation =  $Validation && ($this->hidhobbies->Errors->Count() == 0);
   return (($this->Errors->Count() == 0) && $Validation);
  }
 //End Validate Method
 
-//CheckErrors Method @2-7982F0F9
+//CheckErrors Method @2-DD11C5E0
  function CheckErrors()
  {
   $errors = false;
@@ -198,6 +204,7 @@ class clsRecordcontacts_viewcontentalm_customers_contacts { //alm_customers_cont
   $errors = ($errors || $this->lbgoback->Errors->Count());
   $errors = ($errors || $this->hidguid->Errors->Count());
   $errors = ($errors || $this->twitter->Errors->Count());
+  $errors = ($errors || $this->contact_gender->Errors->Count());
   $errors = ($errors || $this->notify_holidays->Errors->Count());
   $errors = ($errors || $this->hidhobbies->Errors->Count());
   $errors = ($errors || $this->Errors->Count());
@@ -242,7 +249,7 @@ function GetPrimaryKey($keyName)
  }
 //End Operation Method
 
-//InsertRow Method @2-8556D1D4
+//InsertRow Method @2-BC70BCA0
  function InsertRow()
  {
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeInsert", $this);
@@ -263,6 +270,7 @@ function GetPrimaryKey($keyName)
   $this->DataSource->lbgoback->SetValue($this->lbgoback->GetValue(true));
   $this->DataSource->hidguid->SetValue($this->hidguid->GetValue(true));
   $this->DataSource->twitter->SetValue($this->twitter->GetValue(true));
+  $this->DataSource->contact_gender->SetValue($this->contact_gender->GetValue(true));
   $this->DataSource->notify_holidays->SetValue($this->notify_holidays->GetValue(true));
   $this->DataSource->hidhobbies->SetValue($this->hidhobbies->GetValue(true));
   $this->DataSource->Insert();
@@ -271,7 +279,7 @@ function GetPrimaryKey($keyName)
  }
 //End InsertRow Method
 
-//UpdateRow Method @2-E12DAC24
+//UpdateRow Method @2-DAF39433
  function UpdateRow()
  {
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeUpdate", $this);
@@ -292,6 +300,7 @@ function GetPrimaryKey($keyName)
   $this->DataSource->lbgoback->SetValue($this->lbgoback->GetValue(true));
   $this->DataSource->hidguid->SetValue($this->hidguid->GetValue(true));
   $this->DataSource->twitter->SetValue($this->twitter->GetValue(true));
+  $this->DataSource->contact_gender->SetValue($this->contact_gender->GetValue(true));
   $this->DataSource->notify_holidays->SetValue($this->notify_holidays->GetValue(true));
   $this->DataSource->hidhobbies->SetValue($this->hidhobbies->GetValue(true));
   $this->DataSource->Update();
@@ -300,7 +309,7 @@ function GetPrimaryKey($keyName)
  }
 //End UpdateRow Method
 
-//Show Method @2-4CB62663
+//Show Method @2-0C3441E4
  function Show()
  {
   global $CCSUseAmp;
@@ -317,6 +326,7 @@ function GetPrimaryKey($keyName)
   $this->jobposition->Prepare();
   $this->customer_id->Prepare();
   $this->preferred_color->Prepare();
+  $this->contact_gender->Prepare();
   $this->notify_holidays->Prepare();
 
   $RecordBlock = "Record " . $this->ComponentName;
@@ -347,6 +357,7 @@ function GetPrimaryKey($keyName)
      $this->preferred_color->SetValue($this->DataSource->preferred_color->GetValue());
      $this->hidguid->SetValue($this->DataSource->hidguid->GetValue());
      $this->twitter->SetValue($this->DataSource->twitter->GetValue());
+     $this->contact_gender->SetValue($this->DataSource->contact_gender->GetValue());
      $this->notify_holidays->SetValue($this->DataSource->notify_holidays->GetValue());
      $this->hidhobbies->SetValue($this->DataSource->hidhobbies->GetValue());
     }
@@ -373,6 +384,7 @@ function GetPrimaryKey($keyName)
    $Error = ComposeStrings($Error, $this->lbgoback->Errors->ToString());
    $Error = ComposeStrings($Error, $this->hidguid->Errors->ToString());
    $Error = ComposeStrings($Error, $this->twitter->Errors->ToString());
+   $Error = ComposeStrings($Error, $this->contact_gender->Errors->ToString());
    $Error = ComposeStrings($Error, $this->notify_holidays->Errors->ToString());
    $Error = ComposeStrings($Error, $this->hidhobbies->Errors->ToString());
    $Error = ComposeStrings($Error, $this->Errors->ToString());
@@ -409,6 +421,7 @@ function GetPrimaryKey($keyName)
   $this->lbgoback->Show();
   $this->hidguid->Show();
   $this->twitter->Show();
+  $this->contact_gender->Show();
   $this->notify_holidays->Show();
   $this->hidhobbies->Show();
   $Tpl->parse();
@@ -421,7 +434,7 @@ function GetPrimaryKey($keyName)
 
 class clscontacts_viewcontentalm_customers_contactsDataSource extends clsDBdbConnection {  //alm_customers_contactsDataSource Class @2-D9B132D5
 
-//DataSource Variables @2-988C65AE
+//DataSource Variables @2-0D7E5F2B
  public $Parent = "";
  public $CCSEvents = "";
  public $CCSEventResult;
@@ -453,11 +466,12 @@ class clscontacts_viewcontentalm_customers_contactsDataSource extends clsDBdbCon
  public $lbgoback;
  public $hidguid;
  public $twitter;
+ public $contact_gender;
  public $notify_holidays;
  public $hidhobbies;
 //End DataSource Variables
 
-//DataSourceClass_Initialize Event @2-ECCC7F4E
+//DataSourceClass_Initialize Event @2-3B1F9E7A
  function clscontacts_viewcontentalm_customers_contactsDataSource(& $Parent)
  {
   $this->Parent = & $Parent;
@@ -495,6 +509,8 @@ class clscontacts_viewcontentalm_customers_contactsDataSource extends clsDBdbCon
   
   $this->twitter = new clsField("twitter", ccsText, "");
   
+  $this->contact_gender = new clsField("contact_gender", ccsText, "");
+  
   $this->notify_holidays = new clsField("notify_holidays", ccsText, "");
   
   $this->hidhobbies = new clsField("hidhobbies", ccsText, "");
@@ -515,6 +531,7 @@ class clscontacts_viewcontentalm_customers_contactsDataSource extends clsDBdbCon
   $this->InsertFields["preferred_color"] = array("Name" => "preferred_color", "Value" => "", "DataType" => ccsText);
   $this->InsertFields["guid"] = array("Name" => "guid", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->InsertFields["twitter"] = array("Name" => "twitter", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
+  $this->InsertFields["gender"] = array("Name" => "gender", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->InsertFields["notify_holidays"] = array("Name" => "notify_holidays", "Value" => "", "DataType" => ccsText);
   $this->InsertFields["hobbies"] = array("Name" => "hobbies", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->UpdateFields["contact"] = array("Name" => "contact", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
@@ -532,6 +549,7 @@ class clscontacts_viewcontentalm_customers_contactsDataSource extends clsDBdbCon
   $this->UpdateFields["preferred_color"] = array("Name" => "preferred_color", "Value" => "", "DataType" => ccsText);
   $this->UpdateFields["guid"] = array("Name" => "guid", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->UpdateFields["twitter"] = array("Name" => "twitter", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
+  $this->UpdateFields["gender"] = array("Name" => "gender", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
   $this->UpdateFields["notify_holidays"] = array("Name" => "notify_holidays", "Value" => "", "DataType" => ccsText);
   $this->UpdateFields["hobbies"] = array("Name" => "hobbies", "Value" => "", "DataType" => ccsText, "OmitIfEmpty" => 1);
  }
@@ -564,7 +582,7 @@ class clscontacts_viewcontentalm_customers_contactsDataSource extends clsDBdbCon
  }
 //End Open Method
 
-//SetValues Method @2-40E859F8
+//SetValues Method @2-9EEA3AF2
  function SetValues()
  {
   $this->contact->SetDBValue($this->f("contact"));
@@ -582,12 +600,13 @@ class clscontacts_viewcontentalm_customers_contactsDataSource extends clsDBdbCon
   $this->preferred_color->SetDBValue($this->f("preferred_color"));
   $this->hidguid->SetDBValue($this->f("guid"));
   $this->twitter->SetDBValue($this->f("twitter"));
+  $this->contact_gender->SetDBValue($this->f("gender"));
   $this->notify_holidays->SetDBValue($this->f("notify_holidays"));
   $this->hidhobbies->SetDBValue($this->f("hobbies"));
  }
 //End SetValues Method
 
-//Insert Method @2-594FF88A
+//Insert Method @2-98C98FC9
  function Insert()
  {
   global $CCSLocales;
@@ -609,6 +628,7 @@ class clscontacts_viewcontentalm_customers_contactsDataSource extends clsDBdbCon
   $this->InsertFields["preferred_color"]["Value"] = $this->preferred_color->GetDBValue(true);
   $this->InsertFields["guid"]["Value"] = $this->hidguid->GetDBValue(true);
   $this->InsertFields["twitter"]["Value"] = $this->twitter->GetDBValue(true);
+  $this->InsertFields["gender"]["Value"] = $this->contact_gender->GetDBValue(true);
   $this->InsertFields["notify_holidays"]["Value"] = $this->notify_holidays->GetDBValue(true);
   $this->InsertFields["hobbies"]["Value"] = $this->hidhobbies->GetDBValue(true);
   $this->SQL = CCBuildInsert("alm_customers_contacts", $this->InsertFields, $this);
@@ -620,7 +640,7 @@ class clscontacts_viewcontentalm_customers_contactsDataSource extends clsDBdbCon
  }
 //End Insert Method
 
-//Update Method @2-7468D9E4
+//Update Method @2-9B4932E0
  function Update()
  {
   global $CCSLocales;
@@ -642,6 +662,7 @@ class clscontacts_viewcontentalm_customers_contactsDataSource extends clsDBdbCon
   $this->UpdateFields["preferred_color"]["Value"] = $this->preferred_color->GetDBValue(true);
   $this->UpdateFields["guid"]["Value"] = $this->hidguid->GetDBValue(true);
   $this->UpdateFields["twitter"]["Value"] = $this->twitter->GetDBValue(true);
+  $this->UpdateFields["gender"]["Value"] = $this->contact_gender->GetDBValue(true);
   $this->UpdateFields["notify_holidays"]["Value"] = $this->notify_holidays->GetDBValue(true);
   $this->UpdateFields["hobbies"]["Value"] = $this->hidhobbies->GetDBValue(true);
   $this->SQL = CCBuildUpdate("alm_customers_contacts", $this->UpdateFields, $this);

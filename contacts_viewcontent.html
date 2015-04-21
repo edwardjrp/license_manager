@@ -104,14 +104,20 @@
 						{customer_id_Options}
 					</select>
 				</div>
-				<div class="col-md-3 col-xs-12">
+				<div class="col-md-2 col-xs-12">
 					<label class="control-label blue" for="contact_maincontact">{res:contact_maincontact}</label><br>
 					<input type="checkbox" name="{maincontact_Name}" value="1" {maincontact} id="contact_maincontact" class="ace ace-switch ace-switch-4" disabled><span class="lbl"></span>
 				</div>
-			</div>
-			<!-- row -->
-			<div class="row col-xs-12 space">
-			</div>
+				<div class="col-md-2 col-xs-12">
+					<label class="control-label border blue" for="contact_gender">{res:gender}</label><br>
+					<select name="{contact_gender_Name}" disabled>
+						<option value="">{res:selectoption}</option>
+						{contact_gender_Options}
+					</select>
+				</div>
+			</div><!-- row -->
+
+			<div class="row col-xs-12 space"></div>
  
 			<div class="row col-xs-12">
 				<div class="col-md-1 col-xs-0">
@@ -122,6 +128,22 @@
 					<!-- BEGIN CheckBoxList preferred_color --><input {Check} type="checkbox" name="{preferred_color_Name}" value="{Value}" class="ace ace-checkbox-2" disabled><span class="lbl">&nbsp;&nbsp;{Description}</span><br>
 					<!-- END CheckBoxList preferred_color --></label>
 				</div>
+
+				<div class="col-md-3 col-xs-12">
+					<label class="control-label blue" for="holidays">{res:notifyholidays}</label><br>
+					<label>
+					<!-- BEGIN CheckBoxList notify_holidays --><input {Check} type="checkbox" name="{notify_holidays_Name}" value="{Value}" class="ace ace-checkbox-2" disabled><span class="lbl">&nbsp;&nbsp;{Description}</span><br>
+					<!-- END CheckBoxList notify_holidays --></label>
+				</div>
+
+			</div>
+			<!-- row -->
+
+			<div class="row col-xs-12 space"></div>
+
+			<div class="row col-xs-12">
+				<div class="col-md-1 col-xs-0"></div>
+
 				<div class="col-md-7 col-xs-12">
 					<label class="control-label blue" for="hobbies">{res:hobbies}</label><br>
 					<label>
@@ -138,22 +160,11 @@
 					</div>
 					<!-- END hobbies_list --></label><input type="hidden" name="{hidhobbies_Name}" value="{hidhobbies}" disabled>
 				</div>
+
 			</div>
-			<!-- row -->
-			<div class="row col-xs-12 space">
-			</div>
-			<div class="row col-xs-12">
-				<div class="col-md-1 col-xs-0">
-				</div>
-				<div class="col-md-3 col-xs-12">
-					<label class="control-label blue" for="holidays">{res:notifyholidays}</label><br>
-					<label>
-					<!-- BEGIN CheckBoxList notify_holidays --><input {Check} type="checkbox" name="{notify_holidays_Name}" value="{Value}" class="ace ace-checkbox-2" disabled><span class="lbl">&nbsp;&nbsp;{Description}</span><br>
-					<!-- END CheckBoxList notify_holidays --></label>
-				</div>
-			</div>
-			<div class="row col-xs-12 space">
-			</div>
+
+			<div class="row col-xs-12 space"></div>
+
 			<div class="row">
 				<div class="col-md-12 col-xs-12">
 					<div class="form-actions action-buttons center inline col-xs-12">
