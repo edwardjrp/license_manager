@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<!-- meta_head -->
+		{meta_head}
+	</head>
+
+	<body>
+		<!-- header -->
+		{header}
+
+		<div class="main-container" id="main-container">
+			<script type="text/javascript">
+				try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+			</script>
+
+			<div class="main-container-inner">
+				<a class="menu-toggler" id="menu-toggler" href="#">
+					<span class="menu-text"></span>
+				</a>
+
+				<!-- sidebar -->
+				{sidebar}
+
+				<div class="main-content">
+				<div class="breadcrumbs" id="breadcrumbs">
+					<script type="text/javascript">
+											try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+										</script>
+					<ul class="breadcrumb">
+						<li><i class="icon-group blue bigger-150"></i><a href="contacts_holidays.php">{res:contacts_holidays}</a></li>
+						<li class="active">{res:addeditholidays}</li>
+					</ul>
+					<!-- .breadcrumb -->
+				</div>
+				<!-- breadcrumbs -->
+
+					<div class="page-content">
+						<div class="row">
+							<div class="col-xs-12">
+								<!-- PAGE CONTENT BEGINS -->
+									{contacts_holidays_maintcontent}
+								<!-- PAGE CONTENT ENDS -->
+							</div><!-- /.col -->
+						</div><!-- /.row -->
+					</div><!-- /.page-content -->
+				</div><!-- /.main-content -->
+				
+				<!-- ace_settings -->
+				{ace_settings}
+				
+			</div><!-- /.main-container-inner -->
+
+		</div><!-- /.main-container -->
+
+		<!-- footer -->
+		{footer}
+
+	</body>
+</html>

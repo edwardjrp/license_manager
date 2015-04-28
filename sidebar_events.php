@@ -202,6 +202,11 @@ function sidebar_BeforeShow(& $sender)
 			$Tpl->setvar("companies_menu_show","show");
 			$Tpl->setvar("companies_active","active");
 		break;
+		case "contacts_holidays.php" :
+		case "contacts_holidays_maint.php" :
+			$Tpl->setvar("contacts_menu_show","show");
+			$Tpl->setvar("contacts_holidays_active","active");
+		break;
 
 	}
 

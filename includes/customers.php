@@ -1231,16 +1231,43 @@ class Customers {
 				$sql = "delete from alm_customers_contacts_subhobbies where id = $subhobbie_id";
 				$db->query($sql);
 			}
+			$db->close();
 
-		     $result["status"] = true;
-		     $result["message"] = "Command executed successfully.";
+			$result["status"] = true;
+			$result["message"] = "Command executed successfully.";
 
-		     return $result;
+			return $result;
 
 		 } else {
 		     $result["status"] = false;
 		     $result["message"] = "Invalid GUID";
 		     return $result;
+		 }
+
+	}
+
+	public function deleteHolidaysByGuid($params = array()) {
+		$result = array("status" => false, "message" => "");
+	    $guid = $params["guid"];
+
+		if (strlen($guid) > 0) {
+			//This operation will also delete contacts associated to the customer
+			$db = new clsDBdbConnection();
+
+			$guid = $db->esc($guid);
+			$sql = "delete from alm_customers_contacts_holidays where guid = '$guid'";
+			$db->query($sql);
+			$db->close();
+
+			$result["status"] = true;
+		    $result["message"] = "Command executed successfully.";
+
+		    return $result;
+
+		 } else {
+		    $result["status"] = false;
+		    $result["message"] = "Invalid GUID";
+		    return $result;
 		 }
 
 	}
