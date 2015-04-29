@@ -36,7 +36,7 @@ class clsRecordcontacts_holidays_maintcontentalm_contacts_holidays { //alm_conta
  // Class variables
 //End Variables
 
-//Class_Initialize Event @3-F3343500
+//Class_Initialize Event @3-A8712E37
  function clsRecordcontacts_holidays_maintcontentalm_contacts_holidays($RelativePath, & $Parent)
  {
 
@@ -83,7 +83,7 @@ class clsRecordcontacts_holidays_maintcontentalm_contacts_holidays { //alm_conta
    $this->pnday_position = new clsPanel("pnday_position", $this);
    $this->day_position = new clsControl(ccsListBox, "day_position", $CCSLocales->GetText("day_position"), ccsInteger, "", CCGetRequestParam("day_position", $Method, NULL), $this);
    $this->day_position->DSType = dsListOfValues;
-   $this->day_position->Values = array(array("1", "1st."), array("2", "2nd"), array("3", "3rd"), array("4", "4th"));
+   $this->day_position->Values = array(array("1", "1st"), array("2", "2nd"), array("3", "3rd"), array("4", "4th"), array("5", "5th"), array("6", "Last"));
    $this->hiddaymonth = new clsControl(ccsHidden, "hiddaymonth", "hiddaymonth", ccsText, "", CCGetRequestParam("hiddaymonth", $Method, NULL), $this);
    $this->pnday_position->Visible = false;
    $this->pnday_position->AddComponent("day_position", $this->day_position);
