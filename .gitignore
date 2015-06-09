@@ -2,3 +2,4 @@ vendor/
 .idea/
 .git/
 assets/licenses/
+config/
