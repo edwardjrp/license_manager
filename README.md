@@ -1,5 +1,5 @@
 # ALM Licensing Manager
-![alm logo]()
+![alm logo](https://github.com/edwardjrp/license_manager/blob/master/assets/alm_main.png)
 CRM and licensing manager web app to handle all licensing requirements for IT security companies.
 
 ### Modules
