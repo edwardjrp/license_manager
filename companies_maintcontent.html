@@ -106,11 +106,19 @@
 								<div class="col-md-1 col-xs-0"></div>
 
 								<div class="col-md-5 col-xs-12">
-									<label class="control-label blue" for="s_phone">{res:assigned_to}</label><br>
-									<select id="s_type" name="{assigned_to_user_Name}" class="col-md-10 col-xs-12">
-										<option selected value="">{res:CCS_SelectValue}</option>
-										{assigned_to_user_Options}
-									</select>
+									<div class="row">
+										<div class="col-md-10 col-xs-12">
+											<label class="control-label blue" for="s_phone">{res:assigned_to}</label><br>
+											<select id="s_type" name="{assigned_to_user_Name}" class="col-md-10 col-xs-12">
+												<option selected value="">{res:CCS_SelectValue}</option>
+												{assigned_to_user_Options}
+											</select>
+										</div>
+										<div class="col-md-12 col-xs-12">
+											<label class="control-label blue" for="notes">{res:notes}</label><br>
+											<textarea name="{notes_Name}" cols="49" rows="9" class="col-md-10 col-xs-12">{notes}</textarea>
+										</div>
+									</div>
 								</div>
 
 								<div class="col-md-5 col-xs-12">
