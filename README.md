@@ -1,6 +1,6 @@
 # ALM Licensing Manager
 ![alm logo]()
-CRM and licenging manager web app to handle all licensing requirements for IT security companies.
+CRM and licensing manager web app to handle all licensing requirements for IT security companies.
 
 ### Modules
 
