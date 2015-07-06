@@ -101,13 +101,25 @@
 
 		<div class="row col-xs-12">
 			<div class="col-md-1 col-xs-0"></div>
-			<div class="col-md-4 col-xs-12">
-				<label class="control-label blue" for="contact_workemail">{res:customer}</label><br>
-				<select name="{customer_id_Name}" class="width-90 chosen-select">
-					<option value="0">{res:selectoption}</option>
-					{customer_id_Options}
-				</select>
+				<div class="col-md-5 col-xs-12">
+					<label class="control-label blue" for="contact_workemail">{res:customer}</label><br>
+					<select name="{customer_id_Name}" class="width-90 chosen-select">
+						<option value="0">{res:selectoption}</option>
+						{customer_id_Options}
+					</select>
+				</div>
+
+			<div class="col-md-3 col-xs-12">
+				<label class="control-label blue">{res:budgetdate}</label><br>
+				<div class="input-group">
+					<input type="text" name="{budgetdate_Name}" value="{budgetdate}" maxlength="100" size="10" class="col-md-12 col-xs-12 date-picker" data-date-format="mm/dd/yyyy">
+					<span class="input-group-addon"><i class="icon-calendar bigger-110"></i></span>
+				</div>
 			</div>
+		</div><div class="row col-xs-12 space"></div>
+
+		<div class="row col-xs-12">
+			<div class="col-md-1 col-xs-0"></div>
 			<div class="col-md-2 col-xs-12">
 				<label class="control-label blue" for="contact_maincontact">{res:contact_maincontact}</label><br>
 				<input type="checkbox" name="{maincontact_Name}" value="1" {maincontact} id="contact_maincontact" class="ace ace-switch ace-switch-4">

@@ -1272,6 +1272,34 @@ class Customers {
 
 	}
 
+	public function saveBudgetDate( $params = array())
+	{
+	    $customerId = (int)$params["customerId"];
+		$budgetDate = $params["budgetDate"];
+		if ($customerId > 0)
+		{
+			$db = new clsDBdbConnection();
+			if (strlen($budgetDate) <= 0)
+			{
+				$sql        = "update alm_customers set budgetdate = NULL where id = $customerId";
+			}
+			else
+			{
+				$budgetDate = new \DateTime( $budgetDate );
+				$budgetDate = $budgetDate->format( 'Y-m-d' );
+				$sql = "update alm_customers set budgetdate = '$budgetDate' where id = $customerId";
+			}
+			
+			$db->query($sql);
+			$db->close();
+
+			return true;
+		}
+
+		return false;
+
+	}
+
 }
 
 

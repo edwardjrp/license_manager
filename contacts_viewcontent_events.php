@@ -151,6 +151,40 @@ function contacts_viewcontent_alm_customers_contacts_notify_holidays_ds_BeforeBu
 }
 //End Close contacts_viewcontent_alm_customers_contacts_notify_holidays_ds_BeforeBuildSelect
 
+//contacts_viewcontent_alm_customers_contacts_budgetdate_BeforeShow @39-10C2A728
+function contacts_viewcontent_alm_customers_contacts_budgetdate_BeforeShow(& $sender)
+{
+ $contacts_viewcontent_alm_customers_contacts_budgetdate_BeforeShow = true;
+ $Component = & $sender;
+ $Container = & CCGetParentContainer($sender);
+ global $contacts_viewcontent; //Compatibility
+//End contacts_viewcontent_alm_customers_contacts_budgetdate_BeforeShow
+
+//Custom Code @40-2A29BDB7
+// -------------------------
+ // Write your own code here.
+ 	$guid = trim(CCGetFromGet("guid",""));
+	if (strlen($guid) > 0 ) {
+		$db = new clsDBdbConnection();
+		$customerId = (int)CCDLookup("customer_id","alm_customers_contacts","guid = '$guid'",$db);
+		if ($customerId > 0) {
+			$budgetDate = trim(CCDLookup("budgetdate","alm_customers","id = $customerId",$db));
+			if (strlen($budgetDate) > 0) {
+				$budgetDate = new \DateTime($budgetDate);
+				$contacts_viewcontent->alm_customers_contacts->budgetdate->SetValue($budgetDate->format("m/d/Y"));
+			}
+		}
+		$db->close();
+
+	}
+// -------------------------
+//End Custom Code
+
+//Close contacts_viewcontent_alm_customers_contacts_budgetdate_BeforeShow @39-181B6A66
+ return $contacts_viewcontent_alm_customers_contacts_budgetdate_BeforeShow;
+}
+//End Close contacts_viewcontent_alm_customers_contacts_budgetdate_BeforeShow
+
 //contacts_viewcontent_alm_customers_contacts_BeforeInsert @2-3AF359B2
 function contacts_viewcontent_alm_customers_contacts_BeforeInsert(& $sender)
 {

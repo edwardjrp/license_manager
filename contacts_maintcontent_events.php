@@ -105,6 +105,40 @@ function contacts_maintcontent_alm_customers_contacts_notify_holidays_BeforeShow
 }
 //End Close contacts_maintcontent_alm_customers_contacts_notify_holidays_BeforeShow
 
+//contacts_maintcontent_alm_customers_contacts_budgetdate_BeforeShow @41-2AB7530A
+function contacts_maintcontent_alm_customers_contacts_budgetdate_BeforeShow(& $sender)
+{
+ $contacts_maintcontent_alm_customers_contacts_budgetdate_BeforeShow = true;
+ $Component = & $sender;
+ $Container = & CCGetParentContainer($sender);
+ global $contacts_maintcontent; //Compatibility
+//End contacts_maintcontent_alm_customers_contacts_budgetdate_BeforeShow
+
+//Custom Code @42-2A29BDB7
+// -------------------------
+ // Write your own code here.
+ 	$guid = trim(CCGetFromGet("guid",""));
+	if (strlen($guid) > 0 ) {
+		$db = new clsDBdbConnection();
+		$customerId = (int)CCDLookup("customer_id","alm_customers_contacts","guid = '$guid'",$db);
+		if ($customerId > 0) {
+			$budgetDate = trim(CCDLookup("budgetdate","alm_customers","id = $customerId",$db));
+			if (strlen($budgetDate) > 0) {
+				$budgetDate = new \DateTime($budgetDate);
+				$contacts_maintcontent->alm_customers_contacts->budgetdate->SetValue($budgetDate->format("m/d/Y"));
+			}
+		}
+		$db->close();
+
+	}
+// -------------------------
+//End Custom Code
+
+//Close contacts_maintcontent_alm_customers_contacts_budgetdate_BeforeShow @41-1FC94F71
+ return $contacts_maintcontent_alm_customers_contacts_budgetdate_BeforeShow;
+}
+//End Close contacts_maintcontent_alm_customers_contacts_budgetdate_BeforeShow
+
 //Used because the last_user_id query on afterinsert was not working
 $lastguid = "";
 
@@ -175,6 +209,8 @@ function contacts_maintcontent_alm_customers_contacts_AfterInsert(& $sender)
  	global $FileName;
 	global $Redirect;
 
+	$customers = new Customers();
+
 	//Saving the subhobbies for the contact	
 	$hobbies = CCGetFromPost("hobbies",array());
 	foreach($hobbies as $hobbie_id) {
@@ -186,9 +222,13 @@ function contacts_maintcontent_alm_customers_contacts_AfterInsert(& $sender)
 		$params["parent_id"] = $parent_id;
 		$params["contact_guid"] = $contact_guid = $contacts_maintcontent->alm_customers_contacts->hidguid->GetValue();
 
-		$customers = new Customers();
 		$customers->saveContactSubHobbies($params);		
 	}
+
+	//Save budget date if company is present on a contact
+	$customerId = $contacts_maintcontent->alm_customers_contacts->customer_id->getValue();
+	$budgetDate = $contacts_maintcontent->alm_customers_contacts->budgetdate->getValue();
+	$customers->saveBudgetDate(array("customerId" => $customerId, "budgetDate" => $budgetDate));
 
 	CCSetSession("showalert","show");
 
@@ -268,6 +308,8 @@ function contacts_maintcontent_alm_customers_contacts_AfterUpdate(& $sender)
  // Write your own code here.
 	//Show message alert after saving information
 
+	$customers = new Customers();
+
 	//Saving the subhobbies for the contact	
 	$hobbies = CCGetFromPost("hobbies",array());
 	foreach($hobbies as $hobbie_id) {
@@ -279,11 +321,17 @@ function contacts_maintcontent_alm_customers_contacts_AfterUpdate(& $sender)
 		$params["parent_id"] = $parent_id;
 		$params["contact_guid"] = $contact_guid = $contacts_maintcontent->alm_customers_contacts->hidguid->GetValue();
 
-		$customers = new Customers();
 		$customers->saveContactSubHobbies($params);		
 	}
 
+	//Save budget date if company is present on a contact
+	$customerId = $contacts_maintcontent->alm_customers_contacts->customer_id->getValue();
+	$budgetDate = $contacts_maintcontent->alm_customers_contacts->budgetdate->getValue();
+	$customers->saveBudgetDate(array("customerId" => $customerId, "budgetDate" => $budgetDate));
+
 	CCSetSession("showalert","show");
+
+
 
 // -------------------------
 //End Custom Code

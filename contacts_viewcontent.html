@@ -92,17 +92,31 @@
 				</div>
 			</div>
 			<!-- row-->
-			<div class="row col-xs-12 space">
-			</div>
+
+			<div class="row col-xs-12 space"></div>
 			<div class="row col-xs-12">
-				<div class="col-md-1 col-xs-0">
-				</div>
-				<div class="col-md-4 col-xs-12">
+				<div class="col-md-1 col-xs-0"></div>
+				<div class="col-md-5 col-xs-12">
 					<label class="control-label blue" for="contact_workemail">{res:customer}</label><br>
 					<select name="{customer_id_Name}" class="width-90 chosen-select" disabled>
 						<option value="0">{res:selectoption}</option>
 						{customer_id_Options}
 					</select>
+				</div>
+
+				<div class="col-md-3 col-xs-12">
+					<label class="control-label blue">{res:budgetdate}</label><br>
+					<div class="input-group">
+						<input type="text" name="{budgetdate_Name}" value="{budgetdate}" maxlength="100" size="10" class="col-md-12 col-xs-12 date-picker" data-date-format="mm/dd/yyyy" disabled><span class="input-group-addon"><i class="icon-calendar bigger-110"></i></span>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="row col-xs-12 space"></div>
+
+			<div class="row col-xs-12">
+				<div class="col-md-1 col-xs-0">
 				</div>
 				<div class="col-md-2 col-xs-12">
 					<label class="control-label blue" for="contact_maincontact">{res:contact_maincontact}</label><br>
@@ -174,8 +188,7 @@
 			<div class="row">
 				<div class="col-md-12 col-xs-12">
 					<div class="form-actions action-buttons center inline col-xs-12">
-						<div class="inline"><a href="contacts.php{lbgoback}" role="button" id="goback" class="btn btn-sm btn-success"><li class="icon-arrow-left"></li>
-&nbsp;{res:buttongoback}</a> &nbsp;&nbsp;</div>
+						<div class="inline"><a href="contacts.php{lbgoback}" role="button" id="goback" class="btn btn-sm btn-success"><li class="icon-arrow-left"></li>&nbsp;{res:buttongoback}</a> &nbsp;&nbsp;</div>
 						<input type="hidden" name="{modified_iduser_Name}" value="{modified_iduser}">
 						<input type="hidden" name="{created_iduser_Name}" value="{created_iduser}"><input type="hidden" name="{hidguid_Name}" value="{hidguid}">
 					</div>
