@@ -68,7 +68,7 @@
 						</div>
 						<div class="col-md-2 col-xs-12">
 							<label class="control-label blue">{res:msrp_price}</label><br>
-							<input type="text" name="{msrp_price_Name}" value="{msrp_price}" class="col-md-12 col-xs-12">
+							<input type="text" name="{msrp_price_Name}" value="{msrp_price}" class="col-md-12 col-xs-12" data-validation="required" data-validation-error-msg="{res:invalidprice}">
 						</div>
 					</div><!-- row -->
 					
@@ -79,7 +79,8 @@
 						</div>
 						<div class="col-md-4 col-xs-12">
 							<label class="control-label blue">{res:licensedby}</label><br>
-							<!-- BEGIN RadioButton id_licensed_by --><input {Check} type="radio" name="{id_licensed_by_Name}" value="{Value}" id="id_licensed_by_{Value}" class="ace id_licensed_by"><span class="lbl">&nbsp;&nbsp;{Description}&nbsp;&nbsp;&nbsp;</span><!-- END RadioButton id_licensed_by -->
+							<!-- BEGIN RadioButton id_licensed_by --><input {Check} type="radio" name="{id_licensed_by_Name}" value="{Value}" id="id_licensed_by_{Value}" class="ace id_licensed_by"><span class="lbl">
+&nbsp;&nbsp;{Description}&nbsp;&nbsp;&nbsp;</span><!-- END RadioButton id_licensed_by -->
 						</div>
 
 						<div class="col-md-2 col-xs-12 hide" id="amounts">
@@ -151,8 +152,7 @@
 								<label class="control-label blue">{res:granttype}</label><br>
 								<select name="{id_license_granttype_Name}" id="id_license_granttype" class="width-90 chosen-select">
 									<option value="">{res:option_na}</option>
-									
-{id_license_granttype_Options}
+									{id_license_granttype_Options}
 								</select>
 
 							</div>
