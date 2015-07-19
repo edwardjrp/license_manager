@@ -1148,6 +1148,8 @@ function licensing_customerscontent_licensing_BeforeShow(& $sender)
  // Write your own code here.
 	global $MainPage;
 
+	print_r($_POST);exit;
+
 	$o = trim(CCGetFromGet("o",""));
 	$dguid = trim(CCGetFromGet("dguid",""));
 	$customer_guid = trim(CCGetFromGet("guid",""));
