@@ -1,0 +1,27 @@
+web:
+  image: edwardjrp/nginx
+  ports:
+    - "8080:80"
+  volumes:
+    - ../alm:/var/www
+    - ./config/docker/vhost.conf:/etc/nginx/sites-enabled/vhost.conf
+  links:
+    - php
+
+php:
+  image: nmcteam/php56
+  volumes:
+    - ./config/docker/php-fpm.conf:/etc/php5/fpm/php-fpm.conf
+    - ./config/docker/php.ini:/etc/php5/fpm/php.ini
+    - ../alm:/var/www
+#   links:
+#     - db
+
+# db:
+#   image: sameersbn/mysql #mariadb:latest
+#   volumes:
+#    - /var/lib/mysql
+#   environment:
+#    - DB_NAME=demoDb
+#    - DB_USER=demoUser
+#    - DB_PASS=demoPass
