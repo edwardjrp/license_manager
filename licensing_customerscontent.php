@@ -661,7 +661,7 @@ class clsRecordlicensing_customerscontentlicensing { //licensing Class @154-009C
  // Class variables
 //End Variables
 
-//Class_Initialize Event @154-A99E79D0
+//Class_Initialize Event @154-92E05C69
  function clsRecordlicensing_customerscontentlicensing($RelativePath, & $Parent)
  {
 
@@ -825,8 +825,6 @@ class clsRecordlicensing_customerscontentlicensing { //licensing Class @154-009C
      $this->id_license_sector->SetText(2);
     if(!is_array($this->hidlicensestatus->Value) && !strlen($this->hidlicensestatus->Value) && $this->hidlicensestatus->Value !== false)
      $this->hidlicensestatus->SetText(1);
-    if(!is_array($this->granttype->Value) && !strlen($this->granttype->Value) && $this->granttype->Value !== false)
-     $this->granttype->SetText(1);
    }
   }
  }
