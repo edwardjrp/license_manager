@@ -574,8 +574,10 @@ class Products {
 	             $fields = implode(",",$fields_array);
 
 	             //The having 1 in the query is to fool mariadb subquery because the group by clause was being ignored
-	             $sql = "select $fields from v_alm_licenses where id_customer = $customer_id and isarchived = $isArchived $isCompetitor $isDisplacement
-						 and id in (select id from v_alm_licenses where id_customer = $customer_id and isarchived = $isArchived group by IFNULL(grant_number,RAND()) having 1 ) ";
+//	             $sql = "select $fields from v_alm_licenses where id_customer = $customer_id and isarchived = $isArchived $isCompetitor $isDisplacement
+//						 and id in (select id from v_alm_licenses where id_customer = $customer_id and isarchived = $isArchived group by IFNULL(grant_number,RAND()) having 1 ) ";
+		         $sql = "select $fields from v_alm_licenses where id_customer = $customer_id and isarchived = $isArchived $isCompetitor $isDisplacement group by IFNULL(grant_number,RAND())";
+			 	 //and id in (select id from v_alm_licenses where id_customer = $customer_id and isarchived = $isArchived group by IFNULL(grant_number,RAND()) having 1 ) ";
 
 	             $db->query($sql);
 

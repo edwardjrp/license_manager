@@ -315,7 +315,7 @@
 										<div class="col-md-12 col-xs-12">
 											<select name="{granttype_Name}" id="license_granttype" class="width-90 chosen-select" disabled>
 												{granttype_Options}
-											</select><br>
+											</select><input type="hidden" name="{hidGrantType_Name}" value="{hidGrantType}" id="hidGrantType"><br>
 											<input type="text" class="col-md-11 col-xs-12" value="{grant_number}" name="{grant_number_Name}">
 										</div>
 									</div>
@@ -642,6 +642,7 @@ $(function(){
 						suitedescription.val("");
 						license_granttype.val(1);
 						license_granttype.trigger("chosen:updated");
+						$("#hidGrantType").val(license_granttype.val());
 
                         $("#id_licensed_by_1").click();      
                         $("#licensed_amount").val(0);
@@ -692,6 +693,7 @@ $(function(){
 						licenseGrantType = licenseGrantType || 1;
 						license_granttype.val(licenseGrantType);
 						license_granttype.trigger("chosen:updated");
+						$("#hidGrantType").val(licenseGrantType);
 
 						//Checking the licenseType listbox
 						if ( (licenseType == 7) || (licenseType == 12) ) {
@@ -795,6 +797,7 @@ $(function(){
 
 								$("#license_granttype").val(this.id_license_granttype);
 								$("#license_granttype").trigger("chosen:updated");
+								$("#hidGrantType").val(this.id_license_granttype);
                         });
 
                 });
@@ -899,6 +902,9 @@ $(function(){
 		});
 	<!-- END Panel pndropzonejs -->
 
+
+	<!-- Disabling granttype using readonly attr -->
+	
 });
 
 </script>

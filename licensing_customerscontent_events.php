@@ -202,6 +202,7 @@ function licensing_customerscontent_alm_customers_BeforeShow(& $sender)
 //Custom Code @150-2A29BDB7
 // -------------------------
     // Write your own code here.
+
 	$guid = CCGetFromGet("guid","");
 	$license_guid = CCGetFromGet("license_guid","");
 	$tab = CCGetFromGet("tab","");
@@ -1026,6 +1027,7 @@ function licensing_customerscontent_licensing_BeforeUpdate(& $sender)
 //Custom Code @190-2A29BDB7
 // -------------------------
  // Write your own code here.
+
  	$licensing_customerscontent->licensing->modified_iduser->SetValue(CCGetUserID());
 
 	//Changing license status to active when inactive and grant,expdate,expirdate are present
@@ -1147,8 +1149,6 @@ function licensing_customerscontent_licensing_BeforeShow(& $sender)
 // -------------------------
  // Write your own code here.
 	global $MainPage;
-
-	print_r($_POST);exit;
 
 	$o = trim(CCGetFromGet("o",""));
 	$dguid = trim(CCGetFromGet("dguid",""));
