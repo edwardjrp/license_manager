@@ -35,7 +35,7 @@ class clsRecordcontacts_listsearch { //search Class @2-DDD4AD17
  // Class variables
 //End Variables
 
-//Class_Initialize Event @2-37F3F8BF
+//Class_Initialize Event @2-0C3AF66D
  function clsRecordcontacts_listsearch($RelativePath, & $Parent)
  {
 
@@ -61,28 +61,36 @@ class clsRecordcontacts_listsearch { //search Class @2-DDD4AD17
    $Method = $this->FormSubmitted ? ccsPost : ccsGet;
    $this->s_search = new clsControl(ccsTextBox, "s_search", "s_search", ccsText, "", CCGetRequestParam("s_search", $Method, NULL), $this);
    $this->Button_Search = new clsButton("Button_Search", $Method, $this);
+   $this->lbbirthdayQs = new clsControl(ccsListBox, "lbbirthdayQs", "lbbirthdayQs", ccsText, "", CCGetRequestParam("lbbirthdayQs", $Method, NULL), $this);
+   $this->lbbirthdayQs->DSType = dsListOfValues;
+   $this->lbbirthdayQs->Values = array(array("1", "Q1 Birthdays"), array("2", "Q2 Birthdays"), array("3", "Q3 Birthdays"), array("4", "Q4 Birthdays"));
+   $this->lbquerystring = new clsControl(ccsLabel, "lbquerystring", "lbquerystring", ccsText, "", CCGetRequestParam("lbquerystring", $Method, NULL), $this);
   }
  }
 //End Class_Initialize Event
 
-//Validate Method @2-312CA937
+//Validate Method @2-687897B0
  function Validate()
  {
   global $CCSLocales;
   $Validation = true;
   $Where = "";
   $Validation = ($this->s_search->Validate() && $Validation);
+  $Validation = ($this->lbbirthdayQs->Validate() && $Validation);
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "OnValidate", $this);
   $Validation =  $Validation && ($this->s_search->Errors->Count() == 0);
+  $Validation =  $Validation && ($this->lbbirthdayQs->Errors->Count() == 0);
   return (($this->Errors->Count() == 0) && $Validation);
  }
 //End Validate Method
 
-//CheckErrors Method @2-72947797
+//CheckErrors Method @2-ABE28E23
  function CheckErrors()
  {
   $errors = false;
   $errors = ($errors || $this->s_search->Errors->Count());
+  $errors = ($errors || $this->lbbirthdayQs->Errors->Count());
+  $errors = ($errors || $this->lbquerystring->Errors->Count());
   $errors = ($errors || $this->Errors->Count());
   return $errors;
  }
@@ -103,7 +111,7 @@ function GetPrimaryKey($keyName)
 }
 //End MasterDetail
 
-//Operation Method @2-3AE3E584
+//Operation Method @2-748E260A
  function Operation()
  {
   if(!$this->Visible)
@@ -125,7 +133,7 @@ function GetPrimaryKey($keyName)
   $Redirect = "contacts.php" . "?" . CCGetQueryString("QueryString", array("ccsForm"));
   if($this->Validate()) {
    if($this->PressedButton == "Button_Search") {
-    $Redirect = "contacts.php" . "?" . CCMergeQueryStrings(CCGetQueryString("Form", array("Button_Search", "Button_Search_x", "Button_Search_y")), CCGetQueryString("QueryString", array("s_search", "ccsForm")));
+    $Redirect = "contacts.php" . "?" . CCMergeQueryStrings(CCGetQueryString("Form", array("Button_Search", "Button_Search_x", "Button_Search_y")), CCGetQueryString("QueryString", array("s_search", "lbbirthdayQs", "ccsForm")));
     if(!CCGetEvent($this->Button_Search->CCSEvents, "OnClick", $this->Button_Search)) {
      $Redirect = "";
     }
@@ -136,7 +144,7 @@ function GetPrimaryKey($keyName)
  }
 //End Operation Method
 
-//Show Method @2-61DBB428
+//Show Method @2-44730889
  function Show()
  {
   global $CCSUseAmp;
@@ -150,6 +158,7 @@ function GetPrimaryKey($keyName)
 
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeSelect", $this);
 
+  $this->lbbirthdayQs->Prepare();
 
   $RecordBlock = "Record " . $this->ComponentName;
   $ParentPath = $Tpl->block_path;
@@ -161,6 +170,8 @@ function GetPrimaryKey($keyName)
   if($this->FormSubmitted || $this->CheckErrors()) {
    $Error = "";
    $Error = ComposeStrings($Error, $this->s_search->Errors->ToString());
+   $Error = ComposeStrings($Error, $this->lbbirthdayQs->Errors->ToString());
+   $Error = ComposeStrings($Error, $this->lbquerystring->Errors->ToString());
    $Error = ComposeStrings($Error, $this->Errors->ToString());
    $Tpl->SetVar("Error", $Error);
    $Tpl->Parse("Error", false);
@@ -180,6 +191,8 @@ function GetPrimaryKey($keyName)
 
   $this->s_search->Show();
   $this->Button_Search->Show();
+  $this->lbbirthdayQs->Show();
+  $this->lbquerystring->Show();
   $Tpl->parse();
   $Tpl->block_path = $ParentPath;
  }
@@ -606,14 +619,16 @@ class clscontacts_list { //contacts_list class @1-597B691B
  }
 //End Class_Terminate Event
 
-//BindEvents Method @1-33BFE9B4
+//BindEvents Method @1-BD714C10
  function BindEvents()
  {
+  $this->search->lbquerystring->CCSEvents["BeforeShow"] = "contacts_list_search_lbquerystring_BeforeShow";
   $this->alm_customers_contacts->customer_id->CCSEvents["BeforeShow"] = "contacts_list_alm_customers_contacts_customer_id_BeforeShow";
   $this->alm_customers_contacts->jobposition->CCSEvents["BeforeShow"] = "contacts_list_alm_customers_contacts_jobposition_BeforeShow";
   $this->alm_customers_contacts->pndeletebutton->CCSEvents["BeforeShow"] = "contacts_list_alm_customers_contacts_pndeletebutton_BeforeShow";
   $this->alm_customers_contacts->maincontact->CCSEvents["BeforeShow"] = "contacts_list_alm_customers_contacts_maincontact_BeforeShow";
   $this->alm_customers_contacts->CCSEvents["BeforeShowRow"] = "contacts_list_alm_customers_contacts_BeforeShowRow";
+  $this->alm_customers_contacts->ds->CCSEvents["BeforeExecuteSelect"] = "contacts_list_alm_customers_contacts_ds_BeforeExecuteSelect";
   $this->CCSEvents["BeforeShow"] = "contacts_list_BeforeShow";
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "AfterInitialize", $this);
  }
@@ -678,6 +693,7 @@ class clscontacts_list { //contacts_list class @1-597B691B
 } //End contacts_list Class @1-FCB6E20C
 
 include_once("includes/customers.php");
+include_once("includes/phpexcel/Classes/PHPExcel.php");
 
 //Include Event File @1-ADB4522C
 include_once(RelativePath . "/contacts_list_events.php");

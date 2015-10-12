@@ -16,9 +16,17 @@
 									<div class="col-md-4 col-xs-12">
 										<input type="text" name="{s_search_Name}" value="{s_search}" id="s_search" class="col-xs-12 col-md-12">&nbsp;
 									</div>
+									<div class="col-md-2 col-xs-12">
+										<select name="{lbbirthdayQs_Name}">
+											<option value="">{res:choose_q_birthday}</option>
+											{lbbirthdayQs_Options}
+										</select>
+									</div>
 									<div class="col-md-4 col-xs-12">
 										<!-- BEGIN Button Button_Search --><button class="btn btn-sm btn-success" name="{Button_Name}" type="submit" value="{res:search}"><i class="icon-search nav-search-icon"></i> &nbsp;{res:search}</button><!-- END Button Button_Search -->&nbsp;&nbsp;&nbsp;
-										 <a href="contacts_maint.php" role="button" class="btn btn-sm btn-success"><span class="icon-group white"></span> {res:addcontact}</a> 
+										 <a href="contacts_maint.php" role="button" class="btn btn-sm btn-success"><span class="icon-group white"></span> {res:addcontact}</a>
+										 <a href="contacts.php?{lbquerystring}" role="button" class="btn btn-sm btn-success"><span class="icon-arrow-down white"></span> 
+{res:exportexcel}</a>
 									</div>
 								</div>
 							</div>
