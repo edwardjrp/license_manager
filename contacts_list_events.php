@@ -194,9 +194,9 @@ function contacts_list_alm_customers_contacts_ds_BeforeExecuteSelect(& $sender)
 		}
 
 		if (strlen($where) > 0) {
-			$where .= " and month(contact_dob) in ($qMonthRange) and year(contact_dob) <> '0000'";
+			$where .= " and month(contact_dob) in ($qMonthRange) and year(contact_dob) <> '0'";
 		} else {
-			$where = " month(contact_dob) in ($qMonthRange) and year(contact_dob) <> '0000'";
+			$where = " month(contact_dob) in ($qMonthRange) and year(contact_dob) <> '0'";
 		}
 		$contacts_list->alm_customers_contacts->ds->Where = $where;
 	}
@@ -204,7 +204,7 @@ function contacts_list_alm_customers_contacts_ds_BeforeExecuteSelect(& $sender)
 	if ($excel == 1) {
 		$qWhere = "";
 		if ($lbbirthdayQs > 0) {
-			$qWhere = " month(contact_dob) in ($qMonthRange) and year(contact_dob) <> '0000'";
+			$qWhere = " month(contact_dob) in ($qMonthRange) and year(contact_dob) <> '0'";
 		}
 
 		if (strlen($whereExport) > 0) {
