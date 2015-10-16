@@ -64,7 +64,7 @@ class Customers {
                 $contact_dob_array = explode("/",$contact_dob);
                 $contact_dob = "'".$contact_dob_array[2]."-".$contact_dob_array[0]."-".$contact_dob_array[1]."'";
             } else {
-                $contact_dob = NULL;
+                $contact_dob = 'NULL';
             }
 
             $contact_jobposition = $params["contact_jobposition"];
