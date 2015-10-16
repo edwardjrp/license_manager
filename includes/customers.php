@@ -59,7 +59,7 @@ class Customers {
         if (strlen($customer_guid) > 0) {
 
             $contact = $params["contact"];
-            $contact_dob = $params["contact_dob"];
+            $contact_dob = trim($params["contact_dob"]);
             if (strlen($contact_dob) > 0) {
                 $contact_dob_array = explode("/",$contact_dob);
                 $contact_dob = $contact_dob_array[2]."-".$contact_dob_array[0]."-".$contact_dob_array[1];
@@ -106,7 +106,6 @@ class Customers {
                 $contact_personalemail = $db->esc($contact_personalemail);
                 $contact_hidguid = $db->esc($contact_hidguid);
 	            $contact_maincontact = (int)$contact_maincontact;
-	            $contact_dob = $db->esc($contact_dob);
 	            $contact_color_list = $db->esc($contact_color_list);
 	            $contact_hobbies_list = $db->esc($contact_hobbies_list);
 	            $contact_holidays_list = $db->esc($contact_holidays_list);
