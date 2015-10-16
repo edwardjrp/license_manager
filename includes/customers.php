@@ -62,7 +62,7 @@ class Customers {
             $contact_dob = trim($params["contact_dob"]);
             if (strlen($contact_dob) > 0) {
                 $contact_dob_array = explode("/",$contact_dob);
-                $contact_dob = $contact_dob_array[2]."-".$contact_dob_array[0]."-".$contact_dob_array[1];
+                $contact_dob = "'".$contact_dob_array[2]."-".$contact_dob_array[0]."-".$contact_dob_array[1]."'";
             } else {
                 $contact_dob = NULL;
             }
@@ -114,7 +114,7 @@ class Customers {
                 if ($customer_id > 0) {
                     $contact_id = (int)CCDLookUp("id","alm_customers_contacts","guid = '$contact_hidguid'",$db);
                     if ($contact_id > 0) {
-                        $sql = "update alm_customers_contacts set contact = '$contact',contact_dob = '$contact_dob',
+                        $sql = "update alm_customers_contacts set contact = '$contact',contact_dob = $contact_dob,
                         jobposition = '$contact_jobposition',phone = '$contact_phone',extension = '$contact_extension',
                         mobile = '$contact_mobile',workemail = '$contact_workemail',personalemail = '$contact_personalemail',
                         maincontact = '$contact_maincontact', preferred_color = '$contact_color_list', hobbies = '$contact_hobbies_list',
@@ -124,7 +124,7 @@ class Customers {
                         $guid = uuid_create();
                         $sql = "insert into alm_customers_contacts(guid,customer_id,contact,contact_dob,jobposition,
                         phone,extension,mobile,workemail,personalemail,maincontact,preferred_color,hobbies,notify_holidays)
-                        values('$guid',$customer_id,'$contact','$contact_dob','$contact_jobposition',
+                        values('$guid',$customer_id,'$contact',$contact_dob,'$contact_jobposition',
                         '$contact_phone','$contact_extension','$contact_mobile','$contact_workemail','$contact_personalemail','$contact_maincontact',
                         '$contact_color_list','$contact_hobbies_list','$contact_holidays_list'
                         )";
