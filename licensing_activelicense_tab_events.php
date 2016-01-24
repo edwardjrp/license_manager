@@ -141,7 +141,7 @@ function licensing_activelicense_tab_BeforeShow(& $sender)
 			$params["grant_number"] = $license["grant_number"];
 			$countLicenses = $products->isBlockRenewal($params);
 			$countLicenses = (int)$countLicenses["count"];
-			if ($countLicenses >= 2) {		
+			if ($countLicenses >= 2) {
 				global $CCSLocales;
 				$bulkrenewalCaption = $CCSLocales->GetText("bulkrenewal");
 				$grantNumber = $license["grant_number"];

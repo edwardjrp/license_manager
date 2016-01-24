@@ -661,7 +661,7 @@ class clsRecordlicensing_customerscontentlicensing { //licensing Class @154-009C
  // Class variables
 //End Variables
 
-//Class_Initialize Event @154-68B0DD95
+//Class_Initialize Event @154-733ADFAA
  function clsRecordlicensing_customerscontentlicensing($RelativePath, & $Parent)
  {
 
@@ -714,8 +714,8 @@ class clsRecordlicensing_customerscontentlicensing { //licensing Class @154-009C
    $this->licensed_amount = new clsControl(ccsTextBox, "licensed_amount", $CCSLocales->GetText("licensed_amount"), ccsInteger, array(False, 0, Null, " ", False, "", "", 1, True, ""), CCGetRequestParam("licensed_amount", $Method, NULL), $this);
    $this->nodes = new clsControl(ccsTextBox, "nodes", $CCSLocales->GetText("numberofnodes"), ccsInteger, "", CCGetRequestParam("nodes", $Method, NULL), $this);
    $this->grant_number = new clsControl(ccsTextBox, "grant_number", $CCSLocales->GetText("grantnumber"), ccsText, "", CCGetRequestParam("grant_number", $Method, NULL), $this);
-   $this->expedition_date = new clsControl(ccsTextBox, "expedition_date", $CCSLocales->GetText("expeditiondate"), ccsDate, array("mm", "/", "dd", "/", "yyyy"), CCGetRequestParam("expedition_date", $Method, NULL), $this);
-   $this->expiration_date = new clsControl(ccsTextBox, "expiration_date", $CCSLocales->GetText("expirationdate"), ccsDate, $DefaultDateFormat, CCGetRequestParam("expiration_date", $Method, NULL), $this);
+   $this->expedition_date = new clsControl(ccsTextBox, "expedition_date", $CCSLocales->GetText("expeditiondate"), ccsDate, array("mmm", " ", "dd", ", ", "yyyy"), CCGetRequestParam("expedition_date", $Method, NULL), $this);
+   $this->expiration_date = new clsControl(ccsTextBox, "expiration_date", $CCSLocales->GetText("expirationdate"), ccsDate, array("mmm", " ", "dd", ", ", "yyyy"), CCGetRequestParam("expiration_date", $Method, NULL), $this);
    $this->serial_number = new clsControl(ccsTextBox, "serial_number", $CCSLocales->GetText("serialnumber"), ccsText, "", CCGetRequestParam("serial_number", $Method, NULL), $this);
    $this->id_reseller = new clsControl(ccsListBox, "id_reseller", $CCSLocales->GetText("reseller"), ccsText, "", CCGetRequestParam("id_reseller", $Method, NULL), $this);
    $this->id_reseller->DSType = dsTable;
@@ -743,7 +743,7 @@ class clsRecordlicensing_customerscontentlicensing { //licensing Class @154-009C
 "FROM alm_product_types {SQL_Where} {SQL_OrderBy}";
    list($this->id_product_type->BoundColumn, $this->id_product_type->TextColumn, $this->id_product_type->DBFormat) = array("id", "type_name", "");
    $this->id_product_type->HTML = true;
-   $this->registered_date = new clsControl(ccsTextBox, "registered_date", $CCSLocales->GetText("registeredon"), ccsDate, array("mm", "/", "dd", "/", "yyyy"), CCGetRequestParam("registered_date", $Method, NULL), $this);
+   $this->registered_date = new clsControl(ccsTextBox, "registered_date", $CCSLocales->GetText("registeredon"), ccsDate, array("M/", "dd", "/", "yyyy"), CCGetRequestParam("registered_date", $Method, NULL), $this);
    $this->id_license_sector = new clsControl(ccsListBox, "id_license_sector", "id_license_sector", ccsText, "", CCGetRequestParam("id_license_sector", $Method, NULL), $this);
    $this->id_license_sector->DSType = dsTable;
    $this->id_license_sector->DataSource = new clsDBdbConnection();

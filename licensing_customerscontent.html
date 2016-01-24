@@ -265,7 +265,7 @@
 								<div class="col-md-2 col-xs-12">
 									<label class="control-label blue">{res:registeredon}</label><br>
 									<div class="input-group">
-										<input type="text" class="col-md-12 col-xs-12 date-picker" value="{registered_date}" name="{registered_date_Name}" data-date-format="mm/dd/yyyy">
+										<input type="text" class="col-md-12 col-xs-12 date-picker" value="{registered_date}" name="{registered_date_Name}" data-date-format="M/dd/yyyy">
 										<span class="input-group-addon"><i class="icon-calendar bigger-110"></i></span>
 									</div>
 								</div>
@@ -325,7 +325,7 @@
 									<div class="row col-xs-12">
 										<label class="control-label blue">{res:expeditiondate}</label><br>
 										<div class="input-group">
-											<input type="text" class="col-md-12 col-xs-12 date-picker" value="{expedition_date}" name="{expedition_date_Name}" data-date-format="mm/dd/yyyy" id="expeditionDate">
+											<input type="text" class="col-md-12 col-xs-12 date-picker" value="{expedition_date}" name="{expedition_date_Name}" data-date-format="M dd, yyyy" id="expeditionDate">
 											<span class="input-group-addon"><i class="icon-calendar bigger-110"></i></span>
 										</div>
 									</div>
@@ -334,7 +334,7 @@
 									<div class="row col-xs-12">
 										<label class="control-label blue">{res:expirationdate}</label><br>
 										<div class="input-group">
-											<input type="text" class="col-md-12 col-xs-12 date-picker" value="{expiration_date}" name="{expiration_date_Name}" data-date-format="mm/dd/yyyy" id="expirationDate" {expirationDisabled}>
+											<input type="text" class="col-md-12 col-xs-12 date-picker" value="{expiration_date}" name="{expiration_date_Name}" data-date-format="M dd, yyyy" id="expirationDate" {expirationDisabled}>
 											<span class="input-group-addon"><i class="icon-calendar bigger-110"></i></span>
 										</div>
 									</div>
@@ -551,8 +551,10 @@ $(function(){
         $(".date-picker").datepicker({
 			orientation: "bottom auto",
 			autoclose:true,
-			todayHighlight: true
+			todayHighlight: true,
+			format: 'M dd, yyyy',
         });
+
 
 		$("#expeditionDate").change(function() {
 			var expDate = $(this).val();
@@ -563,13 +565,19 @@ $(function(){
 				var day = expireDate.getDate();
 				if (day < 10)
 					day = "0" + day;
+
 				var month = expireDate.getMonth() + 1;
-				if (month < 10)
-					month = "0" + month;
+				//if (month < 10)
+				//	month = "0" + month;
 
 				var year = expireDate.getFullYear();
 				var fullExpireDate = month + "/" + day + "/" + year;
-				$("#expirationDate").val(fullExpireDate);
+				var isoExpireDate = new Date(fullExpireDate);
+				var options = {year: 'numeric', month: 'short', day: '2-digit' };
+				console.log(fullExpireDate);
+				console.log(isoExpireDate.toLocaleDateString('en-US', options));
+				//$("#expirationDate").val(fullExpireDate);
+				$("#expirationDate").val(isoExpireDate.toLocaleDateString('en-US', options));
 
 				//Checking the licenseType listbox
 				var licenseType = $("#id_license_type").val();

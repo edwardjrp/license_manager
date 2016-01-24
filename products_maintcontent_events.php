@@ -301,7 +301,7 @@ function products_maintcontent_alm_products_AfterUpdate(& $sender)
 			global $CCSLocales;
 			//Duplicate entry error
 			$sender->DataSource->Errors->clear();
-			$sender->DataSource->Errors->addError($CCSLocales->GetText("duplicate_record"));
+			$sender->DataSource->Errors->addError($CCSLocales->GetText("duplicate_record_product"));
 			//Not showuing the saving popup
 			CCSetSession("showalert","hide");
 		}

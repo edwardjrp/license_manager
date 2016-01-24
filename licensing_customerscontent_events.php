@@ -393,7 +393,7 @@ function licensing_customerscontent_licensing_lbgoback_BeforeShow(& $sender)
 //Custom Code @203-2A29BDB7
 // -------------------------
  // Write your own code here.
-	$remove = array("guid","tab","license_guid");
+	$remove = array("guid","tab","license_guid", "ccsForm");
 	$querystring = CCGetQueryString("QueryString",$remove);
 	if (strlen($querystring) > 0)
 		$newlink = "?".$querystring;
@@ -451,7 +451,7 @@ function licensing_customerscontent_licensing_params_BeforeShow(& $sender)
 //Custom Code @50-2A29BDB7
 // -------------------------
  // Write your own code here.
- 	$querystring = CCGetQueryString("QueryString",array("license_guid","dguid","o"));
+ 	$querystring = CCGetQueryString("QueryString",array("license_guid","dguid","o", "ccsForm"));
 	if (strlen($querystring) > 0)
 		$querystring .= "&tab=licenselist";
 	else
@@ -1074,6 +1074,15 @@ function licensing_customerscontent_licensing_BeforeUpdate(& $sender)
 		$params["guid"] = $licensing_customerscontent->licensing->hidguid->GetValue();		
 		$products = new Alm\Products();
 		$products->setLicenseArchivedByGuid($params);	
+	}
+
+	//Setting expired license to renew with competitor status
+	if ( ($licenseStatus == 3) && ($o == "renew_competitor") ) {
+		$params = array();
+		$params["guid"] = $licensing_customerscontent->licensing->hidguid->GetValue();			
+		$products = new Alm\Products();
+		$products->setLicenseRenewCompetitorByGuid($params);
+		$licensing_customerscontent->licensing->hidlicensestatus->SetValue(4);
 	}
 
 // -------------------------

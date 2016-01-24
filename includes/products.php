@@ -462,6 +462,7 @@ class Products {
 		//Enable returning competitor renewals licenses only
 		$isCompetitor = "";
 		$isDisplacement = "";
+		$licenseStatus = "";
 		if (array_key_exists("isCompetitor",$params))
 		{
 			$isCompetitor = (int)$params[ "isCompetitor" ];
@@ -474,6 +475,9 @@ class Products {
 				$isDisplacement = (int)$params[ "isDisplacement" ];
 				if ($isDisplacement == 1)
 					$isDisplacement = " and renew_businesspartner_id <= 0 and competitor_product_id > 0 ";
+			} else {
+				//By default only shows this status
+				$licenseStatus = " and id_license_status in (1,2,3) ";
 			}
 		}
 
@@ -490,7 +494,8 @@ class Products {
 	             ,"renew_businesspartner_id", "competitor_product_id", "competitor_product_name", "competitor_date");
 	             $fields = implode(",",$fields_array);
 	             $sql = "select $fields from v_alm_licenses where id_customer = $customer_id
- 						 and grant_number = '$grantNumber' and id != $licenseID  and isarchived = $isArchived $isCompetitor $isDisplacement";
+ 						 and grant_number = '$grantNumber' and
+ 						 id != $licenseID and isarchived = $isArchived $isCompetitor $isDisplacement $licenseStatus";
 
 	             $db->query($sql);
 
@@ -1414,6 +1419,37 @@ class Products {
 		}
 
 	}
+
+	public function setLicenseRenewCompetitorByGuid($params = array()) {
+		$result = array("status" => false, "message" => "");
+	    $license_guid = $params["guid"];
+	     if (strlen($license_guid) > 0) {
+	         $db = new \clsDBdbConnection();
+
+	         $license_id = (int)CCDLookUp("id","alm_licensing","guid = '$license_guid' ",$db);
+	         if ($license_id > 0) {
+	             $sql = "update alm_licensing set id_license_status = 4 where id = $license_id ";
+	             $db->query($sql);
+
+		         $result["status"] = true;
+		         $result["message"] = "Command executed successfully.";
+
+	         } else {
+		         $result["status"] = false;
+		         $result["message"] = "Invalid ID.";
+	         }
+
+	         $db->close();
+
+	         return $result;
+
+	     } else {
+	         $result["status"] = false;
+	         $result["message"] = "Invalid GUID";
+	         return $result;
+	     }
+
+    }
 
 }
 
