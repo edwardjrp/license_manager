@@ -661,7 +661,7 @@ class clsRecordlicensing_customerscontentlicensing { //licensing Class @154-009C
  // Class variables
 //End Variables
 
-//Class_Initialize Event @154-733ADFAA
+//Class_Initialize Event @154-E76DD3A9
  function clsRecordlicensing_customerscontentlicensing($RelativePath, & $Parent)
  {
 
@@ -743,7 +743,7 @@ class clsRecordlicensing_customerscontentlicensing { //licensing Class @154-009C
 "FROM alm_product_types {SQL_Where} {SQL_OrderBy}";
    list($this->id_product_type->BoundColumn, $this->id_product_type->TextColumn, $this->id_product_type->DBFormat) = array("id", "type_name", "");
    $this->id_product_type->HTML = true;
-   $this->registered_date = new clsControl(ccsTextBox, "registered_date", $CCSLocales->GetText("registeredon"), ccsDate, array("M/", "dd", "/", "yyyy"), CCGetRequestParam("registered_date", $Method, NULL), $this);
+   $this->registered_date = new clsControl(ccsTextBox, "registered_date", $CCSLocales->GetText("registeredon"), ccsDate, array("mmm", " ", "dd", ", ", "yyyy"), CCGetRequestParam("registered_date", $Method, NULL), $this);
    $this->id_license_sector = new clsControl(ccsListBox, "id_license_sector", "id_license_sector", ccsText, "", CCGetRequestParam("id_license_sector", $Method, NULL), $this);
    $this->id_license_sector->DSType = dsTable;
    $this->id_license_sector->DataSource = new clsDBdbConnection();
