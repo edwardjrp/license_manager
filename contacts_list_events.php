@@ -180,16 +180,16 @@ function contacts_list_alm_customers_contacts_ds_BeforeExecuteSelect(& $sender)
 	if ($lbbirthdayQs > 0) {
 		switch ($lbbirthdayQs) {
 			case 1:
-				$qMonthRange = '1,3'; //Q1 Jan01-Mar31
+				$qMonthRange = '1,2,3'; //Q1 Jan01-Mar31
 			break;
 			case 2:
-				$qMonthRange = '4,6'; //Q2 Apr01-Jun30
+				$qMonthRange = '4,5,6'; //Q2 Apr01-Jun30
 			break;
 			case 3:
-				$qMonthRange = '7,9'; //Q3 Jul01-Sep30
+				$qMonthRange = '7,8,9'; //Q3 Jul01-Sep30
 			break;
 			case 4:
-				$qMonthRange = '10,12'; //Q4 Oct01-Dic31
+				$qMonthRange = '10,11,12'; //Q4 Oct01-Dic31
 			break;
 		}
 
