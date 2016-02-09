@@ -3,3 +3,4 @@ vendor/
 .git/
 assets/licenses/
 config/
+.vagrant
