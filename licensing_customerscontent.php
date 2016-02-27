@@ -661,7 +661,7 @@ class clsRecordlicensing_customerscontentlicensing { //licensing Class @154-009C
  // Class variables
 //End Variables
 
-//Class_Initialize Event @154-E76DD3A9
+//Class_Initialize Event @154-7B657721
  function clsRecordlicensing_customerscontentlicensing($RelativePath, & $Parent)
  {
 
@@ -796,9 +796,9 @@ class clsRecordlicensing_customerscontentlicensing { //licensing Class @154-009C
 "FROM alm_business_partners {SQL_Where} {SQL_OrderBy}";
    list($this->renew_businesspartner_id->BoundColumn, $this->renew_businesspartner_id->TextColumn, $this->renew_businesspartner_id->DBFormat) = array("id", "partner", "");
    $this->pnrenewcompetitor = new clsPanel("pnrenewcompetitor", $this);
-   $this->renew_businesspartner_date = new clsControl(ccsTextBox, "renew_businesspartner_date", $CCSLocales->GetText("renewcompetitor_date"), ccsDate, array("mm", "/", "dd", "/", "yyyy"), CCGetRequestParam("renew_businesspartner_date", $Method, NULL), $this);
+   $this->renew_businesspartner_date = new clsControl(ccsTextBox, "renew_businesspartner_date", $CCSLocales->GetText("renewcompetitor_date"), ccsDate, array("mmm", " ", "dd", ", ", "yyyy"), CCGetRequestParam("renew_businesspartner_date", $Method, NULL), $this);
    $this->pnproduct_displacement = new clsPanel("pnproduct_displacement", $this);
-   $this->competitor_date = new clsControl(ccsTextBox, "competitor_date", $CCSLocales->GetText("renewcompetitor_date"), ccsDate, array("mm", "/", "dd", "/", "yyyy"), CCGetRequestParam("competitor_date", $Method, NULL), $this);
+   $this->competitor_date = new clsControl(ccsTextBox, "competitor_date", $CCSLocales->GetText("renewcompetitor_date"), ccsDate, array("mmm", " ", "dd", ", ", "yyyy"), CCGetRequestParam("competitor_date", $Method, NULL), $this);
    $this->competitor_product = new clsControl(ccsListBox, "competitor_product", "competitor_product", ccsText, "", CCGetRequestParam("competitor_product", $Method, NULL), $this);
    $this->competitor_product->DSType = dsTable;
    $this->competitor_product->DataSource = new clsDBdbConnection();
