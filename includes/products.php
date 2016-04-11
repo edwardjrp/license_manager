@@ -443,6 +443,164 @@ class Products {
 
     }
 
+	public function getExpiredLicenses( $params = [ ] )
+	{
+		$result       = [ "status" => false, "message" => "", "licenses" => [ ] ];
+		$customerGuid = $params[ "customer_guid" ];
+		if ( strlen( $customerGuid ) > 0 ) {
+			$db       = new \clsDBdbConnection();
+			$licenses = [];
+
+			$customerId = (int)CCDLookUp( "id", "alm_customers", "guid = '$customerGuid' ", $db );
+			if ( $customerId > 0 ) {
+				$fields_array = array(
+					"id",
+					"guid",
+					"suite_description",
+					"suite_code",
+					"type_icon_name",
+					"license_name",
+					"id_licensed_by",
+					"licensedby_name",
+					"sector_name",
+					"reseller_name",
+					"description",
+					"nodes",
+					"licensed_amount",
+					"channel_sku"
+				,
+					"msrp_price",
+					"dateupdated",
+					"id_license_status",
+					"license_status_name",
+					"alm_license_status_css_color",
+					"grant_number",
+					"expedition_date"
+				,
+					"expiration_date",
+					"serial_number",
+					"granttype_name",
+					"isarchived",
+					"renew_businesspartner",
+					"renew_businesspartner_date"
+				,
+					"renew_businesspartner_id",
+					"competitor_product_id",
+					"competitor_product_name",
+					"competitor_date"
+				);
+				$fields       = implode( ",", $fields_array );
+				$sql          = "select $fields from v_alm_licenses
+					where id_customer = $customerId and id_license_status in (3) and isarchived = 0";
+
+				$db->query( $sql );
+
+				while ( $db->next_record() ) {
+					$row = array();
+					foreach ( $fields_array as $field ) {
+						$row[ $field ] = $db->f( $field );
+					}
+					$licenses[ ] = $row;
+
+				}
+
+			}
+
+			$db->close();
+
+			$result[ "status" ]   = true;
+			$result[ "licenses" ] = $licenses;
+			$result[ "message" ]  = "Command executed successfully.";
+
+			return $result;
+
+		} else {
+			$result[ "status" ]  = false;
+			$result[ "message" ] = "Invalid GUID";
+
+			return $result;
+		}
+	}
+
+	public function getPerpetualLicenses( $params = [ ] )
+	{
+		$result       = [ "status" => false, "message" => "", "licenses" => [ ] ];
+		$customerGuid = $params[ "customer_guid" ];
+		if ( strlen( $customerGuid ) > 0 ) {
+			$db       = new \clsDBdbConnection();
+			$licenses = [];
+
+			$customerId = (int)CCDLookUp( "id", "alm_customers", "guid = '$customerGuid' ", $db );
+			if ( $customerId > 0 ) {
+				$fields_array = array(
+					"id",
+					"guid",
+					"suite_description",
+					"suite_code",
+					"type_icon_name",
+					"license_name",
+					"id_licensed_by",
+					"licensedby_name",
+					"sector_name",
+					"reseller_name",
+					"description",
+					"nodes",
+					"licensed_amount",
+					"channel_sku"
+				,
+					"msrp_price",
+					"dateupdated",
+					"id_license_status",
+					"license_status_name",
+					"alm_license_status_css_color",
+					"grant_number",
+					"expedition_date"
+				,
+					"expiration_date",
+					"serial_number",
+					"granttype_name",
+					"isarchived",
+					"renew_businesspartner",
+					"renew_businesspartner_date"
+				,
+					"renew_businesspartner_id",
+					"competitor_product_id",
+					"competitor_product_name",
+					"competitor_date"
+				);
+				$fields       = implode( ",", $fields_array );
+				$sql          = "select $fields from v_alm_licenses
+					where id_customer = $customerId and id_license_type in (7,12)";
+
+				$db->query( $sql );
+
+				while ( $db->next_record() ) {
+					$row = array();
+					foreach ( $fields_array as $field ) {
+						$row[ $field ] = $db->f( $field );
+					}
+					$licenses[ ] = $row;
+
+				}
+
+			}
+
+			$db->close();
+
+			$result[ "status" ]   = true;
+			$result[ "licenses" ] = $licenses;
+			$result[ "message" ]  = "Command executed successfully.";
+
+			return $result;
+
+		} else {
+			$result[ "status" ]  = false;
+			$result[ "message" ] = "Invalid GUID";
+
+			return $result;
+		}
+	}
+
 	/* This function returns licenses that share the same grant number except the license id
 	 * sent as part of the params, it is specially used to display the grid licensing information popup
 	 *for licenses sharing the same grant number.

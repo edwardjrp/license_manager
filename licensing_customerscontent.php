@@ -1726,6 +1726,14 @@ include_once(RelativePath . "/licensing_activelicense_tab.php");
 include_once(RelativePath . "/licensing_product_displacement.php");
 //End Include Page implementation
 
+//Include Page implementation @251-27A110A0
+include_once(RelativePath . "/licensing_expired_licenses.php");
+//End Include Page implementation
+
+//Include Page implementation @252-BE7EABE4
+include_once(RelativePath . "/licensing_perpetual_licenses.php");
+//End Include Page implementation
+
 class clslicensing_customerscontent { //licensing_customerscontent class @1-EBAC1FA2
 
 //Variables @1-51D7F06F
@@ -1765,7 +1773,7 @@ class clslicensing_customerscontent { //licensing_customerscontent class @1-EBAC
  }
 //End Class_Initialize Event
 
-//Class_Terminate Event @1-D5E85180
+//Class_Terminate Event @1-6876C954
  function Class_Terminate()
  {
   $this->CCSEventResult = CCGetEvent($this->CCSEvents, "BeforeUnload", $this);
@@ -1779,6 +1787,10 @@ class clslicensing_customerscontent { //licensing_customerscontent class @1-EBAC
   unset($this->licensing_activelicense_tab);
   $this->licensing_product_displacement->Class_Terminate();
   unset($this->licensing_product_displacement);
+  $this->licensing_expired_licenses->Class_Terminate();
+  unset($this->licensing_expired_licenses);
+  $this->licensing_perpetual_licenses->Class_Terminate();
+  unset($this->licensing_perpetual_licenses);
  }
 //End Class_Terminate Event
 
@@ -1825,7 +1837,7 @@ class clslicensing_customerscontent { //licensing_customerscontent class @1-EBAC
  }
 //End BindEvents Method
 
-//Operations Method @1-F89B1AF0
+//Operations Method @1-1F7B00FA
  function Operations()
  {
   global $Redirect;
@@ -1837,10 +1849,12 @@ class clslicensing_customerscontent { //licensing_customerscontent class @1-EBAC
   $this->licensing_archived_tab->Operations();
   $this->licensing_activelicense_tab->Operations();
   $this->licensing_product_displacement->Operations();
+  $this->licensing_expired_licenses->Operations();
+  $this->licensing_perpetual_licenses->Operations();
  }
 //End Operations Method
 
-//Initialize Method @1-73C936A7
+//Initialize Method @1-3B1DE8FF
  function Initialize()
  {
   global $FileName;
@@ -1874,6 +1888,10 @@ class clslicensing_customerscontent { //licensing_customerscontent class @1-EBAC
   $this->licensing_activelicense_tab->Initialize();
   $this->licensing_product_displacement = new clslicensing_product_displacement($this->RelativePath, "licensing_product_displacement", $this);
   $this->licensing_product_displacement->Initialize();
+  $this->licensing_expired_licenses = new clslicensing_expired_licenses($this->RelativePath, "licensing_expired_licenses", $this);
+  $this->licensing_expired_licenses->Initialize();
+  $this->licensing_perpetual_licenses = new clslicensing_perpetual_licenses($this->RelativePath, "licensing_perpetual_licenses", $this);
+  $this->licensing_perpetual_licenses->Initialize();
   $this->pndropzone->Visible = false;
   $this->pndropzonejs->Visible = false;
   if(!is_array($this->id_product_type->Value) && !strlen($this->id_product_type->Value) && $this->id_product_type->Value !== false)
@@ -1885,7 +1903,7 @@ class clslicensing_customerscontent { //licensing_customerscontent class @1-EBAC
  }
 //End Initialize Method
 
-//Show Method @1-9EBED88E
+//Show Method @1-C820E833
  function Show()
  {
   global $Tpl;
@@ -1908,6 +1926,8 @@ class clslicensing_customerscontent { //licensing_customerscontent class @1-EBAC
   $this->licensing_archived_tab->Show();
   $this->licensing_activelicense_tab->Show();
   $this->licensing_product_displacement->Show();
+  $this->licensing_expired_licenses->Show();
+  $this->licensing_perpetual_licenses->Show();
   $this->pndropzone->Show();
   $this->pndropzonejs->Show();
   $Tpl->Parse();
