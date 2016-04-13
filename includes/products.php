@@ -443,6 +443,7 @@ class Products {
 
     }
 
+	//This method has changed to return all support licenses instead of expired ones
 	public function getExpiredLicenses( $params = [ ] )
 	{
 		$result       = [ "status" => false, "message" => "", "licenses" => [ ] ];
@@ -491,7 +492,7 @@ class Products {
 				);
 				$fields       = implode( ",", $fields_array );
 				$sql          = "select $fields from v_alm_licenses
-					where id_customer = $customerId and id_license_status in (3) and isarchived = 0";
+					where id_customer = $customerId and id_license_type not in (7,12) and isarchived = 0";
 
 				$db->query( $sql );
 
